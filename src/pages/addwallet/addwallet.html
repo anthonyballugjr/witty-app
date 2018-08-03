@@ -1,0 +1,29 @@
+<!--
+  Generated template for the AddwalletPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>Add Wallet</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+<ion-content padding>
+  <form [formGroup]="addWalletForm" (ngSubmit)="showConfirm()">
+    <ion-item>
+      <ion-label floating>Wallet Name</ion-label>
+      <ion-input type="text" [(ngModel)]="category.name" formControlName="name" name="name"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label floating>Set Budget</ion-label>
+      <ion-input type="number" [(ngModel)]="category.budget" formControlName="budget" name="budget"></ion-input>
+    </ion-item>
+    
+    <button color="main" ion-button type="submit" [disabled]="!addWalletForm.valid" block>Add</button>
+  </form>
+
+</ion-content>

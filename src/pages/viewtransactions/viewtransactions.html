@@ -1,0 +1,40 @@
+<!--
+  Generated template for the ViewtransactionsPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>{{data.name | ucwords}} Expenses</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+  <ion-list>
+    <ion-item *ngFor="let expense of data.expense">
+      <ion-row>
+        <ion-col>
+          <h5>{{expense.desc | ucwords}}</h5>
+        </ion-col>
+        <ion-col>
+          <h5 float-right>{{expense.amount | currency: "PHP": 2}}</h5>
+        </ion-col>
+      </ion-row>
+      <p>{{expense.date | date: 'medium'}}</p>
+    </ion-item>
+  </ion-list>
+
+  <h5 float-right>
+    <strong>Total: {{data.expense | pluck:'amount' | sum | currency: "PHP": 2}}</strong>
+  </h5>
+
+  <ion-fab right bottom>
+    <button ion-fab color="buttons">
+      <ion-icon name="add"></ion-icon>
+    </button>
+  </ion-fab>
+</ion-content>
