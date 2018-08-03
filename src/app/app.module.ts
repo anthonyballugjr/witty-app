@@ -1,34 +1,56 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { ErrorHandler, NgModule } from '@angular/core';
 import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
-
-import { MyApp } from './app.component';
-import { HomePage } from '../pages/home/home';
-import { ListPage } from '../pages/list/list';
-
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
+
+import { HeaderMenuComponent } from '../components/header-menu/header-menu';
+import { MyApp } from './app.component';
+import { HomePage } from '../pages/home/home';
+import { LoginPage } from '../pages/login/login';
+import { AddwalletPage } from '../pages/addwallet/addwallet';
+import {ViewtransactionsPage} from '../pages/viewtransactions/viewtransactions';
+//import { ListPage } from '../pages/list/list';
+
+import { HttpClientModule } from '@angular/common/http';
+import { NgPipesModule } from 'ngx-pipes';
+import { Facebook } from '@ionic-native/facebook';
+
+import { CategoryProvider } from '../providers/category/category';
+import { AuthProvider } from '../providers/auth/auth';
+
+
 
 @NgModule({
   declarations: [
     MyApp,
     HomePage,
-    ListPage
+    LoginPage,
+    AddwalletPage,
+    ViewtransactionsPage,
+    HeaderMenuComponent
   ],
   imports: [
     BrowserModule,
+    HttpClientModule,
+    NgPipesModule,
     IonicModule.forRoot(MyApp),
   ],
   bootstrap: [IonicApp],
   entryComponents: [
     MyApp,
     HomePage,
-    ListPage
+    LoginPage,
+    AddwalletPage,
+    ViewtransactionsPage
   ],
   providers: [
     StatusBar,
     SplashScreen,
-    {provide: ErrorHandler, useClass: IonicErrorHandler}
+    Facebook,
+    CategoryProvider,
+    { provide: ErrorHandler, useClass: IonicErrorHandler },
+    AuthProvider
   ]
 })
-export class AppModule {}
+export class AppModule { }

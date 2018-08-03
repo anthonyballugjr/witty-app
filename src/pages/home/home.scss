@@ -1,3 +1,17 @@
-page-home {
-
+.safe{
+    color: white;
 }
+.unsafe{
+    background-color: red;
+    color: red;
+}
+.swiper-slide{
+    overflow-y: scroll;
+    display: block;
+}
+ion-slides{
+    margin: 0 auto;
+}
+
+
+
