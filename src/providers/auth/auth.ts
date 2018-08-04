@@ -16,7 +16,6 @@ export class AuthProvider {
     console.log('Hello AuthProvider Provider');
   }
 
-
   login(loginData) {
     return new Promise((resolve, reject) => {
       this.http.post(this.apiUrl + '/login', loginData).subscribe(res => {
@@ -28,8 +27,24 @@ export class AuthProvider {
     });
   }
 
-  logout(){
-    //
+  register(data) {
+    return new Promise((resolve, reject) => {
+      this.http.post(this.apiUrl + '/register', data).subscribe(res => {
+        resolve(res);
+      }, (err) => {
+        reject(err);
+      });
+    });
+  }
+
+  logout() {
+    return new Promise((resolve, reject) => {
+      this.http.get(this.apiUrl + '/logout').subscribe(res => {
+        localStorage.clear();
+      }, (err) => {
+        reject(err);
+      });
+    });
   }
 
 }
