@@ -7,9 +7,10 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import { HeaderMenuComponent } from '../components/header-menu/header-menu';
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
+import { SignupPage } from '../pages/signup/signup';
 import { LoginPage } from '../pages/login/login';
 import { AddwalletPage } from '../pages/addwallet/addwallet';
-import {ViewtransactionsPage} from '../pages/viewtransactions/viewtransactions';
+import { ViewtransactionsPage } from '../pages/viewtransactions/viewtransactions';
 //import { ListPage } from '../pages/list/list';
 
 import { HttpClientModule } from '@angular/common/http';
@@ -26,6 +27,7 @@ import { AuthProvider } from '../providers/auth/auth';
     MyApp,
     HomePage,
     LoginPage,
+    SignupPage,
     AddwalletPage,
     ViewtransactionsPage,
     HeaderMenuComponent
@@ -40,6 +42,7 @@ import { AuthProvider } from '../providers/auth/auth';
   entryComponents: [
     MyApp,
     HomePage,
+    SignupPage,
     LoginPage,
     AddwalletPage,
     ViewtransactionsPage
