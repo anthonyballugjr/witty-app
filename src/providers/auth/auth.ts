@@ -1,5 +1,6 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+
 
 
 /*
@@ -10,15 +11,20 @@ import { Injectable } from '@angular/core';
 */
 @Injectable()
 export class AuthProvider {
-  apiUrl: 'http://localhost:3000/api'
+  // loginauthURL: 'http://127.0.0.1:3000/auth';
+  // registerauthURL: 'http://127.0.0.1:3000/auth';
+  // logoutauthURL: 'http://127.0.0.1:3000/auth';
+  authURL = "http://localhost:3000/auth";
+
 
   constructor(public http: HttpClient) {
     console.log('Hello AuthProvider Provider');
   }
 
   login(loginData) {
+    // console.log(this.authURL + 'login');
     return new Promise((resolve, reject) => {
-      this.http.post(this.apiUrl + '/login', loginData).subscribe(res => {
+      this.http.post(this.authURL + '/login', loginData).subscribe(res => {
         resolve(res);
         localStorage.setItem('jwToken', loginData.token);
       }, (err) => {
@@ -29,7 +35,7 @@ export class AuthProvider {
 
   register(data) {
     return new Promise((resolve, reject) => {
-      this.http.post(this.apiUrl + '/register', data).subscribe(res => {
+      this.http.post(this.authURL + '/register', data).subscribe(res => {
         resolve(res);
       }, (err) => {
         reject(err);
@@ -39,7 +45,7 @@ export class AuthProvider {
 
   logout() {
     return new Promise((resolve, reject) => {
-      this.http.get(this.apiUrl + '/logout').subscribe(res => {
+      this.http.get(this.authURL + '/logout').subscribe(res => {
         localStorage.clear();
       }, (err) => {
         reject(err);
