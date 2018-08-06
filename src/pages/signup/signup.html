@@ -7,12 +7,27 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-title>signup</ion-title>
+    <ion-title>Account Registration</ion-title>
   </ion-navbar>
 
 </ion-header>
 
 
 <ion-content padding>
+  <form [formGroup]="signUpForm" (ngSubmit)="register()">
+
+    <ion-item>
+      <ion-label floating>Username</ion-label>
+      <ion-input ([ngModel])="registerData.username" type="text"fromControlName="username" name="username"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label floating>Password</ion-label>
+      <ion-input ([ngModel])="registerData.password" type="password" formControlName="password" name="password"></ion-input>
+    </ion-item>
+
+
+    <button type="submit" ion-button block color="main">Sign up</button>
+  </form>
 
 </ion-content>

@@ -2,11 +2,13 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, AlertController, LoadingController, ToastController } from 'ionic-angular';
 import { Facebook, FacebookLoginResponse } from '@ionic-native/facebook';
 import { HomePage } from '../home/home';
+import { SignupPage } from '../signup/signup';
+
 import { HttpClient } from '@angular/common/http';
 import { Validators, FormBuilder } from '@angular/forms';
 
-
 import { AuthProvider } from '../../providers/auth/auth'
+
 
 /**
  * Generated class for the LoginPage page.
@@ -21,14 +23,17 @@ import { AuthProvider } from '../../providers/auth/auth'
   templateUrl: 'login.html',
 })
 export class LoginPage {
+  loading: any;
+  data: any;
   userDataFB: any;
   loginData = {
     'username': '',
     'password': ''
-  };
+  }
   message: any;
   userData: any;
 
+mongo
   constructor(private toastCtrl: ToastController, public authProvider: AuthProvider, private formBldr: FormBuilder, public http: HttpClient, private facebook: Facebook, public navCtrl: NavController, public navParams: NavParams, public alertCtrl: AlertController, public loadingCtrl: LoadingController) {
   }
 
@@ -41,33 +46,48 @@ export class LoginPage {
     console.log('ionViewDidLoad LoginPage');
   }
 
-  error() {
-    let error = this.toastCtrl.create({
-      message: this.message,
-      duration: 1500,
-      position: 'middle'
+  showLoader() {
+    this.loading = this.loadingCtrl.create({
+      content: 'Authenticating...',
+      duration: 2000
     });
-    error.onDidDismiss(() => {
-      console.log('error dismissed');
+  }
+
+  presentToast(msg) {
+    let toast = this.toastCtrl.create({
+      message: msg,
+      duration: 3000,
+      position: 'bottom',
+      dismissOnPageChange: true
     });
-    error.present();
+    toast.onDidDismiss(() => {
+      console.log('Dismissed toast');
+    });
+    toast.present();
+  }
+
+  register() {
+    this.navCtrl.push(SignupPage);
+  }
+
+  login() {
+    this.showLoader();
+    this.authProvider.login(this.loginData).then((result) => {
+      this.loading.dismiss();
+      console.log(result);
+      this.data.result;
+      localStorage.setItem('token', this.data.token);
+      this.navCtrl.setRoot(HomePage);
+    }, (err) => {
+      this.loading.dismiss();
+      this.presentToast(err.error);
+      console.log(this.loginData);
+    });
   }
 
   // login(){
   //   this.navCtrl.setRoot(HomePage);
   // }
-
-  login() {
-    this.authProvider.login(this.loginData).then((result) => {
-      console.log(result);
-      this.userData = result;
-      this.navCtrl.setRoot(HomePage);
-    }, err => {
-      console.log(err);
-      this.message = err;
-      this.error();
-    });
-  }
 
   loginWithFB(userData) {
     this.facebook.login(['email', 'public_profile'])

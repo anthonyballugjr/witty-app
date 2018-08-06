@@ -5,23 +5,23 @@
 
     <ion-item>
       <ion-label floating>Username</ion-label>
-      <ion-input ([ngModel])="loginData.username" type="text" #username></ion-input>
+      <ion-input ([ngModel])="loginData.username" type="text" name="username"></ion-input>
     </ion-item>
 
     <ion-item>
       <ion-label floating>Password</ion-label>
-      <ion-input ([ngModel])="loginData.password" type="password" #password></ion-input>
+      <ion-input ([ngModel])="loginData.password" type="password" name="password"></ion-input>
     </ion-item>
-
 
     <button type="submit" ion-button block color="main">Sign in</button>
   </form>
+
   <button ion-button icon-start block (click)="loginWithFB(userData)" color="fb">
     <ion-icon name="logo-facebook"></ion-icon>
     Sign in with Facebook
   </button>
   <br>
-  <button ion-button block clear>Create Account</button>
+  <button ion-button block clear (click)="register()">Create Account</button>
 
   <!-- <ion-card *ngIf="userData">
     <ion-card-header>{{ userData.username }}</ion-card-header>
