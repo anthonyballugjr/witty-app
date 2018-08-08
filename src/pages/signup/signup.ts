@@ -37,15 +37,15 @@ export class SignupPage {
   }
 
   register() {
-
     this.showLoader();
     this.authProvider.register(this.registerData).then((result) => {
       this.loading.dismiss();
+      this.presentToast('Successfull Registration!')
       this.navCtrl.pop();
       console.log(this.registerData);
     }, (err) => {
       this.loading.dismiss();
-      this.presentToast(err);
+      this.presentToast(err.message);
       console.log(this.registerData);
       console.log(err)
     });
@@ -56,12 +56,16 @@ export class SignupPage {
     this.loading = this.loadingCtrl.create({
       content: 'Authenticating...'
     });
+    this.loading.present();
+    setTimeout(()=>{
+      this.loading.dismiss();
+    }, 2000);
   }
 
   presentToast(msg) {
     let toast = this.toastCtrl.create({
       message: msg,
-      duration: 3000,
+      duration: 4000,
       position: 'bottom',
       dismissOnPageChange: true
     });

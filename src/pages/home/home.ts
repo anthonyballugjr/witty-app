@@ -15,7 +15,7 @@ import { AddwalletPage } from '../addwallet/addwallet';
 export class HomePage {
   categories: any;
   expenses: any[];
-  userdata: any;
+  userData: any;
 
   month = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
   n = new Date();
@@ -25,7 +25,8 @@ export class HomePage {
 
   constructor(public navParams: NavParams, public navCtrl: NavController, public http: HttpClient, public categoryProvider: CategoryProvider) {
     this.getCategories();
-    this.userdata = this.navParams.get('userData')
+    this.userData = this.navParams.get('userData')
+    console.log(this.userData);
   }
 
   getCategories() {
