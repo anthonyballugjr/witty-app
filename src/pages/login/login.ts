@@ -33,7 +33,6 @@ export class LoginPage {
   message: any;
   userData: any;
 
-mongo
   constructor(private toastCtrl: ToastController, public authProvider: AuthProvider, private formBldr: FormBuilder, public http: HttpClient, private facebook: Facebook, public navCtrl: NavController, public navParams: NavParams, public alertCtrl: AlertController, public loadingCtrl: LoadingController) {
   }
 
@@ -49,7 +48,7 @@ mongo
   showLoader() {
     this.loading = this.loadingCtrl.create({
       content: 'Authenticating...',
-      duration: 2000
+      duration: 3000
     });
   }
 
@@ -73,14 +72,16 @@ mongo
   login() {
     this.showLoader();
     this.authProvider.login(this.loginData).then((result) => {
-      this.loading.dismiss();
       console.log(result);
-      this.data.result;
-      localStorage.setItem('token', this.data.token);
-      this.navCtrl.setRoot(HomePage);
+      this.data = result;
+      localStorage.setItem('token', result['token']);
+      console.log(result['token']);
+      this.loading.dismiss();
+      this.navCtrl.setRoot(HomePage, {userData: result});
     }, (err) => {
       this.loading.dismiss();
-      this.presentToast(err.error);
+      this.presentToast(err.error.err);
+      console.log(err);
       console.log(this.loginData);
     });
   }

@@ -1,19 +1,17 @@
 <ion-content padding center text-center>
   <img src="../../assets/imgs/wit4.png" alt="logo">
 
-  <form (ngSubmit)="login()">
-
+  <form [formGroup]="loginForm" (ngSubmit)="login()">
     <ion-item>
       <ion-label floating>Username</ion-label>
-      <ion-input ([ngModel])="loginData.username" type="text" name="username"></ion-input>
+      <ion-input type="text" [(ngModel)]="loginData.username" formControlName="username" name="username"></ion-input>
     </ion-item>
-
     <ion-item>
       <ion-label floating>Password</ion-label>
-      <ion-input ([ngModel])="loginData.password" type="password" name="password"></ion-input>
-    </ion-item>
+      <ion-input type="password" [(ngModel)]="loginData.password" formControlName="password" name="password"></ion-input>
+    </ion-item><br>
 
-    <button type="submit" ion-button block color="main">Sign in</button>
+    <button type="submit" ion-button block color="main" [disabled]="!loginForm.valid">Sign in</button>
   </form>
 
   <button ion-button icon-start block (click)="loginWithFB(userData)" color="fb">

@@ -5,6 +5,7 @@
       <button ion-button icon-only menuToggle>
         <ion-icon name='menu'></ion-icon>
       </button>
+      <p *ngIf="userData">{{userData.id}}, {{userData.username}}</p>
     </ion-buttons>
   </ion-navbar>
 </ion-header>
@@ -56,8 +57,7 @@
     </ion-slide>
   </ion-slides>
 
-
-  <ion-fab right bottom>
+  <ion-fab right bottom ion-fixed>
     <button ion-fab color="main" (click)="addCategory()">
       <ion-icon name="add"></ion-icon>
     </button>

@@ -1,7 +1,5 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-
-
 
 /*
   Generated class for the AuthProvider provider.
@@ -11,25 +9,21 @@ import { Injectable } from '@angular/core';
 */
 @Injectable()
 export class AuthProvider {
-  // loginauthURL: 'http://127.0.0.1:3000/auth';
-  // registerauthURL: 'http://127.0.0.1:3000/auth';
-  // logoutauthURL: 'http://127.0.0.1:3000/auth';
   authURL = "http://localhost:3000/auth";
-
 
   constructor(public http: HttpClient) {
     console.log('Hello AuthProvider Provider');
   }
 
-  login(loginData) {
-    // console.log(this.authURL + 'login');
+  login(data) {
     return new Promise((resolve, reject) => {
-      this.http.post(this.authURL + '/login', loginData).subscribe(res => {
-        resolve(res);
-        localStorage.setItem('jwToken', loginData.token);
-      }, (err) => {
-        reject(err);
-      });
+      this.http.post(this.authURL + '/login', data)
+        .subscribe(res => {
+          resolve(res);
+          localStorage.setItem('token', data.token);
+        }, (err) => {
+          reject(err);
+        });
     });
   }
 

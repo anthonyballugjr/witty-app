@@ -18,16 +18,15 @@
 
     <ion-item>
       <ion-label floating>Username</ion-label>
-      <ion-input ([ngModel])="registerData.username" type="text"fromControlName="username" name="username"></ion-input>
+      <ion-input [(ngModel)]="registerData.username" type="text" formControlName="username" name="username"></ion-input>
     </ion-item>
 
     <ion-item>
       <ion-label floating>Password</ion-label>
-      <ion-input ([ngModel])="registerData.password" type="password" formControlName="password" name="password"></ion-input>
+      <ion-input [(ngModel)]="registerData.password" type="password" formControlName="password" name="password"></ion-input>
     </ion-item>
 
-
-    <button type="submit" ion-button block color="main">Sign up</button>
+    <button type="submit" ion-button block color="main" [disabled]="!signUpForm.valid">Sign up</button>
   </form>
 
 </ion-content>

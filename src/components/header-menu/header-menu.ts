@@ -26,6 +26,7 @@ export class HeaderMenuComponent {
 
   logout() {
     this.authProvider.logout().then((result) => {
+      console.log(result);
       this.menuCtrl.close();
       this.app.getRootNav().setRoot(LoginPage);
     }, (err) => {
