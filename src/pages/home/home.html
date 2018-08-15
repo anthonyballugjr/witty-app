@@ -1,11 +1,10 @@
 <ion-header color="main">
   <ion-navbar>
-    <ion-title>Witty Wallet</ion-title>
+    <ion-title>Budget Overview</ion-title>
     <ion-buttons left>
       <button ion-button icon-only menuToggle>
         <ion-icon name='menu'></ion-icon>
       </button>
-      <p *ngIf="userData">{{userData.id}}, {{userData.username}}</p>
     </ion-buttons>
   </ion-navbar>
 </ion-header>
@@ -40,6 +39,13 @@
           <p>Remaining: {{category.budget - (category.expense | pluck:'amount' | sum) | currency: "PHP" :2}}</p>
         </ion-item>
       </ion-list>
+
+      <ion-fab top right ion-fixed>
+        <button ion-fab color="main" (click)="addCategory()">
+          <ion-icon name="add"></ion-icon>
+        </button>
+      </ion-fab>
+
     </ion-slide>
     <ion-slide>
       <ion-list>
@@ -53,14 +59,11 @@
       </ion-list>
     </ion-slide>
     <ion-slide>
-      <h1>Slide 3</h1>
+      <h1>Total Budget: {{categories | pluck:'budget' | sum | currency: "PHP" :2}}</h1>
+      <h1 *ngFor="let c of categories, let b of c.expense">{{c.expense | pluck:'amount' | sum | sum}} </h1>
     </ion-slide>
   </ion-slides>
 
-  <ion-fab right bottom ion-fixed>
-    <button ion-fab color="main" (click)="addCategory()">
-      <ion-icon name="add"></ion-icon>
-    </button>
-  </ion-fab>
+
 
 </ion-content>

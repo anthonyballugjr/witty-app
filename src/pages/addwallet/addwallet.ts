@@ -23,6 +23,7 @@ export class AddwalletPage {
     'budget': '',
     'active': 'true'
   }
+  loading: any;
 
   constructor(public loadCtrl: LoadingController, private formBldr: FormBuilder, public alertCtrl: AlertController, public navCtrl: NavController, public categoryProvider: CategoryProvider, public navParams: NavParams) {
   }
@@ -33,34 +34,39 @@ export class AddwalletPage {
   });
 
   addCategory() {
+    this.presentLoading();
     this.categoryProvider.addCategory(this.category).then((result) => {
       console.log(result);
+      this.loading.dismiss();
+      this.alert(this.category.name.toUpperCase() + ' added as a new wallet!');
+      //this.navCtrl.pop();
       this.navCtrl.setRoot(HomePage);
     }, (err) => {
+      this.loading.dismiss();
       console.log(err);
+      var errorMessage;
+      if (err.status === 500) {
+        errorMessage = this.category.name.toUpperCase() + ' already exists, Please Enter a new wallet name';
+      }
+      this.alert(errorMessage);
     });
-    this.success();
   }
 
   presentLoading() {
-    const loader = this.loadCtrl.create({
+    this.loading = this.loadCtrl.create({
       spinner: 'bubbles',
-      content: 'Creating new wallet...'
+      content: 'Creating new wallet...',
     });
-    loader.present();
-    setTimeout(() => {
-      this.addCategory();
-      loader.dismiss();
-    }, 3000);
+    this.loading.present();
   }
 
-  success() {
-    const success = this.alertCtrl.create({
+  alert(msg) {
+    const alert = this.alertCtrl.create({
       title: 'New Wallet',
-      message: this.category.name.toUpperCase() + ' added as a new wallet!',
+      message: msg,
       buttons: ['Ok']
     });
-    success.present();
+    alert.present();
   }
 
   showConfirm() {
@@ -77,7 +83,7 @@ export class AddwalletPage {
         {
           text: 'Agree',
           handler: () => {
-            this.presentLoading();
+            this.addCategory();
             console.log('Adding new wallet');
           }
         }
