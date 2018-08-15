@@ -1,0 +1,57 @@
+<!--
+  Generated template for the ProfilePage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>My Profile</ion-title>
+    <ion-buttons end>
+      <button (click)="exit()" ion-button clear>Exit</button>
+    </ion-buttons>
+  </ion-navbar>
+
+</ion-header>
+
+<ion-content padding>
+  <ion-item>
+    <ion-label floating>Email</ion-label>
+    <ion-input disabled value="{{userData.email}}"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label floating>Name</ion-label>
+    <ion-input disabled value="{{userData.name}}"></ion-input>
+    <button color="main" item-end ion-button outline>Edit</button>
+  </ion-item>
+  <ion-item>
+    <ion-label floating>Title</ion-label>
+    <ion-input disabled value="Witty Saver"></ion-input>
+  </ion-item>
+  <br>
+  <ion-list>
+    <ion-list-header no-padding margin-left>STUFFS</ion-list-header>
+    <ion-item>Average Monthly Budget
+      <p item-end>{{15000 | currency : "PHP" :2}}</p>
+    </ion-item>
+    <ion-item>Average Monthly Expenses
+      <p item-end>{{12456 | currency : "PHP" :2}}</p>
+    </ion-item>
+    <ion-item>Overall total savings:
+      <p item-end>{{5000 | currency : "PHP" :2}} </p>
+    </ion-item>
+    <ion-item>Overall expenses:
+      <p item-end>{{12600 | currency: "PHP" :2}}</p>
+    </ion-item>
+    <ion-item>Other stuffs:
+      <p item-end>{{12345 | currency: "PHP" :2}}</p>
+    </ion-item>
+    <ion-item>Some other stuffs:
+      <p item-end>{{2000 | currency: "PHP" :2}}</p>
+    </ion-item>
+  </ion-list>
+
+  <button ion-button block>Export this transcript as anything</button>
+
+</ion-content>

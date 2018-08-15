@@ -7,7 +7,7 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-title>Account Registration</ion-title>
+    <ion-title>New Account</ion-title>
   </ion-navbar>
 
 </ion-header>
@@ -17,13 +17,18 @@
   <form [formGroup]="signUpForm" (ngSubmit)="register()">
 
     <ion-item>
-      <ion-label floating>Username</ion-label>
-      <ion-input [(ngModel)]="registerData.username" type="text" formControlName="username" name="username"></ion-input>
+      <ion-label floating>Email</ion-label>
+      <ion-input [(ngModel)]="registerData.user.email" type="email" formControlName="email" name="email"></ion-input>
     </ion-item>
 
     <ion-item>
       <ion-label floating>Password</ion-label>
-      <ion-input [(ngModel)]="registerData.password" type="password" formControlName="password" name="password"></ion-input>
+      <ion-input [(ngModel)]="registerData.user.password" type="password" formControlName="password" name="password"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label floating>Name</ion-label>
+      <ion-input [(ngModel)]="registerData.user.name" type="text" formControlName="firstName" name="firstName"></ion-input>
     </ion-item>
 
     <button type="submit" ion-button block color="main" [disabled]="!signUpForm.valid">Sign up</button>

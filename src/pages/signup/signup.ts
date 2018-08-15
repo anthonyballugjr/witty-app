@@ -19,17 +19,23 @@ import { LoginPage } from '../login/login';
 })
 export class SignupPage {
   loading: any;
+  errMessage: any;
   registerData = {
-    'username': '',
-    'password': ''
+    "user": {
+      "email": "",
+      "password": "",
+      "name": ""
+    }
   }
 
   constructor(private alertCtrl: AlertController, private formBldr: FormBuilder, public http: HttpClient, public navCtrl: NavController, public navParams: NavParams, public authProvider: AuthProvider, private toastCtrl: ToastController, private loadingCtrl: LoadingController) {
   }
 
   private signUpForm = this.formBldr.group({
-    username: ["", Validators.required],
-    password: ["", Validators.required]
+    email: ["", Validators.required],
+    password: ["", Validators.required],
+    firstName:[""],
+    lastName:[""]
   });
 
   ionViewDidLoad() {
@@ -43,9 +49,13 @@ export class SignupPage {
       this.presentToast('Successfull Registration!')
       this.navCtrl.pop();
       console.log(this.registerData);
+      console.log(result);
     }, (err) => {
       this.loading.dismiss();
-      this.presentToast(err.message);
+      if(err.status === 400){
+        this.errMessage = 'The specified email address is already in use'
+      }
+      this.presentToast(this.errMessage);
       console.log(this.registerData);
       console.log(err)
     });
@@ -57,9 +67,6 @@ export class SignupPage {
       content: 'Authenticating...'
     });
     this.loading.present();
-    setTimeout(()=>{
-      this.loading.dismiss();
-    }, 2000);
   }
 
   presentToast(msg) {
@@ -67,7 +74,7 @@ export class SignupPage {
       message: msg,
       duration: 4000,
       position: 'bottom',
-      dismissOnPageChange: true
+      dismissOnPageChange: false
     });
     toast.onDidDismiss(() => {
       console.log('Dismissed toast');

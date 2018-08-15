@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { App, MenuController, ToastController, LoadingController } from 'ionic-angular';
 import { LoginPage } from '../../pages/login/login';
+import { ProfilePage } from '../../pages/profile/profile';
 import { AuthProvider } from '../../providers/auth/auth';
 
 /**
@@ -24,10 +25,19 @@ export class HeaderMenuComponent {
     // }
   }
 
+  showLoader() {
+    this.loading = this.loadingCtrl.create({
+      content: 'Signing out...',
+    });
+    this.loading.present();
+  }
+
   logout() {
+    this.showLoader();
     this.authProvider.logout().then((result) => {
       console.log(result);
       this.menuCtrl.close();
+      this.loading.dismiss();
       this.app.getRootNav().setRoot(LoginPage);
     }, (err) => {
       this.loading.dismiss();
@@ -46,6 +56,11 @@ export class HeaderMenuComponent {
       console.log('Dismissed toast');
     });
     toast.present();
+  }
+
+  showProfile() {
+    this.app.getRootNav().setRoot(ProfilePage);
+    this.menuCtrl.close();
   }
 
 }

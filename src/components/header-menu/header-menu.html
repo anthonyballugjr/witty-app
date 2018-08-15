@@ -1,15 +1,13 @@
 <!-- Generated template for the HeaderMenuComponent component -->
 <div>
   <ion-list>
-    <ion-list-header no-padding margin-left>
-      Menu
-    </ion-list-header>
-    <ion-item detail-push>
+    <ion-item (click)="showProfile()" detail-push>
       <ion-icon name="person" item-start></ion-icon>
-      My Account
+      Profile
     </ion-item>
     <ion-item detail-push>
       Item 2
+      <ion-icon name="football" item-start></ion-icon>
     </ion-item>
     <ion-item detail-push>
       Item 3

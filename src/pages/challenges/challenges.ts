@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 
 /**
- * Generated class for the ViewtransactionsPage page.
+ * Generated class for the ChallengesPage page.
  *
  * See https://ionicframework.com/docs/components/#navigation for more info on
  * Ionic pages and navigation.
@@ -10,19 +10,16 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 
 @IonicPage()
 @Component({
-  selector: 'page-viewtransactions',
-  templateUrl: 'viewtransactions.html',
+  selector: 'page-challenges',
+  templateUrl: 'challenges.html',
 })
-export class ViewtransactionsPage {
-  data: any = [];
+export class ChallengesPage {
 
   constructor(public navCtrl: NavController, public navParams: NavParams) {
-    this.data = this.navParams.get('data');
-    console.log(this.data);
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad ViewtransactionsPage');
+    console.log('ionViewDidLoad ChallengesPage');
   }
 
 }

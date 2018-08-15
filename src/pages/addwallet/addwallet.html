@@ -7,7 +7,10 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-title>Add Wallet</ion-title>
+    <ion-title>New Wallet</ion-title>
+    <ion-buttons end>
+      <button ion-button clear [disabled]="!addWalletForm.valid" (click)="showConfirm()">Save</button>
+    </ion-buttons>
   </ion-navbar>
 
 </ion-header>
@@ -22,8 +25,6 @@
       <ion-label floating>Set Budget</ion-label>
       <ion-input type="number" [(ngModel)]="category.budget" formControlName="budget" name="budget"></ion-input>
     </ion-item>
-    
-    <button color="main" ion-button type="submit" [disabled]="!addWalletForm.valid" block>Add</button>
   </form>
 
 </ion-content>

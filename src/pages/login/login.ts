@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, AlertController, LoadingController, ToastController } from 'ionic-angular';
 import { Facebook, FacebookLoginResponse } from '@ionic-native/facebook';
-import { HomePage } from '../home/home';
+import { TabsPage } from '../tabs/tabs';
 import { SignupPage } from '../signup/signup';
 
 import { HttpClient } from '@angular/common/http';
@@ -23,12 +23,15 @@ import { AuthProvider } from '../../providers/auth/auth'
   templateUrl: 'login.html',
 })
 export class LoginPage {
+  errMessage: any;
   loading: any;
   data: any;
   userDataFB: any;
   loginData = {
-    'username': '',
-    'password': ''
+    "user": {
+      "email": "",
+      "password": ""
+    }
   }
   message: any;
   userData: any;
@@ -37,19 +40,21 @@ export class LoginPage {
   }
 
   private loginForm = this.formBldr.group({
-    username: ["", Validators.required],
+    email: ["", Validators.required],
     password: ["", Validators.required]
   });
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad LoginPage');
+    //this.showLoader();
+    //check authentication
+
   }
 
   showLoader() {
     this.loading = this.loadingCtrl.create({
       content: 'Authenticating...',
-      duration: 3000
     });
+    this.loading.present();
   }
 
   presentToast(msg) {
@@ -57,7 +62,7 @@ export class LoginPage {
       message: msg,
       duration: 3000,
       position: 'bottom',
-      dismissOnPageChange: true
+      dismissOnPageChange: false
     });
     toast.onDidDismiss(() => {
       console.log('Dismissed toast');
@@ -72,23 +77,19 @@ export class LoginPage {
   login() {
     this.showLoader();
     this.authProvider.login(this.loginData).then((result) => {
-      console.log(result);
-      this.data = result;
-      localStorage.setItem('token', result['token']);
-      console.log(result['token']);
       this.loading.dismiss();
-      this.navCtrl.setRoot(HomePage, {userData: result});
+      this.navCtrl.setRoot(TabsPage);
+      this.userData = JSON.parse(localStorage.userData);
+      this.presentToast('Hello '+ this.userData.name);
     }, (err) => {
       this.loading.dismiss();
-      this.presentToast(err.error.err);
+      if (err.status === 401) {
+        this.errMessage = 'User not found';
+      }
+      this.presentToast(this.errMessage);
       console.log(err);
-      console.log(this.loginData);
     });
   }
-
-  // login(){
-  //   this.navCtrl.setRoot(HomePage);
-  // }
 
   loginWithFB(userData) {
     this.facebook.login(['email', 'public_profile'])
@@ -96,8 +97,9 @@ export class LoginPage {
         this.facebook.api('me?fields=id,name,email,first_name,picture.width(100).height(100).as(picture)', [])
           .then(profile => {
             this.userDataFB = { email: profile['email'], firstName: profile['first_name'], picture: profile['picture']['data']['url'], username: profile['name'] }
+
             console.log(this.userDataFB);
-            this.navCtrl.setRoot(HomePage, { userData: userData });
+            this.navCtrl.setRoot(TabsPage, { userData: this.userDataFB });
           });
       });
   }

@@ -1,0 +1,29 @@
+<!--
+  Generated template for the CategoriesPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>Manage Categories</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+  <ion-list>
+    <ion-item-divider no-padding class="strong">Expenses Wallet</ion-item-divider>
+    <ion-item sliding>
+      <ion-item *ngFor="let category of categories">{{category.name | ucwords}}
+      </ion-item>
+    </ion-item>
+    <ion-item-divider no-padding class="strong">Savings Wallet</ion-item-divider>
+    <ion-item>Savings 1</ion-item>
+    <ion-item>Savings 2</ion-item>
+    <ion-item>Savings 3</ion-item>
+  </ion-list>
+
+</ion-content>

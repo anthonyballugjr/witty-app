@@ -3,12 +3,12 @@
 
   <form [formGroup]="loginForm" (ngSubmit)="login()">
     <ion-item>
-      <ion-label floating>Username</ion-label>
-      <ion-input type="text" [(ngModel)]="loginData.username" formControlName="username" name="username"></ion-input>
+      <ion-label floating>Email</ion-label>
+      <ion-input type="text" [(ngModel)]="loginData.user.email" formControlName="email" name="email"></ion-input>
     </ion-item>
     <ion-item>
       <ion-label floating>Password</ion-label>
-      <ion-input type="password" [(ngModel)]="loginData.password" formControlName="password" name="password"></ion-input>
+      <ion-input type="password" [(ngModel)]="loginData.user.password" formControlName="password" name="password"></ion-input>
     </ion-item><br>
 
     <button type="submit" ion-button block color="main" [disabled]="!loginForm.valid">Sign in</button>

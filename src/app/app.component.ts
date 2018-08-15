@@ -1,39 +1,42 @@
-import { Component } from '@angular/core';
+import { Component} from '@angular/core';
 import { Platform } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
-import { HomePage } from '../pages/home/home';
-//import { ListPage } from '../pages/list/list';
+
+import { TabsPage } from '../pages/tabs/tabs';;
 import { LoginPage } from '../pages/login/login';
+
+import { AuthProvider } from '../providers/auth/auth';
 
 @Component({
   templateUrl: 'app.html'
 })
 export class MyApp {
-  //rootPage: any;
-  //@ViewChild(Nav) nav: Nav;
-  // checkAuthorization(): void {
-  //   if ((window.localStorage.getItem('token') === null || window.localStorage.getItem('token') === 'undefined')) {
-  //     this.rootPage = LoginPage;
-  //   } else {
-  //     this.rootPage = HomePage;
-  //   }
-  // }
+  // @ViewChild(Nav) nav: Nav;
+  rootPage: any;
+  
+  checkAuthorization(): void {
+    if ((localStorage.getItem('token') === null || localStorage.getItem('token') === 'undefined')) {
+      this.rootPage = LoginPage;
+    } else {
+      this.rootPage = TabsPage;
+    }
+  }
 
-  rootPage: any = LoginPage;
+  //rootPage: any = LoginPage;
 
   //pages: Array<{title: string, component: any}>;
 
-  constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen) {
+  constructor(public authProvider: AuthProvider, public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen) {
     this.initializeApp();
+    this.checkAuthorization();
 
     // used for an example of ngFor and navigation
     // this.pages = [
     //   { title: 'Home', component: HomePage },
-    //   { title: 'List', component: ListPage }
+    //   { title: 'Sign out', component: authProvider.logout() }
     // ];
-
   }
 
   initializeApp() {
@@ -44,4 +47,5 @@ export class MyApp {
       this.splashScreen.hide();
     });
   }
+
 }
