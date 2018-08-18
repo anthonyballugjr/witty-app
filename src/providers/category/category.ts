@@ -10,8 +10,8 @@ import { Injectable } from '@angular/core';
 @Injectable()
 export class CategoryProvider {
   categoryData:any;
-  apiUrl = "http://localhost:3000/api"
-  //apiUrl = "http://witty-wallet.herokuapp.com/api" //web
+  //apiUrl = "http://localhost:3000/api" //local
+  apiUrl = "http://witty-wallet.herokuapp.com/api" //web
   authHeader = {
     headers: {
       'Authorization': 'Token ' + localStorage.token
