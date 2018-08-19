@@ -1,6 +1,6 @@
 <ion-header color="main">
   <ion-navbar>
-    <ion-title>Budget Overview</ion-title>
+    <ion-title>Home</ion-title>
     <ion-buttons left>
       <button ion-button icon-only menuToggle>
         <ion-icon name='menu'></ion-icon>
@@ -14,7 +14,7 @@
     <strong>
       <p float-start margin-left>{{period}}</p>
     </strong>
-    <p margin-right float-end>Total Budget: {{categories | pluck:'budget' | sum | currency: "PHP" :2}}</p>
+    <p margin-right float-end>Total Budget: {{wallets | pluck:'amount' | sum | currency: "PHP" :2}}</p>
   </div>
 
 
@@ -24,45 +24,92 @@
   </ion-item> -->
 
   <ion-slides>
+
     <ion-slide>
       <ion-list>
-        <ion-item-divider float-left>Wallets</ion-item-divider>
-        <ion-item *ngFor="let category of categories" (click)="viewTransactions(category)">
+        <ion-item-divider float-left class="strong">Expense Wallets</ion-item-divider>
+        <ion-item *ngFor="let wallet of wallets | filterBy: ['type']: 'expense'" (click)="viewTransactions(wallet)">
           <ion-avatar item-start>
             <img src="../../assets/imgs/wit.png">
           </ion-avatar>
           <h6>
-            <strong>{{category.name | ucwords}}</strong>
+            <strong>{{wallet.name | ucwords}}</strong>
           </h6>
-          <p>Budget: {{category.budget | currency: "PHP" :2}} </p>
-          <p>Expenses: {{category.expense | pluck:'amount' | sum | currency: "PHP" :2}}</p>
-          <p>Remaining: {{category.budget - (category.expense | pluck:'amount' | sum) | currency: "PHP" :2}}</p>
+          <p>Budget: {{wallet.amount | currency: "PHP" :2}} </p>
+          <p>Expenses: {{wallet.transactions | pluck:'amount' | sum | currency: "PHP" :2}}</p>
+          <p>Remaining: {{wallet.amount - (wallet.transactions | pluck:'amount' | sum) | currency: "PHP" :2}}</p>
         </ion-item>
       </ion-list>
-
-      <ion-fab top right ion-fixed>
-        <button ion-fab color="main" (click)="addCategory()">
-          <ion-icon name="add"></ion-icon>
-        </button>
-      </ion-fab>
-
     </ion-slide>
+
     <ion-slide>
       <ion-list>
-        <ion-item-divider float-left>Savings</ion-item-divider>
-        <ion-item *ngFor="let savings of categories">
+        <ion-item-divider float-left class="strong">Savings</ion-item-divider>
+        <ion-item *ngFor="let wallet of wallets | filterBy: ['type']: 'savings'">
           <h6>
-            <strong>Savings</strong>
+            <strong>{{wallet.name}}</strong>
           </h6>
-          <p>{{categories.savings}}</p>
+          <p>Budget: {{wallet.amount | currency: "PHP" :2}}</p>
+        </ion-item>
+        <ion-item-divider float-left class="strong">Bills Wallet</ion-item-divider>
+        <ion-item *ngFor="let wallet of wallets | filterBy: ['type']: 'bills'">
+          <h6>
+            <strong>{{wallet.name}}</strong>
+          </h6>
+          <p>Budget: {{wallet.amount | currency: "PHP" :2}}</p>
+        </ion-item>
+        <ion-item-divider float-left class="strong">Debts Wallets</ion-item-divider>
+        <ion-item *ngFor="let wallet of wallets | filterBy: ['type']: 'debts'">
+          <h6>
+            <strong>{{wallet.name}}</strong>
+          </h6>
+          <p>Budget: {{wallet.amount | currency: "PHP" :2}}</p>
         </ion-item>
       </ion-list>
     </ion-slide>
+
     <ion-slide>
-      <h1>Total Budget: {{categories | pluck:'budget' | sum | currency: "PHP" :2}}</h1>
-      <h1 *ngFor="let c of categories, let b of c.expense">{{c.expense | pluck:'amount' | sum | sum}} </h1>
+      <ion-list>
+        <ion-item>
+          <p>Expenses Wallet:</p>
+          <ion-note item-end>{{wallets | filterBy: ['type']: 'expense' | pluck: 'amount' | sum}}</ion-note>
+        </ion-item>
+        <ion-item>
+          <p>Savings Wallet:</p>
+          <ion-note item-end>{{wallets | filterBy: ['type']: 'savings' | pluck: 'amount' | sum}}</ion-note>
+        </ion-item>
+        <ion-item>
+          <p>Bills Wallet:</p>
+          <ion-note item-end>{{wallets | filterBy: ['type']: 'bills' | pluck: 'amount' | sum}}</ion-note>
+        </ion-item>
+        <ion-item>
+          <p>Debts Wallet:</p>
+          <ion-note item-end>{{wallets | filterBy: ['type']: 'debts' | pluck: 'amount' | sum}}</ion-note>
+        </ion-item>
+        <ion-item>
+          <h2>Total Budget:</h2>
+          <ion-note item-end>{{wallets | pluck:'amount' | sum | currency: "PHP" :2}}</ion-note>
+        </ion-item>
+        <ion-item>
+          <h2>Total Expenses:</h2>
+          <ion-note item-end>{{wallets | pluck:'transactions.amount' | sum | currency: "PHP" :2}}</ion-note>
+        </ion-item>
+        <ion-item-divider></ion-item-divider>
+        <ion-item>
+          <h2>Potential to save:</h2>
+          <ion-note item-end>{{(wallets | pluck:'amount' | sum) -(wallets | filterBy:['type']:'savings' | pluck:'amount' | sum) | currency:
+            "PHP" :2}}</ion-note>
+        </ion-item>
+      </ion-list>
     </ion-slide>
+
   </ion-slides>
+
+  <ion-fab bottom right ion-fixed>
+    <button ion-fab mini color="main" (click)="addCategory()">
+      <ion-icon name="add"></ion-icon>
+    </button>
+  </ion-fab>
 
 
 
