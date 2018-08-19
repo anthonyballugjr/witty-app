@@ -19,8 +19,7 @@ import { CategoriesPage } from '../categories/categories';
 })
 export class TabsPage {
   tab1Root = HomePage;
-  tab2Root = CategoriesPage;
-  tab3Root = ChallengesPage;
+  tab2Root = ChallengesPage;
 
   constructor(public navCtrl: NavController, public navParams: NavParams) {
   }
