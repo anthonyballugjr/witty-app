@@ -19,11 +19,19 @@
   <form [formGroup]="addWalletForm" (ngSubmit)="showConfirm()">
     <ion-item>
       <ion-label floating>Wallet Name</ion-label>
-      <ion-input type="text" [(ngModel)]="category.name" formControlName="name" name="name"></ion-input>
+      <ion-input type="text" [(ngModel)]="wallet.name" formControlName="name" name="name"></ion-input>
     </ion-item>
     <ion-item>
       <ion-label floating>Set Budget</ion-label>
-      <ion-input type="number" [(ngModel)]="category.budget" formControlName="budget" name="budget"></ion-input>
+      <ion-input type="number" [(ngModel)]="wallet.amount" formControlName="budget" name="budget"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label floating>Choose Type</ion-label>
+      <ion-select [(ngModel)]="wallet.type" formControlName="type" name="type">
+        <ion-option value="expense">Expense</ion-option>
+        <ion-option value="savings">Savings</ion-option>
+      </ion-select>
     </ion-item>
   </form>
 

@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, LoadingController, AlertController } from 'ionic-angular';
 import { Validators, FormBuilder } from '@angular/forms';
 import { CategoryProvider } from '../../providers/category/category';
-import { HttpClient } from '@angular/common/http';
 import { HomePage } from '../home/home';
 
 /**
@@ -18,11 +17,14 @@ import { HomePage } from '../home/home';
   templateUrl: 'addwallet.html',
 })
 export class AddwalletPage {
-  category = {
+  wallet = {
     'name': '',
-    'budget': '',
-    'active': 'true'
+    'user': localStorage.userId,
+    'type': '',
+    'amount': ''
   }
+  types=['savings', 'expense']; 
+  
   loading: any;
 
   constructor(public loadCtrl: LoadingController, private formBldr: FormBuilder, public alertCtrl: AlertController, public navCtrl: NavController, public categoryProvider: CategoryProvider, public navParams: NavParams) {
@@ -30,15 +32,16 @@ export class AddwalletPage {
 
   private addWalletForm = this.formBldr.group({
     name: ["", Validators.required],
-    budget: ["", Validators.required]
+    budget: ["", Validators.required],
+    type:["", Validators.required]
   });
 
-  addCategory() {
+  addWallet() {
     this.presentLoading();
-    this.categoryProvider.addCategory(this.category).then((result) => {
+    this.categoryProvider.addWallet(this.wallet).then((result) => {
       console.log(result);
       this.loading.dismiss();
-      this.alert(this.category.name.toUpperCase() + ' added as a new wallet!');
+      this.alert(this.wallet.name.toUpperCase() + ' added as a new wallet!');
       //this.navCtrl.pop();
       this.navCtrl.setRoot(HomePage);
     }, (err) => {
@@ -46,7 +49,7 @@ export class AddwalletPage {
       console.log(err);
       var errorMessage;
       if (err.status === 500) {
-        errorMessage = this.category.name.toUpperCase() + ' already exists, Please Enter a new wallet name';
+        errorMessage = this.wallet.name.toUpperCase() + ' already exists, Please Enter a new wallet name';
       }
       this.alert(errorMessage);
     });
@@ -72,7 +75,7 @@ export class AddwalletPage {
   showConfirm() {
     const confirm = this.alertCtrl.create({
       title: 'Create new wallet',
-      message: 'Add ' + this.category.name.toUpperCase() + ' as a new wallet?',
+      message: 'Add ' + this.wallet.name.toUpperCase() + ' as a new wallet?',
       buttons: [
         {
           text: 'Cancel',
@@ -83,7 +86,7 @@ export class AddwalletPage {
         {
           text: 'Agree',
           handler: () => {
-            this.addCategory();
+            this.addWallet();
             console.log('Adding new wallet');
           }
         }

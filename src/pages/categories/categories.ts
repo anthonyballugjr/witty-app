@@ -26,7 +26,7 @@ export class CategoriesPage {
   }
 
   getCategories() {
-    this.categoryProvider.getCategories()
+    this.categoryProvider.getWallets()
       .then(data => {
         this.categories = data;
         console.log(this.categories);
