@@ -15,7 +15,7 @@
 
 <ion-content padding>
   <ion-list>
-    <ion-item *ngFor="let expense of data.expense">
+    <ion-item *ngFor="let expense of data.transactions">
       <ion-row>
         <ion-col>
           <h5>{{expense.desc | ucwords}}</h5>
@@ -29,7 +29,7 @@
   </ion-list>
 
   <h5 float-right>
-    <strong>Total: {{data.expense | pluck:'amount' | sum | currency: "PHP": 2}}</strong>
+    <strong>Total: {{data.transactions | pluck:'amount' | sum | currency: "PHP": 2}}</strong>
   </h5>
 
   <ion-fab right bottom>
