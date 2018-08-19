@@ -79,8 +79,7 @@ export class LoginPage {
     this.authProvider.login(this.loginData).then((result) => {
       this.loading.dismiss();
       this.navCtrl.setRoot(TabsPage);
-      this.userData = JSON.parse(localStorage.userData);
-      this.presentToast('Hello '+ this.userData.name);
+      this.presentToast('Hello '+ localStorage.nickname);
     }, (err) => {
       this.loading.dismiss();
       if (err.status === 401) {
