@@ -1,4 +1,4 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
 /*
@@ -18,31 +18,25 @@ export class AuthProvider {
     }
   }
 
-//authURL = "http://localhost:3000/api/users";
-authURL = "http://witty-wallet.herokuapp.com/api/users"
+authURL = "http://localhost:3000/api/users";
+//authURL = "http://witty-wallet.herokuapp.com/api/users" 
 
   constructor(public http: HttpClient) {
     console.log('Hello AuthProvider Provider');
   }
 
-  // var x = {
-  //   "user": {
-  //     "email": "email@emal.com",
-  //     "password": "password"
-  //   }
-  // }
 
   login(data) {
     return new Promise((resolve, reject) => {
-      //let headers = new HttpHeaders();
-      //headers.append('Content-Type', 'application/json');
       this.http.post(this.authURL + '/login', data, this.appendHeaders)
         .subscribe(res => {
           resolve(res);
           console.log(res);
           this.userData = res;
           localStorage.setItem('token',  this.userData.user.token);
-          localStorage.setItem('userData', JSON.stringify(this.userData.user));
+          localStorage.setItem('userId', this.userData.user._id);
+          localStorage.setItem('email', this.userData.user.email);
+          localStorage.setItem('nickname', this.userData.user.name);
           console.log(localStorage);
         }, (err) => {
           reject(err);
@@ -61,7 +55,7 @@ authURL = "http://witty-wallet.herokuapp.com/api/users"
   }
 
   logout() {
-    console.log(localStorage.token)
+    console.log('Removing auth token: ' + localStorage.token);
     return new Promise((resolve, reject) => {
       this.http.get(this.authURL + '/logout').subscribe(res => {
         localStorage.clear();

@@ -1,4 +1,4 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
 /*
@@ -9,9 +9,10 @@ import { Injectable } from '@angular/core';
 */
 @Injectable()
 export class CategoryProvider {
-  categoryData:any;
-  //apiUrl = "http://localhost:3000/api" //local
-  apiUrl = "http://witty-wallet.herokuapp.com/api" //web
+  wallets: any;
+  categoryData: any;
+  apiUrl = "http://localhost:3000/api" //local
+  //apiUrl = "http://witty-wallet.herokuapp.com/api" //web
   authHeader = {
     headers: {
       'Authorization': 'Token ' + localStorage.token
@@ -37,6 +38,28 @@ export class CategoryProvider {
     console.log(localStorage.token)
     return new Promise((resolve, reject) => {
       this.http.post(this.apiUrl + '/categories', data, this.authHeader).subscribe(res => {
+        resolve(res);
+      }, (err) => {
+        reject(err);
+      });
+    });
+  }
+
+  getWallets() {
+    return new Promise(resolve => {
+      this.http.get(this.apiUrl + '/wallets/user/' + localStorage.userId).subscribe(data => {
+        this.categoryData = data;
+        resolve(data);
+      }, err => {
+        console.log(err);
+      });
+    });
+  }
+
+  addWallet(data) {
+    console.log(localStorage.token)
+    return new Promise((resolve, reject) => {
+      this.http.post(this.apiUrl + '/wallets', data, this.authHeader).subscribe(res => {
         resolve(res);
       }, (err) => {
         reject(err);
