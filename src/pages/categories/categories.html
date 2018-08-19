@@ -8,22 +8,87 @@
 
   <ion-navbar>
     <ion-title>Manage Categories</ion-title>
+    <ion-buttons left>
+      <button ion-button icon-only menuToggle>
+        <ion-icon name='menu'></ion-icon>
+      </button>
+    </ion-buttons>
   </ion-navbar>
 
 </ion-header>
 
 
 <ion-content padding>
+  <ion-note>Slide an item to the left for options</ion-note>
   <ion-list>
     <ion-item-divider no-padding class="strong">Expenses Wallet</ion-item-divider>
-    <ion-item sliding>
-      <ion-item *ngFor="let category of categories">{{category.name | ucwords}}
+    <ion-item-sliding *ngFor="let category of categories | filterBy: ['type']: 'expense'">
+      <ion-item>
+        {{category.name | ucwords}}
       </ion-item>
-    </ion-item>
+      <ion-item-options side="right">
+        <button ion-button color="primary">
+          <ion-icon name="text"></ion-icon>
+          Edit
+        </button>
+        <button ion-button color="danger">
+          <ion-icon name="trash"></ion-icon>
+          Delete
+        </button>
+      </ion-item-options>
+    </ion-item-sliding>
+
     <ion-item-divider no-padding class="strong">Savings Wallet</ion-item-divider>
-    <ion-item>Savings 1</ion-item>
-    <ion-item>Savings 2</ion-item>
-    <ion-item>Savings 3</ion-item>
+    <ion-item-sliding *ngFor="let category of categories | filterBy: ['type']: 'savings'">
+      <ion-item>
+        {{category.name | ucwords}}
+      </ion-item>
+      <ion-item-options side="right">
+        <button ion-button color="primary">
+          <ion-icon name="text"></ion-icon>
+          Edit
+        </button>
+        <button ion-button color="danger">
+          <ion-icon name="trash"></ion-icon>
+          Delete
+        </button>
+      </ion-item-options>
+    </ion-item-sliding>
+
+    <ion-item-divider no-padding class="strong">Bills Wallet</ion-item-divider>
+    <ion-item-sliding *ngFor="let category of categories | filterBy: ['type']: 'bills'">
+      <ion-item>
+        {{category.name | ucwords}}
+      </ion-item>
+      <ion-item-options side="right">
+        <button ion-button color="primary">
+          <ion-icon name="text"></ion-icon>
+          Edit
+        </button>
+        <button ion-button color="danger">
+          <ion-icon name="trash"></ion-icon>
+          Delete
+        </button>
+      </ion-item-options>
+    </ion-item-sliding>
+
+    <ion-item-divider no-padding class="strong">Debts Wallet</ion-item-divider>
+    <ion-item-sliding *ngFor="let category of categories | filterBy: ['type']: 'debts'">
+      <ion-item>
+        {{category.name | ucwords}}
+      </ion-item>
+      <ion-item-options side="right">
+        <button ion-button color="primary">
+          <ion-icon name="text"></ion-icon>
+          Edit
+        </button>
+        <button ion-button color="danger">
+          <ion-icon name="trash"></ion-icon>
+          Delete
+        </button>
+      </ion-item-options>
+    </ion-item-sliding>
+
   </ion-list>
 
 </ion-content>

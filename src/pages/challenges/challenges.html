@@ -8,6 +8,11 @@
 
   <ion-navbar>
     <ion-title>Savings Challenge</ion-title>
+    <ion-buttons left>
+      <button ion-button icon-only menuToggle>
+        <ion-icon name='menu'></ion-icon>
+      </button>
+    </ion-buttons>
   </ion-navbar>
 
 </ion-header>
@@ -17,31 +22,17 @@
   <h1>Take a saving challenge!</h1>
   <h5>Select a challenge to complete and earn a
     <i>Witty</i> Title!</h5>
-  <ion-item>
-    Challenge 1
-    <button item-end ion-button outline color="buttons">Take Challenge</button>
-  </ion-item>
-  <ion-item>
-    Challenge 2
-    <button item-end ion-button outline color="buttons">Take Challenge</button>
-  </ion-item>
-  <ion-item>
-    Challenge 3
-    <button item-end ion-button outline color="buttons">Take Challenge</button>
-  </ion-item>
-  <ion-item>
-    Challenge 4
-    <button item-end ion-button outline color="buttons">Take Challenge</button>
-  </ion-item>
+  <ion-list>
+    <ion-item *ngFor="let x of data; let i=index" text-wrap (click)="toggleGroup(i)" [ngClass]="{active:isGroupShown(i)}">
+      <h3>{{x.title}}
+        <ion-icon color="main" item-end [name]="isGroupShown(i) ? 'arrow-dropdown': 'arrow-dropright'"></ion-icon>
+      </h3>
+      <ion-list *ngIf="isGroupShown(i)">
+        <ion-item>{{x.details}}</ion-item>
+        <button color="buttons" item-end ion-button block>Take Challenge</button>
+      </ion-list>
 
-  <div>
-    <label>View available titles</label>
-    <select>
-      <option>Title1</option>
-      <option>Title2</option>
-      <option>Title3</option>
-    </select>
-  </div>
-  <io
+    </ion-item>
+  </ion-list>
 
 </ion-content>
