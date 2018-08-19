@@ -20,9 +20,11 @@ import { TabsPage } from '../pages/tabs/tabs';
 import { ProfilePage } from '../pages/profile/profile';
 import { CategoriesPage } from '../pages/categories/categories';
 import { ChallengesPage } from '../pages/challenges/challenges';
+import { MywalletsPage } from '../pages/mywallets/mywallets';
 //providers
 import { CategoryProvider } from '../providers/category/category';
 import { AuthProvider } from '../providers/auth/auth';
+
 
 @NgModule({
   declarations: [
@@ -36,6 +38,7 @@ import { AuthProvider } from '../providers/auth/auth';
     CategoriesPage,
     ViewtransactionsPage,
     ChallengesPage,
+    MywalletsPage,
     HeaderMenuComponent
   ],
   imports: [
@@ -55,6 +58,7 @@ import { AuthProvider } from '../providers/auth/auth';
     ProfilePage,
     CategoriesPage,
     ChallengesPage,
+    MywalletsPage,
     ViewtransactionsPage
   ],
   providers: [
