@@ -15,10 +15,11 @@ import {TabsPage} from '../tabs/tabs';
   templateUrl: 'profile.html',
 })
 export class ProfilePage {
-  userData: any;
+  userData = localStorage
+ 
 
   constructor(public navCtrl: NavController, public navParams: NavParams) {
-    this.userData = JSON.parse(localStorage.userData);
+    console.log(this.userData);
   }
 
   ionViewDidLoad() {
