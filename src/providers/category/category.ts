@@ -12,7 +12,7 @@ export class CategoryProvider {
   wallets: any;
   categoryData: any;
   apiUrl = "http://localhost:3000/api" //local
-  //apiUrl = "http://witty-wallet.herokuapp.com/api" //web
+  //apiUrl = "http://witty-wallet.herokuapp.com/api" 
   authHeader = {
     headers: {
       'Authorization': 'Token ' + localStorage.token
