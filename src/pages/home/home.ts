@@ -27,7 +27,7 @@ export class HomePage {
 
   constructor(private toastCtrl: ToastController, public navParams: NavParams, public navCtrl: NavController, public http: HttpClient, public categoryProvider: CategoryProvider) {
     this.getCategories();
-    this.userData = JSON.parse(localStorage.userData);
+    
     //console.log(this.userData);
   }
 
