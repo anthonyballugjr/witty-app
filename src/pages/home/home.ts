@@ -13,7 +13,7 @@ import { AddwalletPage } from '../addwallet/addwallet';
   templateUrl: 'home.html'
 })
 export class HomePage {
-  categories: any;
+  wallets: any;
   expenses: any;
   expense: any;
   userData: any;
@@ -26,14 +26,12 @@ export class HomePage {
   period = this.m + " " + this.y;
 
   constructor(private toastCtrl: ToastController, public navParams: NavParams, public navCtrl: NavController, public http: HttpClient, public categoryProvider: CategoryProvider) {
-    this.getCategories();
-    this.userData = JSON.parse(localStorage.userData);
-    //console.log(this.userData);
+    this.getWallets();
   }
 
   presentToast() {
     let toast = this.toastCtrl.create({
-      message: 'Hello, ' + this.userData.email,
+      message: 'Hello, ' + localStorage.nickname,
       duration: 3000,
       position: 'bottom',
       dismissOnPageChange: false
@@ -44,14 +42,12 @@ export class HomePage {
     toast.present();
   }
 
-  getCategories() {
-    this.categoryProvider.getCategories()
+  getWallets() {
+    this.categoryProvider.getWallets()
       .then(data => {
-        this.categories = data;
+        this.wallets = data;
         this.expense = this.expenses
-        console.log(this.categories);
-        console.log(this.expenses);
-        console.log(this.expense);
+        console.log(this.wallets);
       });
   }
 
