@@ -13,22 +13,22 @@
 </ion-header>
 
 
-<ion-content padding>
-  <ion-list>
+<ion-content>
+  <ion-list no-lines>
     <ion-item *ngFor="let expense of data.transactions">
       <ion-row>
         <ion-col>
           <h5>{{expense.desc | ucwords}}</h5>
         </ion-col>
         <ion-col>
-          <h5 float-right>{{expense.amount | currency: "PHP": 2}}</h5>
+          <ion-note float-right>{{expense.amount | currency: "PHP": 2}}</ion-note>
         </ion-col>
       </ion-row>
-      <p>{{expense.date | date: 'medium'}}</p>
+      <ion-note>{{expense.date | date: 'medium'}}</ion-note>
     </ion-item>
   </ion-list>
 
-  <h5 float-right>
+  <h5 float-right margin-right>
     <strong>Total: {{data.transactions | pluck:'amount' | sum | currency: "PHP": 2}}</strong>
   </h5>
 

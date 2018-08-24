@@ -24,23 +24,23 @@
   </ion-item> -->
 
   <ion-slides>
-
-    <ion-slide>
-      <ion-list>
-        <ion-item-divider float-left class="strong">Expense Wallets</ion-item-divider>
-        <ion-item *ngFor="let wallet of wallets | filterBy: ['type']: 'expense'" (click)="viewTransactions(wallet)">
-          <ion-avatar item-start>
-            <img src="../../assets/imgs/wit.png">
-          </ion-avatar>
-          <h6>
-            <strong>{{wallet.name | ucwords}}</strong>
-          </h6>
-          <p>Budget: {{wallet.amount | currency: "PHP" :2}} </p>
-          <p>Expenses: {{wallet.transactions | pluck:'amount' | sum | currency: "PHP" :2}}</p>
-          <p>Remaining: {{wallet.amount - (wallet.transactions | pluck:'amount' | sum) | currency: "PHP" :2}}</p>
-        </ion-item>
-      </ion-list>
-    </ion-slide>
+    
+      <ion-slide>
+        <ion-list>
+          <ion-item-divider float-left class="strong">Expense Wallets</ion-item-divider>
+          <ion-item *ngFor="let wallet of wallets | filterBy: ['type']: 'expense'" (click)="viewTransactions(wallet)">
+            <ion-avatar item-start>
+              <img src="../../assets/imgs/wit.png">
+            </ion-avatar>
+            <h6>
+              <strong>{{wallet.name | ucwords}}</strong>
+            </h6>
+            <p>Budget: {{wallet.amount | currency: "PHP" :2}} </p>
+            <p>Expenses: {{wallet.transactions | pluck:'amount' | sum | currency: "PHP" :2}}</p>
+            <p>Remaining: {{wallet.amount - (wallet.transactions | pluck:'amount' | sum) | currency: "PHP" :2}}</p>
+          </ion-item>
+        </ion-list>
+      </ion-slide>
 
     <ion-slide>
       <ion-list>

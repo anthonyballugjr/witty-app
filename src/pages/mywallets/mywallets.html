@@ -6,7 +6,7 @@
 -->
 <ion-header color="main">
   <ion-navbar>
-    <ion-title>Wallets</ion-title>
+    <ion-title>My Wallets</ion-title>
     <ion-buttons left>
       <button ion-button icon-only menuToggle>
         <ion-icon name='menu'></ion-icon>
@@ -18,39 +18,87 @@
   </ion-navbar>
 </ion-header>
 
-<ion-content color="primary">
+<ion-content padding>
   <!-- <ion-item>
     <ion-label>Select Period</ion-label>
     <ion-datetime displayFormat="MM/YYYY" pickerFormat="MMMM YYYY" [(ngModel)]="myDate"></ion-datetime>
   </ion-item> -->
 
-  <ion-list>
-    <ion-item-divider float-left class="strong" color="light">Expense Wallets</ion-item-divider>
-    <ion-item *ngFor="let wallet of wallets | filterBy: ['type']: 'expense'">
-      <p>{{wallet.name}}</p>
-      <p>{{wallet.amount}}</p>
-      <p>Expenses: {{wallet.transactions | pluck:'amount' | sum}}</p>
-    </ion-item>
-
-    <ion-item-divider float-left class="strong" color="light">Savings Wallets</ion-item-divider>
-    <ion-item *ngFor="let wallet of wallets | filterBy: ['type']: 'savings'">
-      <p>{{wallet.name}}</p>
-    </ion-item>
-
-    <ion-item-divider float-left class="strong" color="light">Bills Wallets</ion-item-divider>
-    <ion-item *ngFor="let wallet of wallets | filterBy: ['type']: 'bills'">
-      <p>{{wallet.name}}</p>
-    </ion-item>
-
-    <ion-item-divider float-left class="strong" color="light">Debts Wallets</ion-item-divider>
-    <ion-item *ngFor="let wallet of wallets | filterBy: ['type']: 'debts'">
-      <p>{{wallet.name}}</p>
-    </ion-item>
-  </ion-list>
-
-  <br>
   <div>
-    <ion-item>E total: {{wallets | filterBy: ['type']: 'expense' | pluck:'amount' | sum}}</ion-item>
+    <ion-segment [(ngModel)]="x">
+      <ion-segment-button value="expense">
+        Expenses
+      </ion-segment-button>
+      <ion-segment-button value="savings">
+        Savings
+      </ion-segment-button>
+      <ion-segment-button value="bills">
+        Bills
+      </ion-segment-button>
+      <ion-segment-button value="debts">
+        Debts
+      </ion-segment-button>
+    </ion-segment>
+
+  </div>
+
+  <div [ngSwitch]="x">
+    <ion-list *ngSwitchCase="'expense'">
+      <ion-item *ngFor="let wallet of wallets | filterBy: ['type']: 'expense'">
+        <p class="strong">{{wallet.name}}</p>
+      </ion-item>
+    </ion-list>
+
+    <ion-list *ngSwitchCase="'savings'">
+      <ion-item *ngFor="let wallet of wallets | filterBy: ['type']: 'savings'">
+        <p class="strong">{{wallet.name}}</p>
+      </ion-item>
+    </ion-list>
+
+    <ion-list *ngSwitchCase="'bills'">
+      <ion-item *ngFor="let wallet of wallets | filterBy: ['type']: 'bills'">
+        <p class="strong">{{wallet.name}}</p>
+      </ion-item>
+    </ion-list>
+
+    <ion-list *ngSwitchCase="'debts'">
+      <ion-item *ngFor="let wallet of wallets | filterBy: ['type']: 'debts'">
+        <p class="strong">{{wallet.name}}</p>
+      </ion-item>
+    </ion-list>
+  </div>
+
+  <div class="calender-header">
+    <ion-row class="calender-month">
+      <ion-col col-2 (click)="goToLastMonth()">
+        <ion-icon name="arrow-back"></ion-icon>
+      </ion-col>
+      <ion-col col-8>{{currentMonth}} {{currentYear}}</ion-col>
+      <ion-col col-2 (click)="goToNextMonth()">
+        <ion-icon name="arrow-forward"></ion-icon>
+      </ion-col>
+    </ion-row>
+  </div>
+  <div class="calendar-body">
+    <ion-grid>
+      <ion-row class="calender-weekday">
+        <ion-col>Sun</ion-col>
+        <ion-col>Mon</ion-col>
+        <ion-col>Tue</ion-col>
+        <ion-col>Wed</ion-col>
+        <ion-col>Thu</ion-col>
+        <ion-col>Fri</ion-col>
+        <ion-col>Sat</ion-col>
+      </ion-row>
+      <ion-row class="calendar-date">
+        <ion-col col-1 *ngFor="let lastDay of DaysInLastMonth" class="last-month">{{lastDay}}</ion-col>
+        <ion-col col-1 *ngFor="let day of daysInThisMonth">
+          <span class="currentDate" *ngIf="currentDate === day; else otherDate">{{day}}</span>
+          <ng-template #otherDate class="otherDate">{{day}}</ng-template>
+        </ion-col>
+        <ion-col col-1 *ngFor="let nextDay of daysInNextMonth" class="next-month">{{nextDay}}</ion-col>
+      </ion-row>
+    </ion-grid>
   </div>
 
 </ion-content>

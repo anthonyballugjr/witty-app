@@ -20,14 +20,14 @@
 
 <ion-content padding>
   <ion-note>Slide an item to the left for options</ion-note>
-  <ion-list>
+  <ion-list no-lines>
     <ion-item-divider no-padding class="strong">Expenses Wallet</ion-item-divider>
     <ion-item-sliding *ngFor="let category of categories | filterBy: ['type']: 'expense'">
       <ion-item>
         {{category.name | ucwords}}
       </ion-item>
       <ion-item-options side="right">
-        <button ion-button color="primary">
+        <button ion-button color="primary" (click)="editCategory(category)">
           <ion-icon name="text"></ion-icon>
           Edit
         </button>
