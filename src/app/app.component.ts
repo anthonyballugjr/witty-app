@@ -72,6 +72,7 @@ export class MyApp {
       this.menuCtrl.close();
       this.loading.dismiss();
       this.app.getRootNav().setRoot(LoginPage);
+      this.presentToast('Signed Out');
     }, (err) => {
       this.loading.dismiss();
       this.presentToast(err);
@@ -83,7 +84,7 @@ export class MyApp {
       message: msg,
       duration: 3000,
       position: 'bottom',
-      dismissOnPageChange: true
+      dismissOnPageChange: false
     });
     toast.onDidDismiss(() => {
       console.log('Dismissed toast');

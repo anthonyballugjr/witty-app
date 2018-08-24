@@ -23,8 +23,8 @@ export class AddwalletPage {
     'type': '',
     'amount': ''
   }
-  types=['savings', 'expense']; 
-  
+  types = ['savings', 'expense', 'bills', 'debts'];
+
   loading: any;
 
   constructor(public loadCtrl: LoadingController, private formBldr: FormBuilder, public alertCtrl: AlertController, public navCtrl: NavController, public categoryProvider: CategoryProvider, public navParams: NavParams) {
@@ -33,7 +33,7 @@ export class AddwalletPage {
   private addWalletForm = this.formBldr.group({
     name: ["", Validators.required],
     budget: ["", Validators.required],
-    type:["", Validators.required]
+    type: ["", Validators.required]
   });
 
   addWallet() {

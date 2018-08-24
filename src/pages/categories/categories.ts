@@ -32,5 +32,8 @@ export class CategoriesPage {
         console.log(this.categories);
       });
   }
+editCategory(data){
+  console.log(data);
+}
 
 }
