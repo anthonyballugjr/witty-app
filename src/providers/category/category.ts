@@ -47,7 +47,7 @@ export class CategoryProvider {
 
   getWallets() {
     return new Promise(resolve => {
-      this.http.get(this.apiUrl + '/wallets/user/' + localStorage.userId).subscribe(data => {
+      this.http.get(this.apiUrl + '/wallets/user/' + localStorage.userId, this.authHeader).subscribe(data => {
         this.categoryData = data;
         resolve(data);
       }, err => {
@@ -65,6 +65,17 @@ export class CategoryProvider {
         reject(err);
       });
     });
+  }
+
+  addTransaction(data){
+    return new Promise((resolve, reject)=>{
+      console.log(data);
+      this.http.post(this.apiUrl+'/transactions', data, this.authHeader).subscribe(res=>{
+        resolve(res);
+      }, (err)=>{
+        reject(err)
+      });
+    })
   }
 
 }
