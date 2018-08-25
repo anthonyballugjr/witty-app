@@ -7,19 +7,18 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-title>Notifications</ion-title>
 
-    <ion-buttons right>
-      <button ion-button icon-only (click)='close()'>
-        <ion-icon name="close"></ion-icon>
-      </button>
-    </ion-buttons>
+   
+
+    <ion-title>notifications</ion-title>
+
   </ion-navbar>
 
 </ion-header>
 
 
 <ion-content padding>
+
   <form (ngSubmit)="submit()">
     <ion-list>
       <ion-item>
@@ -43,4 +42,5 @@
       <button ion-button full round>Add Notification</button>
     </div>
   </form>
+
 </ion-content>

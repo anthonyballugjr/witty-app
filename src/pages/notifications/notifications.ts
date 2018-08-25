@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
+
 import { IonicPage, NavController, NavParams, ViewController, AlertController, Platform } from 'ionic-angular';
 import { LocalNotifications } from '@ionic-native/local-notifications';
+
 
 /**
  * Generated class for the NotificationsPage page.
@@ -16,14 +18,17 @@ import { LocalNotifications } from '@ionic-native/local-notifications';
 })
 export class NotificationsPage {
 
+
   data = { title:'', description:'', date:'', time:'' };
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public viewCtrl: ViewController, public alertCtrl: AlertController, public localNotif: LocalNotifications, public platform: Platform) {
+
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad NotificationsPage');
   }
+
 
   submit() {
     console.log(this.data);
