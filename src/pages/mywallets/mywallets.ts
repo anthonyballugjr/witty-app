@@ -18,6 +18,7 @@ import { TabsPage } from '../tabs/tabs';
 })
 export class MywalletsPage {
   wallets: any;
+  transactions: any = [];
 
   date: any;
   daysInThisMonth: any;
@@ -40,7 +41,12 @@ export class MywalletsPage {
     this.categoryProvider.getWallets()
       .then(data => {
         this.wallets = data;
-        console.log(this.wallets);
+        for (let x of this.wallets) {
+          for (let i of x.transactions) {
+            this.transactions.push(i);
+          }
+        }
+        console.log('transactions', this.transactions);
       });
   }
 
@@ -90,8 +96,8 @@ export class MywalletsPage {
     this.getDaysOfMonth();
   }
 
-  goToNextMonth(){
-    this.date = new Date(this.date.getFullYear(), this.date.getMonth()+2,0);
+  goToNextMonth() {
+    this.date = new Date(this.date.getFullYear(), this.date.getMonth() + 2, 0);
     this.getDaysOfMonth();
   }
 
