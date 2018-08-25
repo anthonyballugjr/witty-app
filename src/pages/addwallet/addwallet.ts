@@ -79,6 +79,7 @@ export class AddwalletPage {
       buttons: [
         {
           text: 'Cancel',
+          role: 'cancel',
           handler: () => {
             console.log('Cancelled');
           }
@@ -94,6 +95,5 @@ export class AddwalletPage {
     });
     confirm.present();
   }
-
 
 }
