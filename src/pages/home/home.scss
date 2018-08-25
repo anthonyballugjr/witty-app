@@ -1,9 +1,10 @@
+page-home{
+}
 .safe{
     color: white;
 }
-.unsafe{
-    background-color: red;
-    color: red;
+.danger{
+    font-weight: bold;
 }
 .swiper-slide{
     overflow-y: scroll;
@@ -11,7 +12,13 @@
 }
 ion-slides{
     margin: 0 auto;
+    .swiper-pagination-progress .swiper-pagination-progressbar {
+        background: color($colors, sub);
+      }
 }
+
+
+
 
 
 

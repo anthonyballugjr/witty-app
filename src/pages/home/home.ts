@@ -53,7 +53,6 @@ export class HomePage {
 
   viewTransactions(data) {
     this.navCtrl.push(ViewtransactionsPage, { data: data });
-    console.log(data);
   }
 
   addCategory() {
