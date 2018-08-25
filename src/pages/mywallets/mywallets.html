@@ -39,7 +39,6 @@
         Debts
       </ion-segment-button>
     </ion-segment>
-
   </div>
 
   <div [ngSwitch]="x">
@@ -67,6 +66,12 @@
       </ion-item>
     </ion-list>
   </div>
+
+
+  <ion-list>
+    <ion-list-header>Expenses</ion-list-header>
+    <ion-item row-no-padding *ngFor="let x of transactions">{{x.desc | orderBy: '-x.date'}}</ion-item>
+  </ion-list>
 
   <div class="calender-header">
     <ion-row class="calender-month">
