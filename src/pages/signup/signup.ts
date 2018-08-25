@@ -28,14 +28,13 @@ export class SignupPage {
     }
   }
 
-  constructor(private alertCtrl: AlertController, private formBldr: FormBuilder, public http: HttpClient, public navCtrl: NavController, public navParams: NavParams, public authProvider: AuthProvider, private toastCtrl: ToastController, private loadingCtrl: LoadingController) {
+  constructor(private alertCtrl: AlertController, public formBldr: FormBuilder, public http: HttpClient, public navCtrl: NavController, public navParams: NavParams, public authProvider: AuthProvider, private toastCtrl: ToastController, private loadingCtrl: LoadingController) {
   }
 
   private signUpForm = this.formBldr.group({
-    email: ["", Validators.required],
+    email: ["", Validators.required, Validators.pattern('^[a-zA-Z0-9._]+[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$')],
     password: ["", Validators.required],
-    firstName:[""],
-    lastName:[""]
+    nickname: ["", Validators.required]
   });
 
   ionViewDidLoad() {
@@ -52,7 +51,7 @@ export class SignupPage {
       console.log(result);
     }, (err) => {
       this.loading.dismiss();
-      if(err.status === 400){
+      if (err.status === 400) {
         this.errMessage = 'The specified email address is already in use'
       }
       this.presentToast(this.errMessage);
