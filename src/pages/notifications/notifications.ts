@@ -36,7 +36,7 @@ export class NotificationsPage {
        sound: this.setSound(),
     });
     let alert = this.alertCtrl.create({
-      title: 'Congratulation!',
+      title: 'Notice',
       subTitle: 'Notification setup successfully at '+date,
       buttons: ['OK']
     });
