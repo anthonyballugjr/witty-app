@@ -3,7 +3,16 @@
     <ion-title>Home</ion-title>
     <ion-buttons left>
       <button ion-button icon-only menuToggle>
-        <ion-icon name='menu'></ion-icon>
+        <ion-icon name="menu"></ion-icon>
+      </button>
+    </ion-buttons>
+    <ion-buttons right>
+      <button (click)="showPopover($event)" ion-button icon-only>
+        <ion-icon name="card"></ion-icon>
+      </button>
+      <button id="notif-button" ion-button icon-only>
+        <ion-badge id="notif-badge" color="buttons">{{counter.length}}</ion-badge>
+        <ion-icon name="notifications"></ion-icon>
       </button>
     </ion-buttons>
 

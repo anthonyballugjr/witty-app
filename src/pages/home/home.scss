@@ -1,22 +1,32 @@
 page-home{
-}
-.safe{
-    color: white;
-}
-.danger{
-    font-weight: bold;
-}
-.swiper-slide{
-    overflow-y: scroll;
-    display: block;
-}
-ion-slides{
-    margin: 0 auto;
-    .swiper-pagination-progress .swiper-pagination-progressbar {
-        background: color($colors, sub);
-      }
-}
+    .safe{
+        color: white;
+    }
+    .danger{
+        font-weight: bold;
+    }
+    .swiper-slide{
+        overflow-y: scroll;
+        display: block;
+    }
+    ion-slides{
+        margin: 0 auto;
+        .swiper-pagination-progress .swiper-pagination-progressbar {
+            background: color($colors, sub);
+          }
+    }
+    #notif-badge{
+        position: absolute;
+        top: -0.2rem;
+        right: -0.2rem;
+        opacity: 0.9;
+        border-radius:100%;
+        & ~ion-icon{
+            margin-right:1.2rem;
+        }
 
+    }
+}
 
 
 

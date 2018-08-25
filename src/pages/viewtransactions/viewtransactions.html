@@ -26,7 +26,7 @@
     <strong>Total: {{data.transactions | pluck:'amount' | sum | currency: "PHP": 2}}</strong>
   </h5>
 
-  <ion-fab right bottom>
+  <ion-fab left bottom>
     <button ion-fab mini color="buttons" (click)="showAlert(data.transactions)">
       <ion-icon name="add"></ion-icon>
     </button>

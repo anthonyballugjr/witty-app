@@ -131,7 +131,7 @@ export class ViewtransactionsPage {
       this.result = result;
       this.data.transactions.push(this.result);
       console.log(this.data.transactions);
-      this.navCtrl.getActive();
+      this.navCtrl.pop();
     }, (err) => {
       this.loading.dismiss();
       console.log(err);
