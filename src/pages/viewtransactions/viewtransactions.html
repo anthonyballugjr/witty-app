@@ -14,17 +14,11 @@
 
 
 <ion-content>
-  <ion-list no-lines>
-    <ion-item *ngFor="let expense of data.transactions">
-      <ion-row>
-        <ion-col>
-          <h5>{{expense.desc | ucwords}}</h5>
-        </ion-col>
-        <ion-col>
-          <ion-note float-right>{{expense.amount | currency: "PHP": 2}}</ion-note>
-        </ion-col>
-      </ion-row>
+  <ion-list *ngIf="data" no-lines>
+    <ion-item *ngFor="let expense of data.transactions | reverse" text-wrap>
+      <h5>{{expense.desc | ucwords}}</h5>
       <ion-note>{{expense.date | date: 'medium'}}</ion-note>
+      <ion-note float-right>{{expense.amount | currency: "PHP": 2}}</ion-note>
     </ion-item>
   </ion-list>
 
@@ -33,7 +27,7 @@
   </h5>
 
   <ion-fab right bottom>
-    <button ion-fab color="buttons">
+    <button ion-fab mini color="buttons" (click)="showAlert(data.transactions)">
       <ion-icon name="add"></ion-icon>
     </button>
   </ion-fab>
