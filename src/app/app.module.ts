@@ -15,6 +15,7 @@ import { SignupPage } from '../pages/signup/signup';
 import { LoginPage } from '../pages/login/login';
 import { AddwalletPage } from '../pages/addwallet/addwallet';
 import { ViewtransactionsPage } from '../pages/viewtransactions/viewtransactions';
+import { NotificationsPage } from '../pages/notifications/notifications';
 //import { ListPage } from '../pages/list/list';
 import { TabsPage } from '../pages/tabs/tabs';
 import { ProfilePage } from '../pages/profile/profile';
@@ -24,6 +25,8 @@ import { MywalletsPage } from '../pages/mywallets/mywallets';
 //providers
 import { CategoryProvider } from '../providers/category/category';
 import { AuthProvider } from '../providers/auth/auth';
+// notification plugin
+import { LocalNotifications } from '@ionic-native/local-notifications';
 
 
 @NgModule({
@@ -39,7 +42,8 @@ import { AuthProvider } from '../providers/auth/auth';
     ViewtransactionsPage,
     ChallengesPage,
     MywalletsPage,
-    HeaderMenuComponent
+    HeaderMenuComponent,
+    NotificationsPage
   ],
   imports: [
     BrowserModule,
@@ -59,7 +63,8 @@ import { AuthProvider } from '../providers/auth/auth';
     CategoriesPage,
     ChallengesPage,
     MywalletsPage,
-    ViewtransactionsPage
+    ViewtransactionsPage,
+    NotificationsPage
   ],
   providers: [
     StatusBar,
@@ -67,7 +72,8 @@ import { AuthProvider } from '../providers/auth/auth';
     Facebook,
     CategoryProvider,
     { provide: ErrorHandler, useClass: IonicErrorHandler },
-    AuthProvider
+    AuthProvider,
+    LocalNotifications
   ]
 })
 export class AppModule { }

@@ -1,5 +1,8 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+
+import { IonicPage, NavController, NavParams, ViewController, AlertController, Platform } from 'ionic-angular';
+import { LocalNotifications } from '@ionic-native/local-notifications';
+
 
 /**
  * Generated class for the NotificationsPage page.
@@ -15,11 +18,43 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 })
 export class NotificationsPage {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+
+  data = { title:'', description:'', date:'', time:'' };
+
+  constructor(public navCtrl: NavController, public navParams: NavParams, public viewCtrl: ViewController, public alertCtrl: AlertController, public localNotif: LocalNotifications, public platform: Platform) {
+
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad NotificationsPage');
+  }
+
+
+  submit() {
+    console.log(this.data);
+    var date = new Date(this.data.date+" "+this.data.time);
+    console.log(date);
+    this.localNotif.schedule({
+       text: this.data.title + ":<br>" + this.data.description,
+       trigger : {at: date},
+       led: 'FF0000',
+       sound: this.setSound(),
+    });
+    let alert = this.alertCtrl.create({
+      title: 'Congratulation!',
+      subTitle: 'Notification setup successfully at '+date,
+      buttons: ['OK']
+    });
+    alert.present();
+    this.data = { title:'', description:'', date:'', time:'' };
+  }
+
+  setSound() {
+    return '../../assets/sounds/chaching.wav'
+  }
+
+  close(){
+    this.viewCtrl.dismiss();
   }
 
 }
