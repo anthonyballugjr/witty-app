@@ -52,7 +52,7 @@ export class HomePage {
   }
 
   viewTransactions(data) {
-    this.navCtrl.push(ViewtransactionsPage, { data: data });
+    this.navCtrl.setRoot(ViewtransactionsPage, { data: data });
   }
 
   addCategory() {
