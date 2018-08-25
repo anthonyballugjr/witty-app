@@ -25,7 +25,7 @@
   <ion-list>
     <ion-item *ngFor="let x of data; let i=index" text-wrap (click)="toggleGroup(i)" [ngClass]="{active:isGroupShown(i)}">
       <h3>{{x.title}}
-        <ion-icon color="main" item-end [name]="isGroupShown(i) ? 'arrow-dropdown': 'arrow-dropright'"></ion-icon>
+        <ion-icon color="main" item-right [name]="isGroupShown(i) ? 'arrow-dropdown': 'arrow-dropright'"></ion-icon>
       </h3>
       <ion-list *ngIf="isGroupShown(i)">
         <ion-item>{{x.details}}</ion-item>
