@@ -41,7 +41,7 @@ export class MyApp {
       { title: 'Home', icon: 'home', component: TabsPage },
       { title: 'Profile', icon: 'person', component: ProfilePage },
       { title: 'Manage Categories', icon: 'list-box', component: CategoriesPage },
-      { title: 'Wallets(debug mode)', icon: 'baseball', component: MywalletsPage }
+      { title: 'My Debug Page', icon: 'baseball', component: MywalletsPage }
     ];
   }
 
