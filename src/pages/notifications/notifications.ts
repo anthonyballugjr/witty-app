@@ -30,7 +30,7 @@ export class NotificationsPage {
     var date = new Date(this.data.date+" "+this.data.time);
     console.log(date);
     this.localNotif.schedule({
-       text: 'Delayed ILocalNotification',
+       text: this.data.title + ":<br>" + this.data.description,
        trigger : {at: date},
        led: 'FF0000',
        sound: this.setSound(),
@@ -45,11 +45,7 @@ export class NotificationsPage {
   }
 
   setSound() {
-    if (this.platform.is('android')) {
-      return 'file://assets/sounds/Rooster.mp3'
-    } else {
-      return 'file://assets/sounds/Rooster.caf'
-    }
+    return '../../assets/sounds/chaching.wav'
   }
 
   close(){
