@@ -1,7 +1,8 @@
-import { Component, NgZone } from '@angular/core';
+import { Component, NgZone, ChangeDetectorRef } from '@angular/core';
 import { IonicPage, NavController, NavParams, AlertController, LoadingController, ToastController } from 'ionic-angular';
 
 import { CategoryProvider } from '../../providers/category/category';
+
 
 /**
  * Generated class for the ViewtransactionsPage page.
@@ -26,19 +27,14 @@ export class ViewtransactionsPage {
   loading: any;
   result: any;
 
-  constructor(private zone: NgZone, public categoryProvider: CategoryProvider, public toastCtrl: ToastController, public loadingCtrl: LoadingController, public alertCtrl: AlertController, public navCtrl: NavController, public navParams: NavParams) {
+  constructor(private ref: ChangeDetectorRef, private zone: NgZone, public categoryProvider: CategoryProvider, public toastCtrl: ToastController, public loadingCtrl: LoadingController, public alertCtrl: AlertController, public navCtrl: NavController, public navParams: NavParams) {
     this.data = this.navParams.get('data');
     console.log(this.data);
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad ViewtransactionsPage');
-    this.data = this.navParams.get('data');
-    console.log(this.data.transactions)
-  }
-
-  ionViewDidEnter() {
-
+    console.log(this.data.transactions);
+    console.log('ionViewDidLoad ViewtransactionsPage');   
   }
 
   showAlert() {
@@ -133,10 +129,9 @@ export class ViewtransactionsPage {
       this.prompt.dismiss();
       console.log(result);
       this.result = result;
-      this.zone.run(()=>{
-        this.data.transactions.push(this.result);
-      })
+      this.data.transactions.push(this.result);
       console.log(this.data.transactions);
+      this.navCtrl.getActive();
     }, (err) => {
       this.loading.dismiss();
       console.log(err);

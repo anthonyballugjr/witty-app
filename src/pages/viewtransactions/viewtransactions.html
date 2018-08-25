@@ -15,7 +15,7 @@
 
 <ion-content>
   <ion-list *ngIf="data" no-lines>
-    <ion-item *ngFor="let expense of data.transactions | reverse" text-wrap>
+    <ion-item *ngFor="let expense of data.transactions | reverse" text-wrap no-margin>
       <h5>{{expense.desc | ucwords}}</h5>
       <ion-note>{{expense.date | date: 'medium'}}</ion-note>
       <ion-note float-right>{{expense.amount | currency: "PHP": 2}}</ion-note>
