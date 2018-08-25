@@ -1,12 +1,16 @@
 import { Component } from '@angular/core';
+
 import { NavController, NavParams, ToastController, PopoverController } from 'ionic-angular';
+
 
 import { HttpClient } from '@angular/common/http';
 
 import { CategoryProvider } from '../../providers/category/category';
 import { ViewtransactionsPage } from '../viewtransactions/viewtransactions';
 import { AddwalletPage } from '../addwallet/addwallet';
+
 import { MywalletsPage } from '../mywallets/mywallets';
+
 
 
 @Component({
@@ -27,7 +31,9 @@ export class HomePage {
   y = this.n.getFullYear();
   period = this.m + " " + this.y;
 
+
   constructor(private popCtrl: PopoverController, private toastCtrl: ToastController, public navParams: NavParams, public navCtrl: NavController, public http: HttpClient, public categoryProvider: CategoryProvider) {
+
     this.getWallets();
   }
 
@@ -74,6 +80,11 @@ export class HomePage {
 
   addCategory() {
     this.navCtrl.push(AddwalletPage);
+  }
+
+  showNotificationsModal(){
+    let notification = this.modalCtrl.create(NotificationsPage);
+    notification.present();
   }
 
 }
