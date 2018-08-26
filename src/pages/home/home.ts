@@ -9,7 +9,7 @@ import { CategoryProvider } from '../../providers/category/category';
 import { ViewtransactionsPage } from '../viewtransactions/viewtransactions';
 import { AddwalletPage } from '../addwallet/addwallet';
 
-import { MywalletsPage } from '../mywallets/mywallets';
+import { NotificationsPage } from '../notifications/notifications';
 
 
 
@@ -38,13 +38,11 @@ export class HomePage {
   }
 
   showPopover(myEvent) {
-    let pop = this.popCtrl.create(MywalletsPage);
+    let pop = this.popCtrl.create(NotificationsPage);
     pop.present({
       ev: myEvent
     });
   }
-
-
 
   presentToast() {
     let toast = this.toastCtrl.create({
@@ -82,9 +80,6 @@ export class HomePage {
     this.navCtrl.push(AddwalletPage);
   }
 
-  showNotificationsModal(){
-    let notification = this.modalCtrl.create(NotificationsPage);
-    notification.present();
-  }
+
 
 }
