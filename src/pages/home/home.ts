@@ -1,12 +1,16 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams, ToastController, ModalController } from 'ionic-angular';
+
+import { NavController, NavParams, ToastController, PopoverController } from 'ionic-angular';
+
 
 import { HttpClient } from '@angular/common/http';
 
 import { CategoryProvider } from '../../providers/category/category';
 import { ViewtransactionsPage } from '../viewtransactions/viewtransactions';
 import { AddwalletPage } from '../addwallet/addwallet';
-import { NotificationsPage } from '../notifications/notifications';
+
+import { MywalletsPage } from '../mywallets/mywallets';
+
 
 
 @Component({
@@ -19,6 +23,7 @@ export class HomePage {
   expense: any;
   userData: any;
   data: any;
+  counter: any = [];
 
   month = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
   n = new Date();
@@ -26,9 +31,20 @@ export class HomePage {
   y = this.n.getFullYear();
   period = this.m + " " + this.y;
 
-  constructor(private toastCtrl: ToastController, public navParams: NavParams, public navCtrl: NavController, public http: HttpClient, public categoryProvider: CategoryProvider, public modalCtrl: ModalController) {
+
+  constructor(private popCtrl: PopoverController, private toastCtrl: ToastController, public navParams: NavParams, public navCtrl: NavController, public http: HttpClient, public categoryProvider: CategoryProvider) {
+
     this.getWallets();
   }
+
+  showPopover(myEvent) {
+    let pop = this.popCtrl.create(MywalletsPage);
+    pop.present({
+      ev: myEvent
+    });
+  }
+
+
 
   presentToast() {
     let toast = this.toastCtrl.create({
@@ -47,13 +63,19 @@ export class HomePage {
     this.categoryProvider.getWallets()
       .then(data => {
         this.wallets = data;
+        for (let i of this.wallets) {
+          for (let x of i.transactions) {
+            this.counter.push(x);
+          }
+        }
         this.expense = this.expenses
         console.log(this.wallets);
+        console.log(this.counter);
       });
   }
 
   viewTransactions(data) {
-    this.navCtrl.setRoot(ViewtransactionsPage, { data: data });
+    this.navCtrl.push(ViewtransactionsPage, { data: data });
   }
 
   addCategory() {
