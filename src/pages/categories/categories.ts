@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angular';
 import { CategoryProvider } from '../../providers/category/category';
-
+import { EditwalletPage } from '../editwallet/editwallet';
 /**
  * Generated class for the CategoriesPage page.
  *
@@ -17,7 +17,7 @@ import { CategoryProvider } from '../../providers/category/category';
 export class CategoriesPage {
   categories: any;
 
-  constructor(public categoryProvider: CategoryProvider, public navCtrl: NavController, public navParams: NavParams) {
+  constructor(public categoryProvider: CategoryProvider, public navCtrl: NavController, public navParams: NavParams, public alertCtrl: AlertController) {
     this.getCategories();
   }
 
@@ -32,8 +32,27 @@ export class CategoriesPage {
         console.log(this.categories);
       });
   }
-editCategory(data){
-  console.log(data);
+  
+  editCategory(){
+    this.navCtrl.push(EditwalletPage);
+  }
+
+delete(){
+  this.alertCtrl.create({
+    title: "Delete Transaction",
+    subTitle: "Are you sure you want do delete your transaction?",
+    buttons: [
+      {
+        text: "Cancel",
+        handler: data => {
+        console.log('Cancel clicked');
+        }
+      },
+      {
+        text: "Confirm",
+      }
+    ]
+  }).present();
 }
 
 }

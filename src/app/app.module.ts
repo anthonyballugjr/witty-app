@@ -22,6 +22,7 @@ import { ProfilePage } from '../pages/profile/profile';
 import { CategoriesPage } from '../pages/categories/categories';
 import { ChallengesPage } from '../pages/challenges/challenges';
 import { MywalletsPage } from '../pages/mywallets/mywallets';
+import { EditwalletPage } from '../pages/editwallet/editwallet';
 //providers
 import { CategoryProvider } from '../providers/category/category';
 import { AuthProvider } from '../providers/auth/auth';
@@ -43,7 +44,8 @@ import { LocalNotifications } from '@ionic-native/local-notifications';
     ChallengesPage,
     MywalletsPage,
     HeaderMenuComponent,
-    NotificationsPage
+    NotificationsPage,
+    EditwalletPage
   ],
   imports: [
     BrowserModule,
@@ -64,7 +66,8 @@ import { LocalNotifications } from '@ionic-native/local-notifications';
     ChallengesPage,
     MywalletsPage,
     ViewtransactionsPage,
-    NotificationsPage
+    NotificationsPage,
+    EditwalletPage
   ],
   providers: [
     StatusBar,

@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 
-import { NavController, NavParams, ToastController, PopoverController } from 'ionic-angular';
+import { NavController, NavParams, ToastController, PopoverController, ModalController } from 'ionic-angular';
 
 
 import { HttpClient } from '@angular/common/http';
@@ -10,6 +10,7 @@ import { ViewtransactionsPage } from '../viewtransactions/viewtransactions';
 import { AddwalletPage } from '../addwallet/addwallet';
 
 import { MywalletsPage } from '../mywallets/mywallets';
+import { NotificationsPage } from '../notifications/notifications';
 
 
 
@@ -32,7 +33,7 @@ export class HomePage {
   period = this.m + " " + this.y;
 
 
-  constructor(private popCtrl: PopoverController, private toastCtrl: ToastController, public navParams: NavParams, public navCtrl: NavController, public http: HttpClient, public categoryProvider: CategoryProvider) {
+  constructor(private popCtrl: PopoverController, private toastCtrl: ToastController, public navParams: NavParams, public navCtrl: NavController, public http: HttpClient, public categoryProvider: CategoryProvider, public modalCtrl: ModalController) {
 
     this.getWallets();
   }
@@ -48,7 +49,7 @@ export class HomePage {
 
   presentToast() {
     let toast = this.toastCtrl.create({
-      message: 'Hello, ' + localStorage.nickname,
+      message: 'Hello, ' + localStorage,
       duration: 3000,
       position: 'bottom',
       dismissOnPageChange: false
