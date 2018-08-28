@@ -18,30 +18,16 @@ export class NotificationsProvider {
   }
 
   addNotification(data) {
-    console.log(data);
     return new Promise((resolve, reject) => {
       var date = new Date(data.date + " " + data.time);
-      if (data.type === 'recurring') {
-        this.localNotification.schedule({
-          title: data.title,
-          text: data.description,
-          trigger: { at: date },
-          led: 'FF0000',
-          sound: this.setSound(),
-          icon: 'notifications',
-          every: 'month'
-        });
-      }
-      else {
-        this.localNotification.schedule({
-          title: data.title,
-          text: data.description,
-          trigger: { at: date },
-          led: 'FF0000',
-          sound: this.setSound(),
-          icon: 'notifications'
-        });
-      }
+      this.localNotification.schedule({
+        title: data.title,
+        text: data.description,
+        trigger: { at: date },
+        led: 'FF0000',
+        sound: this.setSound(),
+        icon: 'notifications'
+      });
       console.log(this.localNotification.getAllScheduled());
     });
   }
