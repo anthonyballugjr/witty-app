@@ -1,6 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 
-import { NavController, NavParams, ToastController, PopoverController } from 'ionic-angular';
+import { NavController, NavParams, ToastController, PopoverController, Slides } from 'ionic-angular';
 
 
 import { HttpClient } from '@angular/common/http';
@@ -10,6 +10,7 @@ import { ViewtransactionsPage } from '../viewtransactions/viewtransactions';
 import { AddwalletPage } from '../addwallet/addwallet';
 
 import { NotificationsPage } from '../notifications/notifications';
+import { BillsPage } from '../bills/bills';
 
 
 
@@ -18,12 +19,15 @@ import { NotificationsPage } from '../notifications/notifications';
   templateUrl: 'home.html'
 })
 export class HomePage {
+  @ViewChild('slider') slider: Slides;
+  page = 0;
   wallets: any;
   expenses: any;
   expense: any;
   userData: any;
   data: any;
   counter: any = [];
+  x:any;
 
   month = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
   n = new Date();
@@ -33,7 +37,6 @@ export class HomePage {
 
 
   constructor(private popCtrl: PopoverController, private toastCtrl: ToastController, public navParams: NavParams, public navCtrl: NavController, public http: HttpClient, public categoryProvider: CategoryProvider) {
-
     this.getWallets();
   }
 
@@ -80,6 +83,16 @@ export class HomePage {
     this.navCtrl.push(AddwalletPage);
   }
 
+  selectedTab(index){
+    this.slider.slideTo(index);
+  }
 
+  isChanged($event){
+    this.page = $event._snapIndex.toString();
+  }
+
+  goToBills(){
+    this.navCtrl.setRoot(BillsPage);
+  }
 
 }

@@ -20,12 +20,21 @@
 </ion-header>
 
 <ion-content color="primary">
-  <div>
+  <div no-padding no-margin>
     <strong>
       <p float-start margin-left>{{period}}</p>
     </strong>
     <p margin-right float-end>Total Budget: {{wallets | pluck:'amount' | sum | currency: "PHP" :2}}</p>
   </div>
+
+  <ion-segment color="main" [(ngModel)]="page" no-padding no-margin>
+    <ion-segment-button value="0" (click)="selectedTab(0)"></ion-segment-button>
+    <ion-segment-button value="1" (click)="selectedTab(1)"></ion-segment-button>
+    <ion-segment-button value="2" (click)="selectedTab(2)"></ion-segment-button>
+    <ion-segment-button value="3" (click)="selectedTab(3)"></ion-segment-button>
+    <ion-segment-button value="4" (click)="selectedTab(4)"></ion-segment-button>
+  </ion-segment>
+
 
 
   <!-- <ion-item>
@@ -33,7 +42,7 @@
     <ion-datetime displayFormat="MM/YYYY" pickerFormat="MMMM YYYY" [(ngModel)]="myDate"></ion-datetime>
   </ion-item> -->
 
-  <ion-slides paginationType="progress" pager="true" effect="flip">
+  <ion-slides #slider effect="flip" (ionSlideDidChange)="isChanged($event)" (ionSlideWillChange)="isChanged($event)" (ionSlideDrag)="isChanged($event)">
 
     <ion-slide>
       <ion-list>
@@ -67,13 +76,28 @@
           </h6>
           <p>Budget: {{wallet.amount | currency: "PHP" :2}}</p>
         </ion-item>
+      </ion-list>
+    </ion-slide>
+
+    <ion-slide>
+
+      <ion-list>
         <ion-item-divider float-left class="strong">Bills Wallet</ion-item-divider>
+        <div>
+          <button ion-button block clear (click)="goToBills()">Manage Bills</button>
+        </div>
         <ion-item *ngFor="let wallet of wallets | filterBy: ['type']: 'bills'">
           <h6>
             <strong>{{wallet.name}}</strong>
           </h6>
           <p>Budget: {{wallet.amount | currency: "PHP" :2}}</p>
         </ion-item>
+      </ion-list>
+      
+    </ion-slide>
+
+    <ion-slide>
+      <ion-list>
         <ion-item-divider float-left class="strong">Debts Wallets</ion-item-divider>
         <ion-item *ngFor="let wallet of wallets | filterBy: ['type']: 'debts'">
           <h6>
