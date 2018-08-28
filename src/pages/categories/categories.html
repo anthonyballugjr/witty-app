@@ -22,13 +22,13 @@
   <ion-note>SWIPE AN ITEM TO THE RIGHT FOR OPTIONS</ion-note>
   <ion-list no-lines>
     <ion-item-divider no-padding class="strong">Expenses Wallet</ion-item-divider>
-    <ion-item-sliding *ngFor="let category of categories | filterBy: ['type']: 'expense'">
+    <ion-item-sliding *ngFor="let wallet of wallets | filterBy: ['type']: 'expense'">
       <ion-item>
         {{category.name | ucwords}}
         <ion-icon item-end name="arrow-dropright"></ion-icon>
       </ion-item>
       <ion-item-options side="left">
-        <button ion-button clear color="primary" (click)="editCategory(category)">
+        <button ion-button clear color="primary" (click)="editWallet(wallet)">
           <ion-icon name="document"></ion-icon>
           Edit
         </button>
@@ -40,7 +40,7 @@
     </ion-item-sliding>
 
     <ion-item-divider no-padding class="strong">Savings Wallet</ion-item-divider>
-    <ion-item-sliding *ngFor="let category of categories | filterBy: ['type']: 'savings'">
+    <ion-item-sliding *ngFor="let wallet of wallets | filterBy: ['type']: 'savings'">
       <ion-item>
         {{category.name | ucwords}}
         <ion-icon item-end name="arrow-dropright"></ion-icon>
@@ -58,7 +58,7 @@
     </ion-item-sliding>
 
     <ion-item-divider no-padding class="strong">Bills Wallet</ion-item-divider>
-    <ion-item-sliding *ngFor="let category of categories | filterBy: ['type']: 'bills'">
+    <ion-item-sliding *ngFor="let wallet of wallets | filterBy: ['type']: 'bills'">
       <ion-item>
         {{category.name | ucwords}}
         <ion-icon item-end name="arrow-dropright"></ion-icon>
@@ -76,7 +76,7 @@
     </ion-item-sliding>
 
     <ion-item-divider no-padding class="strong">Debts Wallet</ion-item-divider>
-    <ion-item-sliding *ngFor="let category of categories | filterBy: ['type']: 'debts'">
+    <ion-item-sliding *ngFor="let wallet of wallets | filterBy: ['type']: 'debts'">
       <ion-item>
         {{category.name | ucwords}}
         <ion-icon item-end name="arrow-dropright"></ion-icon>
