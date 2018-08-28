@@ -1,6 +1,6 @@
 <ion-header color="main">
   <ion-navbar>
-    <ion-title>Home</ion-title>
+    <ion-title>My Wallets</ion-title>
     <ion-buttons left>
       <button ion-button icon-only menuToggle>
         <ion-icon name="menu"></ion-icon>
@@ -17,23 +17,33 @@
     </ion-buttons>
 
   </ion-navbar>
+
+  <ion-toolbar no-margin no-padding>
+    <ion-segment color="light" [(ngModel)]="page" no-padding no-margin>
+      <ion-segment-button value="0" (click)="selectedTab(0)">Expenses</ion-segment-button>
+      <ion-segment-button value="1" (click)="selectedTab(1)">Savings</ion-segment-button>
+      <ion-segment-button value="2" (click)="selectedTab(2)">Bills</ion-segment-button>
+      <ion-segment-button value="3" (click)="selectedTab(3)">Debts</ion-segment-button>
+      <ion-segment-button value="4" (click)="selectedTab(4)">Overview</ion-segment-button>
+    </ion-segment>
+
+    <div ion-text color="light" no-padding no-margin>
+      <strong>
+        <p float-start margin-left>{{period}}</p>
+      </strong>
+      <p margin-right float-end>Total Budget: {{wallets | pluck:'amount' | sum | currency: "PHP" :2}}</p>
+    </div>
+  </ion-toolbar>
 </ion-header>
 
-<ion-content color="primary">
-  <div no-padding no-margin>
-    <strong>
-      <p float-start margin-left>{{period}}</p>
-    </strong>
-    <p margin-right float-end>Total Budget: {{wallets | pluck:'amount' | sum | currency: "PHP" :2}}</p>
-  </div>
+<ion-content>
 
-  <ion-segment color="main" [(ngModel)]="page" no-padding no-margin>
-    <ion-segment-button value="0" (click)="selectedTab(0)"></ion-segment-button>
-    <ion-segment-button value="1" (click)="selectedTab(1)"></ion-segment-button>
-    <ion-segment-button value="2" (click)="selectedTab(2)"></ion-segment-button>
-    <ion-segment-button value="3" (click)="selectedTab(3)"></ion-segment-button>
-    <ion-segment-button value="4" (click)="selectedTab(4)"></ion-segment-button>
-  </ion-segment>
+
+
+
+
+
+
 
 
 
@@ -93,7 +103,7 @@
           <p>Budget: {{wallet.amount | currency: "PHP" :2}}</p>
         </ion-item>
       </ion-list>
-      
+
     </ion-slide>
 
     <ion-slide>
@@ -150,7 +160,5 @@
       <ion-icon name="add"></ion-icon>
     </button>
   </ion-fab>
-
-
 
 </ion-content>
