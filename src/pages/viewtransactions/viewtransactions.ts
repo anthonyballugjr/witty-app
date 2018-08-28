@@ -1,4 +1,4 @@
-import { Component, NgZone, ChangeDetectorRef } from '@angular/core';
+import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, AlertController, LoadingController, ToastController } from 'ionic-angular';
 
 import { CategoryProvider } from '../../providers/category/category';
@@ -26,15 +26,16 @@ export class ViewtransactionsPage {
   prompt: any;
   loading: any;
   result: any;
+  transactionData: any;
 
-  constructor(private ref: ChangeDetectorRef, private zone: NgZone, public categoryProvider: CategoryProvider, public toastCtrl: ToastController, public loadingCtrl: LoadingController, public alertCtrl: AlertController, public navCtrl: NavController, public navParams: NavParams) {
+  constructor(public categoryProvider: CategoryProvider, public toastCtrl: ToastController, public loadingCtrl: LoadingController, public alertCtrl: AlertController, public navCtrl: NavController, public navParams: NavParams) {
     this.data = this.navParams.get('data');
     console.log(this.data);
   }
 
   ionViewDidLoad() {
     console.log(this.data.transactions);
-    console.log('ionViewDidLoad ViewtransactionsPage');   
+    console.log('ionViewDidLoad ViewtransactionsPage');
   }
 
   showAlert() {

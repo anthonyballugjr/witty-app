@@ -13,7 +13,6 @@ export class NotificationsProvider {
   localNotifs: any = [];
 
   constructor(public http: HttpClient, public localNotification: LocalNotifications) {
-    this.localNotifs = this.localNotification.getAll();
     console.log('Hello NotificationsProvider Provider');
   }
 

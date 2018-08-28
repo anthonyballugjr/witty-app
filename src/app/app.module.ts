@@ -9,6 +9,7 @@ import { NgPipesModule } from 'ngx-pipes';
 import { Facebook } from '@ionic-native/facebook';
 import { Calendar } from '@ionic-native/calendar';
 import { LocalNotifications } from '@ionic-native/local-notifications';
+import { NgCalendarModule } from 'ionic2-calendar';
 //pages
 import { HeaderMenuComponent } from '../components/header-menu/header-menu';
 import { MyApp } from './app.component';
@@ -56,6 +57,7 @@ import { NotificationsProvider } from '../providers/notifications/notifications'
     BrowserModule,
     HttpClientModule,
     NgPipesModule,
+    NgCalendarModule,
     IonicModule.forRoot(MyApp),
   ],
   bootstrap: [IonicApp],
