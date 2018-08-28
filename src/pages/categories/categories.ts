@@ -15,21 +15,21 @@ import { CategoryProvider } from '../../providers/category/category';
   templateUrl: 'categories.html',
 })
 export class CategoriesPage {
-  categories: any;
+  wallets: any;
 
   constructor(public categoryProvider: CategoryProvider, public navCtrl: NavController, public navParams: NavParams) {
-    this.getCategories();
+    this.getWallets();
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad CategoriesPage');
   }
 
-  getCategories() {
+  getWallets() {
     this.categoryProvider.getWallets()
       .then(data => {
-        this.categories = data;
-        console.log(this.categories);
+        this.wallets = data;
+        console.log(this.wallets);
       });
   }
 editCategory(data){
