@@ -3,7 +3,7 @@ import { IonicPage, NavController, NavParams, AlertController, ModalController }
 import { NotificationsProvider } from '../../providers/notifications/notifications';
 import { Calendar } from '@ionic-native/calendar';
 
-import {AddBillPage} from '../../pages/add-bill/add-bill';
+import { AddBillPage } from '../../pages/add-bill/add-bill';
 
 /**
  * Generated class for the BillsPage page.
@@ -41,14 +41,14 @@ export class BillsPage {
     this.getNotifications();
   }
 
-  getNotifications(){
+  getNotifications() {
     this.notifProvider.getNotifications()
-    .then(data=>{
-      this.notifications = data;
-      console.log(this.notifications);
-    },err=>{
-      console.log(err);
-    });
+      .then(data => {
+        this.notifications = data;
+        console.log(this.notifications);
+      }, err => {
+        console.log(err);
+      });
   }
 
   addBill() {
@@ -61,7 +61,7 @@ export class BillsPage {
     this.monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
     this.getDaysOfMonth();
     this.loadEventThisMonth();
-  }  
+  }
 
   getDaysOfMonth() {
     this.daysInThisMonth = new Array();
@@ -118,19 +118,17 @@ export class BillsPage {
         msg.forEach(item => {
           this.eventList.push(item);
         });
-      },
-      (err) => {
+      }, err => {
         console.log(err);
-      }
-    );
-  }
+      });
+    }
 
   checkEvent(day) {
     var hasEvent = false;
-    var thisDate1 = this.date.getFullYear() + "-" + (this.date.getMonth() + 1) + "-" + day + " 00:00:00";
-    var thisDate2 = this.date.getFullYear() + "-" + (this.date.getMonth() + 1) + "-" + day + " 23:59:59";
+    var Date1 = this.date.getFullYear() + "-" + (this.date.getMonth() + 1) + "-" + day + " 00:00:00";
+    var Date2 = this.date.getFullYear() + "-" + (this.date.getMonth() + 1) + "-" + day + " 23:59:59";
     this.eventList.forEach(event => {
-      if (((event.startDate >= thisDate1) && (event.startDate <= thisDate2)) || ((event.endDate >= thisDate1) && (event.endDate <= thisDate2))) {
+      if (((event.startDate >= Date1) && (event.startDate <= Date2)) || ((event.endDate >= Date1) && (event.endDate <= Date2))) {
         hasEvent = true;
       }
     });
@@ -140,10 +138,10 @@ export class BillsPage {
   selectDate(day) {
     this.isSelected = false;
     this.selectedEvent = new Array();
-    var thisDate1 = this.date.getFullYear() + "-" + (this.date.getMonth() + 1) + "-" + day + " 00:00:00";
-    var thisDate2 = this.date.getFullYear() + "-" + (this.date.getMonth() + 1) + "-" + day + " 23:59:59";
+    var Date1 = this.date.getFullYear() + "-" + (this.date.getMonth() + 1) + "-" + day + " 00:00:00";
+    var Date2 = this.date.getFullYear() + "-" + (this.date.getMonth() + 1) + "-" + day + " 23:59:59";
     this.eventList.forEach(event => {
-      if (((event.startDate >= thisDate1) && (event.startDate <= thisDate2)) || ((event.endDate >= thisDate1) && (event.endDate <= thisDate2))) {
+      if (((event.startDate >= Date1) && (event.startDate <= Date2)) || ((event.endDate >= Date1) && (event.endDate <= Date2))) {
         this.isSelected = true;
         this.selectedEvent.push(event);
       }
