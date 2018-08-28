@@ -19,12 +19,11 @@
     <ion-item>
       <ion-label floating>Email</ion-label>
       <ion-input [(ngModel)]="registerData.user.email" type="email" formControlName="email" name="email"></ion-input>
-      <ion-item *ngIf="signUpForm.get('email').hasError('pattern') && signUpForm.get('email').touched" ion-text color="danger">Please Enter a valid email address</ion-item>
     </ion-item>
+    
     <ion-item>
       <ion-label floating>Password</ion-label>
       <ion-input [(ngModel)]="registerData.user.password" type="password" formControlName="password" name="password"></ion-input>
-      
     </ion-item>
 
     <ion-item>

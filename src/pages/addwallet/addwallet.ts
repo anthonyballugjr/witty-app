@@ -47,10 +47,7 @@ export class AddwalletPage {
     }, (err) => {
       this.loading.dismiss();
       console.log(err);
-      var errorMessage;
-      if (err.status === 500) {
-        errorMessage = this.wallet.name.toUpperCase() + ' already exists, Please Enter a new wallet name';
-      }
+      var errorMessage = err.errors.message;
       this.alert(errorMessage);
     });
   }

@@ -125,10 +125,10 @@ export class BillsPage {
 
   checkEvent(day) {
     var hasEvent = false;
-    var Date1 = this.date.getFullYear() + "-" + (this.date.getMonth() + 1) + "-" + day + " 00:00:00";
-    var Date2 = this.date.getFullYear() + "-" + (this.date.getMonth() + 1) + "-" + day + " 23:59:59";
+    var thisDate1 = this.date.getFullYear() + "-" + (this.date.getMonth() + 1) + "-" + day + " 00:00:00";
+    var thisDate2 = this.date.getFullYear() + "-" + (this.date.getMonth() + 1) + "-" + day + " 23:59:59";
     this.eventList.forEach(event => {
-      if (((event.startDate >= Date1) && (event.startDate <= Date2)) || ((event.endDate >= Date1) && (event.endDate <= Date2))) {
+      if (((event.startDate >= thisDate1) && (event.startDate <= thisDate2)) || ((event.endDate >= thisDate1) && (event.endDate <= thisDate2))) {
         hasEvent = true;
       }
     });
@@ -138,10 +138,10 @@ export class BillsPage {
   selectDate(day) {
     this.isSelected = false;
     this.selectedEvent = new Array();
-    var Date1 = this.date.getFullYear() + "-" + (this.date.getMonth() + 1) + "-" + day + " 00:00:00";
-    var Date2 = this.date.getFullYear() + "-" + (this.date.getMonth() + 1) + "-" + day + " 23:59:59";
+    var thisDate1 = this.date.getFullYear() + "-" + (this.date.getMonth() + 1) + "-" + day + " 00:00:00";
+    var thisDate2 = this.date.getFullYear() + "-" + (this.date.getMonth() + 1) + "-" + day + " 23:59:59";
     this.eventList.forEach(event => {
-      if (((event.startDate >= Date1) && (event.startDate <= Date2)) || ((event.endDate >= Date1) && (event.endDate <= Date2))) {
+      if (((event.startDate >= thisDate1) && (event.startDate <= thisDate2)) || ((event.endDate >= thisDate1) && (event.endDate <= thisDate2))) {
         this.isSelected = true;
         this.selectedEvent.push(event);
       }
