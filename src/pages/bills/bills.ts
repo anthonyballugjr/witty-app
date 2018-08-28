@@ -3,7 +3,7 @@ import { IonicPage, NavController, NavParams, AlertController, ModalController }
 import { NotificationsProvider } from '../../providers/notifications/notifications';
 import { Calendar } from '@ionic-native/calendar';
 
-import { AddBillPage } from '../../pages/add-bill/add-bill';
+import {AddBillPage} from '../../pages/add-bill/add-bill';
 
 /**
  * Generated class for the BillsPage page.
@@ -19,7 +19,6 @@ import { AddBillPage } from '../../pages/add-bill/add-bill';
 })
 export class BillsPage {
 
-  events: any;
   notifications: any;
 
   date: any;
@@ -40,17 +39,16 @@ export class BillsPage {
   ionViewDidLoad() {
     console.log('ionViewDidLoad BillsPage');
     this.getNotifications();
-    // this.loadEventThisMonth();    
   }
 
-  getNotifications() {
+  getNotifications(){
     this.notifProvider.getNotifications()
-      .then(data => {
-        this.notifications = data;
-        console.log(this.notifications);
-      }, err => {
-        console.log(err);
-      });
+    .then(data=>{
+      this.notifications = data;
+      console.log(this.notifications);
+    },err=>{
+      console.log(err);
+    });
   }
 
   addBill() {
@@ -62,8 +60,8 @@ export class BillsPage {
     this.date = new Date();
     this.monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
     this.getDaysOfMonth();
-    // this.loadEventThisMonth();
-  }
+    this.loadEventThisMonth();
+  }  
 
   getDaysOfMonth() {
     this.daysInThisMonth = new Array();
@@ -119,9 +117,7 @@ export class BillsPage {
       (msg) => {
         msg.forEach(item => {
           this.eventList.push(item);
-          this.events.push(item);
         });
-        
       },
       (err) => {
         console.log(err);
