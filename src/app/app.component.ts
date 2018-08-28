@@ -40,7 +40,7 @@ export class MyApp {
     this.pages = [
       { title: 'Home', icon: 'home', component: TabsPage },
       { title: 'Profile', icon: 'person', component: ProfilePage },
-      { title: 'Manage Categories', icon: 'list-box', component: CategoriesPage },
+      { title: 'Manage Wallets', icon: 'list-box', component: CategoriesPage },
       { title: 'My Debug Page', icon: 'baseball', component: MywalletsPage }
     ];
   }
