@@ -59,8 +59,8 @@ export class AddBillPage {
       this.calendar.createEventInteractivelyWithOptions(this.bill.title, " ", this.bill.description, new Date(this.bill.date), new Date(this.bill.date), options)
         .then((result) => {
           console.log(result);
+
           this.showAlert('Success', 'Successfully Saved');
-          this.saveNotification();
         }, (err) => {
           console.log(err);
         });
@@ -69,7 +69,6 @@ export class AddBillPage {
         .then((result) => {
           console.log(result);
           this.showAlert('Success', 'Successfully Saved');
-          this.saveNotification();
         }, (err) => {
           console.log(err);
         });
