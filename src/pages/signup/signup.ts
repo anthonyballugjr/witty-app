@@ -32,7 +32,7 @@ export class SignupPage {
   }
 
   private signUpForm = this.formBldr.group({
-    email: ["", Validators.required, Validators.pattern('^[a-zA-Z0-9._]+[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$')],
+    email: ["", Validators.required],
     password: ["", Validators.required],
     nickname: ["", Validators.required]
   });
