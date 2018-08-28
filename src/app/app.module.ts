@@ -7,6 +7,8 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import { HttpClientModule } from '@angular/common/http';
 import { NgPipesModule } from 'ngx-pipes';
 import { Facebook } from '@ionic-native/facebook';
+import { Calendar } from '@ionic-native/calendar';
+import { LocalNotifications } from '@ionic-native/local-notifications';
 //pages
 import { HeaderMenuComponent } from '../components/header-menu/header-menu';
 import { MyApp } from './app.component';
@@ -22,11 +24,14 @@ import { ProfilePage } from '../pages/profile/profile';
 import { CategoriesPage } from '../pages/categories/categories';
 import { ChallengesPage } from '../pages/challenges/challenges';
 import { MywalletsPage } from '../pages/mywallets/mywallets';
+import { BillsPage } from '../pages/bills/bills';
+import { AddBillPage } from '../pages/add-bill/add-bill';
 //providers
 import { CategoryProvider } from '../providers/category/category';
 import { AuthProvider } from '../providers/auth/auth';
+import { NotificationsProvider } from '../providers/notifications/notifications';
 // notification plugin
-import { LocalNotifications } from '@ionic-native/local-notifications';
+
 
 
 @NgModule({
@@ -43,7 +48,9 @@ import { LocalNotifications } from '@ionic-native/local-notifications';
     ChallengesPage,
     MywalletsPage,
     HeaderMenuComponent,
-    NotificationsPage
+    NotificationsPage,
+    AddBillPage,
+    BillsPage
   ],
   imports: [
     BrowserModule,
@@ -64,7 +71,9 @@ import { LocalNotifications } from '@ionic-native/local-notifications';
     ChallengesPage,
     MywalletsPage,
     ViewtransactionsPage,
-    NotificationsPage
+    NotificationsPage,
+    AddBillPage,
+    BillsPage
   ],
   providers: [
     StatusBar,
@@ -73,7 +82,9 @@ import { LocalNotifications } from '@ionic-native/local-notifications';
     CategoryProvider,
     { provide: ErrorHandler, useClass: IonicErrorHandler },
     AuthProvider,
-    LocalNotifications
+    LocalNotifications,
+    Calendar,
+    NotificationsProvider
   ]
 })
 export class AppModule { }
