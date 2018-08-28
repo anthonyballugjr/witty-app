@@ -67,7 +67,6 @@
     </ion-list>
   </div>
 
-
   <ion-list>
     <ion-list-header>Expenses</ion-list-header>
     <ion-item row-no-padding *ngFor="let x of transactions">{{x.desc | orderBy: '-x.date'}}</ion-item>
@@ -75,9 +74,13 @@
 
   <div class="calendar-header">
     <ion-row class="calendar-month">
-      <ion-col col-2 (click)="goToLastMonth()"><ion-icon name="arrow-back"></ion-icon></ion-col>
+      <ion-col col-2 (click)="goToLastMonth()">
+        <ion-icon name="arrow-back"></ion-icon>
+      </ion-col>
       <ion-col col-8>{{currentMonth}} {{currentYear}}</ion-col>
-      <ion-col col-2 (click)="goToNextMonth()"><ion-icon name="arrow-forward"></ion-icon></ion-col>
+      <ion-col col-2 (click)="goToNextMonth()">
+        <ion-icon name="arrow-forward"></ion-icon>
+      </ion-col>
     </ion-row>
   </div>
   <div class="calendar-body">
@@ -100,6 +103,21 @@
         <ion-col col-1 *ngFor="let nextDay of daysInNextMonth" class="next-month">{{nextDay}}</ion-col>
       </ion-row>
     </ion-grid>
+  </div>
+  <div class="selected-event" *ngIf="isSelected">
+    <ion-list>
+      <ion-item *ngFor="let se of selectedEvent">
+        <ion-buttons end>
+          <button ion-button clear icon-only (click)="deleteEvent(se)">
+            <ion-icon name="close"></ion-icon>
+          </button>
+        </ion-buttons>
+        <h2>{{se.title}}</h2>
+        <h3>{{se.message}}</h3>
+        <p>Start Date: {{se.startDate}}
+          <br> Start Date: {{se.endDate}}</p>
+      </ion-item>
+    </ion-list>
   </div>
 
 </ion-content>
