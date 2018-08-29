@@ -27,6 +27,7 @@ import { ChallengesPage } from '../pages/challenges/challenges';
 import { MywalletsPage } from '../pages/mywallets/mywallets';
 import { BillsPage } from '../pages/bills/bills';
 import { AddBillPage } from '../pages/add-bill/add-bill';
+import { EditWalletPage} from '../pages/edit-wallet/edit-wallet';
 //providers
 import { CategoryProvider } from '../providers/category/category';
 import { AuthProvider } from '../providers/auth/auth';
@@ -51,7 +52,8 @@ import { NotificationsProvider } from '../providers/notifications/notifications'
     HeaderMenuComponent,
     NotificationsPage,
     AddBillPage,
-    BillsPage
+    BillsPage,
+    EditWalletPage
   ],
   imports: [
     BrowserModule,
@@ -75,7 +77,8 @@ import { NotificationsProvider } from '../providers/notifications/notifications'
     ViewtransactionsPage,
     NotificationsPage,
     AddBillPage,
-    BillsPage
+    BillsPage,
+    EditWalletPage
   ],
   providers: [
     StatusBar,
