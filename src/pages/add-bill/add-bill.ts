@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { ViewController, IonicPage, NavController, NavParams, AlertController } from 'ionic-angular';
 import { Calendar } from '@ionic-native/calendar';
-import { NotificationsProvider } from '../../providers/notifications/notifications';
+import { LocalNotifications } from '@ionic-native/local-notifications';
 
 
 /**
@@ -30,7 +30,7 @@ export class AddBillPage {
     type: ""
   }
 
-  constructor(private viewCtrl: ViewController, private alertCtrl: AlertController, public calendar: Calendar, public notifProvider: NotificationsProvider, public navCtrl: NavController, public navParams: NavParams) {
+  constructor(private viewCtrl: ViewController, private alertCtrl: AlertController, public calendar: Calendar, public notification: LocalNotifications, public navCtrl: NavController, public navParams: NavParams) {
   }
 
   ionViewDidLoad() {
@@ -46,11 +46,40 @@ export class AddBillPage {
   }
 
   saveNotification() {
-    this.notifProvider.addNotification(this.bill).then((result) => {
-      console.log(result);
-    }, (err) => {
-      console.log(err);
-    })
+    var date = new Date(this.bill.date + " " + this.bill.time);
+    console.log(date);
+    if (this.bill.type === 'recurring') {
+      this.notification.schedule({
+        title: 'Witty Wallet',
+        text: this.bill.title + ":<br>" + this.bill.description,
+        trigger: { at: date },
+        led: 'FF0000',
+        sound: null,
+        every: 'month'
+      });
+    }
+    else {
+      this.notification.schedule({
+        title: 'Witty Wallet',
+        text: this.bill.title + ":<br>" + this.bill.description,
+        trigger: { at: date },
+        led: 'FF0000',
+        sound: null,
+      });
+    }
+    let alert = this.alertCtrl.create({
+      title: 'Success!',
+      subTitle: 'Bill added successfully!',
+      buttons: ['Ok']
+    });
+    alert.present();
+    this.bill = {
+      title: "",
+      description: "",
+      date: "",
+      time: "",
+      type: ""
+    }
   }
 
   saveBill() {
