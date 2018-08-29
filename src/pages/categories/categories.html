@@ -7,7 +7,7 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-title>Manage Categories</ion-title>
+    <ion-title>Manage Wallets</ion-title>
     <ion-buttons left>
       <button ion-button icon-only menuToggle>
         <ion-icon name='menu'></ion-icon>
@@ -24,7 +24,7 @@
     <ion-item-divider no-padding class="strong">Expenses Wallet</ion-item-divider>
     <ion-item-sliding *ngFor="let wallet of wallets | filterBy: ['type']: 'expense'">
       <ion-item>
-        {{category.name | ucwords}}
+        {{wallet.name | ucwords}}
         <ion-icon item-end name="arrow-dropright"></ion-icon>
       </ion-item>
       <ion-item-options side="left">
@@ -32,7 +32,7 @@
           <ion-icon name="document"></ion-icon>
           Edit
         </button>
-        <button ion-button clear color="danger">
+        <button ion-button clear color="danger" (click)="deleteWallet(wallet)">
           <ion-icon name="trash"></ion-icon>
           Delete
         </button>
@@ -42,7 +42,7 @@
     <ion-item-divider no-padding class="strong">Savings Wallet</ion-item-divider>
     <ion-item-sliding *ngFor="let wallet of wallets | filterBy: ['type']: 'savings'">
       <ion-item>
-        {{category.name | ucwords}}
+        {{wallet.name | ucwords}}
         <ion-icon item-end name="arrow-dropright"></ion-icon>
       </ion-item>
       <ion-item-options side="left">
@@ -60,7 +60,7 @@
     <ion-item-divider no-padding class="strong">Bills Wallet</ion-item-divider>
     <ion-item-sliding *ngFor="let wallet of wallets | filterBy: ['type']: 'bills'">
       <ion-item>
-        {{category.name | ucwords}}
+        {{wallet.name | ucwords}}
         <ion-icon item-end name="arrow-dropright"></ion-icon>
       </ion-item>
       <ion-item-options side="left">
@@ -78,7 +78,7 @@
     <ion-item-divider no-padding class="strong">Debts Wallet</ion-item-divider>
     <ion-item-sliding *ngFor="let wallet of wallets | filterBy: ['type']: 'debts'">
       <ion-item>
-        {{category.name | ucwords}}
+        {{wallet.name | ucwords}}
         <ion-icon item-end name="arrow-dropright"></ion-icon>
       </ion-item>
       <ion-item-options side="left">

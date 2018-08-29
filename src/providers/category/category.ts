@@ -67,15 +67,43 @@ export class CategoryProvider {
     });
   }
 
-  addTransaction(data){
-    return new Promise((resolve, reject)=>{
+  updateWallet(data) {
+    console.log(data);
+    console.log(data.id);
+    return new Promise((resolve, reject) => {
+      this.http.put(this.apiUrl + '/wallets/' + data.id, data, this.authHeader)
+        .subscribe(res => {
+          resolve(res);
+        }, (err) => {
+          reject(err)
+          console.log(err);
+        });
+    })
+  }
+
+  deleteWallet(id) {
+    return new Promise((resolve, reject) => {
+      this.http.delete(this.apiUrl + '/wallets/' + id, this.authHeader)
+        .subscribe(res => {
+          resolve(res);
+        }, (err) => {
+          reject(err)
+          console.log(err);
+        });
+    });
+  }
+
+  addTransaction(data) {
+    return new Promise((resolve, reject) => {
       console.log(data);
-      this.http.post(this.apiUrl+'/transactions', data, this.authHeader).subscribe(res=>{
+      this.http.post(this.apiUrl + '/transactions', data, this.authHeader).subscribe(res => {
         resolve(res);
-      }, (err)=>{
+      }, (err) => {
         reject(err)
       });
     })
   }
+
+
 
 }
