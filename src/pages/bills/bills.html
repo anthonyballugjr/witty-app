@@ -19,8 +19,12 @@
 
 
 <ion-content>
+  <h3 margin-left>{{viewTitle}}</h3>
+  <calendar [eventSource]="eventSource" [calendarMode]="calendar.mode" [currentDate]="calendar.currentDate" (onEventSelected)="onEventSelected($event)"
+    (onTitleChanged)="onViewTitleChanged($event)" (onTimeSelected)="onTimeSelected($event)" step="30" class="calendar"></calendar>
 
-  <div class="calendar-header">
+
+  <!-- <div class="calendar-header">
     <ion-row class="calendar-month">
       <ion-col col-2 (click)="goToLastMonth()">
         <ion-icon name="arrow-back"></ion-icon>
@@ -66,6 +70,6 @@
           <br> Start Date: {{se.endDate}}</p>
       </ion-item>
     </ion-list>
-  </div>
+  </div> -->
 
 </ion-content>
