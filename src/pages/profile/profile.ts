@@ -26,8 +26,4 @@ export class ProfilePage {
     console.log('ionViewDidLoad ProfilePage');
   }
 
-  exit(){
-    this.navCtrl.setRoot(TabsPage);
-  }
-
 }
