@@ -41,7 +41,6 @@ export class CategoriesPage {
     this.categoryProvider.getWallets()
       .then(data => {
         this.wallets = data;
-        console.log(this.wallets);
       });
   }
   editWallet(wallet) {
@@ -50,9 +49,6 @@ export class CategoriesPage {
 
     modal.onDidDismiss(data => {
       if (data) {
-        console.log(data);
-
-
         this.categoryProvider.updateWallet(data)
           .then(result => {
             setTimeout(() => {
@@ -68,7 +64,8 @@ export class CategoriesPage {
     });
   }
 
-  deleteWallet(data) {
+  deleteWallet(id) {
+    var userId = id;
     this.alert = this.alertCtrl.create({
       title: 'Delete Wallet',
       subTitle: 'Are you sure you want to delete this wallet?',
@@ -82,21 +79,22 @@ export class CategoriesPage {
         },
         {
           text: 'Agree',
-          handler: (data) => {
-            console.log(data);
-            this.categoryProvider.deleteWallet(data.id).then(result => {
+          handler: () => {
+            this.categoryProvider.deleteWallet(userId).then(result => {
               setTimeout(() => {
                 console.log(result);
-                this.showAlert('Success!', 'Wallet has been updated.')
+                this.showAlert('Success!', 'Wallet removed.')
                 this.getWallets();
               }, err => {
+                console.log(err);
                 this.showAlert(err, err);
               });
             });
           }
         }
       ]
-    })
+    });
+    this.alert.present();
   }
 
 }
