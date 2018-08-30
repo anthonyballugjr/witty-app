@@ -26,7 +26,6 @@ export class CategoryProvider {
   getCategories() {
     return new Promise(resolve => {
       this.http.get(this.apiUrl + '/categories').subscribe(data => {
-        this.categoryData = data;
         resolve(data);
       }, err => {
         console.log(err);
