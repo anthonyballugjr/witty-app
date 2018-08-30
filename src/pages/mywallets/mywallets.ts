@@ -20,6 +20,7 @@ import { TabsPage } from '../tabs/tabs';
 export class MywalletsPage {
   wallets: any;
   transactions: any = [];
+  categories: any;
 
   date: any;
   daysInThisMonth: any;
@@ -35,10 +36,19 @@ export class MywalletsPage {
 
   constructor(private alertCtrl: AlertController, private calendar: Calendar, public categoryProvider: CategoryProvider, public navCtrl: NavController, public navParams: NavParams) {
     this.getWallets();
+    this.getCategories();
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad MywalletsPage');
+  }
+
+  getCategories() {
+    this.categoryProvider.getCategories()
+      .then(data => {
+        this.categories = data;
+        console.log(this.categories);
+      });
   }
 
   getWallets() {
@@ -52,10 +62,6 @@ export class MywalletsPage {
         }
         console.log('transactions', this.transactions);
       });
-  }
-
-  exit() {
-    this.navCtrl.setRoot(TabsPage);
   }
 
   ionViewWillEnter() {

@@ -12,9 +12,6 @@
         <ion-icon name='menu'></ion-icon>
       </button>
     </ion-buttons>
-    <ion-buttons end>
-      <button (click)="exit()" ion-button clear>Exit</button>
-    </ion-buttons>
   </ion-navbar>
 </ion-header>
 
@@ -66,6 +63,15 @@
       </ion-item>
     </ion-list>
   </div>
+
+  <div>
+      <ion-list>
+        <ion-item *ngFor="let category of categories">
+          <ion-icon name={{category.icon}} item-start></ion-icon>
+          <h5>{{category.desc}}</h5>
+        </ion-item>
+      </ion-list>
+    </div>
 
   <ion-list>
     <ion-list-header>Expenses</ion-list-header>
@@ -119,5 +125,7 @@
       </ion-item>
     </ion-list>
   </div>
+
+ 
 
 </ion-content>
