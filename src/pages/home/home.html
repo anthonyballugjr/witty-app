@@ -50,9 +50,7 @@
       <ion-list>
         <ion-item-divider float-left class="strong">Expenses Wallets</ion-item-divider>
         <ion-item ion-item *ngFor="let wallet of wallets | filterBy: ['type']: 'expense'" (click)="viewTransactions(wallet)">
-          <ion-avatar item-start>
-            <img src="../../assets/imgs/wit.png">
-          </ion-avatar>
+            <ion-icon name="{{wallet.category | pluck: 'icon'}}" item-start></ion-icon>
           <h6>
             <strong>{{wallet.name | ucwords}}</strong>
           </h6>
@@ -74,7 +72,7 @@
         <ion-item-divider float-left class="strong">Savings Wallets</ion-item-divider>
         <ion-item *ngFor="let wallet of wallets | filterBy: ['type']: 'savings'">
           <h6>
-            <strong>{{wallet.name}}</strong>
+            <strong>{{wallet.name | ucwords}}</strong>
           </h6>
           <p>Budget: {{wallet.amount | currency: "PHP" :2}}</p>
         </ion-item>
@@ -90,7 +88,7 @@
         </div>
         <ion-item *ngFor="let wallet of wallets | filterBy: ['type']: 'bills'">
           <h6>
-            <strong>{{wallet.name}}</strong>
+            <strong>{{wallet.name | ucwords}}</strong>
           </h6>
           <p>Budget: {{wallet.amount | currency: "PHP" :2}}</p>
         </ion-item>
@@ -103,7 +101,7 @@
         <ion-item-divider float-left class="strong">Debts Wallets</ion-item-divider>
         <ion-item *ngFor="let wallet of wallets | filterBy: ['type']: 'debts'">
           <h6>
-            <strong>{{wallet.name}}</strong>
+            <strong>{{wallet.name | ucwords}}</strong>
           </h6>
           <p>Budget: {{wallet.amount | currency: "PHP" :2}}</p>
         </ion-item>
