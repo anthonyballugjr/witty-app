@@ -34,7 +34,7 @@ export class EditWalletPage {
 
   update() {
     var updateData = {
-      "id": this.walletData.id,
+      "id": this.walletData._id,
       "name": this.walletData.name,
       "amount": this.walletData.amount
     }
