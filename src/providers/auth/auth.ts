@@ -19,8 +19,8 @@ export class AuthProvider {
     }
   }
 
-authURL = "http://localhost:3000/api/users";
-//authURL = "http://witty-wallet.herokuapp.com/api/users" 
+//authURL = "http://localhost:3000/api/users";
+authURL = "http://witty-wallet.herokuapp.com/api/users" 
 
   constructor(public http: HttpClient) {
     console.log('Hello AuthProvider Provider');
