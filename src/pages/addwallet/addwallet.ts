@@ -17,24 +17,39 @@ import { HomePage } from '../home/home';
   templateUrl: 'addwallet.html',
 })
 export class AddwalletPage {
+  categories: any;
   wallet = {
     'name': '',
     'user': localStorage.userId,
     'type': '',
-    'amount': ''
+    'amount': '',
+    'categoryId': ''
   }
-  types = ['savings', 'expense', 'bills', 'debts'];
+
 
   loading: any;
 
   constructor(public loadCtrl: LoadingController, private formBldr: FormBuilder, public alertCtrl: AlertController, public navCtrl: NavController, public categoryProvider: CategoryProvider, public navParams: NavParams) {
+    this.getCategories();
   }
 
   private addWalletForm = this.formBldr.group({
     name: ["", Validators.required],
     budget: ["", Validators.required],
-    type: ["", Validators.required]
+    type: ["", Validators.required],
+    categoryId: [""]
   });
+
+  getCategories(){
+    this.categoryProvider.getCategories()
+    .then(data=>{
+      this.categories = data;
+    });
+  }
+
+  // addWallet(){
+  //   console.log(this.wallet);
+  // }
 
   addWallet() {
     this.presentLoading();
@@ -91,10 +106,6 @@ export class AddwalletPage {
       ]
     });
     confirm.present();
-  }
-
-  newFunction(){
-    
   }
 
 }
