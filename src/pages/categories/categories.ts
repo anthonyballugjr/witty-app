@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ModalController, AlertController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ModalController, AlertController, LoadingController } from 'ionic-angular';
 import { CategoryProvider } from '../../providers/category/category';
 
 import { EditWalletPage } from '../edit-wallet/edit-wallet';

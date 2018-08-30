@@ -1,5 +1,4 @@
 import { Component, ViewChild } from '@angular/core';
-
 import { NavController, NavParams, ToastController, PopoverController, Slides } from 'ionic-angular';
 
 
@@ -27,7 +26,20 @@ export class HomePage {
   userData: any;
   data: any;
   counter: any = [];
-  x:any;
+  x: any;
+
+  totalBudget: any;
+  totalSavings: any;
+  totalBills: any;
+  totalExpenses: number;
+
+  overview: any = {
+    totalBudget: '',
+    totalSavings: '',
+    totalBills: '',
+    totalExpenses: '',
+  }
+  potentialToSave: number = (this.overview.totalBudget - this.overview.totalBills - this.overview.totalExpenses - this.overview.totalSavings)
 
   month = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
   n = new Date();
@@ -68,8 +80,9 @@ export class HomePage {
           for (let x of i.transactions) {
             this.counter.push(x);
           }
+          this.totalExpenses
         }
-        this.expense = this.expenses
+        console.log(this.totalExpenses);
         console.log(this.wallets);
         console.log(this.counter);
       });
@@ -83,15 +96,15 @@ export class HomePage {
     this.navCtrl.push(AddwalletPage);
   }
 
-  selectedTab(index){
+  selectedTab(index) {
     this.slider.slideTo(index);
   }
 
-  isChanged($event){
+  isChanged($event) {
     this.page = $event._snapIndex.toString();
   }
 
-  goToBills(){
+  goToBills() {
     this.navCtrl.setRoot(BillsPage);
   }
 
