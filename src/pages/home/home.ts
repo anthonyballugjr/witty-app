@@ -1,7 +1,7 @@
 import { Component, ViewChild } from '@angular/core';
 
-import { NavController, NavParams, ToastController, PopoverController, Slides } from 'ionic-angular';
-
+import { NavController, NavParams, ToastController, PopoverController } from 'ionic-angular';
+import { SuperTabs } from 'ionic2-super-tabs';
 
 import { HttpClient } from '@angular/common/http';
 
@@ -11,16 +11,23 @@ import { AddwalletPage } from '../addwallet/addwallet';
 
 import { NotificationsPage } from '../notifications/notifications';
 import { BillsPage } from '../bills/bills';
+import { IonicPage } from '../../../node_modules/ionic-angular/navigation/ionic-page';
 
-
-
+@IonicPage()
 @Component({
   selector: 'page-home',
   templateUrl: 'home.html'
 })
 export class HomePage {
-  @ViewChild('slider') slider: Slides;
-  page = 0;
+  pages = [
+    { pageName: 'WalletsPage', title: 'Home', icon: 'home', id: 'walletsTab' },
+    { pageName: 'ChallengesPage', title: 'Saving Challenges', icon: 'trophy', id: 'savingChallengesTab' },
+    { pageName: 'OverviewPage', title: 'Overview', icon: 'paper', id: 'overviewPage' }
+  ];
+
+  superSelectedTab = 0;
+
+  @ViewChild(SuperTabs) superTabs: SuperTabs;
   wallets: any;
   expenses: any;
   expense: any;
@@ -37,7 +44,7 @@ export class HomePage {
 
 
   constructor(private popCtrl: PopoverController, private toastCtrl: ToastController, public navParams: NavParams, public navCtrl: NavController, public http: HttpClient, public categoryProvider: CategoryProvider) {
-    this.getWallets();
+    
   }
 
   showPopover(myEvent) {
@@ -60,39 +67,8 @@ export class HomePage {
     toast.present();
   }
 
-  getWallets() {
-    this.categoryProvider.getWallets()
-      .then(data => {
-        this.wallets = data;
-        for (let i of this.wallets) {
-          for (let x of i.transactions) {
-            this.counter.push(x);
-          }
-        }
-        this.expense = this.expenses
-        console.log(this.wallets);
-        console.log(this.counter);
-      });
-  }
-
-  viewTransactions(data) {
-    this.navCtrl.push(ViewtransactionsPage, { data: data });
-  }
-
-  addCategory() {
-    this.navCtrl.push(AddwalletPage);
-  }
-
-  selectedTab(index){
-    this.slider.slideTo(index);
-  }
-
-  isChanged($event){
-    this.page = $event._snapIndex.toString();
-  }
-
-  goToBills(){
-    this.navCtrl.setRoot(BillsPage);
+  onTabSelect(ev: any) {
+    this.superSelectedTab = ev.index;
   }
 
 }

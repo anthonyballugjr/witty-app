@@ -1,0 +1,129 @@
+<ion-header>
+    <ion-toolbar no-margin no-padding>
+    <ion-segment color="light" [(ngModel)]="page" no-padding no-margin>
+        <ion-segment-button value="0" (click)="selectedTab(0)">Expenses</ion-segment-button>
+        <ion-segment-button value="1" (click)="selectedTab(1)">Savings</ion-segment-button>
+        <ion-segment-button value="2" (click)="selectedTab(2)">Bills</ion-segment-button>
+        <ion-segment-button value="3" (click)="selectedTab(3)">Debts</ion-segment-button>
+        <ion-segment-button value="4" (click)="selectedTab(4)">Overview</ion-segment-button>
+      </ion-segment>
+      <div ion-text color="light" no-padding no-margin>
+          <strong>
+            <p float-start margin-left>{{period}}</p>
+          </strong>
+          <p margin-right float-end>Total Budget: {{wallets | pluck:'amount' | sum | currency: "PHP" :2}}</p>
+        </div>
+    </ion-toolbar>
+  
+
+</ion-header>
+<ion-content padding>
+    <ion-slides #slider effect="flip" (ionSlideDidChange)="isChanged($event)" (ionSlideWillChange)="isChanged($event)" (ionSlideDrag)="isChanged($event)">
+    <ion-slide>
+      <ion-list>
+        <ion-item-divider float-left class="strong">Expenses Wallets</ion-item-divider>
+        <ion-item ion-item *ngFor="let wallet of wallets | filterBy: ['type']: 'expense'" (click)="viewTransactions(wallet)">
+          <ion-avatar item-start>
+            <img src="../../assets/imgs/wit.png">
+          </ion-avatar>
+          <h6>
+            <strong>{{wallet.name | ucwords}}</strong>
+          </h6>
+          <p>Budget: {{wallet.amount | currency: "PHP" :2}} </p>
+          <p *ngIf="(wallet.transactions | pluck: 'amount' | sum) >= wallet.amount" ion-text color="danger">Expenses: {{wallet.transactions | pluck:'amount' | sum | currency: "PHP" :2}}
+            <ion-icon name="alert"></ion-icon>
+          </p>
+          <p *ngIf="wallet.amount > (wallet.transactions | pluck: 'amount' | sum)">Expenses: {{wallet.transactions | pluck:'amount' | sum | currency: "PHP" :2}}</p>
+          <p *ngIf="(wallet.transactions | pluck: 'amount' | sum) >= wallet.amount" ion-text color="danger">Remaining: {{wallet.amount - (wallet.transactions | pluck:'amount' | sum) | currency: "PHP" :2}}
+            <ion-icon name="alert"></ion-icon>
+          </p>
+          <p *ngIf="wallet.amount > (wallet.transactions | pluck: 'amount' | sum)">Remaining: {{wallet.amount - (wallet.transactions | pluck:'amount' | sum) | currency: "PHP" :2}}</p>
+        </ion-item>
+      </ion-list>
+    </ion-slide>
+
+    <ion-slide>
+      <ion-list>
+        <ion-item-divider float-left class="strong">Savings Wallets</ion-item-divider>
+        <ion-item *ngFor="let wallet of wallets | filterBy: ['type']: 'savings'">
+          <h6>
+            <strong>{{wallet.name}}</strong>
+          </h6>
+          <p>Budget: {{wallet.amount | currency: "PHP" :2}}</p>
+        </ion-item>
+      </ion-list>
+    </ion-slide>
+
+    <ion-slide>
+
+      <ion-list>
+        <ion-item-divider float-left class="strong">Bills Wallet</ion-item-divider>
+        <div>
+          <button ion-button block clear (click)="goToBills()">Manage Bills</button>
+        </div>
+        <ion-item *ngFor="let wallet of wallets | filterBy: ['type']: 'bills'">
+          <h6>
+            <strong>{{wallet.name}}</strong>
+          </h6>
+          <p>Budget: {{wallet.amount | currency: "PHP" :2}}</p>
+        </ion-item>
+      </ion-list>
+
+    </ion-slide>
+
+    <ion-slide>
+      <ion-list>
+        <ion-item-divider float-left class="strong">Debts Wallets</ion-item-divider>
+        <ion-item *ngFor="let wallet of wallets | filterBy: ['type']: 'debts'">
+          <h6>
+            <strong>{{wallet.name}}</strong>
+          </h6>
+          <p>Budget: {{wallet.amount | currency: "PHP" :2}}</p>
+        </ion-item>
+      </ion-list>
+    </ion-slide>
+
+    <ion-slide>
+      <ion-list>
+        <ion-item>
+          <p>Expenses Wallet:</p>
+          <ion-note item-end>{{wallets | filterBy: ['type']: 'expense' | pluck: 'amount' | sum}}</ion-note>
+        </ion-item>
+        <ion-item>
+          <p>Savings Wallet:</p>
+          <ion-note item-end>{{wallets | filterBy: ['type']: 'savings' | pluck: 'amount' | sum}}</ion-note>
+        </ion-item>
+        <ion-item>
+          <p>Bills Wallet:</p>
+          <ion-note item-end>{{wallets | filterBy: ['type']: 'bills' | pluck: 'amount' | sum}}</ion-note>
+        </ion-item>
+        <ion-item>
+          <p>Debts Wallet:</p>
+          <ion-note item-end>{{wallets | filterBy: ['type']: 'debts' | pluck: 'amount' | sum}}</ion-note>
+        </ion-item>
+        <ion-item>
+          <h2>Total Budget:</h2>
+          <ion-note item-end>{{wallets | pluck:'amount' | sum | currency: "PHP" :2}}</ion-note>
+        </ion-item>
+        <ion-item>
+          <h2>Total Expenses:</h2>
+          <ion-note item-end>{{wallets | pluck:'transactions.amount' | sum | currency: "PHP" :2}}</ion-note>
+        </ion-item>
+        <ion-item-divider></ion-item-divider>
+        <ion-item>
+          <h2>Potential to save:</h2>
+          <ion-note item-end>{{(wallets | pluck:'amount' | sum) - (wallets | filterBy:['type']:'savings' | pluck:'amount' | sum) | currency:
+            "PHP" :2}}</ion-note>
+        </ion-item>
+      </ion-list>
+    </ion-slide>
+
+  </ion-slides>
+
+  <ion-fab bottom right ion-fixed>
+    <button ion-fab mini color="main" (click)="addCategory()">
+      <ion-icon name="add"></ion-icon>
+    </button>
+  </ion-fab>
+
+</ion-content>

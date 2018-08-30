@@ -1,13 +1,13 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, AlertController, LoadingController, ToastController } from 'ionic-angular';
 import { Facebook, FacebookLoginResponse } from '@ionic-native/facebook';
-import { TabsPage } from '../tabs/tabs';
 import { SignupPage } from '../signup/signup';
 
 import { HttpClient } from '@angular/common/http';
 import { Validators, FormBuilder } from '@angular/forms';
 
 import { AuthProvider } from '../../providers/auth/auth'
+import { HomePage } from '../home/home';
 
 
 /**
@@ -78,7 +78,7 @@ export class LoginPage {
     this.showLoader();
     this.authProvider.login(this.loginData).then((result) => {
       this.loading.dismiss();
-      this.navCtrl.setRoot(TabsPage);
+      this.navCtrl.setRoot(HomePage);
       this.presentToast('Hello, '+ localStorage.nickname);
     }, (err) => {
       this.loading.dismiss();
@@ -98,7 +98,7 @@ export class LoginPage {
             this.userDataFB = { email: profile['email'], firstName: profile['first_name'], picture: profile['picture']['data']['url'], username: profile['name'] }
 
             console.log(this.userDataFB);
-            this.navCtrl.setRoot(TabsPage, { userData: this.userDataFB });
+            this.navCtrl.setRoot(HomePage, { userData: this.userDataFB });
           });
       });
   }

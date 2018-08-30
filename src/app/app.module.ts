@@ -20,10 +20,8 @@ import { AddwalletPage } from '../pages/addwallet/addwallet';
 import { ViewtransactionsPage } from '../pages/viewtransactions/viewtransactions';
 import { NotificationsPage } from '../pages/notifications/notifications';
 //import { ListPage } from '../pages/list/list';
-import { TabsPage } from '../pages/tabs/tabs';
 import { ProfilePage } from '../pages/profile/profile';
 import { CategoriesPage } from '../pages/categories/categories';
-import { ChallengesPage } from '../pages/challenges/challenges';
 import { MywalletsPage } from '../pages/mywallets/mywallets';
 import { BillsPage } from '../pages/bills/bills';
 import { AddBillPage } from '../pages/add-bill/add-bill';
@@ -32,6 +30,7 @@ import { EditWalletPage} from '../pages/edit-wallet/edit-wallet';
 import { CategoryProvider } from '../providers/category/category';
 import { AuthProvider } from '../providers/auth/auth';
 import { NotificationsProvider } from '../providers/notifications/notifications';
+import { SuperTabsModule } from '../../node_modules/ionic2-super-tabs';
 // notification plugin
 
 
@@ -39,7 +38,6 @@ import { NotificationsProvider } from '../providers/notifications/notifications'
 @NgModule({
   declarations: [
     MyApp,
-    TabsPage,
     HomePage,
     LoginPage,
     SignupPage,
@@ -47,7 +45,6 @@ import { NotificationsProvider } from '../providers/notifications/notifications'
     ProfilePage,
     CategoriesPage,
     ViewtransactionsPage,
-    ChallengesPage,
     MywalletsPage,
     HeaderMenuComponent,
     NotificationsPage,
@@ -61,18 +58,17 @@ import { NotificationsProvider } from '../providers/notifications/notifications'
     NgPipesModule,
     NgCalendarModule,
     IonicModule.forRoot(MyApp),
+    SuperTabsModule.forRoot(),
   ],
   bootstrap: [IonicApp],
   entryComponents: [
     MyApp,
-    TabsPage,
     HomePage,
     SignupPage,
     LoginPage,
     AddwalletPage,
     ProfilePage,
     CategoriesPage,
-    ChallengesPage,
     MywalletsPage,
     ViewtransactionsPage,
     NotificationsPage,

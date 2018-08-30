@@ -17,6 +17,8 @@ import { HomePage } from '../home/home';
   templateUrl: 'addwallet.html',
 })
 export class AddwalletPage {
+  rootNavCtrl: NavController;
+
   wallet = {
     'name': '',
     'user': localStorage.userId,
@@ -28,6 +30,7 @@ export class AddwalletPage {
   loading: any;
 
   constructor(public loadCtrl: LoadingController, private formBldr: FormBuilder, public alertCtrl: AlertController, public navCtrl: NavController, public categoryProvider: CategoryProvider, public navParams: NavParams) {
+    this.rootNavCtrl = this.navParams.get('rootNavCtrl');
   }
 
   private addWalletForm = this.formBldr.group({

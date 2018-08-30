@@ -1,0 +1,34 @@
+<ion-content padding>
+  <ion-list>
+    <ion-item>
+      <p>Expenses Wallet:</p>
+      <ion-note item-end>{{wallets | filterBy: ['type']: 'expense' | pluck: 'amount' | sum}}</ion-note>
+    </ion-item>
+    <ion-item>
+      <p>Savings Wallet:</p>
+      <ion-note item-end>{{wallets | filterBy: ['type']: 'savings' | pluck: 'amount' | sum}}</ion-note>
+    </ion-item>
+    <ion-item>
+      <p>Bills Wallet:</p>
+      <ion-note item-end>{{wallets | filterBy: ['type']: 'bills' | pluck: 'amount' | sum}}</ion-note>
+    </ion-item>
+    <ion-item>
+      <p>Debts Wallet:</p>
+      <ion-note item-end>{{wallets | filterBy: ['type']: 'debts' | pluck: 'amount' | sum}}</ion-note>
+    </ion-item>
+    <ion-item>
+      <h2>Total Budget:</h2>
+      <ion-note item-end>{{wallets | pluck:'amount' | sum | currency: "PHP" :2}}</ion-note>
+    </ion-item>
+    <ion-item>
+      <h2>Total Expenses:</h2>
+      <ion-note item-end>{{wallets | pluck:'transactions.amount' | sum | currency: "PHP" :2}}</ion-note>
+    </ion-item>
+    <ion-item-divider></ion-item-divider>
+    <ion-item>
+      <h2>Potential to save:</h2>
+      <ion-note item-end>{{(wallets | pluck:'amount' | sum) - (wallets | filterBy:['type']:'savings' | pluck:'amount' | sum) | currency: "PHP"
+        :2}}</ion-note>
+    </ion-item>
+  </ion-list>
+</ion-content>

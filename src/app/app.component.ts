@@ -3,14 +3,13 @@ import { App, Nav, Platform, MenuController, ToastController, LoadingController 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
-
-import { TabsPage } from '../pages/tabs/tabs';;
 import { LoginPage } from '../pages/login/login';
 import { ProfilePage } from '../pages/profile/profile';
 import { MywalletsPage } from '../pages/mywallets/mywallets';
 
 import { AuthProvider } from '../providers/auth/auth';
 import { CategoriesPage } from '../pages/categories/categories';
+import { HomePage } from '../pages/home/home';
 
 @Component({
   templateUrl: 'app.html'
@@ -24,7 +23,7 @@ export class MyApp {
     if ((localStorage.getItem('token') === null || localStorage.getItem('token') === 'undefined')) {
       this.rootPage = LoginPage;
     } else {
-      this.rootPage = TabsPage;
+      this.rootPage = HomePage;
     }
   }
 
@@ -38,7 +37,7 @@ export class MyApp {
 
     // used for an example of ngFor and navigation
     this.pages = [
-      { title: 'Home', icon: 'home', component: TabsPage },
+      { title: 'Home', icon: 'home', component: HomePage },
       { title: 'Profile', icon: 'person', component: ProfilePage },
       { title: 'Manage Wallets', icon: 'list-box', component: CategoriesPage },
       { title: 'My Debug Page', icon: 'baseball', component: MywalletsPage }
