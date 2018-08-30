@@ -50,7 +50,7 @@
       <ion-list>
         <ion-item-divider float-left class="strong">Expenses Wallets</ion-item-divider>
         <ion-item ion-item *ngFor="let wallet of wallets | filterBy: ['type']: 'expense'" (click)="viewTransactions(wallet)">
-            <ion-icon name="{{wallet.category | pluck: 'icon'}}" item-start></ion-icon>
+          <ion-icon name="{{wallet.category | pluck: 'icon'}}" item-start></ion-icon>
           <h6>
             <strong>{{wallet.name | ucwords}}</strong>
           </h6>
@@ -132,13 +132,12 @@
         </ion-item>
         <ion-item>
           <h2>Total Expenses:</h2>
-          <ion-note item-end>{{wallets | pluck:'transactions.amount' | sum | currency: "PHP" :2}}</ion-note>
+          <ion-note item-end>{{counter | pluck:'amount' | sum | currency: "PHP" :2}}</ion-note>
         </ion-item>
         <ion-item-divider></ion-item-divider>
         <ion-item>
           <h2>Potential to save:</h2>
-          <ion-note item-end>{{(wallets | pluck:'amount' | sum) - (wallets | filterBy:['type']:'savings' | pluck:'amount' | sum) | currency:
-            "PHP" :2}}</ion-note>
+          <ion-note item-end>{{(wallets | pluck:'amount' | sum) - ((wallets | filterBy:['type']:'savings' | pluck:'amount' | sum) + (counter | pluck:'amount' | sum) + (wallets | filterBy:['type']:'bills' | pluck:'amount'| sum)) | currency:"PHP" :2}}</ion-note>
         </ion-item>
       </ion-list>
     </ion-slide>
