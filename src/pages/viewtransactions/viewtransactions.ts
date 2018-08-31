@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, AlertController, LoadingController, ToastController } from 'ionic-angular';
 
 import { CategoryProvider } from '../../providers/category/category';
+import { HomePage } from '../home/home';
 
 
 /**
@@ -75,7 +76,7 @@ export class ViewtransactionsPage {
             else {
               this.transaction.desc = data.desc;
               this.transaction.amount = data.amount;
-              this.transaction.wallet = this.data.id;
+              this.transaction.wallet = this.data._id;
               let confirm = this.alertCtrl.create({
                 subTitle: 'Add transaction?',
                 buttons: [
@@ -132,7 +133,7 @@ export class ViewtransactionsPage {
       this.result = result;
       this.data.transactions.push(this.result);
       console.log(this.data.transactions);
-      this.navCtrl.pop();
+      this.navCtrl.setRoot(HomePage);
     }, (err) => {
       this.loading.dismiss();
       console.log(err);
