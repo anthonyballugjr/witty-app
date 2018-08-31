@@ -3,15 +3,6 @@ import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angu
 import { Calendar } from '@ionic-native/calendar';
 import { CategoryProvider } from '../../providers/category/category';
 
-import { TabsPage } from '../tabs/tabs';
-
-/**
- * Generated class for the MywalletsPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
-
 @IonicPage()
 @Component({
   selector: 'page-mywallets',
