@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, LoadingController, AlertController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, LoadingController, AlertController, ViewController } from 'ionic-angular';
 import { Validators, FormBuilder } from '@angular/forms';
 import { CategoryProvider } from '../../providers/category/category';
 import { HomePage } from '../home/home';
@@ -29,7 +29,7 @@ export class AddwalletPage {
 
   loading: any;
 
-  constructor(public loadCtrl: LoadingController, private formBldr: FormBuilder, public alertCtrl: AlertController, public navCtrl: NavController, public categoryProvider: CategoryProvider, public navParams: NavParams) {
+  constructor(private viewCtrl: ViewController, public loadCtrl: LoadingController, private formBldr: FormBuilder, public alertCtrl: AlertController, public navCtrl: NavController, public categoryProvider: CategoryProvider, public navParams: NavParams) {
     this.getCategories();
   }
 
@@ -40,11 +40,15 @@ export class AddwalletPage {
     categoryId: [""]
   });
 
-  getCategories(){
+  getCategories() {
     this.categoryProvider.getCategories()
-    .then(data=>{
-      this.categories = data;
-    });
+      .then(data => {
+        this.categories = data;
+      });
+  }
+
+  cancel() {
+    this.viewCtrl.dismiss();
   }
 
   // addWallet(){
