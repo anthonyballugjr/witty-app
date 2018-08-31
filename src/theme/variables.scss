@@ -59,7 +59,7 @@ $colors: (
   grain:      #d7cec7,
   oxblood:    #76323f,
   tan:        #c09f80,
-  powder blue:#4abdac,
+  powder-blue:#4abdac,
   cotton:     #99ced4,
   blush:      #ee8687,
   smoke:      #6e7376,
@@ -87,7 +87,7 @@ $colors: (
 // Material Design only Sass variables can go here
 $item-md-detail-push-show: true;
 $toolbar-background: color($colors, main);
-$tabs-md-tab-color-active: map-get($colors, powder);
+$tabs-md-tab-color-active: color($colors, grain);
 $tabs-md-tab-icon-color: color($colors, light);
 $tabs-background: color($colors, main);
 //$background-md-color: color($colors, main);
