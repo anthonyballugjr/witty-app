@@ -10,6 +10,7 @@ import { Facebook } from '@ionic-native/facebook';
 import { Calendar } from '@ionic-native/calendar';
 import { LocalNotifications } from '@ionic-native/local-notifications';
 import { NgCalendarModule } from 'ionic2-calendar';
+import { SuperTabsModule } from 'ionic2-super-tabs';
 //pages
 import { HeaderMenuComponent } from '../components/header-menu/header-menu';
 import { MyApp } from './app.component';
@@ -19,7 +20,6 @@ import { LoginPage } from '../pages/login/login';
 import { AddwalletPage } from '../pages/addwallet/addwallet';
 import { ViewtransactionsPage } from '../pages/viewtransactions/viewtransactions';
 import { NotificationsPage } from '../pages/notifications/notifications';
-//import { ListPage } from '../pages/list/list';
 import { TabsPage } from '../pages/tabs/tabs';
 import { ProfilePage } from '../pages/profile/profile';
 import { CategoriesPage } from '../pages/categories/categories';
@@ -27,7 +27,8 @@ import { ChallengesPage } from '../pages/challenges/challenges';
 import { MywalletsPage } from '../pages/mywallets/mywallets';
 import { BillsPage } from '../pages/bills/bills';
 import { AddBillPage } from '../pages/add-bill/add-bill';
-import { EditWalletPage} from '../pages/edit-wallet/edit-wallet';
+import { EditWalletPage } from '../pages/edit-wallet/edit-wallet';
+import { BudgetOverviewPage } from '../pages/budget-overview/budget-overview';
 //providers
 import { CategoryProvider } from '../providers/category/category';
 import { AuthProvider } from '../providers/auth/auth';
@@ -53,13 +54,15 @@ import { NotificationsProvider } from '../providers/notifications/notifications'
     NotificationsPage,
     AddBillPage,
     BillsPage,
-    EditWalletPage
+    EditWalletPage,
+    BudgetOverviewPage
   ],
   imports: [
     BrowserModule,
     HttpClientModule,
     NgPipesModule,
     NgCalendarModule,
+    SuperTabsModule.forRoot(),
     IonicModule.forRoot(MyApp),
   ],
   bootstrap: [IonicApp],
@@ -78,7 +81,8 @@ import { NotificationsProvider } from '../providers/notifications/notifications'
     NotificationsPage,
     AddBillPage,
     BillsPage,
-    EditWalletPage
+    EditWalletPage,
+    BudgetOverviewPage
   ],
   providers: [
     StatusBar,

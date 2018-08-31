@@ -1,11 +1,9 @@
-<!--
-  Generated template for the TabsPage page.
-
-  See http://ionicframework.com/docs/components/#navigation for more info on
-  Ionic pages and navigation.
--->
-<ion-tabs tabsLayout="title-hide" tabsHighlight="true">
+<!-- <ion-tabs tabsLayout="title-hide" tabsHighlight="true" (ionChange)="slide">
   <ion-tab [root]="tab1Root" tabTitle="Home" tabIcon="home"></ion-tab>
   <ion-tab [root]="tab2Root" tabTitle="Savings Challenge" tabIcon="trophy"></ion-tab>
   <ion-tab [root]="tab2Root" tabTitle="Savings Challenge" tabIcon="paper"></ion-tab>
-</ion-tabs>
+</ion-tabs> -->
+
+<super-tabs tabsPlacement="bottom" toolbarColor="light" indicatorColor="main" (tabSelect)="($event)">
+  <super-tab *ngFor="let page of pages" [root]="page.pageName" [icon]="page.icon" [id]="page.id"></super-tab>
+</super-tabs>
