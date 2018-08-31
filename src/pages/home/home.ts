@@ -19,34 +19,19 @@ import { BillsPage } from '../bills/bills';
 })
 export class HomePage {
   @ViewChild('slider') slider: Slides;
-  page = 0;
+  page:string = "0";
   wallets: any;
-  expenses: any;
+  expenses: any = [];
   expense: any;
   userData: any;
   data: any;
-  counter: any = [];
   x: any;
-
-  totalBudget: any;
-  totalSavings: any;
-  totalBills: any;
-  totalExpenses: number;
-
-  overview: any = {
-    totalBudget: '',
-    totalSavings: '',
-    totalBills: '',
-    totalExpenses: '',
-  }
-  potentialToSave: number = (this.overview.totalBudget - this.overview.totalBills - this.overview.totalExpenses - this.overview.totalSavings)
 
   month = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
   n = new Date();
   m = this.month[this.n.getMonth()];
   y = this.n.getFullYear();
   period = this.m + " " + this.y;
-
 
   constructor(private popCtrl: PopoverController, private toastCtrl: ToastController, public navParams: NavParams, public navCtrl: NavController, public http: HttpClient, public categoryProvider: CategoryProvider) {
     this.getWallets();
@@ -78,18 +63,17 @@ export class HomePage {
         this.wallets = data;
         for (let i of this.wallets) {
           for (let x of i.transactions) {
-            this.counter.push(x);
+            this.expenses.push(x);
           }
-          this.totalExpenses
         }
-        console.log(this.totalExpenses);
         console.log(this.wallets);
-        console.log(this.counter);
+        console.log(this.expenses);
       });
   }
 
-  viewTransactions(data) {
-    this.navCtrl.push(ViewtransactionsPage, { data: data });
+  viewTransactions(id) {
+    console.log(id);
+    this.navCtrl.push(ViewtransactionsPage, { _id: id });
   }
 
   addCategory() {
