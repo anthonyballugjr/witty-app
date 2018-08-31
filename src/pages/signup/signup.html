@@ -7,20 +7,22 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-title>New Account</ion-title>
+    <ion-title>Create Account</ion-title>
   </ion-navbar>
 
 </ion-header>
 
 
 <ion-content padding>
+  <img src="../../assets/imgs/wit4.png" alt="logo">
+
   <form [formGroup]="signUpForm" (ngSubmit)="register()">
 
     <ion-item>
       <ion-label floating>Email</ion-label>
       <ion-input [(ngModel)]="registerData.user.email" type="email" formControlName="email" name="email"></ion-input>
     </ion-item>
-    
+
     <ion-item>
       <ion-label floating>Password</ion-label>
       <ion-input [(ngModel)]="registerData.user.password" type="password" formControlName="password" name="password"></ion-input>
@@ -30,6 +32,7 @@
       <ion-label floating>Nickname</ion-label>
       <ion-input [(ngModel)]="registerData.user.name" type="text" formControlName="nickname" name="nickname"></ion-input>
     </ion-item>
+    <ion-item-divider no-lines></ion-item-divider>
 
     <button type="submit" ion-button block color="main" [disabled]="!signUpForm.valid">Sign up</button>
   </form>
