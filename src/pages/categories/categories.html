@@ -14,7 +14,7 @@
       </button>
     </ion-buttons>
     <ion-buttons right>
-      <button ion-button icon-only>
+      <button ion-button icon-only (click)="addWallet()">
         <ion-icon name='add'></ion-icon>
       </button>
     </ion-buttons>
@@ -64,24 +64,6 @@
 
     <ion-item-divider no-padding class="strong">Bills Wallet</ion-item-divider>
     <ion-item-sliding *ngFor="let wallet of wallets | filterBy: ['type']: 'bills'">
-      <ion-item>
-        {{wallet.name | ucwords}}
-        <ion-icon item-end name="arrow-dropright"></ion-icon>
-      </ion-item>
-      <ion-item-options side="left">
-        <button ion-button clear color="primary" (click)="editWallet(wallet)">
-          <ion-icon name="document"></ion-icon>
-          Edit
-        </button>
-        <button ion-button clear color="danger" (click)="deleteWallet(wallet._id)">
-          <ion-icon name="trash"></ion-icon>
-          Delete
-        </button>
-      </ion-item-options>
-    </ion-item-sliding>
-
-    <ion-item-divider no-padding class="strong">Debts Wallet</ion-item-divider>
-    <ion-item-sliding *ngFor="let wallet of wallets | filterBy: ['type']: 'debts'">
       <ion-item>
         {{wallet.name | ucwords}}
         <ion-icon item-end name="arrow-dropright"></ion-icon>

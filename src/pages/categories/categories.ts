@@ -3,6 +3,7 @@ import { IonicPage, NavController, NavParams, ModalController, AlertController, 
 import { CategoryProvider } from '../../providers/category/category';
 
 import { EditWalletPage } from '../edit-wallet/edit-wallet';
+import { AddwalletPage } from '../addwallet/addwallet';
 
 /**
  * Generated class for the CategoriesPage page.
@@ -19,9 +20,18 @@ import { EditWalletPage } from '../edit-wallet/edit-wallet';
 export class CategoriesPage {
   wallets: any;
   alert: any;
+  loading: any;
 
-  constructor(private modalCtrl: ModalController, private alertCtrl: AlertController, public categoryProvider: CategoryProvider, public navCtrl: NavController, public navParams: NavParams) {
+  constructor(private loadingCtrl: LoadingController, private modalCtrl: ModalController, private alertCtrl: AlertController, public categoryProvider: CategoryProvider, public navCtrl: NavController, public navParams: NavParams) {
     this.getWallets();
+  }
+
+  showLoader(msg) {
+    this.loading = this.loadingCtrl.create({
+      spinner: 'bubbles',
+      content: msg
+    });
+    this.loading.present();
   }
 
   ionViewDidLoad() {
@@ -43,19 +53,41 @@ export class CategoriesPage {
         this.wallets = data;
       });
   }
+
+  addWallet() {
+    let modal = this.modalCtrl.create(AddwalletPage);
+    modal.present();
+
+    modal.onDidDismiss(data => {
+      if (data) {
+        this.showLoader('Creating new wallet...');
+        this.categoryProvider.addWallet(data)
+          .then(result => {
+            console.log(result);
+            this.loading.dismiss();
+            this.showAlert('Success!', 'New wallet created!');
+            this.getWallets();
+          }, err => {
+            console.log(err);
+            this.showAlert('Failed', err.message);
+          });
+      }
+    });
+  }
+
   editWallet(wallet) {
     let modal = this.modalCtrl.create(EditWalletPage, { wallet: wallet });
     modal.present();
 
     modal.onDidDismiss(data => {
       if (data) {
+        this.showLoader('Updating wallet');
         this.categoryProvider.updateWallet(data)
           .then(result => {
-            setTimeout(() => {
-              console.log(result);
-              this.showAlert('Success!', 'Wallet has been updated.')
-              this.getWallets();
-            });
+            console.log(result);
+            this.loading.dismiss();
+            this.showAlert('Success!', 'Wallet has been updated.')
+            this.getWallets();
           }, err => {
             console.log(err);
             this.showAlert('Failed!', 'Something went wrong, please try again.')
@@ -80,15 +112,15 @@ export class CategoriesPage {
         {
           text: 'Agree',
           handler: () => {
+            this.showLoader('Deleting wallet');
             this.categoryProvider.deleteWallet(userId).then(result => {
-              setTimeout(() => {
-                console.log(result);
-                this.showAlert('Success!', 'Wallet removed.')
-                this.getWallets();
-              }, err => {
-                console.log(err);
-                this.showAlert(err, err);
-              });
+              console.log(result);
+              this.loading.dismiss();
+              this.showAlert('Success!', 'Wallet removed.')
+              this.getWallets();
+            }, err => {
+              console.log(err);
+              this.showAlert(err, err);
             });
           }
         }
