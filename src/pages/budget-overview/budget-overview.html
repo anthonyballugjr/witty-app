@@ -1,0 +1,52 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>Budget Summary</ion-title>
+    <ion-buttons end>
+      <button ion-button clear icon-only>
+        <ion-icon name="more"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+
+  <ion-list>
+    <ion-list-header class="header-title">
+      <h2>{{period}}</h2>
+    </ion-list-header>
+    <ion-item>
+      <p ion-text color="summer-sky">Expenses Budget:</p>
+      <ion-note item-end>{{wallets | filterBy: ['type']: 'expense' | pluck: 'amount' | sum | currency: "PHP":2}}</ion-note>
+    </ion-item>
+    <ion-item>
+      <p ion-text color="summer-sky">Savings Budget:</p>
+      <ion-note item-end>{{wallets | filterBy: ['type']: 'savings' | pluck: 'amount' | sum | currency: "PHP":2}}</ion-note>
+    </ion-item>
+    <ion-item>
+      <p ion-text color="summer-sky">Bills Budget:</p>
+      <ion-note item-end>{{wallets | filterBy: ['type']: 'bills' | pluck: 'amount' | sum | currency: "PHP":2}}</ion-note>
+    </ion-item>
+    <ion-item-divider no-lines></ion-item-divider>
+    <ion-item>
+      <h2 ion-text color="warm-peach">
+        <strong>Total Budget:</strong>
+      </h2>
+      <ion-note item-end>{{wallets | pluck:'amount' | sum | currency: "PHP" :2}}</ion-note>
+    </ion-item>
+    <ion-item>
+      <h3 ion-text color="watermelon">Total Expenses:</h3>
+      <ion-note item-end>{{expenses | pluck:'amount' | sum | currency: "PHP" :2}}</ion-note>
+    </ion-item>
+    <ion-item-divider no-lines></ion-item-divider>
+    <ion-item>
+      <h2 ion-text color="oxblood">Potential to save:</h2>
+      <ion-note item-end>{{(wallets | pluck:'amount' | sum) - ((wallets | filterBy:['type']:'savings' | pluck:'amount' | sum) + (expenses |
+        pluck:'amount' | sum) + (wallets | filterBy:['type']:'bills' | pluck:'amount'| sum)) | currency:"PHP" :2}}</ion-note>
+    </ion-item>
+  </ion-list>
+
+</ion-content>
