@@ -51,8 +51,6 @@ export class BillsPage {
 
   }
 
-  
-
   getNotifications() {
     this.notifProvider.getNotifications()
       .then(data => {
