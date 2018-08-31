@@ -2,15 +2,6 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, AlertController, LoadingController, ToastController } from 'ionic-angular';
 
 import { CategoryProvider } from '../../providers/category/category';
-import { HomePage } from '../home/home';
-
-
-/**
- * Generated class for the ViewtransactionsPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
 
 @IonicPage()
 @Component({
@@ -24,22 +15,32 @@ export class ViewtransactionsPage {
     'amount': '',
     'wallet': ''
   }
+  walletId: any;
   prompt: any;
   loading: any;
   result: any;
   transactionData: any;
 
   constructor(public categoryProvider: CategoryProvider, public toastCtrl: ToastController, public loadingCtrl: LoadingController, public alertCtrl: AlertController, public navCtrl: NavController, public navParams: NavParams) {
-    this.data = this.navParams.get('data');
-    console.log(this.data);
+    this.walletId = this.navParams.get('_id')
+    this.getTransactions();
   }
 
   ionViewDidLoad() {
-    console.log(this.data.transactions);
     console.log('ionViewDidLoad ViewtransactionsPage');
   }
 
-  showAlert() {
+  getTransactions() {
+    this.categoryProvider.getTransactions(this.walletId)
+      .then(data => {
+        this.data = data;
+        console.log(this.data);
+      }, err => {
+        console.log(err);
+      });
+  }
+
+  addTransaction() {
     this.prompt = this.alertCtrl.create({
       title: 'New Transaction',
       enableBackdropDismiss: false,
@@ -84,13 +85,26 @@ export class ViewtransactionsPage {
                     text: 'Cancel',
                     role: 'cancel',
                     handler: () => {
-
                     }
                   },
                   {
                     text: 'Agree',
                     handler: () => {
-                      this.addTransaction();
+                      this.presentLoading();
+                      this.categoryProvider.addTransaction(this.transaction)
+                        .then((result) => {
+                          this.loading.dismiss();
+                          this.presentToast('Transaction added!');
+                          this.prompt.dismiss();
+                          this.getTransactions();
+                        }, err => {
+                          this.loading.dismiss();
+                          console.log(err);
+                          this.presentToast(err.message);
+                        });
+
+
+                      // this.addTransaction();
                     }
                   }
                 ]
@@ -123,22 +137,22 @@ export class ViewtransactionsPage {
     toast.present();
   }
 
-  addTransaction() {
-    this.presentLoading();
-    this.categoryProvider.addTransaction(this.transaction).then((result) => {
-      this.loading.dismiss();
-      this.presentToast('Transaction added to ' + this.data.name);
-      this.prompt.dismiss();
-      console.log(result);
-      this.result = result;
-      this.data.transactions.push(this.result);
-      console.log(this.data.transactions);
-      this.navCtrl.setRoot(HomePage);
-    }, (err) => {
-      this.loading.dismiss();
-      console.log(err);
-      this.presentToast(err);
-    });
-  }
+  // addTransaction() {
+  //   this.presentLoading();
+  //   this.categoryProvider.addTransaction(this.transaction).then((result) => {
+  //     this.loading.dismiss();
+  //     this.presentToast('Transaction added to ' + this.data.name);
+  //     this.prompt.dismiss();
+  //     console.log(result);
+  //     this.result = result;
+  //     this.data.transactions.push(this.result);
+  //     console.log(this.data.transactions);
+  //     this.navCtrl.setRoot(HomePage);
+  //   }, (err) => {
+  //     this.loading.dismiss();
+  //     console.log(err);
+  //     this.presentToast(err);
+  //   });
+  // }
 
 }
