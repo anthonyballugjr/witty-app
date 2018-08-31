@@ -92,6 +92,16 @@ apiUrl = "http://witty-wallet.herokuapp.com/api"
     });
   }
 
+  getTransactions(id) {
+    return new Promise(resolve => {
+      this.http.get(this.apiUrl + '/wallets/' + id, this.authHeader).subscribe(data => {
+        resolve(data);
+      }, err => {
+        console.log(err);
+      });
+    });
+  }
+
   addTransaction(data) {
     return new Promise((resolve, reject) => {
       console.log(data);
