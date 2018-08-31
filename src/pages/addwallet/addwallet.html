@@ -9,7 +9,9 @@
   <ion-navbar>
     <ion-title>New Wallet</ion-title>
     <ion-buttons end>
-      <button ion-button clear [disabled]="!addWalletForm.valid" (click)="showConfirm()">Save</button>
+      <button ion-button clear icon-only (click)="cancel()">
+        <ion-icon name="close"></ion-icon>
+      </button>
     </ion-buttons>
   </ion-navbar>
 
@@ -41,6 +43,9 @@
         <ion-option *ngFor="let category of categories" value={{category._id}}>{{category.desc | ucwords}}</ion-option>
       </ion-select>
     </ion-item>
+    <ion-item-divider no-lines></ion-item-divider>
+
+    <button ion-button block color="main" [disabled]="!addWalletForm.valid" (click)="showConfirm()">Save</button>
   </form>
 
 </ion-content>
