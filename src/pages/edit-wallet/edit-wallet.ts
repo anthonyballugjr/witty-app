@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ViewController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ViewController, AlertController } from 'ionic-angular';
 
 /**
  * Generated class for the EditWalletPage page.
@@ -14,12 +14,12 @@ import { IonicPage, NavController, NavParams, ViewController } from 'ionic-angul
   templateUrl: 'edit-wallet.html',
 })
 export class EditWalletPage {
-  
+
   walletData: any;
   name: any;
   amount: any;
 
-  constructor(private viewCtrl: ViewController, public navCtrl: NavController, public navParams: NavParams) {
+  constructor(private alertCtrl: AlertController, private viewCtrl: ViewController, public navCtrl: NavController, public navParams: NavParams) {
     this.walletData = this.navParams.get('wallet');
     console.log(this.walletData);
   }
@@ -38,8 +38,27 @@ export class EditWalletPage {
       "name": this.walletData.name,
       "amount": this.walletData.amount
     }
-    console.log(updateData);
-    this.viewCtrl.dismiss(updateData);
+    const confirm = this.alertCtrl.create({
+      title: 'Update wallet',
+      message: 'update this wallet?',
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          handler: () => {
+            console.log('update cancelled');
+          }
+        },
+        {
+          text: 'Agree',
+          handler: () => {
+            console.log(updateData);
+            this.viewCtrl.dismiss(updateData);
+          }
+        }
+      ]
+    });
+    confirm.present();
   }
 
 }
