@@ -111,32 +111,32 @@
     <ion-slide>
       <ion-list>
         <ion-item>
-          <p>Expenses Wallet:</p>
+          <p ion-text color="breeze">Expenses Budget:</p>
           <ion-note item-end>{{wallets | filterBy: ['type']: 'expense' | pluck: 'amount' | sum}}</ion-note>
         </ion-item>
         <ion-item>
-          <p>Savings Wallet:</p>
+          <p ion-text color="powder-blue">Savings Budget:</p>
           <ion-note item-end>{{wallets | filterBy: ['type']: 'savings' | pluck: 'amount' | sum}}</ion-note>
         </ion-item>
         <ion-item>
-          <p>Bills Wallet:</p>
+          <p ion-text color="summer-sky">Bills Budget:</p>
           <ion-note item-end>{{wallets | filterBy: ['type']: 'bills' | pluck: 'amount' | sum}}</ion-note>
         </ion-item>
         <ion-item>
-          <p>Debts Wallet:</p>
+          <p>Debts Budget:</p>
           <ion-note item-end>{{wallets | filterBy: ['type']: 'debts' | pluck: 'amount' | sum}}</ion-note>
         </ion-item>
         <ion-item>
-          <h2>Total Budget:</h2>
+          <h2 ion-text color="warm-peach"><strong>Total Budget:</strong></h2>
           <ion-note item-end>{{wallets | pluck:'amount' | sum | currency: "PHP" :2}}</ion-note>
         </ion-item>
         <ion-item>
-          <h2>Total Expenses:</h2>
+          <h3 ion-text color="watermelon">Total Expenses:</h3>
           <ion-note item-end>{{counter | pluck:'amount' | sum | currency: "PHP" :2}}</ion-note>
         </ion-item>
-        <ion-item-divider></ion-item-divider>
+        <ion-item-divider no-lines></ion-item-divider>
         <ion-item>
-          <h2>Potential to save:</h2>
+          <h2 ion-text color="oxblood">Potential to save:</h2>
           <ion-note item-end>{{(wallets | pluck:'amount' | sum) - ((wallets | filterBy:['type']:'savings' | pluck:'amount' | sum) + (counter | pluck:'amount' | sum) + (wallets | filterBy:['type']:'bills' | pluck:'amount'| sum)) | currency:"PHP" :2}}</ion-note>
         </ion-item>
       </ion-list>
