@@ -38,7 +38,7 @@
     <ion-item *ngIf="wallet.type==='expense'">
       <ion-label floating>Choose Category</ion-label>
       <ion-select [(ngModel)]="wallet.categoryId" formControlName="categoryId" name="categoryId">
-        <ion-option *ngFor="let category of categories" value={{category.id}}>{{category.desc | ucwords}}</ion-option>
+        <ion-option *ngFor="let category of categories" value={{category._id}}>{{category.desc | ucwords}}</ion-option>
       </ion-select>
     </ion-item>
   </form>
