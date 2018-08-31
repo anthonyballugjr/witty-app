@@ -9,7 +9,8 @@
     <ion-item>
       <ion-label floating>Password</ion-label>
       <ion-input type="password" [(ngModel)]="loginData.user.password" formControlName="password" name="password"></ion-input>
-    </ion-item><br>
+    </ion-item>
+    <ion-item-divider no-lines></ion-item-divider>
 
     <button type="submit" ion-button block color="main" [disabled]="!loginForm.valid">Sign in</button>
   </form>
