@@ -23,11 +23,26 @@ export class ViewtransactionsPage {
 
   constructor(public categoryProvider: CategoryProvider, public toastCtrl: ToastController, public loadingCtrl: LoadingController, public alertCtrl: AlertController, public navCtrl: NavController, public navParams: NavParams) {
     this.walletId = this.navParams.get('_id')
-    this.getTransactions();
+    //this.getTransactions();
+    this.fetch();
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad ViewtransactionsPage');
+  }
+
+  fetch(){
+    this.screenLoad();
+    this.getTransactions();
+    this.loading.dismiss();
+  }
+
+  screenLoad(){
+    this.loading = this.loadingCtrl.create({
+      spinner: 'bubbles',
+      content: 'Fetching wallet transactions'
+    });
+    this.loading.present();
   }
 
   getTransactions() {
