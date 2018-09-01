@@ -18,7 +18,7 @@
 </ion-header>
 
 <ion-content padding>
-  <form [formGroup]="addWalletForm" (ngSubmit)="showConfirm()">
+  <form [formGroup]="addWalletForm" (ngSubmit)="addWallet()">
     <ion-item>
       <ion-label floating>Wallet Name</ion-label>
       <ion-input type="text" [(ngModel)]="wallet.name" formControlName="name" name="name"></ion-input>
@@ -45,7 +45,7 @@
     </ion-item>
     <ion-item-divider no-lines></ion-item-divider>
 
-    <button ion-button block color="main" [disabled]="!addWalletForm.valid" (click)="showConfirm()">Save</button>
+    <button ion-button block color="main" [disabled]="!addWalletForm.valid" type="submit">Add Wallet</button>
   </form>
 
 </ion-content>

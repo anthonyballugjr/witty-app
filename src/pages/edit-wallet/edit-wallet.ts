@@ -40,7 +40,7 @@ export class EditWalletPage {
     }
     const confirm = this.alertCtrl.create({
       title: 'Update wallet',
-      message: 'update this wallet?',
+      message: 'Update this wallet?',
       buttons: [
         {
           text: 'Cancel',
