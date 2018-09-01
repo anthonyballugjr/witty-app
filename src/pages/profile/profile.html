@@ -32,28 +32,29 @@
     <ion-input disabled value="Witty Saver"></ion-input>
   </ion-item>
   <br>
-  <ion-list>
-    <ion-list-header no-padding margin-left>STUFFS</ion-list-header>
-    <ion-item>Average Monthly Budget
-      <p item-end>{{15000 | currency : "PHP" :2}}</p>
-    </ion-item>
-    <ion-item>Average Monthly Expenses
-      <p item-end>{{12456 | currency : "PHP" :2}}</p>
-    </ion-item>
-    <ion-item>Overall total savings:
-      <p item-end>{{5000 | currency : "PHP" :2}} </p>
-    </ion-item>
-    <ion-item>Overall expenses:
-      <p item-end>{{12600 | currency: "PHP" :2}}</p>
-    </ion-item>
-    <ion-item>Other stuffs:
-      <p item-end>{{12345 | currency: "PHP" :2}}</p>
-    </ion-item>
-    <ion-item>Some other stuffs:
-      <p item-end>{{2000 | currency: "PHP" :2}}</p>
-    </ion-item>
-  </ion-list>
-
-  <button ion-button block>Export this transcript as anything</button>
+  <div id="content" #content>
+    <ion-list>
+      <ion-list-header no-padding margin-left>STUFFS</ion-list-header>
+      <ion-item>Average Monthly Budget
+        <p item-end>{{15000 | currency : "PHP" :2}}</p>
+      </ion-item>
+      <ion-item>Average Monthly Expenses
+        <p item-end>{{12456 | currency : "PHP" :2}}</p>
+      </ion-item>
+      <ion-item>Overall total savings:
+        <p item-end>{{5000 | currency : "PHP" :2}} </p>
+      </ion-item>
+      <ion-item>Overall expenses:
+        <p item-end>{{12600 | currency: "PHP" :2}}</p>
+      </ion-item>
+      <ion-item>Other stuffs:
+        <p item-end>{{12345 | currency: "PHP" :2}}</p>
+      </ion-item>
+      <ion-item>Some other stuffs:
+        <p item-end>{{2000 | currency: "PHP" :2}}</p>
+      </ion-item>
+    </ion-list>
+  </div>
+  <button ion-button block (click)="export()" color="danger" >Export this transcript as anything&nbsp;<ion-icon name="document"></ion-icon></button>
 
 </ion-content>
