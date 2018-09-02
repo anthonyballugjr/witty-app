@@ -13,7 +13,7 @@ export class ViewtransactionsPage {
   transaction = {
     'desc': '',
     'amount': '',
-    'wallet': ''
+    'walletId': ''
   }
   walletId: any;
   prompt: any;
@@ -23,7 +23,6 @@ export class ViewtransactionsPage {
 
   constructor(public categoryProvider: CategoryProvider, public toastCtrl: ToastController, public loadingCtrl: LoadingController, public alertCtrl: AlertController, public navCtrl: NavController, public navParams: NavParams) {
     this.walletId = this.navParams.get('_id')
-    //this.getTransactions();
     this.fetch();
   }
 
@@ -92,7 +91,7 @@ export class ViewtransactionsPage {
             else {
               this.transaction.desc = data.desc;
               this.transaction.amount = data.amount;
-              this.transaction.wallet = this.data._id;
+              this.transaction.walletId = this.data._id;
               let confirm = this.alertCtrl.create({
                 subTitle: 'Add transaction?',
                 buttons: [
@@ -111,15 +110,12 @@ export class ViewtransactionsPage {
                           this.loading.dismiss();
                           this.presentToast('Transaction added!');
                           this.prompt.dismiss();
-                          this.getTransactions();
+                          this.fetch();
                         }, err => {
                           this.loading.dismiss();
                           console.log(err);
                           this.presentToast(err.message);
                         });
-
-
-                      // this.addTransaction();
                     }
                   }
                 ]
@@ -151,23 +147,5 @@ export class ViewtransactionsPage {
     });
     toast.present();
   }
-
-  // addTransaction() {
-  //   this.presentLoading();
-  //   this.categoryProvider.addTransaction(this.transaction).then((result) => {
-  //     this.loading.dismiss();
-  //     this.presentToast('Transaction added to ' + this.data.name);
-  //     this.prompt.dismiss();
-  //     console.log(result);
-  //     this.result = result;
-  //     this.data.transactions.push(this.result);
-  //     console.log(this.data.transactions);
-  //     this.navCtrl.setRoot(HomePage);
-  //   }, (err) => {
-  //     this.loading.dismiss();
-  //     console.log(err);
-  //     this.presentToast(err);
-  //   });
-  // }
-
+  
 }
