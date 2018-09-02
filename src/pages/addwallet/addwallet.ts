@@ -13,7 +13,7 @@ export class AddwalletPage {
   categories: any;
   wallet = {
     'name': '',
-    'user': localStorage.userId,
+    'userId': localStorage.userId,
     'type': '',
     'amount': '',
     'categoryId': ''
