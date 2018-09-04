@@ -1,14 +1,8 @@
 import { Component, ViewChild, ElementRef } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
-import {TabsPage} from '../tabs/tabs';
 import * as jsPDF from 'jspdf';
 
-/**
- * Generated class for the ProfilePage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
+import { AuthProvider } from '../../providers/auth/auth';
 
 @IonicPage()
 @Component({
@@ -16,30 +10,46 @@ import * as jsPDF from 'jspdf';
   templateUrl: 'profile.html',
 })
 export class ProfilePage {
-  userData = localStorage
+  editData = {
+    "user": {
+      "name": ""
+    }
+  }
+  userData: any;
+  email: any;
+  nickname: any;
   @ViewChild('content') content: ElementRef;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
-    console.log(this.userData);
+  constructor(public authProvider: AuthProvider, public navCtrl: NavController, public navParams: NavParams) {
+    this.getProfile();
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad ProfilePage');
   }
 
-  export(){
-    
+  getProfile() {
+    this.authProvider.getProfile()
+      .then(data => {
+        this.userData = data;
+        console.log(this.userData);
+        this.email = this.userData.user.email;
+        this.nickname = this.userData.user.name;
+      });
+  }
+
+  export() {
     let doc = new jsPDF();
 
     let specialElementHandlers = {
-      '#editor': function(element, renderer){
+      '#editor': function (element, renderer) {
         return true;
       }
     };
 
     let content = this.content.nativeElement;
 
-    doc.fromHTML(content.innerHTML, 15,15, {
+    doc.fromHTML(content.innerHTML, 15, 15, {
       'width': 190,
       'elementHandlers': specialElementHandlers
     });

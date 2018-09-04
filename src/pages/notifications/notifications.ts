@@ -3,14 +3,6 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ViewController, AlertController, Platform } from 'ionic-angular';
 import { LocalNotifications } from '@ionic-native/local-notifications';
 
-
-/**
- * Generated class for the NotificationsPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
-
 @IonicPage()
 @Component({
   selector: 'page-notifications',
@@ -37,6 +29,7 @@ export class NotificationsPage {
     this.localNotif.schedule({
       text: this.data.title + ":<br>" + this.data.description,
       trigger: { at: date },
+      every: 'day',
       led: 'FF0000',
       sound: this.setSound(),
     });

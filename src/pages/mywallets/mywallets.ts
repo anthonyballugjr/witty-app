@@ -9,7 +9,6 @@ import { CategoryProvider } from '../../providers/category/category';
   templateUrl: 'mywallets.html',
 })
 export class MywalletsPage {
-  wallets: any;
   transactions: any = [];
   categories: any;
 
@@ -26,7 +25,6 @@ export class MywalletsPage {
   isSelected: any;
 
   constructor(private alertCtrl: AlertController, private calendar: Calendar, public categoryProvider: CategoryProvider, public navCtrl: NavController, public navParams: NavParams) {
-    this.getWallets();
     this.getCategories();
   }
 
@@ -39,19 +37,6 @@ export class MywalletsPage {
       .then(data => {
         this.categories = data;
         console.log(this.categories);
-      });
-  }
-
-  getWallets() {
-    this.categoryProvider.getWallets()
-      .then(data => {
-        this.wallets = data;
-        for (let x of this.wallets) {
-          for (let i of x.transactions) {
-            this.transactions.push(i);
-          }
-        }
-        console.log('transactions', this.transactions);
       });
   }
 

@@ -16,67 +16,15 @@
 </ion-header>
 
 <ion-content padding>
-  <!-- <ion-item>
-    <ion-label>Select Period</ion-label>
-    <ion-datetime displayFormat="MM/YYYY" pickerFormat="MMMM YYYY" [(ngModel)]="myDate"></ion-datetime>
-  </ion-item> -->
 
   <div>
-    <ion-segment [(ngModel)]="x">
-      <ion-segment-button value="expense">
-        Expenses
-      </ion-segment-button>
-      <ion-segment-button value="savings">
-        Savings
-      </ion-segment-button>
-      <ion-segment-button value="bills">
-        Bills
-      </ion-segment-button>
-      <ion-segment-button value="debts">
-        Debts
-      </ion-segment-button>
-    </ion-segment>
-  </div>
-
-  <div [ngSwitch]="x">
-    <ion-list *ngSwitchCase="'expense'">
-      <ion-item *ngFor="let wallet of wallets | filterBy: ['type']: 'expense'">
-        <p class="strong">{{wallet.name}}</p>
-      </ion-item>
-    </ion-list>
-
-    <ion-list *ngSwitchCase="'savings'">
-      <ion-item *ngFor="let wallet of wallets | filterBy: ['type']: 'savings'">
-        <p class="strong">{{wallet.name}}</p>
-      </ion-item>
-    </ion-list>
-
-    <ion-list *ngSwitchCase="'bills'">
-      <ion-item *ngFor="let wallet of wallets | filterBy: ['type']: 'bills'">
-        <p class="strong">{{wallet.name}}</p>
-      </ion-item>
-    </ion-list>
-
-    <ion-list *ngSwitchCase="'debts'">
-      <ion-item *ngFor="let wallet of wallets | filterBy: ['type']: 'debts'">
-        <p class="strong">{{wallet.name}}</p>
+    <ion-list>
+      <ion-item *ngFor="let category of categories">
+        <ion-icon name={{category.icon}} item-start></ion-icon>
+        <h5>{{category.desc}}</h5>
       </ion-item>
     </ion-list>
   </div>
-
-  <div>
-      <ion-list>
-        <ion-item *ngFor="let category of categories">
-          <ion-icon name={{category.icon}} item-start></ion-icon>
-          <h5>{{category.desc}}</h5>
-        </ion-item>
-      </ion-list>
-    </div>
-
-  <ion-list>
-    <ion-list-header>Expenses</ion-list-header>
-    <ion-item row-no-padding *ngFor="let x of transactions">{{x.desc | orderBy: '-x.date'}}</ion-item>
-  </ion-list>
 
   <div class="calendar-header">
     <ion-row class="calendar-month">
@@ -126,6 +74,6 @@
     </ion-list>
   </div>
 
- 
+
 
 </ion-content>

@@ -9,14 +9,6 @@ import { Validators, FormBuilder } from '@angular/forms';
 
 import { AuthProvider } from '../../providers/auth/auth'
 
-
-/**
- * Generated class for the LoginPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
-
 @IonicPage()
 @Component({
   selector: 'page-login',

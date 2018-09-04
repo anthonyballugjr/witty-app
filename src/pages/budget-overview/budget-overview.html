@@ -38,7 +38,7 @@
       <ion-note item-end>{{wallets | pluck:'amount' | sum | currency: "PHP" :2}}</ion-note>
     </ion-item>
     <ion-item>
-      <h3 ion-text color="watermelon">Total Expenses:</h3>
+      <h2 ion-text color="watermelon"><strong>Total Expenses:</strong></h2>
       <ion-note item-end>{{expenses | pluck:'amount' | sum | currency: "PHP" :2}}</ion-note>
     </ion-item>
     <ion-item-divider no-lines></ion-item-divider>
