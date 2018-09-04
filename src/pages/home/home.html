@@ -10,10 +10,6 @@
       <button (click)="showPopover($event)" ion-button icon-only>
         <ion-icon name="card"></ion-icon>
       </button>
-      <button id="notif-button" ion-button icon-only>
-        <ion-badge id="notif-badge" color="buttons">{{expenses.length}}</ion-badge>
-        <ion-icon name="notifications"></ion-icon>
-      </button>
     </ion-buttons>
 
   </ion-navbar>
@@ -46,7 +42,7 @@
 
     <ion-slide>
       <ion-list>
-        <ion-item-divider float-left class="strong">Expenses Wallets</ion-item-divider>
+        <ion-item-divider float-left class="strong">Expenses</ion-item-divider>
         <ion-item ion-item *ngFor="let wallet of wallets | filterBy: ['type']: 'expense'" (click)="viewTransactions(wallet._id)">
           <ion-icon name="{{wallet.category | pluck: 'icon'}}" item-start></ion-icon>
           <h6>
@@ -67,7 +63,7 @@
 
     <ion-slide>
       <ion-list>
-        <ion-item-divider float-left class="strong">Savings Wallets</ion-item-divider>
+          <ion-item-divider float-left class="strong">Savings</ion-item-divider>
         <ion-item *ngFor="let wallet of wallets | filterBy: ['type']: 'savings'">
           <h6>
             <strong>{{wallet.name | ucwords}}</strong>
@@ -79,10 +75,22 @@
 
     <ion-slide>
       <ion-list>
-        <ion-item-divider float-left class="strong">Bills Wallet</ion-item-divider>
+        <ion-item-divider float-left class="strong">Bills</ion-item-divider>
+
         <div>
-          <button ion-button block clear (click)="goToBills()">Manage Bills</button>
+          <ion-list>
+            <ion-item *ngFor="let calendar of calendars" tappable>
+              <button ion-button icon-only item-start clear (click)="addEvent(calendar)">
+                <ion-icon name="add"></ion-icon>
+              </button>
+              {{calendar.name}}
+              <button ion-button icon-only item-end clear (click)="openCalendar(calendar)">
+                <ion-icon name="arrow-forward"></ion-icon>
+              </button>
+            </ion-item>
+          </ion-list>
         </div>
+
         <ion-item *ngFor="let wallet of wallets | filterBy: ['type']: 'bills'">
           <h6>
             <strong>{{wallet.name | ucwords}}</strong>

@@ -1,17 +1,12 @@
 import { Component, ViewChild } from '@angular/core';
-import { NavController, NavParams, ToastController, PopoverController, Slides } from 'ionic-angular';
-
-
+import { Platform, NavController, NavParams, ToastController, PopoverController, Slides } from 'ionic-angular';
+import { Calendar } from '@ionic-native/calendar';
 import { HttpClient } from '@angular/common/http';
 
 import { CategoryProvider } from '../../providers/category/category';
 import { ViewtransactionsPage } from '../viewtransactions/viewtransactions';
-import { AddwalletPage } from '../addwallet/addwallet';
-
 import { NotificationsPage } from '../notifications/notifications';
 import { BillsPage } from '../bills/bills';
-
-
 
 @Component({
   selector: 'page-home',
@@ -19,13 +14,15 @@ import { BillsPage } from '../bills/bills';
 })
 export class HomePage {
   @ViewChild('slider') slider: Slides;
-  page:string = "0";
+  page: string = "0";
   wallets: any;
   expenses: any = [];
-  expense: any;
+  totalExp: any = [];
   userData: any;
   data: any;
   x: any;
+
+  calendars = [];
 
   month = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
   n = new Date();
@@ -33,8 +30,30 @@ export class HomePage {
   y = this.n.getFullYear();
   period = this.m + " " + this.y;
 
-  constructor(private popCtrl: PopoverController, private toastCtrl: ToastController, public navParams: NavParams, public navCtrl: NavController, public http: HttpClient, public categoryProvider: CategoryProvider) {
+  constructor(private plt: Platform, private calendar: Calendar, private popCtrl: PopoverController, private toastCtrl: ToastController, public navParams: NavParams, public navCtrl: NavController, public http: HttpClient, public categoryProvider: CategoryProvider) {
     this.getWallets();
+  }
+
+  ionViewDidLoad() {
+    this.plt.ready().then(() => {
+      this.calendar.listCalendars().then(data => {
+        this.calendars = data;
+      });
+    })
+  }
+
+  addEvent(cal) {
+    let date = new Date();
+    let options = { calendarId: cal.id, calendarName: cal.name, recurrence: 'monthly', firstReminderMinutes: 15 };
+
+    this.calendar.createEventInteractivelyWithOptions('Bill name', '', 'Special Notes', date, date, options).then(res => {
+    }, err => {
+      console.log('err: ', err);
+    });
+  }
+
+  openCalendar(cal) {
+    this.navCtrl.push(BillsPage, { name: cal.name });
   }
 
   showPopover(myEvent) {
@@ -76,10 +95,6 @@ export class HomePage {
     this.navCtrl.push(ViewtransactionsPage, { _id: id });
   }
 
-  addCategory() {
-    this.navCtrl.push(AddwalletPage);
-  }
-
   selectedTab(index) {
     this.slider.slideTo(index);
   }
@@ -89,7 +104,7 @@ export class HomePage {
   }
 
   goToBills() {
-    this.navCtrl.setRoot(BillsPage);
+    this.navCtrl.push(BillsPage);
   }
 
 }
