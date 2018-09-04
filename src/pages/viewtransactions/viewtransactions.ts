@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, AlertController, LoadingController, ToastController } from 'ionic-angular';
+import { IonicPage, ViewController, NavController, NavParams, AlertController, LoadingController, ToastController } from 'ionic-angular';
 
 import { CategoryProvider } from '../../providers/category/category';
 
@@ -21,7 +21,7 @@ export class ViewtransactionsPage {
   result: any;
   transactionData: any;
 
-  constructor(public categoryProvider: CategoryProvider, public toastCtrl: ToastController, public loadingCtrl: LoadingController, public alertCtrl: AlertController, public navCtrl: NavController, public navParams: NavParams) {
+  constructor(private viewCtrl: ViewController, public categoryProvider: CategoryProvider, public toastCtrl: ToastController, public loadingCtrl: LoadingController, public alertCtrl: AlertController, public navCtrl: NavController, public navParams: NavParams) {
     this.walletId = this.navParams.get('_id')
     this.fetch();
   }
@@ -30,13 +30,13 @@ export class ViewtransactionsPage {
     console.log('ionViewDidLoad ViewtransactionsPage');
   }
 
-  fetch(){
+  fetch() {
     this.screenLoad();
     this.getTransactions();
     this.loading.dismiss();
   }
 
-  screenLoad(){
+  screenLoad() {
     this.loading = this.loadingCtrl.create({
       spinner: 'bubbles',
       content: 'Fetching wallet transactions'
@@ -147,5 +147,9 @@ export class ViewtransactionsPage {
     });
     toast.present();
   }
-  
+
+  close() {
+    this.viewCtrl.dismiss();
+  }
+
 }

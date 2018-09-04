@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, AlertController, LoadingController, ToastController, Platform } from 'ionic-angular';
+import { IonicPage, ViewController, NavController, NavParams, AlertController, LoadingController, ToastController, Platform } from 'ionic-angular';
 import { Calendar } from '@ionic-native/calendar';
 
 @IonicPage()
@@ -18,7 +18,7 @@ export class BillsPage {
   loading: any;
   toast: any;
 
-  constructor(private toastCtrl: ToastController, private loadingCtrl: LoadingController, private plt: Platform, private calendar: Calendar, private alertCtrl: AlertController, public navCtrl: NavController, public navParams: NavParams) {
+  constructor(private viewCtrl: ViewController, private toastCtrl: ToastController, private loadingCtrl: LoadingController, private plt: Platform, private calendar: Calendar, private alertCtrl: AlertController, public navCtrl: NavController, public navParams: NavParams) {
     this.calName = navParams.get('name');
   }
 
@@ -42,7 +42,7 @@ export class BillsPage {
   openCalendar(data) {
     var date = new Date(data.dtstart);
     this.calendar.openCalendar(date).then(res => {
-      this.plt.registerBackButtonAction(()=>{
+      this.plt.registerBackButtonAction(() => {
         this.ionViewDidLoad();
       });
     }, err => {
@@ -107,6 +107,10 @@ export class BillsPage {
       buttons: ['Ok']
     });
     this.alert.present();
+  }
+
+  close() {
+    this.viewCtrl.dismiss();
   }
 
 }
