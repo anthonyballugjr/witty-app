@@ -1,9 +1,3 @@
-<!--
-  Generated template for the ProfilePage page.
-
-  See http://ionicframework.com/docs/components/#navigation for more info on
-  Ionic pages and navigation.
--->
 <ion-header>
 
   <ion-navbar>
@@ -13,28 +7,27 @@
         <ion-icon name='menu'></ion-icon>
       </button>
     </ion-buttons>
+    <ion-buttons right>
+      <button ion-button icon-only>
+        <ion-icon name='more'></ion-icon>
+      </button>
+    </ion-buttons>
   </ion-navbar>
 
 </ion-header>
 
 <ion-content padding>
-  <ion-item>
-    <ion-label floating>Email</ion-label>
-    <ion-input disabled value="{{userData.email}}"></ion-input>
-  </ion-item>
-  <ion-item>
-    <ion-label floating>Nickname</ion-label>
-    <ion-input disabled value="{{userData.nickname}}"></ion-input>
-    <button color="main" item-end ion-button outline>Edit</button>
-  </ion-item>
-  <ion-item>
-    <ion-label floating>Witty Title</ion-label>
-    <ion-input disabled value="Witty Saver"></ion-input>
-  </ion-item>
-  <br>
+  <ion-list no-lines>
+    <ion-item-divider class="strong">ACCOUNT DETAILS</ion-item-divider>
+    <ion-item>Email: {{email}}</ion-item>
+    <ion-item>Nickname: {{nickname | ucwords}}</ion-item>
+    <ion-item>Title: Witty Saver</ion-item>
+  </ion-list>
+
+
   <div id="content" #content>
-    <ion-list>
-      <ion-list-header no-padding margin-left>STUFFS</ion-list-header>
+    <ion-list no-lines>
+      <ion-item-divider no-padding margin-left class="strong">BUDGET PROFILE</ion-item-divider>
       <ion-item>Average Monthly Budget
         <p item-end>{{15000 | currency : "PHP" :2}}</p>
       </ion-item>
@@ -55,6 +48,8 @@
       </ion-item>
     </ion-list>
   </div>
-  <button ion-button block (click)="export()" color="danger" >Export this transcript as anything&nbsp;<ion-icon name="document"></ion-icon></button>
+  <button ion-button block (click)="export()" color="danger">Export this transcript as PDF
+    <ion-icon item-start name="document"></ion-icon>
+  </button>
 
 </ion-content>
