@@ -49,21 +49,19 @@
             <strong>{{wallet.name | ucwords}}</strong>
           </h6>
           <p>Budget: {{wallet.amount | currency: "PHP" :2}} </p>
-          <p *ngIf="(wallet.transactions | pluck: 'amount' | sum) >= wallet.amount" ion-text color="danger">Expenses: {{wallet.transactions | pluck:'amount' | sum | currency: "PHP" :2}}
-            <ion-icon name="alert"></ion-icon>
+          <p ion-text [color]="(wallet.transactions | pluck: 'amount' | sum) >= wallet.amount ? 'danger':'greenx'">Expenses: {{wallet.transactions | pluck:'amount' | sum | currency: "PHP" :2}}
+            <ion-icon [name]="(wallet.transactions | pluck: 'amount' | sum) >= wallet.amount ? 'alert':'thumbs-up'"></ion-icon>
           </p>
-          <p *ngIf="wallet.amount > (wallet.transactions | pluck: 'amount' | sum)">Expenses: {{wallet.transactions | pluck:'amount' | sum | currency: "PHP" :2}}</p>
-          <p *ngIf="(wallet.transactions | pluck: 'amount' | sum) >= wallet.amount" ion-text color="danger">Remaining: {{wallet.amount - (wallet.transactions | pluck:'amount' | sum) | currency: "PHP" :2}}
-            <ion-icon name="alert"></ion-icon>
+          <p ion-text [color]="(wallet.transactions | pluck: 'amount' | sum) >= wallet.amount ? 'danger':'greenx'">Remaining: {{wallet.amount - (wallet.transactions | pluck:'amount' | sum) | currency: "PHP" :2}}
+            <ion-icon [name]="(wallet.transactions | pluck: 'amount' | sum) >= wallet.amount ? 'alert':'thumbs-up'"></ion-icon>
           </p>
-          <p *ngIf="wallet.amount > (wallet.transactions | pluck: 'amount' | sum)">Remaining: {{wallet.amount - (wallet.transactions | pluck:'amount' | sum) | currency: "PHP" :2}}</p>
         </ion-item>
       </ion-list>
     </ion-slide>
 
     <ion-slide>
       <ion-list>
-          <ion-item-divider float-left class="strong">Savings</ion-item-divider>
+        <ion-item-divider float-left class="strong">Savings</ion-item-divider>
         <ion-item *ngFor="let wallet of wallets | filterBy: ['type']: 'savings'">
           <h6>
             <strong>{{wallet.name | ucwords}}</strong>

@@ -57,7 +57,9 @@ export class HomePage {
     let modal = this.modalCtrl.create(BillsPage, {name: cal.name});
     modal.present();
 
-    modal.onDidDismiss(this.ionViewDidLoad());
+    modal.onDidDismiss(result=>{
+      this.ionViewDidLoad();
+    });
   }
 
   showPopover(myEvent) {
@@ -98,7 +100,9 @@ export class HomePage {
     let modal = this.modalCtrl.create(ViewtransactionsPage, {_id: id});
     modal.present();
     
-    modal.onDidDismiss(this.ionViewDidLoad());
+    modal.onDidDismiss((result)=>{
+      this.ionViewDidLoad();
+    });
   }
 
   selectedTab(index) {
