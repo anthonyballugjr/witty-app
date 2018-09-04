@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { Platform, NavController, NavParams, ToastController, PopoverController, Slides } from 'ionic-angular';
+import { Platform, NavController, NavParams, ToastController, PopoverController,ModalController, Slides } from 'ionic-angular';
 import { Calendar } from '@ionic-native/calendar';
 import { HttpClient } from '@angular/common/http';
 
@@ -30,11 +30,12 @@ export class HomePage {
   y = this.n.getFullYear();
   period = this.m + " " + this.y;
 
-  constructor(private plt: Platform, private calendar: Calendar, private popCtrl: PopoverController, private toastCtrl: ToastController, public navParams: NavParams, public navCtrl: NavController, public http: HttpClient, public categoryProvider: CategoryProvider) {
+  constructor(private modalCtrl: ModalController, private plt: Platform, private calendar: Calendar, private popCtrl: PopoverController, private toastCtrl: ToastController, public navParams: NavParams, public navCtrl: NavController, public http: HttpClient, public categoryProvider: CategoryProvider) {
     this.getWallets();
   }
 
   ionViewDidLoad() {
+    this.getWallets();
     this.plt.ready().then(() => {
       this.calendar.listCalendars().then(data => {
         this.calendars = data;
@@ -53,7 +54,10 @@ export class HomePage {
   }
 
   openCalendar(cal) {
-    this.navCtrl.push(BillsPage, { name: cal.name });
+    let modal = this.modalCtrl.create(BillsPage, {name: cal.name});
+    modal.present();
+
+    modal.onDidDismiss(this.ionViewDidLoad());
   }
 
   showPopover(myEvent) {
@@ -91,8 +95,10 @@ export class HomePage {
   }
 
   viewTransactions(id) {
-    console.log(id);
-    this.navCtrl.push(ViewtransactionsPage, { _id: id });
+    let modal = this.modalCtrl.create(ViewtransactionsPage, {_id: id});
+    modal.present();
+    
+    modal.onDidDismiss(this.ionViewDidLoad());
   }
 
   selectedTab(index) {
