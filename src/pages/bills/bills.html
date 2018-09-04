@@ -1,80 +1,38 @@
-<!--
-  Generated template for the BillsPage page.
-
-  See http://ionicframework.com/docs/components/#navigation for more info on
-  Ionic pages and navigation.
--->
 <ion-header>
 
   <ion-navbar>
-    <ion-buttons left>
-      <button ion-button icon-only menuToggle>
-        <ion-icon name="menu"></ion-icon>
-      </button>
-    </ion-buttons>
-    <ion-title>Bills</ion-title>
-    <ion-buttons end>
-      <button ion-button icon-only (click)="addBill()">
-        <ion-icon name="add"></ion-icon>
-      </button>
-    </ion-buttons>
+    <ion-title>Calendar Events</ion-title>
   </ion-navbar>
 
 </ion-header>
 
 
 <ion-content>
-  <h3 margin-left>{{viewTitle}}</h3>
-  <calendar [eventSource]="eventSource" [calendarMode]="calendar.mode" [currentDate]="calendar.currentDate" (onEventSelected)="onEventSelected($event)"
-    (onTitleChanged)="onViewTitleChanged($event)" (onTimeSelected)="onTimeSelected($event)" step="30" class="calendar"></calendar>
 
+  <ion-card *ngFor="let event of events">
+    <ion-card-header>
+      {{event.title}}
+    </ion-card-header>
+    <ion-card-content>
+      <ion-list no-lines>
+        <ion-item>
+          <ion-icon name="calendar"></ion-icon> Start: {{event.dtstart | date: 'longDate'}}
+        </ion-item>
+        <ion-item>
+          <ion-icon name="calendar"></ion-icon> End: {{event.dtend | date: 'longDate'}}
+        </ion-item>
+      </ion-list>
+      <button ion-button icon-only (click)="openCalendar(event)">
+        <ion-icon name="eye"></ion-icon>
+      </button>
+      <button ion-button icon-only (click)="deleteEvent(calendar)">
+        <ion-icon name="trash"></ion-icon>
+      </button>
+    </ion-card-content>
+  </ion-card>
 
-  <!-- <div class="calendar-header">
-    <ion-row class="calendar-month">
-      <ion-col col-2 (click)="goToLastMonth()">
-        <ion-icon name="arrow-back"></ion-icon>
-      </ion-col>
-      <ion-col col-8>{{currentMonth}} {{currentYear}}</ion-col>
-      <ion-col col-2 (click)="goToNextMonth()">
-        <ion-icon name="arrow-forward"></ion-icon>
-      </ion-col>
-    </ion-row>
+  <div>
+    <p>{{print}}</p>
   </div>
-  <div class="calendar-body">
-    <ion-grid>
-      <ion-row class="calendar-weekday">
-        <ion-col>Sun</ion-col>
-        <ion-col>Mon</ion-col>
-        <ion-col>Tue</ion-col>
-        <ion-col>Wed</ion-col>
-        <ion-col>Thu</ion-col>
-        <ion-col>Fri</ion-col>
-        <ion-col>Sat</ion-col>
-      </ion-row>
-      <ion-row class="calendar-date">
-        <ion-col col-1 *ngFor="let lastDay of daysInLastMonth" class="last-month">{{lastDay}}</ion-col>
-        <ion-col col-1 *ngFor="let day of daysInThisMonth">
-          <span class="currentDate" *ngIf="currentDate === day; else otherDate">{{day}}</span>
-          <ng-template #otherDate class="otherDate">{{day}}</ng-template>
-        </ion-col>
-        <ion-col col-1 *ngFor="let nextDay of daysInNextMonth" class="next-month">{{nextDay}}</ion-col>
-      </ion-row>
-    </ion-grid>
-  </div>
-  <div class="selected-event" *ngIf="isSelected">
-    <ion-list>
-      <ion-item *ngFor="let se of selectedEvent">
-        <ion-buttons end>
-          <button ion-button clear icon-only (click)="deleteEvent(se)">
-            <ion-icon name="close"></ion-icon>
-          </button>
-        </ion-buttons>
-        <h2>{{se.title}}</h2>
-        <h3>{{se.message}}</h3>
-        <p>Start Date: {{se.startDate}}
-          <br> Start Date: {{se.endDate}}</p>
-      </ion-item>
-    </ion-list>
-  </div> -->
 
 </ion-content>

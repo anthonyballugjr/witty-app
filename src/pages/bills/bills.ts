@@ -1,17 +1,6 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, AlertController, ModalController,Platform } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, AlertController, LoadingController, ToastController, Platform } from 'ionic-angular';
 import { Calendar } from '@ionic-native/calendar';
-import { NotificationsProvider } from '../../providers/notifications/notifications';
-import * as moment from 'moment';
-
-import { AddBillPage } from '../../pages/add-bill/add-bill';
-
-/**
- * Generated class for the BillsPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
 
 @IonicPage()
 @Component({
@@ -19,90 +8,106 @@ import { AddBillPage } from '../../pages/add-bill/add-bill';
   templateUrl: 'bills.html',
 })
 export class BillsPage {
-  eventSource = [];
-  viewTitle: string;
-  selectedDay = new Date();
+  calName = "";
+  events = [];
+  alert: any;
+  print: any;
 
-  calendar = {
-    mode: "month",
-    currentDate: this.selectedDay
-  }
+  period: any;
 
-  notifications: any;
+  loading: any;
+  toast: any;
 
-  calendars = [];
-
-
-  constructor(private plt: Platform,private cal: Calendar, public modalCtrl: ModalController, private alertCtrl: AlertController, public notifProvider: NotificationsProvider, public navCtrl: NavController, public navParams: NavParams) {
-    // this.plt.ready().then(()=>{
-    //   this.cal.listCalendars().then(data=>{
-
-    //   });
-    // });
-    
+  constructor(private toastCtrl: ToastController, private loadingCtrl: LoadingController, private plt: Platform, private calendar: Calendar, private alertCtrl: AlertController, public navCtrl: NavController, public navParams: NavParams) {
+    this.calName = navParams.get('name');
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad BillsPage');
-    this.getNotifications();
-  }
-
-  addEvent(cal){
-
-  }
-
-  getNotifications() {
-    this.notifProvider.getNotifications()
-      .then(data => {
-        this.notifications = data;
-        console.log(this.notifications);
-      }, err => {
-        console.log(err);
+    if (this.plt.is('ios')) {
+      this.calendar.findAllEventsInNamedCalendar(this.calName).then(data => {
+        this.events = data;
       });
+    } else if (this.plt.is('android')) {
+      let start = new Date();
+      let end = new Date();
+      end.setDate(end.getDate() + 31);
+
+      this.calendar.listEventsInRange(start, end).then(data => {
+        this.events = data;
+        this.print = JSON.stringify(data);
+      });
+    }
   }
 
-  addBill() {
-    let modal = this.modalCtrl.create(AddBillPage, { selectedDay: this.selectedDay });
-    modal.present();
-
-    modal.onDidDismiss(data => {
-      if (data) {
-        let eventData = data;
-
-        eventData.startTime = new Date(data.startTime);
-        eventData.endTime = new Date(data.endTime);
-
-        let events = this.eventSource;
-        events.push(eventData);
-        this.eventSource = [];
-        setTimeout(() => {
-          this.eventSource = events;
-        })
-      }
+  openCalendar(data) {
+    var date = new Date(data.dtstart);
+    this.calendar.openCalendar(date).then(res => {
+      this.plt.registerBackButtonAction(()=>{
+        this.ionViewDidLoad();
+      });
+    }, err => {
+      console.log('err: ', err);
     });
   }
 
-  onViewTitleChanged(title) {
-    this.viewTitle = title;
+  deleteEvent(data) {
+    var details = data;
+    const confirm = this.alertCtrl.create({
+      title: 'Delete Event',
+      message: 'Are you sure you want to delete this task?',
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          handler: () => {
+            console.log('cancelled');
+          }
+        },
+        {
+          text: 'Agree',
+          handler: () => {
+            var start = new Date(details.dtstart);
+            var end = new Date(details.dtend);
+            this.presentLoading('Deleting Event');
+            this.calendar.deleteEvent(details.title, details.location, details.notes, start, end).then((result) => {
+              this.loading.dismiss();
+              this.presentToast(result);
+              this.ionViewDidLoad();
+            }, err => {
+              this.loading.dismiss();
+              this.presentToast(err);
+            });
+          }
+        }
+      ]
+    });
+    confirm.present();
   }
 
-  onTimeSelected(ev) {
-    this.selectedDay = ev.selectedTime;
+  presentLoading(content) {
+    this.loading = this.loadingCtrl.create({
+      spinner: 'bubbles',
+      content: content
+    });
+    this.loading.present();
   }
 
-  onEventSelected(event) {
-    let start = moment(event.startTime).format('LLLL');
-    let end = moment(event.endTime).format('LLLL');
+  presentToast(msg) {
+    this.toast = this.toastCtrl.create({
+      message: msg,
+      duration: 3000,
+      dismissOnPageChange: false
+    });
+    this.toast.present();
+  }
 
-    let alert = this.alertCtrl.create({
-      title: '' + event.title,
-      subTitle: 'From: ' + start + '<br>To: ' + end,
+  presentAlert(msg) {
+    this.alert = this.alertCtrl.create({
+      message: msg,
       buttons: ['Ok']
     });
-    alert.present();
+    this.alert.present();
   }
-
-
 
 }
 
