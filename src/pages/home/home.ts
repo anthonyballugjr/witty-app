@@ -1,12 +1,13 @@
 import { Component, ViewChild } from '@angular/core';
-import { Platform, NavController, NavParams, ToastController, PopoverController,ModalController, Slides } from 'ionic-angular';
+import { Platform, NavController, NavParams, ToastController, PopoverController, ModalController, Slides } from 'ionic-angular';
 import { Calendar } from '@ionic-native/calendar';
 import { HttpClient } from '@angular/common/http';
 
 import { CategoryProvider } from '../../providers/category/category';
 import { ViewtransactionsPage } from '../viewtransactions/viewtransactions';
-import { NotificationsPage } from '../notifications/notifications';
 import { BillsPage } from '../bills/bills';
+import { PopHomePage } from '../pop-home/pop-home';
+import { ExpensesPage } from '../expenses/expenses';
 
 @Component({
   selector: 'page-home',
@@ -54,16 +55,16 @@ export class HomePage {
   }
 
   openCalendar(cal) {
-    let modal = this.modalCtrl.create(BillsPage, {name: cal.name});
+    let modal = this.modalCtrl.create(BillsPage, { name: cal.name });
     modal.present();
 
-    modal.onDidDismiss(result=>{
+    modal.onDidDismiss(result => {
       this.ionViewDidLoad();
     });
   }
 
   showPopover(myEvent) {
-    let pop = this.popCtrl.create(NotificationsPage);
+    let pop = this.popCtrl.create(ExpensesPage, {expenses: this.expenses});
     pop.present({
       ev: myEvent
     });
@@ -97,10 +98,10 @@ export class HomePage {
   }
 
   viewTransactions(id) {
-    let modal = this.modalCtrl.create(ViewtransactionsPage, {_id: id});
+    let modal = this.modalCtrl.create(ViewtransactionsPage, { _id: id });
     modal.present();
-    
-    modal.onDidDismiss((result)=>{
+
+    modal.onDidDismiss((result) => {
       this.ionViewDidLoad();
     });
   }
