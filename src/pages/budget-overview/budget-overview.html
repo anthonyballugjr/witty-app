@@ -3,7 +3,7 @@
   <ion-navbar>
     <ion-title>Budget Summary</ion-title>
     <ion-buttons end>
-      <button ion-button clear icon-only>
+      <button ion-button clear icon-only (click)="showPopover($event)">
         <ion-icon name="more"></ion-icon>
       </button>
     </ion-buttons>

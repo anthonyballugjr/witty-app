@@ -1,13 +1,7 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, PopoverController, NavParams } from 'ionic-angular';
 import { CategoryProvider } from '../../providers/category/category';
-
-/**
- * Generated class for the BudgetOverviewPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
+import { PopHomePage } from '../pop-home/pop-home';
 
 @IonicPage()
 @Component({
@@ -26,12 +20,20 @@ export class BudgetOverviewPage {
 
 
 
-  constructor(public categoryProvider: CategoryProvider, public navCtrl: NavController, public navParams: NavParams) {
+  constructor(private popCtrl: PopoverController, public categoryProvider: CategoryProvider, public navCtrl: NavController, public navParams: NavParams) {
     this.getWallets();
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad BudgetOverviewPage');
+  }
+
+  showPopover(event) {
+    let pop = this.popCtrl.create(PopHomePage);
+    pop.present({
+      ev: event
+    });
+
   }
 
   getWallets() {

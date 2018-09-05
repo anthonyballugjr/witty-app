@@ -19,16 +19,16 @@ import { SignupPage } from '../pages/signup/signup';
 import { LoginPage } from '../pages/login/login';
 import { AddwalletPage } from '../pages/addwallet/addwallet';
 import { ViewtransactionsPage } from '../pages/viewtransactions/viewtransactions';
-import { NotificationsPage } from '../pages/notifications/notifications';
 import { TabsPage } from '../pages/tabs/tabs';
 import { ProfilePage } from '../pages/profile/profile';
 import { CategoriesPage } from '../pages/categories/categories';
 import { ChallengesPage } from '../pages/challenges/challenges';
 import { MywalletsPage } from '../pages/mywallets/mywallets';
 import { BillsPage } from '../pages/bills/bills';
-import { AddBillPage } from '../pages/add-bill/add-bill';
 import { EditWalletPage } from '../pages/edit-wallet/edit-wallet';
 import { BudgetOverviewPage } from '../pages/budget-overview/budget-overview';
+import { PopHomePage } from '../pages/pop-home/pop-home';
+import { ExpensesPage } from '../pages/expenses/expenses';
 //providers
 import { CategoryProvider } from '../providers/category/category';
 import { AuthProvider } from '../providers/auth/auth';
@@ -51,11 +51,11 @@ import { NotificationsProvider } from '../providers/notifications/notifications'
     ChallengesPage,
     MywalletsPage,
     HeaderMenuComponent,
-    NotificationsPage,
-    AddBillPage,
     BillsPage,
     EditWalletPage,
-    BudgetOverviewPage
+    BudgetOverviewPage,
+    PopHomePage,
+    ExpensesPage
   ],
   imports: [
     BrowserModule,
@@ -78,11 +78,11 @@ import { NotificationsProvider } from '../providers/notifications/notifications'
     ChallengesPage,
     MywalletsPage,
     ViewtransactionsPage,
-    NotificationsPage,
-    AddBillPage,
     BillsPage,
     EditWalletPage,
-    BudgetOverviewPage
+    BudgetOverviewPage,
+    PopHomePage,
+    ExpensesPage
   ],
   providers: [
     StatusBar,
