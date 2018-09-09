@@ -1,9 +1,12 @@
+<ion-toolbar color="light">
+  <h4>Expenses</h4>
+</ion-toolbar>
+
 <ion-content>
-  <h3 margin-left>Expenses History</h3>
-  <ion-list>
-    <ion-item *ngFor="let expense of expenses">
-      <p>{{expense.desc}}</p>
-      <p>{{expense.amount}}</p>
+  <ion-item-group>
+    <ion-item *ngFor="let x of expenses">
+      <p>{{x.desc}}</p>
+      <p>{{x.amount}}</p>
     </ion-item>
-  </ion-list>
+  </ion-item-group>
 </ion-content>
