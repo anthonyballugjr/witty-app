@@ -8,7 +8,7 @@
       </button>
     </ion-buttons>
     <ion-buttons right>
-      <button ion-button icon-only>
+      <button ion-button icon-only (click)="showPopover($event)">
         <ion-icon name='more'></ion-icon>
       </button>
     </ion-buttons>
@@ -48,8 +48,8 @@
       </ion-item>
     </ion-list>
   </div>
-  <button ion-button block (click)="export()" color="danger">Export this transcript as PDF
-    <ion-icon item-start name="document"></ion-icon>
+  <button detail-none no-lines ion-item (click)="export()" color="danger">Download a copy of my profile
+    <ion-icon item-start name="download"></ion-icon>
   </button>
 
 </ion-content>
