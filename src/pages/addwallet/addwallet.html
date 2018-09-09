@@ -1,13 +1,8 @@
-<!--
-  Generated template for the AddwalletPage page.
-
-  See http://ionicframework.com/docs/components/#navigation for more info on
-  Ionic pages and navigation.
--->
 <ion-header>
 
   <ion-navbar>
-    <ion-title>New Wallet</ion-title>
+    <ion-title *ngIf="isSavings===true">New Savings Wallet</ion-title>
+    <ion-title *ngIf="isSavings===false">New Expense Wallet</ion-title>
     <ion-buttons end>
       <button ion-button clear icon-only (click)="cancel()">
         <ion-icon name="close"></ion-icon>
@@ -28,19 +23,12 @@
       <ion-input type="number" [(ngModel)]="wallet.amount" formControlName="budget" name="budget"></ion-input>
     </ion-item>
 
-    <ion-item>
-      <ion-label floating>Choose Type</ion-label>
-      <ion-select [(ngModel)]="wallet.type" formControlName="type" name="type">
-        <ion-option value="expense">Expense</ion-option>
-        <ion-option value="savings">Savings</ion-option>
-        <ion-option value="bills">Bill</ion-option>
-      </ion-select>
-    </ion-item>
-
-    <ion-item *ngIf="wallet.type==='expense'">
+    <ion-item *ngIf="isSavings===false">
       <ion-label floating>Choose Category</ion-label>
-      <ion-select [(ngModel)]="wallet.categoryId" formControlName="categoryId" name="categoryId">
-        <ion-option *ngFor="let category of categories" value={{category._id}}>{{category.desc | ucwords}}</ion-option>
+      <ion-select [(ngModel)]="wallet.categoryId" formControlName="categoryId" name="categoryId" interface="action-sheet">
+        <ion-option *ngFor="let category of categories" value={{category._id}}>
+          {{category.desc | ucwords}}
+        </ion-option>
       </ion-select>
     </ion-item>
     <ion-item-divider no-lines></ion-item-divider>
