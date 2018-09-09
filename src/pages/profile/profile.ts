@@ -1,8 +1,9 @@
 import { Component, ViewChild, ElementRef } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, PopoverController, AlertController } from 'ionic-angular';
 import * as jsPDF from 'jspdf';
 
 import { AuthProvider } from '../../providers/auth/auth';
+import { PopovermenuComponent } from '../../components/popovermenu/popovermenu';
 
 @IonicPage()
 @Component({
@@ -11,21 +12,19 @@ import { AuthProvider } from '../../providers/auth/auth';
 })
 export class ProfilePage {
   editData = {
-    "user": {
-      "name": ""
-    }
+    "name": ""
   }
   userData: any;
   email: any;
   nickname: any;
   @ViewChild('content') content: ElementRef;
 
-  constructor(public authProvider: AuthProvider, public navCtrl: NavController, public navParams: NavParams) {
-    this.getProfile();
+  constructor(public alertCtrl: AlertController, private popCtrl: PopoverController, public authProvider: AuthProvider, public navCtrl: NavController, public navParams: NavParams) {
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad ProfilePage');
+    this.getProfile();
   }
 
   getProfile() {
@@ -36,6 +35,20 @@ export class ProfilePage {
         this.email = this.userData.user.email;
         this.nickname = this.userData.user.name;
       });
+  }
+
+  showPopover(event) {
+    let pop = this.popCtrl.create(PopovermenuComponent, { menu: "profile", name: this.nickname });
+    pop.present({
+      ev: event
+    });
+    pop.onDidDismiss(data=>{
+      console.log(data);
+      if(data){
+        this.ionViewDidLoad();
+      }
+      
+    });
   }
 
   export() {
