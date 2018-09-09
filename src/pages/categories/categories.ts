@@ -4,13 +4,7 @@ import { CategoryProvider } from '../../providers/category/category';
 
 import { EditWalletPage } from '../edit-wallet/edit-wallet';
 import { AddwalletPage } from '../addwallet/addwallet';
-
-/**
- * Generated class for the CategoriesPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
+import { HomePage } from '../home/home';
 
 @IonicPage()
 @Component({
@@ -19,6 +13,7 @@ import { AddwalletPage } from '../addwallet/addwallet';
 })
 export class CategoriesPage {
   wallets: any;
+
   alert: any;
   loading: any;
 
@@ -54,8 +49,8 @@ export class CategoriesPage {
       });
   }
 
-  addWallet() {
-    let modal = this.modalCtrl.create(AddwalletPage);
+  addWallet(data) {
+    let modal = this.modalCtrl.create(AddwalletPage, { isSavings: data });
     modal.present();
 
     modal.onDidDismiss(data => {
@@ -68,6 +63,7 @@ export class CategoriesPage {
             this.showAlert('Success!', 'New wallet created!');
             this.getWallets();
           }, err => {
+            this.loading.dismiss();
             console.log(err);
             this.showAlert('Failed', err.message);
           });
@@ -127,6 +123,10 @@ export class CategoriesPage {
       ]
     });
     this.alert.present();
+  }
+
+  backToHome() {
+    this.navCtrl.setRoot(HomePage);
   }
 
 }

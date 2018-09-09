@@ -9,20 +9,22 @@ import { CategoryProvider } from '../../providers/category/category';
   templateUrl: 'viewtransactions.html',
 })
 export class ViewtransactionsPage {
-  data: any = [];
+  data: any;
   transaction = {
     'desc': '',
     'amount': '',
     'walletId': ''
   }
   walletId: any;
+  walletName: any;
   prompt: any;
   loading: any;
   result: any;
   transactionData: any;
 
   constructor(private viewCtrl: ViewController, public categoryProvider: CategoryProvider, public toastCtrl: ToastController, public loadingCtrl: LoadingController, public alertCtrl: AlertController, public navCtrl: NavController, public navParams: NavParams) {
-    this.walletId = this.navParams.get('_id')
+    this.walletId = this.navParams.get('_id');
+    this.walletName = this.navParams.get('walletName');
     this.fetch();
   }
 
@@ -91,7 +93,7 @@ export class ViewtransactionsPage {
             else {
               this.transaction.desc = data.desc;
               this.transaction.amount = data.amount;
-              this.transaction.walletId = this.data._id;
+              this.transaction.walletId = this.walletId;
               let confirm = this.alertCtrl.create({
                 subTitle: 'Add transaction?',
                 buttons: [

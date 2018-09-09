@@ -8,8 +8,8 @@
       </button>
     </ion-buttons>
     <ion-buttons right>
-      <button ion-button icon-only (click)="addWallet()">
-        <ion-icon name='add'></ion-icon>
+      <button ion-button icon-only (click)="backToHome()">
+        <ion-icon name='home'></ion-icon>
       </button>
     </ion-buttons>
   </ion-navbar>
@@ -20,7 +20,9 @@
 <ion-content padding>
   <ion-note>SWIPE AN ITEM TO THE RIGHT FOR OPTIONS</ion-note>
   <ion-list no-lines>
-    <ion-item-divider no-padding class="strong">Expenses Wallet</ion-item-divider>
+    <ion-item-divider no-padding class="strong">EXPENSES WALLETS
+      <ion-icon item-start name="add-circle" (click)="addWallet(false)"></ion-icon>
+    </ion-item-divider>
     <ion-item-sliding *ngFor="let wallet of wallets | filterBy: ['type']: 'expense'">
       <ion-item tappable>
         {{wallet.name | ucwords}}
@@ -38,26 +40,10 @@
       </ion-item-options>
     </ion-item-sliding>
 
-    <ion-item-divider no-padding class="strong">Savings Wallet</ion-item-divider>
+    <ion-item-divider no-padding class="strong">SAVINGS WALLET
+      <ion-icon item-start name="add-circle" (click)="addWallet(true)"></ion-icon>
+    </ion-item-divider>
     <ion-item-sliding *ngFor="let wallet of wallets | filterBy: ['type']: 'savings'">
-      <ion-item>
-        {{wallet.name | ucwords}}
-        <ion-icon item-end name="arrow-dropright"></ion-icon>
-      </ion-item>
-      <ion-item-options side="left">
-        <button ion-button clear color="primary" (click)="editWallet(wallet)">
-          <ion-icon name="document"></ion-icon>
-          Edit
-        </button>
-        <button ion-button clear color="danger" (click)="deleteWallet(wallet._id)">
-          <ion-icon name="trash"></ion-icon>
-          Delete
-        </button>
-      </ion-item-options>
-    </ion-item-sliding>
-
-    <ion-item-divider no-padding class="strong">Bills Wallet</ion-item-divider>
-    <ion-item-sliding *ngFor="let wallet of wallets | filterBy: ['type']: 'bills'">
       <ion-item>
         {{wallet.name | ucwords}}
         <ion-icon item-end name="arrow-dropright"></ion-icon>

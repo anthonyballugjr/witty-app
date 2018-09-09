@@ -18,7 +18,6 @@
     <ion-segment color="light" [(ngModel)]="page" no-padding no-margin>
       <ion-segment-button value="0" (click)="selectedTab(0)">Expenses</ion-segment-button>
       <ion-segment-button value="1" (click)="selectedTab(1)">Savings</ion-segment-button>
-      <ion-segment-button value="2" (click)="selectedTab(2)">Bills</ion-segment-button>
     </ion-segment>
 
     <div ion-text color="light" no-padding no-margin>
@@ -38,23 +37,26 @@
     <ion-datetime displayFormat="MM/YYYY" pickerFormat="MMMM YYYY" [(ngModel)]="myDate"></ion-datetime>
   </ion-item> -->
 
-  <ion-slides #slider effect="flip" (ionSlideDidChange)="isChanged($event)" (ionSlideWillChange)="isChanged($event)" (ionSlideDrag)="isChanged($event)">
+  <ion-slides #slider effect="flip" (ionSlideDidChange)="isChanged($event)" (ionSlideWillChange)="willChange($event)" (ionSlideDrag)="willChange($event)">
 
     <ion-slide>
       <ion-list>
         <ion-item-divider float-left class="strong">Expenses</ion-item-divider>
-        <ion-item ion-item *ngFor="let wallet of wallets | filterBy: ['type']: 'expense'" (click)="viewTransactions(wallet._id)">
+        <ion-item ion-item *ngFor="let wallet of wallets | filterBy: ['type']: 'expense'">
           <ion-icon name="{{wallet.category | pluck: 'icon'}}" item-start></ion-icon>
-          <h6>
-            <strong>{{wallet.name | ucwords}}</strong>
-          </h6>
-          <p>Budget: {{wallet.amount | currency: "PHP" :2}} </p>
-          <p ion-text [color]="(wallet.transactions | pluck: 'amount' | sum) >= wallet.amount ? 'danger':'greenx'">Expenses: {{wallet.transactions | pluck:'amount' | sum | currency: "PHP" :2}}
-            <ion-icon [name]="(wallet.transactions | pluck: 'amount' | sum) >= wallet.amount ? 'alert':'thumbs-up'"></ion-icon>
-          </p>
-          <p ion-text [color]="(wallet.transactions | pluck: 'amount' | sum) >= wallet.amount ? 'danger':'greenx'">Remaining: {{wallet.amount - (wallet.transactions | pluck:'amount' | sum) | currency: "PHP" :2}}
-            <ion-icon [name]="(wallet.transactions | pluck: 'amount' | sum) >= wallet.amount ? 'alert':'thumbs-up'"></ion-icon>
-          </p>
+          <div (click)="viewTransactions(wallet._id,wallet.name)">
+            <h6>
+              <strong>{{wallet.name | ucwords}}</strong>
+            </h6>
+            <p>Budget: {{wallet.amount | currency: "PHP" :2}} </p>
+            <p ion-text [color]="(wallet.transactions | pluck: 'amount' | sum) >= wallet.amount ? 'danger':'greenx'">Expenses: {{wallet.transactions | pluck:'amount' | sum | currency: "PHP" :2}}
+              <ion-icon [name]="(wallet.transactions | pluck: 'amount' | sum) >= wallet.amount ? 'alert':'thumbs-up'"></ion-icon>
+            </p>
+            <p ion-text [color]="(wallet.transactions | pluck: 'amount' | sum) >= wallet.amount ? 'danger':'greenx'">Remaining: {{wallet.amount - (wallet.transactions | pluck:'amount' | sum) | currency: "PHP" :2}}
+              <ion-icon [name]="(wallet.transactions | pluck: 'amount' | sum) >= wallet.amount ? 'alert':'thumbs-up'"></ion-icon>
+            </p>
+          </div>
+          <ion-icon item-end color="main" name="more"></ion-icon>
         </ion-item>
       </ion-list>
     </ion-slide>
@@ -63,41 +65,23 @@
       <ion-list>
         <ion-item-divider float-left class="strong">Savings</ion-item-divider>
         <ion-item *ngFor="let wallet of wallets | filterBy: ['type']: 'savings'">
-          <h6>
-            <strong>{{wallet.name | ucwords}}</strong>
-          </h6>
-          <p>Budget: {{wallet.amount | currency: "PHP" :2}}</p>
-        </ion-item>
-      </ion-list>
-    </ion-slide>
-
-    <ion-slide>
-      <ion-list>
-        <ion-item-divider float-left class="strong">Bills</ion-item-divider>
-
-        <div>
-          <ion-list>
-            <ion-item *ngFor="let calendar of calendars" tappable>
-              <button  color="steel" ion-button icon-only item-start clear (click)="addEvent(calendar)">
-                <ion-icon name="add-circle"></ion-icon>
-              </button>
-              {{calendar.name}}
-              <button color="steel" ion-button icon-only item-end clear (click)="openCalendar(calendar)">
-                <ion-icon name="arrow-forward"></ion-icon>
-              </button>
-            </ion-item>
-          </ion-list>
-        </div>
-
-        <ion-item *ngFor="let wallet of wallets | filterBy: ['type']: 'bills'">
-          <h6>
-            <strong>{{wallet.name | ucwords}}</strong>
-          </h6>
-          <p>Budget: {{wallet.amount | currency: "PHP" :2}}</p>
+          <div (click)="addWallet()">
+            <h6>
+              <strong>{{wallet.name | ucwords}}</strong>
+            </h6>
+            <p>Allocated amount: {{wallet.amount | currency: "PHP" :2}}</p>
+          </div>
+          <ion-icon item-end name="more" color="main"></ion-icon>
         </ion-item>
       </ion-list>
     </ion-slide>
 
   </ion-slides>
+
+  <ion-fab top right>
+    <button ion-fab icon-only mini (click)="addWallet()" [color]="page==='0' ? 'main':'greenx'">
+      <ion-icon name="add"></ion-icon>
+    </button>
+  </ion-fab>
 
 </ion-content>
