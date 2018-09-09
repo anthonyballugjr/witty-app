@@ -6,8 +6,8 @@ import { HttpClient } from '@angular/common/http';
 import { CategoryProvider } from '../../providers/category/category';
 import { ViewtransactionsPage } from '../viewtransactions/viewtransactions';
 import { BillsPage } from '../bills/bills';
-import { PopHomePage } from '../pop-home/pop-home';
 import { ExpensesPage } from '../expenses/expenses';
+import { AddwalletPage } from '../addwallet/addwallet';
 
 @Component({
   selector: 'page-home',
@@ -31,8 +31,10 @@ export class HomePage {
   y = this.n.getFullYear();
   period = this.m + " " + this.y;
 
+  isSavings: boolean = false;
+
   constructor(private modalCtrl: ModalController, private plt: Platform, private calendar: Calendar, private popCtrl: PopoverController, private toastCtrl: ToastController, public navParams: NavParams, public navCtrl: NavController, public http: HttpClient, public categoryProvider: CategoryProvider) {
-    this.getWallets();
+    this.check();
   }
 
   ionViewDidLoad() {
@@ -64,7 +66,7 @@ export class HomePage {
   }
 
   showPopover(myEvent) {
-    let pop = this.popCtrl.create(ExpensesPage, {expenses: this.expenses});
+    let pop = this.popCtrl.create(ExpensesPage, { expenses: this.expenses });
     pop.present({
       ev: myEvent
     });
@@ -97,13 +99,18 @@ export class HomePage {
       });
   }
 
-  viewTransactions(id) {
-    let modal = this.modalCtrl.create(ViewtransactionsPage, { _id: id });
+  viewTransactions(id, name) {
+    let modal = this.modalCtrl.create(ViewtransactionsPage, { _id: id, walletName: name });
     modal.present();
 
     modal.onDidDismiss((result) => {
       this.ionViewDidLoad();
     });
+  }
+
+  addWallet() {
+    let modal = this.modalCtrl.create(AddwalletPage, { isSavings: this.isSavings, period: this.period });
+    modal.present();
   }
 
   selectedTab(index) {
@@ -112,6 +119,20 @@ export class HomePage {
 
   isChanged($event) {
     this.page = $event._snapIndex.toString();
+    this.check();
+  }
+
+  willChange($event) {
+    this.page = $event._snapIndex.toString();
+  }
+
+  check() {
+    if (this.page === '0') {
+      this.isSavings = false
+    } else {
+      this.isSavings = true;
+    }
+    console.log(this.isSavings);
   }
 
   goToBills() {

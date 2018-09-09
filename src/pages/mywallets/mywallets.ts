@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angular';
 import { Calendar } from '@ionic-native/calendar';
+import { Chart } from 'chart.js';
 import { CategoryProvider } from '../../providers/category/category';
 
 @IonicPage()
@@ -9,27 +10,83 @@ import { CategoryProvider } from '../../providers/category/category';
   templateUrl: 'mywallets.html',
 })
 export class MywalletsPage {
+  @ViewChild('doughnutCanvas') doughnutCanvas;
   transactions: any = [];
   categories: any;
+  ov: any = [];
+  wallets: any;
 
-  date: any;
-  daysInThisMonth: any;
-  daysInLastMonth: any;
-  daysInNextMonth: any;
-  monthNames: string[];
-  currentMonth: any;
-  currentYear: any;
-  currentDate: any;
-  eventList: any;
-  selectedEvent: any;
-  isSelected: any;
+  doughnutChart: any;
+
+  names: any = [];
+  amounts: any = [];
 
   constructor(private alertCtrl: AlertController, private calendar: Calendar, public categoryProvider: CategoryProvider, public navCtrl: NavController, public navParams: NavParams) {
+    this.getWallets();
     this.getCategories();
+    this.overview();
   }
 
   ionViewDidLoad() {
+    this.doughnutChart = this.getDoughnutChart();
     console.log('ionViewDidLoad MywalletsPage');
+  }
+
+  getWallets() {
+    this.categoryProvider.getWallets()
+      .then(data => {
+        this.wallets = data;
+        for (let x of this.wallets) {
+          this.names.push(x.name);
+        }
+        console.log('names', this.names);
+        console.log('amounts', this.amounts);
+        console.log(data);
+      });
+  }
+
+  getChart(context, chartType, data, options?) {
+    return new Chart(context, {
+      type: chartType,
+      data: data,
+      options: options
+    });
+  }
+
+  getDoughnutChart() {
+    let data: {
+      labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
+      datasets: [{
+        label: '# of Votes',
+        data: [12, 19, 3, 5, 2, 3],
+        backgroundColor: [
+          'rgba(255, 99, 132, 0.2)',
+          'rgba(54, 162, 235, 0.2)',
+          'rgba(255, 206, 86, 0.2)',
+          'rgba(75, 192, 192, 0.2)',
+          'rgba(153, 102, 255, 0.2)',
+          'rgba(255, 159, 64, 0.2)'
+        ],
+        borderColor: [
+          'rgba(255,99,132,1)',
+          'rgba(54, 162, 235, 1)',
+          'rgba(255, 206, 86, 1)',
+          'rgba(75, 192, 192, 1)',
+          'rgba(153, 102, 255, 1)',
+          'rgba(255, 159, 64, 1)'
+        ],
+        borderWidth: 1
+      }]
+    },
+      options: {
+        scales: {
+          yAxes: [{
+            ticks: {
+              beginAtZero: true
+            }
+          }]
+        }
+      }
   }
 
   getCategories() {
@@ -40,136 +97,12 @@ export class MywalletsPage {
       });
   }
 
-  ionViewWillEnter() {
-    this.date = new Date();
-    this.monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-    this.getDaysOfMonth();
-    this.loadEventThisMonth();
-  }
-
-  getDaysOfMonth() {
-    this.daysInThisMonth = new Array();
-    this.daysInLastMonth = new Array();
-    this.daysInNextMonth = new Array();
-    this.currentMonth = this.monthNames[this.date.getMonth()];
-    this.currentYear = this.date.getFullYear();
-    if (this.date.getMonth() === new Date().getMonth()) {
-      this.currentDate = new Date().getDate();
-    } else {
-      this.currentDate = 999;
-    }
-
-    var firstDayThisMonth = new Date(this.date.getFullYear(), this.date.getMonth(), 1).getDay();
-    var prevNumOfDays = new Date(this.date.getFullYear(), this.date.getMonth(), 0).getDate();
-    for (var i = prevNumOfDays - (firstDayThisMonth - 1); i <= prevNumOfDays; i++) {
-      this.daysInLastMonth.push(i);
-    }
-
-    var thisNumOfDays = new Date(this.date.getFullYear(), this.date.getMonth() + 1, 0).getDate();
-    for (var j = 0; j < thisNumOfDays; j++) {
-      this.daysInThisMonth.push(j + 1);
-    }
-
-    var lastDayThisMonth = new Date(this.date.getFullYear(), this.date.getMonth() + 1, 0).getDay();
-    // var nextNumOfDays = new Date(this.date.getFullYear(), this.date.getMonth()+2, 0).getDate();
-    for (var k = 0; k < (6 - lastDayThisMonth); k++) {
-      this.daysInNextMonth.push(k + 1);
-    }
-    var totalDays = this.daysInLastMonth.length + this.daysInThisMonth.length + this.daysInNextMonth.length;
-    if (totalDays < 36) {
-      for (var l = (7 - lastDayThisMonth); l < ((7 - lastDayThisMonth) + 7); l++) {
-        this.daysInNextMonth.push(l);
-      }
-    }
-  }
-
-  goToLastMonth() {
-    this.date = new Date(this.date.getFullYear(), this.date.getMonth(), 0);
-    this.getDaysOfMonth();
-  }
-
-  goToNextMonth() {
-    this.date = new Date(this.date.getFullYear(), this.date.getMonth() + 2, 0);
-    this.getDaysOfMonth();
-  }
-
-  // addEvent() {
-  //   this.navCtrl.push(AddEventPage);
-  // }
-
-  loadEventThisMonth() {
-    this.eventList = new Array();
-    var startDate = new Date(this.date.getFullYear(), this.date.getMonth(), 1);
-    var endDate = new Date(this.date.getFullYear(), this.date.getMonth() + 1, 0);
-    this.calendar.listEventsInRange(startDate, endDate).then(
-      (msg) => {
-        msg.forEach(item => {
-          this.eventList.push(item);
-        });
-      },
-      (err) => {
-        console.log(err);
-      }
-    );
-  }
-
-  checkEvent(day) {
-    var hasEvent = false;
-    var thisDate1 = this.date.getFullYear() + "-" + (this.date.getMonth() + 1) + "-" + day + " 00:00:00";
-    var thisDate2 = this.date.getFullYear() + "-" + (this.date.getMonth() + 1) + "-" + day + " 23:59:59";
-    this.eventList.forEach(event => {
-      if (((event.startDate >= thisDate1) && (event.startDate <= thisDate2)) || ((event.endDate >= thisDate1) && (event.endDate <= thisDate2))) {
-        hasEvent = true;
-      }
-    });
-    return hasEvent;
-  }
-
-  selectDate(day) {
-    this.isSelected = false;
-    this.selectedEvent = new Array();
-    var thisDate1 = this.date.getFullYear() + "-" + (this.date.getMonth() + 1) + "-" + day + " 00:00:00";
-    var thisDate2 = this.date.getFullYear() + "-" + (this.date.getMonth() + 1) + "-" + day + " 23:59:59";
-    this.eventList.forEach(event => {
-      if (((event.startDate >= thisDate1) && (event.startDate <= thisDate2)) || ((event.endDate >= thisDate1) && (event.endDate <= thisDate2))) {
-        this.isSelected = true;
-        this.selectedEvent.push(event);
-      }
-    });
-  }
-
-  deleteEvent(evt) {
-    // console.log(new Date(evt.startDate.replace(/\s/, 'T')));
-    // console.log(new Date(evt.endDate.replace(/\s/, 'T')));
-    let alert = this.alertCtrl.create({
-      title: 'Confirm Delete',
-      message: 'Are you sure want to delete this event?',
-      buttons: [
-        {
-          text: 'Cancel',
-          role: 'cancel',
-          handler: () => {
-            console.log('Cancel clicked');
-          }
-        },
-        {
-          text: 'Ok',
-          handler: () => {
-            this.calendar.deleteEvent(evt.title, evt.location, evt.notes, new Date(evt.startDate.replace(/\s/, 'T')), new Date(evt.endDate.replace(/\s/, 'T'))).then(
-              (msg) => {
-                console.log(msg);
-                this.loadEventThisMonth();
-                this.selectDate(new Date(evt.startDate.replace(/\s/, 'T')).getDate());
-              },
-              (err) => {
-                console.log(err);
-              }
-            )
-          }
-        }
-      ]
-    });
-    alert.present();
+  overview() {
+    this.categoryProvider.overview()
+      .then(data => {
+        this.ov = data;
+        console.log(this.ov);
+      });
   }
 
 }

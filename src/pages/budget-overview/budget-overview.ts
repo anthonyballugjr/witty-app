@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, PopoverController, NavParams } from 'ionic-angular';
 import { CategoryProvider } from '../../providers/category/category';
-import { PopHomePage } from '../pop-home/pop-home';
+import { PopovermenuComponent } from '../../components/popovermenu/popovermenu';
 
 @IonicPage()
 @Component({
@@ -29,7 +29,7 @@ export class BudgetOverviewPage {
   }
 
   showPopover(event) {
-    let pop = this.popCtrl.create(PopHomePage);
+    let pop = this.popCtrl.create(PopovermenuComponent, { menu: 'overview' });
     pop.present({
       ev: event
     });

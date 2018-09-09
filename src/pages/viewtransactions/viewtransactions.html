@@ -1,7 +1,7 @@
 <ion-header>
 
-  <ion-navbar>
-    <ion-title>{{data.name | ucwords}} Expenses</ion-title>
+  <ion-navbar no-border>
+    <ion-title>Transactions</ion-title>
     <ion-buttons right>
       <button ion-button icon-only (click)="close()">
         <ion-icon name="close"></ion-icon>
@@ -14,15 +14,16 @@
 
 <ion-content>
   <ion-list *ngIf="data" no-lines>
-    <ion-item *ngFor="let expense of data.transactions | reverse" text-wrap no-margin>
+    <ion-item-divider class="strong">Wallet: {{walletName | ucwords}}</ion-item-divider>
+    <ion-item *ngFor="let expense of data | reverse" text-wrap no-margin>
       <h5>{{expense.desc | ucwords}}</h5>
-      <ion-note>{{expense.date | date: 'medium'}}</ion-note>
+      <ion-note>{{expense.updatedAt | date: 'medium'}}</ion-note>
       <ion-note float-right>{{expense.amount | currency: "PHP": 2}}</ion-note>
     </ion-item>
   </ion-list>
 
   <h5 float-right margin-right>
-    <strong>Total: {{data.transactions | pluck:'amount' | sum | currency: "PHP": 2}}</strong>
+    <strong>Total: {{data | pluck:'amount' | sum | currency: "PHP": 2}}</strong>
   </h5>
 
   <ion-fab left bottom>
