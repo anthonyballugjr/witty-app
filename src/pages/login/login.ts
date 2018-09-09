@@ -5,7 +5,7 @@ import { TabsPage } from '../tabs/tabs';
 import { SignupPage } from '../signup/signup';
 
 import { HttpClient } from '@angular/common/http';
-import { Validators, FormBuilder } from '@angular/forms';
+import { Validators, FormBuilder, FormGroup } from '@angular/forms';
 
 import { AuthProvider } from '../../providers/auth/auth'
 
@@ -15,7 +15,7 @@ import { AuthProvider } from '../../providers/auth/auth'
   templateUrl: 'login.html',
 })
 export class LoginPage {
-
+  private loginForm: FormGroup;
   errMessage: any;
   loading: any;
   data: any;
@@ -30,17 +30,17 @@ export class LoginPage {
   userData: any;
 
   constructor(private toastCtrl: ToastController, public authProvider: AuthProvider, private formBldr: FormBuilder, public http: HttpClient, private facebook: Facebook, public navCtrl: NavController, public navParams: NavParams, public alertCtrl: AlertController, public loadingCtrl: LoadingController) {
+    this.loginForm = this.formBldr.group({
+      email: ["", Validators.required],
+      password: ["", Validators.required]
+    }); 
   }
 
-  private loginForm = this.formBldr.group({
-    email: ["", Validators.required],
-    password: ["", Validators.required]
-  });
+
 
   ionViewDidLoad() {
     //this.showLoader();
     //check authentication
-
   }
 
   showLoader() {
