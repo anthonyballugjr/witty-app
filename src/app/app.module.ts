@@ -27,12 +27,12 @@ import { MywalletsPage } from '../pages/mywallets/mywallets';
 import { BillsPage } from '../pages/bills/bills';
 import { EditWalletPage } from '../pages/edit-wallet/edit-wallet';
 import { BudgetOverviewPage } from '../pages/budget-overview/budget-overview';
-import { PopHomePage } from '../pages/pop-home/pop-home';
 import { ExpensesPage } from '../pages/expenses/expenses';
 //providers
 import { CategoryProvider } from '../providers/category/category';
 import { AuthProvider } from '../providers/auth/auth';
 import { NotificationsProvider } from '../providers/notifications/notifications';
+import { PopovermenuComponent } from '../components/popovermenu/popovermenu';
 // notification plugin
 
 
@@ -51,10 +51,10 @@ import { NotificationsProvider } from '../providers/notifications/notifications'
     ChallengesPage,
     MywalletsPage,
     HeaderMenuComponent,
+    PopovermenuComponent,
     BillsPage,
     EditWalletPage,
     BudgetOverviewPage,
-    PopHomePage,
     ExpensesPage
   ],
   imports: [
@@ -63,7 +63,9 @@ import { NotificationsProvider } from '../providers/notifications/notifications'
     NgPipesModule,
     NgCalendarModule,
     SuperTabsModule.forRoot(),
-    IonicModule.forRoot(MyApp),
+    IonicModule.forRoot(MyApp, {
+      navExitApp: false
+    }),
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -81,8 +83,8 @@ import { NotificationsProvider } from '../providers/notifications/notifications'
     BillsPage,
     EditWalletPage,
     BudgetOverviewPage,
-    PopHomePage,
-    ExpensesPage
+    ExpensesPage,
+    PopovermenuComponent
   ],
   providers: [
     StatusBar,
