@@ -12,8 +12,8 @@ export class AuthProvider {
     }
   }
 
-  //authURL = "http://localhost:3000/api/users";
-   authURL = "http://witty-wallet.herokuapp.com/api/users" 
+  authURL = "http://localhost:3000/api/users";
+  //  authURL = "http://witty-wallet.herokuapp.com/api/users" 
 
   constructor(public http: HttpClient) {
     console.log('Hello AuthProvider Provider');
@@ -53,7 +53,6 @@ export class AuthProvider {
       this.http.get(this.authURL + '/logout').subscribe(res => {
         localStorage.clear();
         resolve(res);
-        console.log(localStorage)
       }, (err) => {
         reject(err);
       });
@@ -67,6 +66,17 @@ export class AuthProvider {
       }, err => {
         reject(err);
       });
+    });
+  }
+
+  updateNickname(nickname) {
+    return new Promise((resolve, reject) => {
+      this.http.put(this.authURL + '/' + localStorage.userId, nickname, this.authHeader)
+        .subscribe(res => {
+          resolve(res);
+        }, err => {
+          reject(err);
+        });
     });
   }
 

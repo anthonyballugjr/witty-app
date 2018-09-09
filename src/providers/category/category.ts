@@ -1,18 +1,12 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
-/*
-  Generated class for the CategoryProvider provider.
-
-  See https://angular.io/guide/dependency-injection for more info on providers
-  and Angular DI.
-*/
 @Injectable()
 export class CategoryProvider {
   wallets: any;
   categoryData: any;
-  //apiUrl = "http://localhost:3000/api" //local
-apiUrl = "http://witty-wallet.herokuapp.com/api" 
+  apiUrl = "http://localhost:3000/api"
+// apiUrl = "http://witty-wallet.herokuapp.com/api" 
   authHeader = {
     headers: {
       'Authorization': 'Token ' + localStorage.token
@@ -94,7 +88,7 @@ apiUrl = "http://witty-wallet.herokuapp.com/api"
 
   getTransactions(id) {
     return new Promise(resolve => {
-      this.http.get(this.apiUrl + '/wallets/' + id, this.authHeader).subscribe(data => {
+      this.http.get(this.apiUrl + '/transactions?walletId=' + id, this.authHeader).subscribe(data => {
         resolve(data);
       }, err => {
         console.log(err);
@@ -111,6 +105,17 @@ apiUrl = "http://witty-wallet.herokuapp.com/api"
         reject(err)
       });
     })
+  }
+
+  overview() {
+    return new Promise(resolve => {
+      this.http.get(this.apiUrl + '/wallets/overview/' + localStorage.userId, this.authHeader).subscribe(data => {
+        this.categoryData = data;
+        resolve(data);
+      }, err => {
+        console.log(err);
+      });
+    });
   }
 
 
