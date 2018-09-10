@@ -19,18 +19,62 @@
       <ion-input type="text" [(ngModel)]="wallet.name" formControlName="name" name="name"></ion-input>
     </ion-item>
     <ion-item>
-      <ion-label floating>Set Budget</ion-label>
+      <ion-label floating>Amount</ion-label>
       <ion-input type="number" [(ngModel)]="wallet.amount" formControlName="budget" name="budget"></ion-input>
     </ion-item>
 
     <ion-item *ngIf="isSavings===false">
-      <ion-label floating>Choose Category</ion-label>
-      <ion-select [(ngModel)]="wallet.categoryId" formControlName="categoryId" name="categoryId" interface="action-sheet">
+      <ion-label floating>Category</ion-label>
+      <ion-select [disabled]="doNotify===true" [(ngModel)]="wallet.categoryId" formControlName="categoryId" name="categoryId" interface="action-sheet">
         <ion-option *ngFor="let category of categories" value={{category._id}}>
           {{category.desc | ucwords}}
         </ion-option>
       </ion-select>
     </ion-item>
+    <ion-item-divider no-lines></ion-item-divider>
+
+    <ion-item no-lines *ngIf="wallet.categoryId==='bll'">
+      <ion-label>Set notification for this bill?</ion-label>
+      <ion-toggle color="main" [(ngModel)]="doNotify" name="doNotify" formControlName="doNotify" (ionChange)="showMe()"></ion-toggle>
+    </ion-item>
+
+    <ion-card *ngIf="doNotify===true">
+      <ion-card-header>
+        <ion-icon item-start name="notifications"></ion-icon> Notification Details
+      </ion-card-header>
+      <ion-card-content>
+        <ion-list>
+          <ion-item>
+            <ion-label>Set Date</ion-label>
+            <ion-datetime displayFormat="MMMM/DD/YYYY" pickerFormat="MMMM DD YYYY" max="2040" min="2018" [(ngModel)]="notifData.date"
+              formControlName="date" name="date"></ion-datetime>
+          </ion-item>
+
+          <ion-item>
+            <ion-label>Set Time</ion-label>
+            <ion-datetime display format="hh:mm A" pickerFormat="hh mm A" [(ngModel)]="notifData.time" formControlName="time" name="time"></ion-datetime>
+          </ion-item>
+
+          <ion-item>
+            <ion-label>Repeat</ion-label>
+            <ion-select [(ngModel)]="notifData.every" name="every" formControlName="every">
+              <ion-option value="" selected>Never</ion-option>
+              <ion-option value="day">Daily</ion-option>
+              <ion-option value="week">Weekly</ion-option>
+              <ion-option value="month">Monthly</ion-option>
+              <ion-option value="year">Yearly</ion-option>
+            </ion-select>
+          </ion-item>
+
+          <ion-item>
+            <ion-label>Note</ion-label>
+            <ion-input [(ngModel)]="notifData.description" formControlName="description" name="description"></ion-input>
+          </ion-item>
+
+        </ion-list>
+      </ion-card-content>
+    </ion-card>
+
     <ion-item-divider no-lines></ion-item-divider>
 
     <button ion-button block color="main" [disabled]="!addWalletForm.valid" type="submit">Add Wallet</button>
