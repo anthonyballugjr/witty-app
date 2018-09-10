@@ -12,9 +12,12 @@ import { LocalNotifications } from '@ionic-native/local-notifications';
 })
 export class AddwalletPage {
   loading: any;
-  
+  alert: any;
+
   type: any;
   isSavings: boolean = false;
+  doNotify: boolean = false;
+
 
   categories: any;
 
@@ -33,14 +36,21 @@ export class AddwalletPage {
     'period': this.period
   }
 
-  constructor(private localNotifaction: LocalNotifications, private viewCtrl: ViewController, public loadCtrl: LoadingController, private formBldr: FormBuilder, public alertCtrl: AlertController, public navCtrl: NavController, public categoryProvider: CategoryProvider, public navParams: NavParams) {
+  notifData = {
+    description: '',
+    date: '',
+    time: '',
+    every: ''
+  }
+
+  constructor(public localNotifaction: LocalNotifications, private viewCtrl: ViewController, public loadCtrl: LoadingController, private formBldr: FormBuilder, public alertCtrl: AlertController, public navCtrl: NavController, public categoryProvider: CategoryProvider, public navParams: NavParams) {
     this.isSavings = this.navParams.get('isSavings');
     if (this.isSavings === true) {
-      this.wallet.type = "savings"
+      this.wallet.type = 'savings'
     } else {
-      this.wallet.type = "expense"
+      this.wallet.type = 'expense'
     }
-    console.log('type: ', this.type)
+    console.log('type: ', this.wallet.type)
     console.log('is it savings? ', this.isSavings);
     console.log(this.period);
     this.getCategories();
@@ -49,8 +59,25 @@ export class AddwalletPage {
   private addWalletForm = this.formBldr.group({
     name: ["", Validators.required],
     budget: ["", Validators.required],
-    categoryId: [""]
+    categoryId: [""],
+    doNotify: [""],
+    date: [""],
+    time: [""],
+    every: [""],
+    description: [""],
   });
+
+  showAlert(msg) {
+    this.alert = this.alertCtrl.create({
+      subTitle: msg,
+      buttons: ['Ok']
+    });
+    this.alert.present();
+  }
+
+  showMe() {
+    console.log(this.doNotify);
+  }
 
   saveNotification() {
     this.localNotifaction.schedule({
@@ -71,32 +98,60 @@ export class AddwalletPage {
     this.viewCtrl.dismiss();
   }
 
-  // addWallet() {
-  //   console.log(this.wallet);
-  // }
-
   addWallet() {
-    const confirm = this.alertCtrl.create({
-      title: 'New Wallet',
-      message: 'Add new wallet?',
-      buttons: [
-        {
-          text: 'Cancel',
-          role: 'cancel',
-          handler: () => {
-            console.log('cancelled');
+    if (this.isSavings === false && this.wallet.categoryId === '') {
+      this.showAlert('Select a category')
+    }
+    else if (this.doNotify === true && (this.notifData.date === '' || this.notifData.time === '')) {
+      this.showAlert('Notification details not set!')
+    }
+    else {
+      const confirm = this.alertCtrl.create({
+        title: 'New Wallet',
+        message: 'Add new wallet?',
+        buttons: [
+          {
+            text: 'Cancel',
+            role: 'cancel',
+            handler: () => {
+              console.log('cancelled');
+            }
+          },
+          {
+            text: 'Agree',
+            handler: () => {
+              if (this.wallet.categoryId === 'bll') {
+                if (this.doNotify === true) {
+
+                  console.log(this.wallet);
+                  console.log(this.notifData);
+
+                  var date = new Date(this.notifData.date + " " + this.notifData.time);
+
+                  this.localNotifaction.schedule({
+                    title: this.wallet.name,
+                    text: this.notifData.description,
+                    led: 'FF0000',
+                    trigger: { at: date },
+                    foreground: true,
+                    every: this.notifData.every,
+                    data: { notifData: this.notifData }
+                  });
+                  this.viewCtrl.dismiss(this.wallet);
+                } else {
+                  console.log(this.wallet);
+                  this.viewCtrl.dismiss(this.wallet);
+                }
+              } else {
+                console.log(this.wallet);
+                this.viewCtrl.dismiss(this.wallet);
+              }
+            }
           }
-        },
-        {
-          text: 'Agree',
-          handler: () => {
-            console.log(this.wallet);
-            this.viewCtrl.dismiss(this.wallet);
-          }
-        }
-      ]
-    });
-    confirm.present();
+        ]
+      });
+      confirm.present();
+    }
   }
 
 }

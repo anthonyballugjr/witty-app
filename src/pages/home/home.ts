@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { Platform, NavController, NavParams, ToastController, PopoverController, ModalController, Slides } from 'ionic-angular';
+import { Platform, NavController, NavParams, ToastController, PopoverController, ModalController, Slides, LoadingController, AlertController, Button } from 'ionic-angular';
 import { Calendar } from '@ionic-native/calendar';
 import { HttpClient } from '@angular/common/http';
 
@@ -16,6 +16,7 @@ import { AddwalletPage } from '../addwallet/addwallet';
 export class HomePage {
   @ViewChild('slider') slider: Slides;
   page: string = "0";
+
   wallets: any;
   expenses: any = [];
   totalExp: any = [];
@@ -33,36 +34,59 @@ export class HomePage {
 
   isSavings: boolean = false;
 
-  constructor(private modalCtrl: ModalController, private plt: Platform, private calendar: Calendar, private popCtrl: PopoverController, private toastCtrl: ToastController, public navParams: NavParams, public navCtrl: NavController, public http: HttpClient, public categoryProvider: CategoryProvider) {
+  loading: any;
+  alert: any;
+
+
+
+  constructor(private alertCtrl: AlertController, private loadingCtrl: LoadingController, private modalCtrl: ModalController, private plt: Platform, private calendar: Calendar, private popCtrl: PopoverController, private toastCtrl: ToastController, public navParams: NavParams, public navCtrl: NavController, public http: HttpClient, public categoryProvider: CategoryProvider) {
     this.check();
   }
 
   ionViewDidLoad() {
+    this.expenses = [];
     this.getWallets();
-    this.plt.ready().then(() => {
-      this.calendar.listCalendars().then(data => {
-        this.calendars = data;
-      });
-    })
+    // this.plt.ready().then(() => {
+    //   this.calendar.listCalendars().then(data => {
+    //     this.calendars = data;
+    //   });
+    // })
   }
 
-  addEvent(cal) {
-    let date = new Date();
-    let options = { calendarId: cal.id, calendarName: cal.name, recurrence: 'monthly', firstReminderMinutes: 15 };
+  // addEvent(cal) {
+  //   let date = new Date();
+  //   let options = { calendarId: cal.id, calendarName: cal.name, recurrence: 'monthly', firstReminderMinutes: 15 };
 
-    this.calendar.createEventInteractivelyWithOptions('Bill name', '', 'Special Notes', date, date, options).then(res => {
-    }, err => {
-      console.log('err: ', err);
+  //   this.calendar.createEventInteractivelyWithOptions('Bill name', '', 'Special Notes', date, date, options).then(res => {
+  //   }, err => {
+  //     console.log('err: ', err);
+  //   });
+  // }
+
+  // openCalendar(cal) {
+  //   let modal = this.modalCtrl.create(BillsPage, { name: cal.name });
+  //   modal.present();
+
+  //   modal.onDidDismiss(result => {
+  //     this.ionViewDidLoad();
+  //   });
+  // }
+
+  presentAlert(title, msg) {
+    this.alert = this.alertCtrl.create({
+      title: title,
+      subTitle: msg,
+      buttons: ['Ok']
     });
+    this.alert.present();
   }
 
-  openCalendar(cal) {
-    let modal = this.modalCtrl.create(BillsPage, { name: cal.name });
-    modal.present();
-
-    modal.onDidDismiss(result => {
-      this.ionViewDidLoad();
+  presentLoading(msg) {
+    this.loading = this.loadingCtrl.create({
+      content: msg,
+      spinner: 'bubbles'
     });
+    this.loading.present();
   }
 
   showPopover(myEvent) {
@@ -103,14 +127,32 @@ export class HomePage {
     let modal = this.modalCtrl.create(ViewtransactionsPage, { _id: id, walletName: name });
     modal.present();
 
-    modal.onDidDismiss((result) => {
+    modal.onDidDismiss(() => {
       this.ionViewDidLoad();
     });
   }
 
   addWallet() {
-    let modal = this.modalCtrl.create(AddwalletPage, { isSavings: this.isSavings, period: this.period });
+    let modal = this.modalCtrl.create(AddwalletPage, { isSavings: this.isSavings });
     modal.present();
+
+    modal.onDidDismiss(data => {
+      if (data) {
+        console.log(data);
+        this.presentLoading('Creating new wallet...');
+        this.categoryProvider.addWallet(data)
+          .then(result => {
+            console.log(result);
+            this.loading.dismiss();
+            this.presentAlert('Success!', 'New wallet created');
+            this.ionViewDidLoad();
+          }, err => {
+            this.loading.dismiss();
+            console.log(err);
+            this.presentAlert('Failed', err.message);
+          });
+      }
+    });
   }
 
   selectedTab(index) {
