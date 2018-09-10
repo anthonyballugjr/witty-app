@@ -8,7 +8,7 @@
     </ion-buttons>
     <ion-buttons right>
       <button (click)="showPopover($event)" ion-button icon-only>
-        <ion-icon name="more"></ion-icon>
+        <ion-icon name="cash"></ion-icon>
       </button>
     </ion-buttons>
 
@@ -31,12 +31,6 @@
 
 <ion-content>
 
-
-  <!-- <ion-item>
-    <ion-label>Select Period</ion-label>
-    <ion-datetime displayFormat="MM/YYYY" pickerFormat="MMMM YYYY" [(ngModel)]="myDate"></ion-datetime>
-  </ion-item> -->
-
   <ion-slides #slider effect="flip" (ionSlideDidChange)="isChanged($event)" (ionSlideWillChange)="willChange($event)" (ionSlideDrag)="willChange($event)">
 
     <ion-slide>
@@ -44,7 +38,7 @@
         <ion-item-divider float-left class="strong">Expenses</ion-item-divider>
         <ion-item ion-item *ngFor="let wallet of wallets | filterBy: ['type']: 'expense'">
           <ion-icon name="{{wallet.category | pluck: 'icon'}}" item-start></ion-icon>
-          <div (click)="viewTransactions(wallet._id,wallet.name)">
+          <div *ngIf="wallet.categoryId!=='bll'" (click)="viewTransactions(wallet._id,wallet.name)">
             <h6>
               <strong>{{wallet.name | ucwords}}</strong>
             </h6>
@@ -55,6 +49,12 @@
             <p ion-text [color]="(wallet.transactions | pluck: 'amount' | sum) >= wallet.amount ? 'danger':'greenx'">Remaining: {{wallet.amount - (wallet.transactions | pluck:'amount' | sum) | currency: "PHP" :2}}
               <ion-icon [name]="(wallet.transactions | pluck: 'amount' | sum) >= wallet.amount ? 'alert':'thumbs-up'"></ion-icon>
             </p>
+          </div>
+          <div *ngIf="wallet.categoryId==='bll'">
+            <h6>
+              <strong>{{wallet.name | ucwords}}</strong>
+            </h6>
+            <p>Allocated: {{wallet.amount | currency: "PHP" :2}} </p>
           </div>
           <ion-icon item-end color="main" name="more"></ion-icon>
         </ion-item>
@@ -69,7 +69,7 @@
             <h6>
               <strong>{{wallet.name | ucwords}}</strong>
             </h6>
-            <p>Allocated amount: {{wallet.amount | currency: "PHP" :2}}</p>
+            <p>Allocated: {{wallet.amount | currency: "PHP" :2}}</p>
           </div>
           <ion-icon item-end name="more" color="main"></ion-icon>
         </ion-item>
