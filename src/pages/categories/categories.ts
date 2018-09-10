@@ -4,7 +4,7 @@ import { CategoryProvider } from '../../providers/category/category';
 
 import { EditWalletPage } from '../edit-wallet/edit-wallet';
 import { AddwalletPage } from '../addwallet/addwallet';
-import { HomePage } from '../home/home';
+import { TabsPage } from '../tabs/tabs';
 
 @IonicPage()
 @Component({
@@ -55,6 +55,7 @@ export class CategoriesPage {
 
     modal.onDidDismiss(data => {
       if (data) {
+        console.log(data);
         this.showLoader('Creating new wallet...');
         this.categoryProvider.addWallet(data)
           .then(result => {
@@ -126,7 +127,7 @@ export class CategoriesPage {
   }
 
   backToHome() {
-    this.navCtrl.setRoot(HomePage);
+    this.navCtrl.setRoot(TabsPage);
   }
 
 }
