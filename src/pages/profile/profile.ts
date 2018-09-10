@@ -20,11 +20,12 @@ export class ProfilePage {
   @ViewChild('content') content: ElementRef;
 
   constructor(public alertCtrl: AlertController, private popCtrl: PopoverController, public authProvider: AuthProvider, public navCtrl: NavController, public navParams: NavParams) {
+    this.getProfile();
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad ProfilePage');
-    this.getProfile();
+   
   }
 
   getProfile() {
@@ -45,7 +46,7 @@ export class ProfilePage {
     pop.onDidDismiss(data=>{
       console.log(data);
       if(data){
-        this.ionViewDidLoad();
+        this.getProfile();
       }
       
     });
