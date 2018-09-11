@@ -1,23 +1,3 @@
-<!-- <ion-menu type="overlay" [content]="content">
-  <ion-header color="main">
-    <ion-toolbar color="main">
-      <ion-title>
-        Menu
-      </ion-title>
-      <ion-buttons right>
-        <button ion-button menuClose>
-          <ion-icon name='close'></ion-icon>
-        </button>
-      </ion-buttons>
-    </ion-toolbar>
-  </ion-header>
-  <ion-content>
-    <header-menu> </header-menu>
-  </ion-content>
-</ion-menu>
-<ion-nav [root]="rootPage" #content swipeBackEnabled="false"></ion-nav> -->
-
-
 <ion-menu type="overlay" [content]="content">
   <ion-header>
     <ion-toolbar>
@@ -39,5 +19,5 @@
   </ion-content>
 </ion-menu>
 
-<ion-nav [root]="rootPage" #content swipeBackEnabled="false"></ion-nav>
+<ion-nav [root]="rootPage" #content [swipeEnabled]="false"></ion-nav>
 <!-- Disable swipe-to-go-back because it's poor UX to combine STGB with side menus-->
