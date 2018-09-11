@@ -3,6 +3,7 @@ import { IonicPage, NavController, NavParams, PopoverController, AlertController
 import * as jsPDF from 'jspdf';
 
 import { AuthProvider } from '../../providers/auth/auth';
+import { ReportsProvider } from '../../providers/reports/reports';
 import { PopovermenuComponent } from '../../components/popovermenu/popovermenu';
 
 @IonicPage()
@@ -11,21 +12,32 @@ import { PopovermenuComponent } from '../../components/popovermenu/popovermenu';
   templateUrl: 'profile.html',
 })
 export class ProfilePage {
+  @ViewChild('content') content: ElementRef;
+
   editData = {
     "name": ""
   }
+
   userData: any;
+  budgetProfile: any = [];
   email: any;
   nickname: any;
-  @ViewChild('content') content: ElementRef;
 
-  constructor(public alertCtrl: AlertController, private popCtrl: PopoverController, public authProvider: AuthProvider, public navCtrl: NavController, public navParams: NavParams) {
+  constructor(public alertCtrl: AlertController, private popCtrl: PopoverController, public reportProvider: ReportsProvider, public authProvider: AuthProvider, public navCtrl: NavController, public navParams: NavParams) {
     this.getProfile();
+    this.getArchivesOverview();
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad ProfilePage');
-   
+  }
+
+  getArchivesOverview() {
+    this.reportProvider.getArchivesOverview()
+      .then(data => {
+        this.budgetProfile = data;
+        console.log('budgetProfile: ', this.budgetProfile);
+      });
   }
 
   getProfile() {
@@ -38,17 +50,18 @@ export class ProfilePage {
       });
   }
 
+
   showPopover(event) {
     let pop = this.popCtrl.create(PopovermenuComponent, { menu: "profile", name: this.nickname });
     pop.present({
       ev: event
     });
-    pop.onDidDismiss(data=>{
+    pop.onDidDismiss(data => {
       console.log(data);
-      if(data){
+      if (data) {
         this.getProfile();
       }
-      
+
     });
   }
 

@@ -28,23 +28,28 @@
   <div id="content" #content>
     <ion-list no-lines>
       <ion-item-divider no-padding margin-left class="strong">BUDGET PROFILE</ion-item-divider>
-      <ion-item>Average Monthly Budget
-        <p item-end>{{15000 | currency : "PHP" :2}}</p>
+      <ion-item class="bold">&nbsp;&nbsp;Overall Total Budget:
+        <p item-end>{{budgetProfile.grandTotalBudget | currency:"PHP":2}}</p>
       </ion-item>
-      <ion-item>Average Monthly Expenses
-        <p item-end>{{12456 | currency : "PHP" :2}}</p>
+      <ion-item>- Overall Total Expenses:
+        <p item-end>{{budgetProfile.grandTotalExpenses | currency:"PHP":2}}</p>
       </ion-item>
-      <ion-item>Overall total savings:
-        <p item-end>{{5000 | currency : "PHP" :2}} </p>
+      <ion-item>- Overall Total Savings:
+        <p item-end>{{budgetProfile.grandTotalSavings | currency:"PHP":2}}</p>
       </ion-item>
-      <ion-item>Overall expenses:
-        <p item-end>{{12600 | currency: "PHP" :2}}</p>
+      <hr>
+      <ion-item>&nbsp;&nbsp;Overall Extra Savings:
+        <p item-end>{{budgetProfile.grandTotalExtraSavings | currency:"PHP":2}}</p>
       </ion-item>
-      <ion-item>Other stuffs:
-        <p item-end>{{12345 | currency: "PHP" :2}}</p>
+      <ion-item-divider no-lines></ion-item-divider>
+      <ion-item>Average Monthly Budget:
+        <p item-end>{{budgetProfile.averageMonthlyBudget | currency:"PHP":2}}</p>
+      </ion-item> 
+      <ion-item>Average Monthly Expenses:
+        <p item-end>{{budgetProfile.averageMonthlyExpenses | currency:"PHP":2}}</p>
       </ion-item>
-      <ion-item>Some other stuffs:
-        <p item-end>{{2000 | currency: "PHP" :2}}</p>
+      <ion-item>Average Monthly Savings:
+        <p item-end>{{budgetProfile.averageMonthlySavings | currency:"PHP":2}}</p>
       </ion-item>
     </ion-list>
   </div>

@@ -48,7 +48,6 @@ export class AuthProvider {
   }
 
   logout() {
-    console.log('Removing auth token: ' + localStorage.token);
     return new Promise((resolve, reject) => {
       this.http.get(this.authURL + '/logout').subscribe(res => {
         localStorage.clear();
@@ -61,7 +60,7 @@ export class AuthProvider {
 
   getProfile() {
     return new Promise((resolve, reject) => {
-      this.http.get(this.authURL + '/me', this.authHeader).subscribe(res => {
+      this.http.get(this.authURL + '/' + localStorage.userId, this.authHeader).subscribe(res => {
         resolve(res);
       }, err => {
         reject(err);
@@ -72,6 +71,17 @@ export class AuthProvider {
   updateNickname(nickname) {
     return new Promise((resolve, reject) => {
       this.http.put(this.authURL + '/' + localStorage.userId, nickname, this.authHeader)
+        .subscribe(res => {
+          resolve(res);
+        }, err => {
+          reject(err);
+        });
+    });
+  }
+
+  changePassword(passwordData) {
+    return new Promise((resolve, reject) => {
+      this.http.put(this.authURL + '/users/changePassword/' + localStorage.userId, passwordData, this.authHeader)
         .subscribe(res => {
           resolve(res);
         }, err => {
