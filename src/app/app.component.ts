@@ -85,7 +85,7 @@ export class MyApp {
     let toast = this.toastCtrl.create({
       message: msg,
       duration: 3000,
-      position: 'bottom',
+      position: 'middle',
       dismissOnPageChange: false
     });
     toast.onDidDismiss(() => {

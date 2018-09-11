@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ToastController, LoadingController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ToastController, LoadingController, ViewController } from 'ionic-angular';
 import { Validators, FormBuilder } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { AuthProvider } from '../../providers/auth/auth';
@@ -20,7 +20,7 @@ export class SignupPage {
     }
   }
 
-  constructor(public formBldr: FormBuilder, public http: HttpClient, public navCtrl: NavController, public navParams: NavParams, public authProvider: AuthProvider, private toastCtrl: ToastController, private loadingCtrl: LoadingController) {
+  constructor(private viewCtrl: ViewController, public formBldr: FormBuilder, public http: HttpClient, public navCtrl: NavController, public navParams: NavParams, public authProvider: AuthProvider, private toastCtrl: ToastController, private loadingCtrl: LoadingController) {
   }
 
   private signUpForm = this.formBldr.group({
@@ -38,8 +38,7 @@ export class SignupPage {
     this.authProvider.register(this.registerData).then((result) => {
       this.loading.dismiss();
       this.presentToast('Successfull Registration!')
-      this.navCtrl.pop();
-      console.log(this.registerData);
+      this.viewCtrl.dismiss();
       console.log(result);
     }, (err) => {
       this.loading.dismiss();
@@ -63,12 +62,11 @@ export class SignupPage {
   presentToast(msg) {
     let toast = this.toastCtrl.create({
       message: msg,
-      duration: 4000,
-      position: 'bottom',
-      dismissOnPageChange: false
-    });
-    toast.onDidDismiss(() => {
-      console.log('Dismissed toast');
+      duration: 3000,
+      position: 'top',
+      dismissOnPageChange: false,
+      showCloseButton: true,
+      closeButtonText: 'Dismiss'
     });
     toast.present();
   }
