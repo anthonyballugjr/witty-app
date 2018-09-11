@@ -132,10 +132,10 @@ export class AddwalletPage {
                     title: this.wallet.name,
                     text: this.notifData.description,
                     led: 'FF0000',
-                    trigger: { at: date },
+                    trigger: { at: date, firstAt: date },
                     foreground: true,
                     launch: true,
-                    every: this.notifData.every !== '' ? this.notifData.every : '',
+                    every: this.notifData.every !== '' ? this.notifData.every : 0,
                     data: { notifData: this.notifData }
                   });
                   this.viewCtrl.dismiss(this.wallet);
