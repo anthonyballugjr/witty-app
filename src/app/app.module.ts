@@ -31,9 +31,9 @@ import { ExpensesPage } from '../pages/expenses/expenses';
 //providers
 import { CategoryProvider } from '../providers/category/category';
 import { AuthProvider } from '../providers/auth/auth';
-import { NotificationsProvider } from '../providers/notifications/notifications';
 import { PopovermenuComponent } from '../components/popovermenu/popovermenu';
-// notification plugin
+import { ReportsProvider } from '../providers/reports/reports';
+
 
 
 
@@ -95,7 +95,7 @@ import { PopovermenuComponent } from '../components/popovermenu/popovermenu';
     AuthProvider,
     LocalNotifications,
     Calendar,
-    NotificationsProvider
+    ReportsProvider,
   ]
 })
 export class AppModule { }
