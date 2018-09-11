@@ -134,7 +134,8 @@ export class AddwalletPage {
                     led: 'FF0000',
                     trigger: { at: date },
                     foreground: true,
-                    every: this.notifData.every,
+                    launch: true,
+                    every: this.notifData.every !== '' ? this.notifData.every : '',
                     data: { notifData: this.notifData }
                   });
                   this.viewCtrl.dismiss(this.wallet);
