@@ -8,7 +8,6 @@ import { HttpClient } from '@angular/common/http';
 import { Validators, FormBuilder, FormGroup } from '@angular/forms';
 
 import { AuthProvider } from '../../providers/auth/auth'
-import { Menu } from 'ionic-angular/umd/components/app/menu-interface';
 
 @IonicPage()
 @Component({
@@ -30,21 +29,11 @@ export class LoginPage {
   message: any;
   userData: any;
 
-  constructor(private toastCtrl: ToastController, public authProvider: AuthProvider, private formBldr: FormBuilder, public http: HttpClient, private facebook: Facebook, public navCtrl: NavController, public navParams: NavParams, public alertCtrl: AlertController, public loadingCtrl: LoadingController, private menuCtrl: MenuController) {
+  constructor(private toastCtrl: ToastController, public authProvider: AuthProvider, private formBldr: FormBuilder, public http: HttpClient, private facebook: Facebook, public navCtrl: NavController, public navParams: NavParams, public alertCtrl: AlertController, public loadingCtrl: LoadingController) {
     this.loginForm = this.formBldr.group({
       email: ["", Validators.required],
       password: ["", Validators.required]
     });
-  }
-
-  ionViewDidEnter() {
-    this.menuCtrl.enable(false);
-    this.menuCtrl.swipeEnable(false);
-  }
-
-  ionViewWillLeave() {
-    this.menuCtrl.enable(true);
-    this.menuCtrl.swipeEnable(true);
   }
 
   ionViewDidLoad() {
