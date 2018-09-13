@@ -6,7 +6,6 @@ import { HttpClient } from '@angular/common/http';
 import { CategoryProvider } from '../../providers/category/category';
 import { ViewtransactionsPage } from '../viewtransactions/viewtransactions';
 import { BillsPage } from '../bills/bills';
-import { ExpensesPage } from '../expenses/expenses';
 import { AddwalletPage } from '../addwallet/addwallet';
 
 @Component({
@@ -19,7 +18,6 @@ export class HomePage {
   page: string = "0";
 
   wallets: any;
-  expenses: any = [];
   totalExp: any = [];
   userData: any;
   data: any;
@@ -43,7 +41,6 @@ export class HomePage {
   }
 
   ionViewDidLoad() {
-    this.expenses = [];
     this.getWallets();
     // this.plt.ready().then(() => {
     //   this.calendar.listCalendars().then(data => {
@@ -105,13 +102,7 @@ export class HomePage {
     this.categoryProvider.getWallets()
       .then(data => {
         this.wallets = data;
-        for (let i of this.wallets) {
-          for (let x of i.transactions) {
-            this.expenses.push(x);
-          }
-        }
         console.log(this.wallets);
-        console.log(this.expenses);
       });
   }
 
