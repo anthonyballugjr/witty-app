@@ -1,8 +1,9 @@
 import { Component, ViewChild } from '@angular/core';
-import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, AlertController, Platform } from 'ionic-angular';
 import { Calendar } from '@ionic-native/calendar';
 import { Chart } from 'chart.js';
 import { CategoryProvider } from '../../providers/category/category';
+import { LocalNotifications } from '@ionic-native/local-notifications';
 
 @IonicPage()
 @Component({
@@ -21,15 +22,40 @@ export class MywalletsPage {
   names: any = [];
   amounts: any = [];
 
-  constructor(private alertCtrl: AlertController, private calendar: Calendar, public categoryProvider: CategoryProvider, public navCtrl: NavController, public navParams: NavParams) {
+  notifData: any;
+  notifJson
+
+  constructor(private plt: Platform, private localNotif: LocalNotifications, private alertCtrl: AlertController, private calendar: Calendar, public categoryProvider: CategoryProvider, public navCtrl: NavController, public navParams: NavParams) {
     this.getWallets();
     this.getCategories();
     this.overview();
+
+    this.plt.ready().then((readySource) => {
+      this.localNotif.getAllScheduled().then(data => {
+        this.notifData = data;
+        this.notifJson = JSON.parse(this.notifData);
+        console.log(data);
+        console.log(this.notifJson.data);
+      });
+      this.localNotif.on('click').subscribe(data => {
+        let json = JSON.parse(data.data);
+
+        let alert = alertCtrl.create({
+          title: data.title,
+          subTitle: json.notifData
+        });
+        alert.present();
+      })
+    });
   }
 
   ionViewDidLoad() {
     this.doughnutChart = this.getDoughnutChart();
     console.log('ionViewDidLoad MywalletsPage');
+  }
+
+  showAllNotifications() {
+
   }
 
   getWallets() {
