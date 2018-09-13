@@ -8,6 +8,8 @@ import { ChallengesPage } from '../challenges/challenges';
 import { BudgetOverviewPage} from '../budget-overview/budget-overview';
 import { ExpensesPage } from '../expenses/expenses';
 
+import {CategoryProvider} from '../../providers/category/category';
+
 @IonicPage()
 @Component({
   selector: 'page-tabs',
@@ -15,6 +17,7 @@ import { ExpensesPage } from '../expenses/expenses';
 })
 export class TabsPage {
   expenses: any = [];
+  wallets: any;
   
   pages = [
     {
@@ -28,27 +31,34 @@ export class TabsPage {
     }
   ];
 
-  displayWalletButton = true;
-
   superSelectedTab = 0;
   @ViewChild(SuperTabs) superTabs: SuperTabs;
 
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private popCtrl: PopoverController) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private popCtrl: PopoverController, public categoryProvider: CategoryProvider) {
+    this.getWallets();
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad TabsPage');
+    this.expenses = []
+  }
+
+  getWallets() {
+    this.categoryProvider.getWallets()
+      .then(data => {
+        this.wallets = data;
+        for (let i of this.wallets) {
+          for (let x of i.transactions) {
+            this.expenses.push(x);
+          }
+        }
+        console.log(this.wallets);
+        console.log(this.expenses);
+      });
   }
 
   onTabSelect(ev: any) {
     this.superSelectedTab = ev.index;
-
-    if(ev.index === 2){
-      this.displayWalletButton = false;
-    }
-    else
-      this.displayWalletButton = true;
   }
 
   //home page
