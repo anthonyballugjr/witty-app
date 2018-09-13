@@ -1,19 +1,4 @@
 <ion-header color="main">
-  <ion-navbar>
-    <ion-title>My Wallets</ion-title>
-    <ion-buttons left>
-      <button ion-button icon-only menuToggle>
-        <ion-icon name="menu"></ion-icon>
-      </button>
-    </ion-buttons>
-    <ion-buttons right>
-      <button (click)="showPopover($event)" ion-button icon-only>
-        <ion-icon name="cash"></ion-icon>
-      </button>
-    </ion-buttons>
-
-  </ion-navbar>
-
   <ion-toolbar no-margin no-padding>
     <ion-segment color="light" [(ngModel)]="page" no-padding no-margin>
       <ion-segment-button value="0" (click)="selectedTab(0)">Expenses</ion-segment-button>

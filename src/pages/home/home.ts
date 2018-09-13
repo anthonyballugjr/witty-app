@@ -13,6 +13,7 @@ import { AddwalletPage } from '../addwallet/addwallet';
   selector: 'page-home',
   templateUrl: 'home.html'
 })
+
 export class HomePage {
   @ViewChild('slider') slider: Slides;
   page: string = "0";
@@ -36,8 +37,6 @@ export class HomePage {
 
   loading: any;
   alert: any;
-
-
 
   constructor(private alertCtrl: AlertController, private loadingCtrl: LoadingController, private modalCtrl: ModalController, private plt: Platform, private calendar: Calendar, private popCtrl: PopoverController, private toastCtrl: ToastController, public navParams: NavParams, public navCtrl: NavController, public http: HttpClient, public categoryProvider: CategoryProvider) {
     this.check();
@@ -87,13 +86,6 @@ export class HomePage {
       spinner: 'bubbles'
     });
     this.loading.present();
-  }
-
-  showPopover(myEvent) {
-    let pop = this.popCtrl.create(ExpensesPage, { expenses: this.expenses });
-    pop.present({
-      ev: myEvent
-    });
   }
 
   presentToast() {
@@ -174,7 +166,7 @@ export class HomePage {
     } else {
       this.isSavings = true;
     }
-    console.log(this.isSavings);
+    //console.log(this.isSavings);
   }
 
   goToBills() {
