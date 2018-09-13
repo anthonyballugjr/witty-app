@@ -10,7 +10,7 @@
 <div *ngIf="menu==='profile'">
   <ion-list no-lines>
     <ion-item (click)="editNickname()">Edit Nickname</ion-item>
-    <ion-item>Change Password</ion-item>
+    <ion-item (click)="changePassword()">Change Password</ion-item>
     <ion-item (click)="showOverview()">View Budget Overview</ion-item>
   </ion-list>
 </div>

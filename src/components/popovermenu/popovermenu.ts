@@ -95,5 +95,9 @@ export class PopovermenuComponent {
     prompt.present();
   }
 
+  changePassword(){
+    console.log('User will change password');
+  }
+
 
 }

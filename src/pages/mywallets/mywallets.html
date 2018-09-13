@@ -20,14 +20,21 @@
     </ion-card-content>
   </ion-card>
 
-  <div>
+  <ion-card>
+    <ion-card-header>Notifications Data </ion-card-header>
+    <ion-card-content>
+      <p>{{notifJson}}</p>
+    </ion-card-content>
+  </ion-card>
+
+  <!-- <div>
     <ion-list>
       <ion-item *ngFor="let category of categories">
         <ion-icon item-start name={{category.icon}} item-start></ion-icon>
         <h5>{{category.desc}}</h5>
       </ion-item>
     </ion-list>
-  </div>
+  </div> -->
 
   <div>
     <ion-list>
