@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, PopoverController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { CategoryProvider } from '../../providers/category/category';
-import { PopovermenuComponent } from '../../components/popovermenu/popovermenu';
+
 
 @IonicPage()
 @Component({
@@ -18,22 +18,12 @@ export class BudgetOverviewPage {
   wallets: any;
   expenses: any = [];
 
-
-
-  constructor(private popCtrl: PopoverController, public categoryProvider: CategoryProvider, public navCtrl: NavController, public navParams: NavParams) {
+  constructor(public categoryProvider: CategoryProvider, public navCtrl: NavController, public navParams: NavParams) {
     this.getWallets();
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad BudgetOverviewPage');
-  }
-
-  showPopover(event) {
-    let pop = this.popCtrl.create(PopovermenuComponent, { menu: 'overview' });
-    pop.present({
-      ev: event
-    });
-
   }
 
   getWallets() {
@@ -49,7 +39,4 @@ export class BudgetOverviewPage {
         console.log(this.expenses);
       });
   }
-
-
-
 }
