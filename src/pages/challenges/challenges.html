@@ -1,18 +1,25 @@
-<ion-content padding>
-  <h1>Take a saving challenge!</h1>
-  <h5>Select a challenge to complete and earn a
-    <i>Witty</i> Title!</h5>
-  <ion-list>
-    <ion-item *ngFor="let x of data; let i=index" text-wrap (click)="toggleGroup(i)" [ngClass]="{active:isGroupShown(i)}">
-      <h3>{{x.title}}
-        <ion-icon color="main" item-right [name]="isGroupShown(i) ? 'arrow-dropdown': 'arrow-dropright'"></ion-icon>
-      </h3>
-      <ion-list *ngIf="isGroupShown(i)">
-        <ion-item>{{x.details}}</ion-item> 
-        <button color="buttons" item-end ion-button block>Take Challenge</button>
-      </ion-list>
+<ion-content padding *ngIf = "!challengeStatus">
+  <ion-grid>
+    <ion-row *ngFor="let challenge of challenges">
+      <ion-card>
+        <ion-row>
+          <ion-card-header><b> {{ challenge.title }} </b></ion-card-header>
+          <ion-card-content> 
+            {{ challenge.description }}
+            <p *ngIf = "challenge.expectedAmount != 0"><b>Total Expected Amount:</b> {{ challenge.expectedAmount | pluck:'expectedAmount' | currency: "PHP" :2 }} </p>
+          </ion-card-content>
+        </ion-row>
+        <ion-row padding-right float-right>
+          <button ion-button icon-start clear small padding-bottom (click)="takeChallenge($event)">
+              <ion-icon name="cash"></ion-icon>
+            Take Challenge
+          </button>
+        </ion-row>
+      </ion-card>
+    </ion-row>
+  </ion-grid>
+</ion-content>
 
-    </ion-item>
-  </ion-list>
-
+<ion-content *ngIf="challengeStatus">
+  Challenge is Active
 </ion-content>
