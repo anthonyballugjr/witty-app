@@ -18,7 +18,7 @@ export class ProfilePage {
     "name": ""
   }
 
-  userData: any;
+  userData: any = [];
   budgetProfile: any = [];
   email: any;
   nickname: any;
@@ -45,14 +45,12 @@ export class ProfilePage {
       .then(data => {
         this.userData = data;
         console.log(this.userData);
-        this.email = this.userData.user.email;
-        this.nickname = this.userData.user.name;
       });
   }
 
 
   showPopover(event) {
-    let pop = this.popCtrl.create(PopovermenuComponent, { menu: "profile", name: this.nickname });
+    let pop = this.popCtrl.create(PopovermenuComponent, { menu: "profile", name: this.userData.name });
     pop.present({
       ev: event
     });

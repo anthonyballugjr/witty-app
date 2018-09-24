@@ -1,0 +1,39 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-title></ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+  <form (ngSubmit)="getEntry()">
+    <ion-item>
+
+
+      <ion-label>Select </ion-label>
+      <ion-select [(ngModel)]="archiveId" name="archiveId">
+        <ion-option *ngFor="let archive of archives" value={{archive._id}}>{{archive.period}}</ion-option>
+      </ion-select>
+
+    </ion-item>
+    <button ion-button clear block type="submit">Submit</button>
+  </form>
+
+  <ion-card *ngIf="archiveData">
+    <ion-card-header>{{archiveData.period}}</ion-card-header>
+    <ion-card-content>
+      <ion-list>
+        <ion-item>Total Budget: {{archiveData.totalBudget}} </ion-item>
+        <ion-item>Total Expenses: {{archiveData.totalExpenses}}</ion-item>
+        <ion-item>Total Savings: {{archiveData.totalSavings}}</ion-item>
+        <ion-item>Extra Savings {{archiveData.extraSavings}}</ion-item>
+      </ion-list>
+    </ion-card-content>
+  </ion-card>
+
+
+  <h1 *ngIf="!archiveData">Select.....</h1>
+
+</ion-content>

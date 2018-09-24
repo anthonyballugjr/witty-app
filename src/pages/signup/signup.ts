@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ToastController, LoadingController, ViewController } from 'ionic-angular';
-import { Validators, FormBuilder } from '@angular/forms';
+import { Validators, FormBuilder, FormGroup } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { AuthProvider } from '../../providers/auth/auth';
 
@@ -12,6 +12,8 @@ import { AuthProvider } from '../../providers/auth/auth';
 export class SignupPage {
   loading: any;
   errMessage: any;
+  sForm: FormGroup;
+
   registerData = {
     "user": {
       "email": "",

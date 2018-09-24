@@ -46,6 +46,7 @@ export class CategoriesPage {
     this.categoryProvider.getWallets()
       .then(data => {
         this.wallets = data;
+        console.log(this.wallets);
       });
   }
 
