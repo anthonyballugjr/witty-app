@@ -34,7 +34,6 @@ export class TabsPage {
   superSelectedTab = 0;
   @ViewChild(SuperTabs) superTabs: SuperTabs;
 
-
   constructor(public navCtrl: NavController, public navParams: NavParams, private popCtrl: PopoverController, public categoryProvider: CategoryProvider) {
     this.getWallets();
   }
@@ -61,7 +60,7 @@ export class TabsPage {
     this.superSelectedTab = ev.index;
   }
 
-  //home page
+  //home page popover
   showExpenses(myEvent) {
     let pop = this.popCtrl.create(ExpensesPage, { expenses: this.expenses });
     pop.present({
