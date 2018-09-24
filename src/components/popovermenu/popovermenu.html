@@ -1,6 +1,6 @@
 <div *ngIf="menu==='overview'">
   <ion-list no-lines>
-    <ion-item>Overview menu 1</ion-item>
+    <ion-item (click)="showHistory()">View Budget History</ion-item>
     <ion-item>Overview menu 2</ion-item>
     <ion-item>Overview menu 3</ion-item>
     <ion-item>Overview menu 4</ion-item>
@@ -10,7 +10,9 @@
 <div *ngIf="menu==='profile'">
   <ion-list no-lines>
     <ion-item (click)="editNickname()">Edit Nickname</ion-item>
-    <ion-item>Change Password</ion-item>
+    <ion-item (click)="changePassword()">Change Password</ion-item>
     <ion-item (click)="showOverview()">View Budget Overview</ion-item>
   </ion-list>
 </div>
+
+

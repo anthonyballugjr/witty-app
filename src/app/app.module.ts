@@ -28,6 +28,8 @@ import { BillsPage } from '../pages/bills/bills';
 import { EditWalletPage } from '../pages/edit-wallet/edit-wallet';
 import { BudgetOverviewPage } from '../pages/budget-overview/budget-overview';
 import { ExpensesPage } from '../pages/expenses/expenses';
+import { ChangePasswordPage } from '../pages/change-password/change-password';
+import { ViewArchivePage } from '../pages/view-archive/view-archive';
 //providers
 import { CategoryProvider } from '../providers/category/category';
 import { AuthProvider } from '../providers/auth/auth';
@@ -55,7 +57,9 @@ import { ReportsProvider } from '../providers/reports/reports';
     BillsPage,
     EditWalletPage,
     BudgetOverviewPage,
-    ExpensesPage
+    ExpensesPage,
+    ChangePasswordPage,
+    ViewArchivePage
   ],
   imports: [
     BrowserModule,
@@ -84,7 +88,9 @@ import { ReportsProvider } from '../providers/reports/reports';
     EditWalletPage,
     BudgetOverviewPage,
     ExpensesPage,
-    PopovermenuComponent
+    PopovermenuComponent,
+    ChangePasswordPage,
+    ViewArchivePage
   ],
   providers: [
     StatusBar,

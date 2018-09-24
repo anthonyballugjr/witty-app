@@ -1,35 +1,51 @@
+<div>
+  <ion-segment [(ngModel)]="overview">
+    <ion-segment-button value="thisMonth">
+      This Month
+    </ion-segment-button>
+    <ion-segment-button  value="history">
+      History
+    </ion-segment-button>
+  </ion-segment>
+</div>
+
 <ion-content padding>
-  <ion-list>
-    <ion-list-header class="header-title">
-      <h2>{{period}}</h2>
-    </ion-list-header>
-    <ion-item>
-      <p ion-text color="summer-sky">Expenses Wallets:</p>
-      <ion-note item-end>{{wallets | filterBy: ['type']: 'expense' | pluck: 'amount' | sum | currency: "PHP":2}}</ion-note>
-    </ion-item>
-    <ion-item>
-      <p ion-text color="summer-sky">Savings Wallets:</p>
-      <ion-note item-end>{{wallets | filterBy: ['type']: 'savings' | pluck: 'amount' | sum | currency: "PHP":2}}</ion-note>
-    </ion-item>
-    <ion-item-divider no-lines></ion-item-divider>
-    <ion-item>
-      <h2 ion-text color="warm-peach">
-        <strong>Total Budget:</strong>
-      </h2>
-      <ion-note item-end>{{wallets | pluck:'amount' | sum | currency: "PHP" :2}}</ion-note>
-    </ion-item>
-    <ion-item>
-      <h2 ion-text color="watermelon">
-        <strong>Total Expenses:</strong>
-      </h2>
-      <ion-note item-end>{{expenses | pluck:'amount' | sum | currency: "PHP" :2}}</ion-note>
-    </ion-item>
-    <ion-item-divider no-lines></ion-item-divider>
-    <ion-item>
-      <h2 ion-text color="oxblood">Potential to save:</h2>
-      <ion-note item-end>{{(wallets | pluck:'amount' | sum) - ((wallets | filterBy:['type']:'savings' | pluck:'amount' | sum) + (expenses |
-        pluck:'amount' | sum)) | currency:"PHP" :2}}</ion-note>
-    </ion-item>
-  </ion-list>
+  <div [ngSwitch]="overview">
+    <ion-list *ngSwitchCase="thisMonth">
+      <ion-list-header class="header-title">
+        <h2>{{period}}</h2>
+      </ion-list-header>
+      <ion-item>
+        <p ion-text color="summer-sky">Expenses Wallets:</p>
+        <ion-note item-end>{{wallets | filterBy: ['type']: 'expense' | pluck: 'amount' | sum | currency: "PHP":2}}</ion-note>
+      </ion-item>
+      <ion-item>
+        <p ion-text color="summer-sky">Savings Wallets:</p>
+        <ion-note item-end>{{wallets | filterBy: ['type']: 'savings' | pluck: 'amount' | sum | currency: "PHP":2}}</ion-note>
+      </ion-item>
+      <ion-item-divider no-lines></ion-item-divider>
+      <ion-item>
+        <h2 ion-text color="warm-peach">
+          <strong>Total Budget:</strong>
+        </h2>
+        <ion-note item-end>{{wallets | pluck:'amount' | sum | currency: "PHP" :2}}</ion-note>
+      </ion-item>
+      <ion-item>
+        <h2 ion-text color="watermelon">
+          <strong>Total Expenses:</strong>
+        </h2>
+        <ion-note item-end>{{expenses | pluck:'amount' | sum | currency: "PHP" :2}}</ion-note>
+      </ion-item>
+      <ion-item-divider no-lines></ion-item-divider>
+      <ion-item>
+        <h2 ion-text color="oxblood">Potential to save:</h2>
+        <ion-note item-end>{{(wallets | pluck:'amount' | sum) - ((wallets | filterBy:['type']:'savings' | pluck:'amount' | sum) + (expenses
+          | pluck:'amount' | sum)) | currency:"PHP" :2}}</ion-note>
+      </ion-item>
+    </ion-list>
+
+    <ion-list *ngSwitchCase="history">
+    </ion-list>
+  </div>
 
 </ion-content>

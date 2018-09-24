@@ -19,8 +19,8 @@
 <ion-content padding>
   <ion-list no-lines>
     <ion-item-divider class="strong">ACCOUNT DETAILS</ion-item-divider>
-    <ion-item>Email: {{email}}</ion-item>
-    <ion-item>Nickname: {{nickname | ucwords}}</ion-item>
+    <ion-item>Email: {{userData.email}}</ion-item>
+    <ion-item>Nickname: {{userData.name | ucwords}}</ion-item>
     <ion-item>Title: Witty Saver</ion-item>
   </ion-list>
 
@@ -44,7 +44,7 @@
       <ion-item-divider no-lines></ion-item-divider>
       <ion-item>Average Monthly Budget:
         <p item-end>{{budgetProfile.averageMonthlyBudget | currency:"PHP":2}}</p>
-      </ion-item> 
+      </ion-item>
       <ion-item>Average Monthly Expenses:
         <p item-end>{{budgetProfile.averageMonthlyExpenses | currency:"PHP":2}}</p>
       </ion-item>
