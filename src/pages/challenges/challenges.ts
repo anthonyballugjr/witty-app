@@ -1,60 +1,39 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 
-
-
-/**
- * Generated class for the ChallengesPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
-
 @IonicPage()
 @Component({
   selector: 'page-challenges',
   templateUrl: 'challenges.html',
 })
 export class ChallengesPage {
-  information: any[];
-  shownGroup = null;
-  data = [
-    {
-      title: "Challenge 1",
-      details: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec et nisi libero. Nullam ut interdum est, sit amet pretium sem. Pellentesque vitae sodales mi. Nam efficitur mattis suscipit. Sed ipsum enim, efficitur id quam nec, tristique sagittis ligula. Aliquam luctus nisl vel convallis volutpat. Fusce ac tincidunt nulla. Mauris sem augue, pellentesque et elementum eget, suscipit ut nisi"
-    },
-    {
-      title: "Challenge 2",
-      details: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec et nisi libero. Nullam ut interdum est, sit amet pretium sem. Pellentesque vitae sodales mi. Nam efficitur mattis suscipit. Sed ipsum enim, efficitur id quam nec, tristique sagittis ligula. Aliquam luctus nisl vel convallis volutpat. Fusce ac tincidunt nulla. Mauris sem augue, pellentesque et elementum eget, suscipit ut nisi."
-    },
-    {
-      title: "Challenge 3",
-      details: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec et nisi libero. Nullam ut interdum est, sit amet pretium sem. Pellentesque vitae sodales mi. Nam efficitur mattis suscipit. Sed ipsum enim, efficitur id quam nec, tristique sagittis ligula. Aliquam luctus nisl vel convallis volutpat. Fusce ac tincidunt nulla. Mauris sem augue, pellentesque et elementum eget, suscipit ut nisi"
-    }
+  challengeStatus = false;
 
-  ]
+  challenges = [
+    {
+      title: 'The Spare Change Challenge',
+      description: 'The spare change challenge is simply what the name suggests. Throughout the year, the goal is to save all of your spare change.',
+      expectedAmount: 0
+
+    },
+    {
+      title: '52-Week Challenge',
+      description: 'This challenge involves saving an increasing amount each week until the end of the year. This version of the challenge starts at PHP 5 and has a weekly increment of PHP 5 each week.',
+      expectedAmount: 6890
+    }
+  ];
+
 
   constructor(public navCtrl: NavController, public navParams: NavParams) {
 
   }
 
-  toggleGroup(group) {
-    if (this.isGroupShown(group)) {
-      this.shownGroup = null;
-    }
-    else {
-      this.shownGroup = group;
-    }
-  }
-
-  isGroupShown(group) {
-    return this.shownGroup === group;
-  }
-
-
-
   ionViewDidLoad() {
     console.log('ionViewDidLoad ChallengesPage');
+  }
+
+  takeChallenge(){
+    this.challengeStatus = true;
   }
 
 }
