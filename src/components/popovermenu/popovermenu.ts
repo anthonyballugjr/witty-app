@@ -1,8 +1,10 @@
 import { Component } from '@angular/core';
-import { NavParams, NavController, ViewController, AlertController, ToastController, LoadingController } from 'ionic-angular';
+import { NavParams, NavController, ViewController, AlertController, ToastController, LoadingController, ModalController } from 'ionic-angular';
 import { BudgetOverviewPage } from '../../pages/budget-overview/budget-overview';
 
 import { AuthProvider } from '../../providers/auth/auth';
+import { ChangePasswordPage } from '../../pages/change-password/change-password';
+import { ViewArchivePage } from '../../pages/view-archive/view-archive';
 
 @Component({
   selector: 'popovermenu',
@@ -16,15 +18,15 @@ export class PopovermenuComponent {
   menu: any;
   name: any;
 
-  constructor(private loadingCtrl: LoadingController, private toastCtrl: ToastController, public authProvider: AuthProvider, private alertCtrl: AlertController, private viewCtrl: ViewController, private navCtrl: NavController, public navParams: NavParams) {
-    console.log('Hello PopovermenuComponent Component');
+  constructor(private loadingCtrl: LoadingController, private toastCtrl: ToastController, public authProvider: AuthProvider, private alertCtrl: AlertController, private viewCtrl: ViewController, private navCtrl: NavController, public navParams: NavParams, private modalCtrl: ModalController) {
     this.menu = this.navParams.get('menu');
     this.name = this.navParams.get('name');
     console.log('menu: ', this.menu, 'name: ', this.name)
   }
 
   showOverview() {
-    this.navCtrl.push(BudgetOverviewPage)
+    let modal = this.modalCtrl.create(BudgetOverviewPage);
+    modal.present();
     this.viewCtrl.dismiss();
   }
 
@@ -95,8 +97,16 @@ export class PopovermenuComponent {
     prompt.present();
   }
 
-  changePassword(){
+  changePassword() {
     console.log('User will change password');
+    let modal = this.modalCtrl.create(ChangePasswordPage);
+    modal.present();
+    this.viewCtrl.dismiss();
+  }
+
+  showHistory(){
+    this.viewCtrl.dismiss();
+    this.navCtrl.push(ViewArchivePage);
   }
 
 

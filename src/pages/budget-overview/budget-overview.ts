@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { CategoryProvider } from '../../providers/category/category';
+import { ViewArchivePage } from '../view-archive/view-archive';
 
 
 @IonicPage()
