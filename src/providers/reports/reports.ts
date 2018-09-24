@@ -16,10 +16,9 @@ export class ReportsProvider {
     console.log('Hello ReportsProvider Provider');
   }
 
-
   getArchivesOverview() {
     return new Promise(resolve => {
-      this.http.get(this.apiURL + '/archives/' + localStorage.userId, this.authHeader)
+      this.http.get(this.apiURL + '/archives/overview/' + localStorage.userId, this.authHeader)
         .subscribe(data => {
           resolve(data);
         }, err => {
@@ -27,5 +26,27 @@ export class ReportsProvider {
         });
     });
   }
-  
+
+  getEntries() {
+    return new Promise(resolve => {
+      this.http.get(this.apiURL + '/archives?userId=' + localStorage.userId, this.authHeader)
+        .subscribe(data => {
+          resolve(data);
+        }, err => {
+          console.log(err);
+        });
+    });
+  }
+
+  getEntry(id) {
+    return new Promise(resolve => {
+      this.http.get(this.apiURL + '/archives/' + id, this.authHeader)
+        .subscribe(data => {
+          resolve(data);
+        }, err => {
+          console.log(err);
+        });
+    });
+  }
+
 }

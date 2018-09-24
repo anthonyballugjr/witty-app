@@ -6,12 +6,6 @@ import { MywalletsPage } from '../../pages/mywallets/mywallets';
 
 import { AuthProvider } from '../../providers/auth/auth';
 
-/**
- * Generated class for the HeaderMenuComponent component.
- *
- * See https://angular.io/api/core/Component for more info on Angular
- * Components.
- */
 @Component({
   selector: 'header-menu',
   templateUrl: 'header-menu.html'
@@ -32,19 +26,6 @@ export class HeaderMenuComponent {
       content: 'Signing out...',
     });
     this.loading.present();
-  }
-
-  logout() {
-    this.showLoader();
-    this.authProvider.logout().then((result) => {
-      console.log(result);
-      this.menuCtrl.close();
-      this.loading.dismiss();
-      this.app.getRootNav().setRoot(LoginPage);
-    }, (err) => {
-      this.loading.dismiss();
-      this.presentToast(err);
-    });
   }
 
   presentToast(msg) {

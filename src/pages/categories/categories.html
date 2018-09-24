@@ -19,7 +19,7 @@
 
 <ion-content padding>
   <ion-note>SWIPE AN ITEM TO THE RIGHT FOR OPTIONS</ion-note>
-  <ion-list no-lines>
+  <ion-list>
     <ion-item-divider no-padding class="strong">EXPENSES WALLETS
       <ion-icon item-start name="add-circle" (click)="addWallet(false)"></ion-icon>
     </ion-item-divider>
@@ -27,6 +27,9 @@
       <ion-item tappable>
         {{wallet.name | ucwords}}
         <ion-icon item-end name="arrow-dropright"></ion-icon>
+        <p>
+          <i>{{wallet.category | pluck: 'desc' | ucfirst}}</i>
+        </p>
       </ion-item>
       <ion-item-options side="left">
         <button ion-button clear color="primary" (click)="editWallet(wallet)">

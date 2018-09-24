@@ -1,6 +1,6 @@
 <div *ngIf="menu==='overview'">
   <ion-list no-lines>
-    <ion-item>Overview menu 1</ion-item>
+    <ion-item (click)="showHistory()">View Budget History</ion-item>
     <ion-item>Overview menu 2</ion-item>
     <ion-item>Overview menu 3</ion-item>
     <ion-item>Overview menu 4</ion-item>
@@ -14,3 +14,5 @@
     <ion-item (click)="showOverview()">View Budget Overview</ion-item>
   </ion-list>
 </div>
+
+
