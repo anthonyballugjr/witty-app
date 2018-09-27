@@ -1,17 +1,20 @@
-<ion-content padding *ngIf = "!challengeStatus">
+<ion-content padding *ngIf="!challengeStatus">
   <ion-grid>
     <ion-row *ngFor="let challenge of challenges">
       <ion-card>
         <ion-row>
-          <ion-card-header><b> {{ challenge.title }} </b></ion-card-header>
-          <ion-card-content> 
+          <ion-card-header>
+            <b> {{ challenge.title }} </b>
+          </ion-card-header>
+          <ion-card-content>
             {{ challenge.description }}
-            <p *ngIf = "challenge.expectedAmount != 0"><b>Total Expected Amount:</b> {{ challenge.expectedAmount | pluck:'expectedAmount' | currency: "PHP" :2 }} </p>
+            <p *ngIf="challenge.expectedAmount != 0">
+              <b>Total Expected Amount:</b> {{ challenge.expectedAmount | pluck:'expectedAmount' | currency: "PHP" :2 }} </p>
           </ion-card-content>
         </ion-row>
         <ion-row padding-right float-right>
-          <button ion-button icon-start clear small padding-bottom (click)="takeChallenge($event)">
-              <ion-icon name="cash"></ion-icon>
+          <button ion-button icon-start clear small padding-bottom (click)="takeChallenge(challenge.challengeID)">
+            <ion-icon name="cash"></ion-icon>
             Take Challenge
           </button>
         </ion-row>
@@ -20,6 +23,59 @@
   </ion-grid>
 </ion-content>
 
-<ion-content *ngIf="challengeStatus">
-  Challenge is Active
+<ion-content *ngIf="challengeStatus && spareChange">
+  spare is Active
+</ion-content>
+
+<ion-content id="ftWeek" *ngIf="challengeStatus && ftWeek" padding>
+  <ion-card>
+    <div id="icon">
+          <button ion-button class="indicator-done" clear><ion-icon name="checkmark"></ion-icon></button>
+    </div>
+    <div>
+      <ion-card-header>
+        <b>Week 1</b>
+      </ion-card-header>
+      <ion-card-content>
+        <p>
+          Deposit: {{5 | currency: "PHP" :2}} </p>
+        <p>
+          Current Balance: {{5 | currency: "PHP" :2}} </p>
+    </ion-card-content>
+  </div>
+  </ion-card>
+
+  <ion-card>
+      <div id="icon">
+            <button ion-button class="indicator-done" clear><ion-icon name="checkmark"></ion-icon></button>
+      </div>
+      <div>
+        <ion-card-header>
+          <b>Week 2</b>
+        </ion-card-header>
+        <ion-card-content>
+          <p>
+            Deposit: {{10 | currency: "PHP" :2}} </p>
+          <p>
+            Current Balance: {{15 | currency: "PHP" :2}} </p>
+      </ion-card-content>
+    </div>
+    </ion-card>
+
+  <ion-card>
+      <div id="icon">
+            <button ion-button class="indicator-pending" clear><ion-icon name="checkmark"></ion-icon></button>
+      </div>
+      <div>
+        <ion-card-header>
+          <b>Week 3</b>
+        </ion-card-header>
+        <ion-card-content>
+          <p>
+            Deposit: {{15 | currency: "PHP" :2}} </p>
+          <p>
+            Current Balance: {{15 | currency: "PHP" :2}} </p>
+      </ion-card-content>
+    </div>
+    </ion-card>
 </ion-content>
