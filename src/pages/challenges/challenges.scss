@@ -1,31 +1,33 @@
 page-challenges {
-    .accordion-list {
-        background: color($colors, light);
-        height: 100%;
+    .indicator-done, .indicator-pending{
+        border-radius: 100%;
+        background-color: mediumseagreen;
+        padding: 35% 22% 32% 22%;
+        color: white;
+        font-size: 1.2em;
+        text-align: center;
     }
-    .section {
-        background: #fff;
-        color: #000;
-        margin-bottom: 4px;
+
+    .indicator-pending{
+        background-color: gray;
     }
-    .section-active {
-        background: #ffc400;
-        color: #fff;
+
+    div{
+        display: inline-block;
     }
- 
-    .child {
-        background: #e8e7e6;
-        color: #000;
-        margin-bottom: 4px;
+
+    #icon{
+        float: left;
+        width: 20%;
+        position: relative;
+        top: 1.9em;
+        left: 1.3em;
+        margin-right: 3%;
     }
-    .child-item {
-        background: #f3f2f1;
-        padding: 10px;
-    }
-    .label {
-        margin: 0px;
-    }
-    .list {
-        margin-bottom: 4px;
+
+    #ftWeek{
+        ion-card-content{
+            margin-top: -12px; 
+        }
     }
 }
