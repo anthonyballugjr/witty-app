@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ModalController } from 'ionic-angular';
 import { CategoryProvider } from '../../providers/category/category';
 import { ViewArchivePage } from '../view-archive/view-archive';
+import { ReportsProvider } from '../../providers/reports/reports';
 
 
 @IonicPage()
@@ -10,6 +11,8 @@ import { ViewArchivePage } from '../view-archive/view-archive';
   templateUrl: 'budget-overview.html',
 })
 export class BudgetOverviewPage {
+  overview: string = "thisMonth";
+
   month = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
   n = new Date();
   m = this.month[this.n.getMonth()];
@@ -18,13 +21,23 @@ export class BudgetOverviewPage {
 
   wallets: any;
   expenses: any = [];
+  reportData: any;
 
-  constructor(public categoryProvider: CategoryProvider, public navCtrl: NavController, public navParams: NavParams) {
+  descending: boolean = true;
+  order: number;
+  column: string = 'period';
+  by: string = 'Ascending';
+
+  constructor(public reportsProvider: ReportsProvider, public categoryProvider: CategoryProvider, public navCtrl: NavController, public navParams: NavParams, private modalCtrl: ModalController) {
     this.getWallets();
+    this.getOverview();
   }
 
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad BudgetOverviewPage');
+  sort(){
+    this.descending = !this.descending;
+    this.order = this.descending ? 1: -1;
+    if(!this.descending) this.by = 'Descending';
+    else this.by = 'Ascending';
   }
 
   getWallets() {
@@ -39,5 +52,20 @@ export class BudgetOverviewPage {
         console.log(this.wallets);
         console.log(this.expenses);
       });
+  }
+
+  getOverview() {
+    this.reportsProvider.getArchivesOverview()
+      .then(data => {
+        this.reportData = data;
+        console.log(this.reportData);
+      }, err => {
+        console.log(err);
+      });
+  }
+
+  viewSummary(data) {
+    let modal = this.modalCtrl.create(ViewArchivePage, { summaryData: data });
+    modal.present();
   }
 }
