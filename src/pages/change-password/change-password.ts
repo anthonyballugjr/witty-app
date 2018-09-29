@@ -59,6 +59,7 @@ export class ChangePasswordPage {
             this.loading.dismiss()
               .then(() => {
                 this.authProvider.logout();
+                this.navCtrl.setRoot(LoginPage);
               }, err => {
                 this.loading.dismiss();
                 console.log(err);
@@ -68,6 +69,9 @@ export class ChangePasswordPage {
     }
   }
 
+  close(){
+    this.viewCtrl.dismiss();
+  }
 
 
 
