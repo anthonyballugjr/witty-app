@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ViewController } from 'ionic-angular';
 import { ReportsProvider } from '../../providers/reports/reports';
-import { dashCaseToCamelCase } from '@angular/compiler/src/util';
 
 @IonicPage()
 @Component({
@@ -9,33 +8,16 @@ import { dashCaseToCamelCase } from '@angular/compiler/src/util';
   templateUrl: 'view-archive.html',
 })
 export class ViewArchivePage {
-  archiveData: any;
-  archives: any;
-  archiveId: any;
+  summaryData: any;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public reportsProvider: ReportsProvider) {
-    this.getArchives();
+  constructor(public navCtrl: NavController, public navParams: NavParams, public reportsProvider: ReportsProvider, private viewCtrl: ViewController) {
+    this.summaryData = this.navParams.get('summaryData');
+    console.log(this.summaryData);
   }
 
-  getArchives() {
-    this.reportsProvider.getEntries()
-      .then(data => {
-        this.archives = data;
-        console.log(this.archives);
-      }, err => {
-        console.log(err);
-      });
+  close() {
+    this.viewCtrl.dismiss();
   }
 
-  getEntry() {
-    console.log(this.archiveId);
-    this.reportsProvider.getEntry(this.archiveId)
-      .then(data => {
-        this.archiveData = data;
-        console.log(this.archiveData);
-      }, err => {
-        console.log(err);
-      });
-  }
 
 }
