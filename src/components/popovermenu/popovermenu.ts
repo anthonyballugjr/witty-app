@@ -72,6 +72,7 @@ export class PopovermenuComponent {
           text: 'Cancel',
           role: 'cancel',
           handler: () => {
+            this.viewCtrl.dismiss();
           }
         },
         {
@@ -103,11 +104,5 @@ export class PopovermenuComponent {
     modal.present();
     this.viewCtrl.dismiss();
   }
-
-  showHistory(){
-    this.viewCtrl.dismiss();
-    this.navCtrl.push(ViewArchivePage);
-  }
-
 
 }
