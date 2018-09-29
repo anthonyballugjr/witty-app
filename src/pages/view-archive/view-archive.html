@@ -1,39 +1,39 @@
-<ion-header>
-
-  <ion-navbar>
-    <ion-title></ion-title>
-  </ion-navbar>
-
-</ion-header>
-
-
 <ion-content padding>
-  <form (ngSubmit)="getEntry()">
-    <ion-item>
 
-
-      <ion-label>Select </ion-label>
-      <ion-select [(ngModel)]="archiveId" name="archiveId">
-        <ion-option *ngFor="let archive of archives" value={{archive._id}}>{{archive.period}}</ion-option>
-      </ion-select>
-
-    </ion-item>
-    <button ion-button clear block type="submit">Submit</button>
-  </form>
-
-  <ion-card *ngIf="archiveData">
-    <ion-card-header>{{archiveData.period}}</ion-card-header>
+  <ion-card>
+    <ion-card-header>
+      <h2>{{summaryData.period}}</h2>
+    </ion-card-header>
     <ion-card-content>
       <ion-list>
-        <ion-item>Total Budget: {{archiveData.totalBudget}} </ion-item>
-        <ion-item>Total Expenses: {{archiveData.totalExpenses}}</ion-item>
-        <ion-item>Total Savings: {{archiveData.totalSavings}}</ion-item>
-        <ion-item>Extra Savings {{archiveData.extraSavings}}</ion-item>
+        <ion-item-divider no-lines></ion-item-divider>
+        <ion-item>
+          <h2 ion-text color="warm-peach">
+            <strong>Total Budget:</strong>
+          </h2>
+          <h2 item-end> {{summaryData.totalBudget | currency: "PHP": 2}}</h2>
+        </ion-item>
+        <ion-item>
+          <h2 ion-text color="watermelon">
+            <strong>Total Expenses:</strong>
+          </h2>
+          <h2 item-end>{{summaryData.totalExpenses | currency: "PHP": 2}}</h2>
+        </ion-item>
+        <ion-item>
+          <h2 ion-text color="blush">
+            <strong>Total Savings:</strong>
+          </h2>
+          <h2 item-end>{{summaryData.totalSavings | currency: "PHP": 2}}</h2>
+        </ion-item>
+        <ion-item-divider no-lines></ion-item-divider>
+        <ion-item>
+          <h2 ion-text color="oxblood">Extra Savings:</h2>
+          <h2 item-end>{{summaryData.extraSavings | currency: "PHP": 2}}</h2>
+        </ion-item>
       </ion-list>
     </ion-card-content>
   </ion-card>
 
-
-  <h1 *ngIf="!archiveData">Select.....</h1>
+  <button ion-button block clear color="buttons" (click)="close()">Close</button>
 
 </ion-content>
