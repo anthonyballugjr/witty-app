@@ -36,37 +36,11 @@ export class HomePage {
   loading: any;
   alert: any;
 
-  constructor(private alertCtrl: AlertController, private loadingCtrl: LoadingController, private modalCtrl: ModalController, private plt: Platform, private calendar: Calendar, private popCtrl: PopoverController, private toastCtrl: ToastController, public navParams: NavParams, public navCtrl: NavController, public http: HttpClient, public categoryProvider: CategoryProvider) {
+  constructor(private alertCtrl: AlertController, private loadingCtrl: LoadingController, private modalCtrl: ModalController, private popCtrl: PopoverController, private toastCtrl: ToastController, public navParams: NavParams, public navCtrl: NavController, public http: HttpClient, public categoryProvider: CategoryProvider) {
     this.check();
-  }
-
-  ionViewDidLoad() {
     this.getWallets();
-    // this.plt.ready().then(() => {
-    //   this.calendar.listCalendars().then(data => {
-    //     this.calendars = data;
-    //   });
-    // })
   }
 
-  // addEvent(cal) {
-  //   let date = new Date();
-  //   let options = { calendarId: cal.id, calendarName: cal.name, recurrence: 'monthly', firstReminderMinutes: 15 };
-
-  //   this.calendar.createEventInteractivelyWithOptions('Bill name', '', 'Special Notes', date, date, options).then(res => {
-  //   }, err => {
-  //     console.log('err: ', err);
-  //   });
-  // }
-
-  // openCalendar(cal) {
-  //   let modal = this.modalCtrl.create(BillsPage, { name: cal.name });
-  //   modal.present();
-
-  //   modal.onDidDismiss(result => {
-  //     this.ionViewDidLoad();
-  //   });
-  // }
 
   presentAlert(title, msg) {
     this.alert = this.alertCtrl.create({
@@ -103,6 +77,7 @@ export class HomePage {
       .then(data => {
         this.wallets = data;
         console.log(this.wallets);
+        
       });
   }
 
@@ -111,7 +86,7 @@ export class HomePage {
     modal.present();
 
     modal.onDidDismiss(() => {
-      this.ionViewDidLoad();
+      this.getWallets();
     });
   }
 
@@ -128,7 +103,7 @@ export class HomePage {
             console.log(result);
             this.loading.dismiss();
             this.presentAlert('Success!', 'New wallet created');
-            this.ionViewDidLoad();
+            this.getWallets();
           }, err => {
             this.loading.dismiss();
             console.log(err);
@@ -157,7 +132,6 @@ export class HomePage {
     } else {
       this.isSavings = true;
     }
-    //console.log(this.isSavings);
   }
 
   goToBills() {

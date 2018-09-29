@@ -20,16 +20,14 @@
 <ion-content padding>
   <ion-note>SWIPE AN ITEM TO THE RIGHT FOR OPTIONS</ion-note>
   <ion-list>
-    <ion-item-divider no-padding class="strong">EXPENSES WALLETS
-      <ion-icon item-start name="add-circle" (click)="addWallet(false)"></ion-icon>
+    <ion-item-divider no-padding class="strong">EXPENSE WALLETS
+      <button ion-button item-start icon-only clear color="main" (click)="addWallet(false)">
+        <ion-icon item-start name="add-circle"></ion-icon>
+      </button>
     </ion-item-divider>
     <ion-item-sliding *ngFor="let wallet of wallets | filterBy: ['type']: 'expense'">
       <ion-item tappable>
         {{wallet.name | ucwords}}
-        <ion-icon item-end name="arrow-dropright"></ion-icon>
-        <p>
-          <i>{{wallet.category | pluck: 'desc' | ucfirst}}</i>
-        </p>
       </ion-item>
       <ion-item-options side="left">
         <button ion-button clear color="primary" (click)="editWallet(wallet)">
@@ -44,7 +42,9 @@
     </ion-item-sliding>
 
     <ion-item-divider no-padding class="strong">SAVINGS WALLET
-      <ion-icon item-start name="add-circle" (click)="addWallet(true)"></ion-icon>
+      <button ion-button icon-only item-start clear color="main" (click)="addWallet(true)">
+        <ion-icon item-start name="add-circle"></ion-icon>
+      </button>
     </ion-item-divider>
     <ion-item-sliding *ngFor="let wallet of wallets | filterBy: ['type']: 'savings'">
       <ion-item>
