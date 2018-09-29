@@ -35,6 +35,8 @@ import { CategoryProvider } from '../providers/category/category';
 import { AuthProvider } from '../providers/auth/auth';
 import { PopovermenuComponent } from '../components/popovermenu/popovermenu';
 import { ReportsProvider } from '../providers/reports/reports';
+import { SearchPipe } from '../pipes/search/search';
+import { SortPipe } from '../pipes/sort/sort';
 
 
 
@@ -59,7 +61,9 @@ import { ReportsProvider } from '../providers/reports/reports';
     BudgetOverviewPage,
     ExpensesPage,
     ChangePasswordPage,
-    ViewArchivePage
+    ViewArchivePage,
+    SearchPipe,
+    SortPipe
   ],
   imports: [
     BrowserModule,
