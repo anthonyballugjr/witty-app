@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { LoginPage } from '../../pages/login/login';
+import { Observable } from 'rxjs/Observable';
 
 @Injectable()
 export class AuthProvider {
@@ -59,12 +60,6 @@ export class AuthProvider {
       });
     });
   }
-
-  // logout() {
-  //   localStorage.clear();
-  //   console.log(localStorage);
-  //   this.navCtrl.setRoot(LoginPage);
-  // }
 
   getProfile() {
     return new Promise((resolve, reject) => {
