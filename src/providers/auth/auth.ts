@@ -1,10 +1,11 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { LoginPage } from '../../pages/login/login';
-import { Observable } from 'rxjs/Observable';
 
 @Injectable()
 export class AuthProvider {
+  authURL = "http://localhost:3000/api/users";
+  // authURL = "http://witty-wallet.herokuapp.com/api/users"
+
   isLoggedIn: boolean = false;
   session: any;
   userData: any;
@@ -13,9 +14,6 @@ export class AuthProvider {
       'Authorization': 'Token ' + localStorage.token
     }
   }
-
-  authURL = "http://localhost:3000/api/users";
-  // authURL = "http://witty-wallet.herokuapp.com/api/users" 
 
   constructor(public http: HttpClient) {
     console.log('Hello AuthProvider Provider');
@@ -63,7 +61,7 @@ export class AuthProvider {
 
   getProfile() {
     return new Promise((resolve, reject) => {
-      this.http.get(this.authURL + '/profile/' + localStorage.email, this.authHeader)
+      this.http.get(this.authURL + '/profile', this.authHeader)
         .subscribe(res => {
           resolve(res);
         }, err => {
@@ -74,7 +72,7 @@ export class AuthProvider {
 
   updateNickname(nickname) {
     return new Promise((resolve, reject) => {
-      this.http.put(this.authURL + '/' + localStorage.userId, nickname, this.authHeader)
+      this.http.put(this.authURL, nickname, this.authHeader)
         .subscribe(res => {
           resolve(res);
         }, err => {
@@ -85,7 +83,7 @@ export class AuthProvider {
 
   changePassword(passwordData) {
     return new Promise((resolve, reject) => {
-      this.http.put(this.authURL + '/changePassword/' + localStorage.userId, passwordData, this.authHeader)
+      this.http.put(this.authURL + '/changePassword/', passwordData, this.authHeader)
         .subscribe(res => {
           resolve(res);
         }, err => {
