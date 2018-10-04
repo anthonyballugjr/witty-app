@@ -3,7 +3,6 @@ import { App, Nav, Platform, MenuController, ToastController, LoadingController 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
-
 import { TabsPage } from '../pages/tabs/tabs';;
 import { LoginPage } from '../pages/login/login';
 import { ProfilePage } from '../pages/profile/profile';
@@ -36,18 +35,19 @@ export class MyApp {
     this.initializeApp();
     this.checkAuthorization();
 
+
     // used for an example of ngFor and navigation
     this.pages = [
       { title: 'Home', icon: 'home', component: TabsPage },
       { title: 'Profile', icon: 'person', component: ProfilePage },
       { title: 'Manage Wallets', icon: 'list-box', component: CategoriesPage },
-      { title: 'My Debug Page', icon: 'baseball', component: MywalletsPage }
+      { title: 'Playground', icon: 'baseball', component: MywalletsPage }
     ];
   }
 
   initializeApp() {
     this.platform.ready().then(() => {
-      setTimeout(()=>{
+      setTimeout(() => {
         this.splashScreen.hide();
       }, 300)
       // Okay, so the platform is ready and our plugins are available.
@@ -74,7 +74,6 @@ export class MyApp {
       this.menuCtrl.close();
       this.loading.dismiss();
       this.app.getRootNav().setRoot(LoginPage);
-      this.presentToast('Signed Out');
     }, (err) => {
       this.loading.dismiss();
       this.presentToast(err);
