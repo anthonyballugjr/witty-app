@@ -25,7 +25,7 @@ export class PopovermenuComponent {
   }
 
   showOverview() {
-    let modal = this.modalCtrl.create(BudgetOverviewPage);
+    let modal = this.modalCtrl.create(BudgetOverviewPage, { profile: true });
     modal.present();
     this.viewCtrl.dismiss();
   }
