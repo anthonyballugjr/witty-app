@@ -37,6 +37,7 @@ import { PopovermenuComponent } from '../components/popovermenu/popovermenu';
 import { ReportsProvider } from '../providers/reports/reports';
 import { SearchPipe } from '../pipes/search/search';
 import { SortPipe } from '../pipes/sort/sort';
+import { GroupByPipe } from '../pipes/group-by/group-by';
 
 
 
@@ -63,7 +64,8 @@ import { SortPipe } from '../pipes/sort/sort';
     ChangePasswordPage,
     ViewArchivePage,
     SearchPipe,
-    SortPipe
+    SortPipe,
+    GroupByPipe
   ],
   imports: [
     BrowserModule,
