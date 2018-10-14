@@ -27,7 +27,11 @@ export class SignupPage {
 
   private signUpForm = this.formBldr.group({
     email: ["", Validators.required],
-    password: ["", Validators.required],
+    password: ["", Validators.compose([
+      Validators.required,
+      Validators.maxLength(20),
+      Validators.minLength(6)
+    ])],
     nickname: ["", Validators.required]
   });
 
@@ -56,7 +60,7 @@ export class SignupPage {
 
   showLoader() {
     this.loading = this.loadingCtrl.create({
-      content: 'Authenticating...'
+      content: 'Creating your account...'
     });
     this.loading.present();
   }
