@@ -7,9 +7,9 @@ import { TabsPage } from '../pages/tabs/tabs';;
 import { LoginPage } from '../pages/login/login';
 import { ProfilePage } from '../pages/profile/profile';
 import { MywalletsPage } from '../pages/mywallets/mywallets';
+import { CategoriesPage } from '../pages/categories/categories';
 
 import { AuthProvider } from '../providers/auth/auth';
-import { CategoriesPage } from '../pages/categories/categories';
 
 @Component({
   templateUrl: 'app.html'
@@ -31,7 +31,8 @@ export class MyApp {
 
   pages: Array<{ title: string, icon: string, component: any }>;
 
-  constructor(public app: App, public menuCtrl: MenuController, private toastCtrl: ToastController, private loadingCtrl: LoadingController, public authProvider: AuthProvider, public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen) {
+  constructor(public app: App, public menuCtrl: MenuController, private toastCtrl: ToastController, private loadingCtrl: LoadingController, public authProvider: AuthProvider, public platform: Platform, public splashScreen: SplashScreen, public statusBar: StatusBar) {
+    this.statusBar.hide();
     this.initializeApp();
     this.checkAuthorization();
 
@@ -52,7 +53,7 @@ export class MyApp {
       }, 300)
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
-      this.statusBar.styleDefault();
+      this.statusBar.hide();
     });
   }
 

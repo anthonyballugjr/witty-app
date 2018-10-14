@@ -1,12 +1,12 @@
 import { NgModule } from '@angular/core';
-import { HeaderMenuComponent } from './header-menu/header-menu';
+// import { HeaderMenuComponent } from './header-menu/header-menu';
 import { PopovermenuComponent } from './popovermenu/popovermenu';
 
 @NgModule({
-	declarations: [HeaderMenuComponent,
-    PopovermenuComponent],
+	declarations: [
+		PopovermenuComponent],
 	imports: [],
-	exports: [HeaderMenuComponent,
-    PopovermenuComponent]
+	exports: [
+		PopovermenuComponent]
 })
-export class ComponentsModule {}
+export class ComponentsModule { }
