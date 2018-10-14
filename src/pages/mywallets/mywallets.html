@@ -1,6 +1,6 @@
 <ion-header color="main">
   <ion-navbar>
-    <ion-title>My Wallets</ion-title>
+    <ion-title>My Playground</ion-title>
     <ion-buttons left>
       <button ion-button icon-only menuToggle>
         <ion-icon name='menu'></ion-icon>
@@ -11,48 +11,44 @@
 
 <ion-content padding>
 
-  <ion-card>
-    <ion-card-header>
-      Chart
-    </ion-card-header>
+  <ion-card no-padding>
     <ion-card-content>
-      <canvas #doughnutCanvas></canvas>
+      <canvas #doughnutCanvas style="height:100%;"></canvas>
     </ion-card-content>
   </ion-card>
 
   <ion-card>
-    <ion-card-header>Notifications Data </ion-card-header>
+    <ion-card-header text-center>Notifications Data </ion-card-header>
     <ion-card-content>
       <p>{{notifJson}}</p>
     </ion-card-content>
   </ion-card>
 
-  <!-- <div>
-    <ion-list>
-      <ion-item *ngFor="let category of categories">
-        <ion-icon item-start name={{category.icon}} item-start></ion-icon>
-        <h5>{{category.desc}}</h5>
-      </ion-item>
+  <div>
+    <button ion-button full color="main" (click)="getNext()">Get Next</button>
+    <ion-list *ngIf="next">
+      <ion-item *ngFor="let n of next">{{n.name}}</ion-item>
     </ion-list>
-  </div> -->
+    <ion-list>
+      <ion-item>{{budgetOverview.totalBudget}}</ion-item>
+    </ion-list>
+  </div>
 
   <div>
-    <ion-list>
-      <ion-item>
-        <p>Total Expenses: {{ov.totalExpenses}}</p>
-      </ion-item>
-      <ion-item>
-        <p>TotalBudget: {{ov.totalBudget}}</p>
-      </ion-item>
-    </ion-list>
-
-    <ion-list>
-      <ion-item *ngFor="let wallet of ov.userWallets">
-        <ion-icon item-start name="{{wallet.walletCategory.icon}}"></ion-icon>
-        <h4>{{wallet.walletName}}</h4>
+    <button ion-button full color="buttons" (click)="predict()">Predict</button>
+    <ion-list *ngIf="predictData">
+      <ion-item *ngFor="let m of predictData">
+        <p>Wallet name: {{m.name}}</p>
+        <p>Amount to predict: {{m.oldAmount}}</p>
+        <p>Predicted Amount: {{m.predictedAmount}}</p>
       </ion-item>
     </ion-list>
-
   </div>
+
+  <ion-slides #nextSlider>
+    <ion-slide>
+
+    </ion-slide>
+  </ion-slides>
 
 </ion-content>
