@@ -1,8 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { IonicPage, NavController, NavParams, LoadingController, AlertController, ViewController } from 'ionic-angular';
 import { Validators, FormBuilder } from '@angular/forms';
 import { CategoryProvider } from '../../providers/category/category';
 import { LocalNotifications } from '@ionic-native/local-notifications';
+import { Categories } from '../../data/data';
 
 
 @IonicPage()
@@ -11,6 +12,7 @@ import { LocalNotifications } from '@ionic-native/local-notifications';
   templateUrl: 'addwallet.html',
 })
 export class AddwalletPage {
+  @ViewChild('amount') myInput;
   loading: any;
   alert: any;
 
@@ -19,7 +21,7 @@ export class AddwalletPage {
   doNotify: boolean = false;
 
 
-  categories: any;
+  categories = Categories;
 
   month = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
   n = new Date();
@@ -53,7 +55,6 @@ export class AddwalletPage {
     console.log('type: ', this.wallet.type)
     console.log('is it savings? ', this.isSavings);
     console.log(this.period);
-    this.getCategories();
   }
 
   private addWalletForm = this.formBldr.group({
@@ -86,20 +87,16 @@ export class AddwalletPage {
     })
   }
 
-  getCategories() {
-    this.categoryProvider.getCategories()
-      .then(data => {
-        this.categories = data;
-        console.log(this.categories);
-      });
-  }
-
   cancel() {
     this.viewCtrl.dismiss();
   }
 
   addWallet() {
-    if (this.isSavings === false && this.wallet.categoryId === '') {
+    if (parseInt(this.wallet.amount) < 100) {
+      this.showAlert('Minimum allowable amount is 100.')
+      this.myInput.setFocus();
+    }
+    else if (this.isSavings === false && this.wallet.categoryId === '') {
       this.showAlert('Select a category')
     }
     else if (this.doNotify === true && (this.notifData.date === '' || this.notifData.time === '')) {
