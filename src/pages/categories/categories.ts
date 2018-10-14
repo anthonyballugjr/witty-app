@@ -62,12 +62,12 @@ export class CategoriesPage {
           .then(result => {
             console.log(result);
             this.loading.dismiss();
-            this.showAlert('Success!', 'New wallet created!');
+            this.showAlert('Success!', 'New ' + data.type + ' wallet created!');
             this.getWallets();
           }, err => {
             this.loading.dismiss();
             console.log(err);
-            this.showAlert('Failed', err.message);
+            this.showAlert('Failed', err.error);
           });
       }
     });

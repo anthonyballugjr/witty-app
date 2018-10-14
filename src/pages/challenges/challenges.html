@@ -11,7 +11,7 @@
             <p *ngIf="challenge.expectedAmount != 0">
               <b>Total Expected Amount:</b> {{ challenge.expectedAmount | pluck:'expectedAmount' | currency: "PHP" :2 }} </p>
           </ion-card-content>
-        </ion-row>
+        </ion-row><br>
         <ion-row padding-right float-right>
           <button ion-button icon-start clear small padding-bottom (click)="takeChallenge(challenge.challengeID)">
             <ion-icon name="cash"></ion-icon>
@@ -30,7 +30,9 @@
 <ion-content id="ftWeek" *ngIf="challengeStatus && ftWeek" padding>
   <ion-card>
     <div id="icon">
-          <button ion-button class="indicator-done" clear><ion-icon name="checkmark"></ion-icon></button>
+      <button ion-button class="indicator-done" clear>
+        <ion-icon name="checkmark"></ion-icon>
+      </button>
     </div>
     <div>
       <ion-card-header>
@@ -41,41 +43,45 @@
           Deposit: {{5 | currency: "PHP" :2}} </p>
         <p>
           Current Balance: {{5 | currency: "PHP" :2}} </p>
-    </ion-card-content>
-  </div>
+      </ion-card-content>
+    </div>
   </ion-card>
 
   <ion-card>
-      <div id="icon">
-            <button ion-button class="indicator-done" clear><ion-icon name="checkmark"></ion-icon></button>
-      </div>
-      <div>
-        <ion-card-header>
-          <b>Week 2</b>
-        </ion-card-header>
-        <ion-card-content>
-          <p>
-            Deposit: {{10 | currency: "PHP" :2}} </p>
-          <p>
-            Current Balance: {{15 | currency: "PHP" :2}} </p>
+    <div id="icon">
+      <button ion-button class="indicator-done" clear>
+        <ion-icon name="checkmark"></ion-icon>
+      </button>
+    </div>
+    <div>
+      <ion-card-header>
+        <b>Week 2</b>
+      </ion-card-header>
+      <ion-card-content>
+        <p>
+          Deposit: {{10 | currency: "PHP" :2}} </p>
+        <p>
+          Current Balance: {{15 | currency: "PHP" :2}} </p>
       </ion-card-content>
     </div>
-    </ion-card>
+  </ion-card>
 
   <ion-card>
-      <div id="icon">
-            <button ion-button class="indicator-pending" clear><ion-icon name="checkmark"></ion-icon></button>
-      </div>
-      <div>
-        <ion-card-header>
-          <b>Week 3</b>
-        </ion-card-header>
-        <ion-card-content>
-          <p>
-            Deposit: {{15 | currency: "PHP" :2}} </p>
-          <p>
-            Current Balance: {{15 | currency: "PHP" :2}} </p>
+    <div id="icon">
+      <button ion-button class="indicator-pending" clear>
+        <ion-icon name="checkmark"></ion-icon>
+      </button>
+    </div>
+    <div>
+      <ion-card-header>
+        <b>Week 3</b>
+      </ion-card-header>
+      <ion-card-content>
+        <p>
+          Deposit: {{15 | currency: "PHP" :2}} </p>
+        <p>
+          Current Balance: {{15 | currency: "PHP" :2}} </p>
       </ion-card-content>
     </div>
-    </ion-card>
+  </ion-card>
 </ion-content>

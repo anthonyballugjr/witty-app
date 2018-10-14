@@ -15,7 +15,7 @@ import { AuthProvider } from '../../providers/auth/auth'
   templateUrl: 'login.html',
 })
 export class LoginPage {
-  private loginForm: FormGroup;
+  loginForm: FormGroup;
   errMessage: any;
   loading: any;
   data: any;

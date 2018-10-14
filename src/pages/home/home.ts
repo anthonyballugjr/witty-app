@@ -1,6 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { Platform, NavController, NavParams, ToastController, PopoverController, ModalController, Slides, LoadingController, AlertController, Button } from 'ionic-angular';
-import { Calendar } from '@ionic-native/calendar';
+import { NavController, NavParams, ToastController, ModalController, Slides, LoadingController, AlertController } from 'ionic-angular';
 import { HttpClient } from '@angular/common/http';
 
 import { CategoryProvider } from '../../providers/category/category';
@@ -25,18 +24,14 @@ export class HomePage {
 
   calendars = [];
 
-  month = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-  n = new Date();
-  m = this.month[this.n.getMonth()];
-  y = this.n.getFullYear();
-  period = this.m + " " + this.y;
+  period = localStorage.period;
 
   isSavings: boolean = false;
 
   loading: any;
   alert: any;
 
-  constructor(private alertCtrl: AlertController, private loadingCtrl: LoadingController, private modalCtrl: ModalController, private popCtrl: PopoverController, private toastCtrl: ToastController, public navParams: NavParams, public navCtrl: NavController, public http: HttpClient, public categoryProvider: CategoryProvider) {
+  constructor(private alertCtrl: AlertController, private loadingCtrl: LoadingController, private modalCtrl: ModalController, private toastCtrl: ToastController, public navParams: NavParams, public navCtrl: NavController, public http: HttpClient, public categoryProvider: CategoryProvider) {
     this.check();
     this.getWallets();
   }
@@ -77,7 +72,6 @@ export class HomePage {
       .then(data => {
         this.wallets = data;
         console.log(this.wallets);
-        
       });
   }
 
@@ -102,12 +96,12 @@ export class HomePage {
           .then(result => {
             console.log(result);
             this.loading.dismiss();
-            this.presentAlert('Success!', 'New wallet created');
+            this.presentAlert('Success!', 'New ' + data.type + ' wallet created');
             this.getWallets();
           }, err => {
             this.loading.dismiss();
             console.log(err);
-            this.presentAlert('Failed', err.message);
+            this.presentAlert('Failed', err.error);
           });
       }
     });

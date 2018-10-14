@@ -41,18 +41,17 @@
       </ion-item-options>
     </ion-item-sliding>
 
-    <ion-item-divider no-padding class="strong">SAVINGS WALLET
+    <ion-item-divider no-padding class="strong">SAVINGS WALLETS
       <button ion-button icon-only item-start clear color="main" (click)="addWallet(true)">
         <ion-icon item-start name="add-circle"></ion-icon>
       </button>
     </ion-item-divider>
-    <ion-item-sliding *ngFor="let wallet of wallets | filterBy: ['type']: 'savings'">
+    <ion-item-sliding *ngFor="let wallet of wallets | filterBy: ['type']: 'savings'" (ionSwipe)="editWallet(wallet)">
       <ion-item>
         {{wallet.name | ucwords}}
-        <ion-icon item-end name="arrow-dropright"></ion-icon>
       </ion-item>
       <ion-item-options side="left">
-        <button ion-button clear color="primary" (click)="editWallet(wallet)">
+        <button ion-button expandable clear color="primary" (click)="editWallet(wallet)">
           <ion-icon name="document"></ion-icon>
           Edit
         </button>
