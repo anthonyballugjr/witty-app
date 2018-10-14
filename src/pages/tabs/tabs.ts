@@ -5,10 +5,10 @@ import { SuperTabs } from 'ionic2-super-tabs';
 
 import { HomePage } from '../home/home';
 import { ChallengesPage } from '../challenges/challenges';
-import { BudgetOverviewPage} from '../budget-overview/budget-overview';
+import { BudgetOverviewPage } from '../budget-overview/budget-overview';
 import { ExpensesPage } from '../expenses/expenses';
 
-import {CategoryProvider} from '../../providers/category/category';
+import { CategoryProvider } from '../../providers/category/category';
 
 @IonicPage()
 @Component({
@@ -18,7 +18,10 @@ import {CategoryProvider} from '../../providers/category/category';
 export class TabsPage {
   expenses: any = [];
   wallets: any;
-  
+
+  month = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+  day = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Satruday"];
+
   pages = [
     {
       pageName: HomePage, title: 'My Wallets', icon: 'home', id: 'homeTab'
@@ -48,7 +51,8 @@ export class TabsPage {
         this.wallets = data;
         for (let i of this.wallets) {
           for (let x of i.transactions) {
-            this.expenses.push(x);
+
+            this.expenses.push({ _id: x._id, desc: x.desc, amount: x.amount, date: (this.month[new Date(x.createdAt).getMonth()] + ", " + new Date(x.createdAt).getDate() + " " + new Date(x.createdAt).getFullYear()), dayAndTime: this.day[new Date(x.createdAt).getDay()] });
           }
         }
         console.log(this.wallets);
