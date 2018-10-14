@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, AlertController, LoadingController, ViewController } from 'ionic-angular';
 import { AuthProvider } from '../../providers/auth/auth';
 import { LoginPage } from '../login/login';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 @IonicPage()
 @Component({
@@ -15,11 +16,31 @@ export class ChangePasswordPage {
     confirmPassword: ''
   }
 
+  passwordForm: FormGroup;
   alert: any;
   loading: any;
 
-  constructor(public authProvider: AuthProvider, public navCtrl: NavController, public navParams: NavParams, private alertCtrl: AlertController, private loadingCtrl: LoadingController, private viewCtrl: ViewController) {
+  constructor(public authProvider: AuthProvider, public navCtrl: NavController, public navParams: NavParams, private alertCtrl: AlertController, private loadingCtrl: LoadingController, private viewCtrl: ViewController, public formBldr: FormBuilder) {
+    this.passwordForm = formBldr.group({
+      oldPassword: ["", Validators.compose([
+        Validators.required,
+        Validators.minLength(6),
+        Validators.maxLength(20)
+      ])],
+      newPassword: ["", Validators.compose([
+        Validators.required,
+        Validators.minLength(6),
+        Validators.maxLength(20)
+      ])],
+      confirmPassword: ["", Validators.compose([
+        Validators.required,
+        Validators.minLength(6),
+        Validators.maxLength(20)
+      ])]
+    })
   }
+
+
 
   presentLoading() {
     this.loading = this.loadingCtrl.create({
@@ -65,11 +86,15 @@ export class ChangePasswordPage {
                 console.log(err);
               });
           });
+        }, err => {
+          this.loading.dismiss();
+          this.presentAlert('Validation Error', err.error);
+          console.log(err);
         });
     }
   }
 
-  close(){
+  close() {
     this.viewCtrl.dismiss();
   }
 
