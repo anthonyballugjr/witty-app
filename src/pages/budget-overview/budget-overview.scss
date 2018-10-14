@@ -1,7 +1,10 @@
 page-budget-overview {
-    .header-title{
+    .header-title {
         font-weight: bold;
         text-align: center;
+    }
+    ion-segment { 
+        position: sticky;
     }
 
 }
