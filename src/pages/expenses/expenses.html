@@ -3,7 +3,7 @@
 </ion-toolbar>
 
 <ion-content>
-  <ion-item-group *ngFor="let group of expenses | groupBy: 'date'">
+  <ion-item-group *ngFor="let group of expenses | groupBy: 'date' | reverse">
     <ion-item-divider color="light">
       {{group.key}}
     </ion-item-divider>
