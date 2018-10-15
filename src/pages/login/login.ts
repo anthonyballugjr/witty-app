@@ -29,7 +29,7 @@ export class LoginPage {
   message: any;
   userData: any;
 
-  constructor(private toastCtrl: ToastController, public authProvider: AuthProvider, private formBldr: FormBuilder, public http: HttpClient, private facebook: Facebook, public navCtrl: NavController, public navParams: NavParams, public alertCtrl: AlertController, public loadingCtrl: LoadingController) {
+  constructor(private toastCtrl: ToastController, public authProvider: AuthProvider, private formBldr: FormBuilder, public http: HttpClient, private facebook: Facebook, public navCtrl: NavController, public navParams: NavParams, public alertCtrl: AlertController, public loadingCtrl: LoadingController, private menuCtrl:MenuController) {
     this.loginForm = this.formBldr.group({
       email: ["", Validators.required],
       password: ["", Validators.required]
@@ -39,6 +39,15 @@ export class LoginPage {
   ionViewDidLoad() {
     console.log('Welcome to Witty Wallet');
   }
+
+  ionViewWillEnter(){
+    this.menuCtrl.enable(false);
+  }
+
+  ionViewWillLeave(){
+    this.menuCtrl.enable(true);
+  }
+
 
   showLoader() {
     this.loading = this.loadingCtrl.create({

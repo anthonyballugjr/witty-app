@@ -19,9 +19,12 @@
 
     <ion-item>
       <ion-label floating>Password</ion-label>
-      <ion-input [(ngModel)]="registerData.user.password" type="password" formControlName="password" name="password"></ion-input>
+      <ion-input [(ngModel)]="registerData.user.password" type="password" formControlName="password" name="password" tooltip="Password must be 8 to 20 characters long"
+        event="click" mobileEvent="click" arrow="true" positionV="bottom"></ion-input>
     </ion-item>
-    <div *ngIf="signUpForm.controls.password.hasError('minLength') && signUpForm.controls.password.hasError('maxLength')">Password must be 6 to 20 characters long</div>
+    <ion-item no-lines no-margin id="tip">
+      <small align-left ion-text color="watermelon">Password must be 8 to 20 characters long.</small>
+    </ion-item>
 
     <ion-item>
       <ion-label floating>Nickname</ion-label>
