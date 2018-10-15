@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ToastController, LoadingController, ViewController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ToastController, LoadingController, ViewController, MenuController } from 'ionic-angular';
 import { Validators, FormBuilder, FormGroup } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { AuthProvider } from '../../providers/auth/auth';
@@ -22,7 +22,7 @@ export class SignupPage {
     }
   }
 
-  constructor(private viewCtrl: ViewController, public formBldr: FormBuilder, public http: HttpClient, public navCtrl: NavController, public navParams: NavParams, public authProvider: AuthProvider, private toastCtrl: ToastController, private loadingCtrl: LoadingController) {
+  constructor(private viewCtrl: ViewController, public formBldr: FormBuilder, public http: HttpClient, public navCtrl: NavController, public navParams: NavParams, public authProvider: AuthProvider, private toastCtrl: ToastController, private loadingCtrl: LoadingController, private menuCtrl: MenuController) {
   }
 
   private signUpForm = this.formBldr.group({
@@ -37,6 +37,8 @@ export class SignupPage {
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad SignupPage');
+    this.menuCtrl.enable(false);
+    this.menuCtrl.swipeEnable(false);
   }
 
   register() {
