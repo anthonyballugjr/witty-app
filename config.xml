@@ -27,9 +27,6 @@
     <platform name="android">
         <allow-navigation href="http://*/*" />
         <allow-navigation href="http://172.26.0.41" />
-        <edit-config file="AndroidManifest.xml" mode="merge" target="/manifest/application/activity">
-            <activity android:windowSoftInputMode="adjustPan" />
-        </edit-config>
         <config-file parent="/resources" target="./res/values/strings.xml">
             <string name="fb_app_id">400058297067748</string>
             <string name="fb_app_name">Witty Wallet</string>
@@ -111,4 +108,5 @@
     </plugin>
     <engine name="browser" spec="^5.0.4" />
     <engine name="android" spec="7.0.0" />
+    <plugin name="cordova-plugin-fullscreen" spec="^1.2.0" />
 </widget>

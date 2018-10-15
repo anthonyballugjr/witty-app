@@ -2,6 +2,7 @@ import { Component, ViewChild } from '@angular/core';
 import { App, Nav, Platform, MenuController, ToastController, LoadingController } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
+import { AndroidFullScreen } from '@ionic-native/android-full-screen';
 
 import { TabsPage } from '../pages/tabs/tabs';;
 import { LoginPage } from '../pages/login/login';
@@ -31,7 +32,7 @@ export class MyApp {
 
   pages: Array<{ title: string, icon: string, component: any }>;
 
-  constructor(public app: App, public menuCtrl: MenuController, private toastCtrl: ToastController, private loadingCtrl: LoadingController, public authProvider: AuthProvider, public platform: Platform, public splashScreen: SplashScreen, public statusBar: StatusBar) {
+  constructor(public fullScreen: AndroidFullScreen, public app: App, public menuCtrl: MenuController, private toastCtrl: ToastController, private loadingCtrl: LoadingController, public authProvider: AuthProvider, public platform: Platform, public splashScreen: SplashScreen, public statusBar: StatusBar) {
     this.statusBar.hide();
     this.initializeApp();
     this.checkAuthorization();
@@ -53,6 +54,9 @@ export class MyApp {
       }, 300)
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
+      this.fullScreen.isImmersiveModeSupported()
+        .then(() => this.fullScreen.immersiveMode())
+        .catch((error: any) => console.log(error))
       this.statusBar.hide();
     });
   }
@@ -85,7 +89,7 @@ export class MyApp {
     let toast = this.toastCtrl.create({
       message: msg,
       duration: 3000,
-      position: 'middle',
+      position: 'bottom',
       dismissOnPageChange: false
     });
     toast.onDidDismiss(() => {
