@@ -8,8 +8,15 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 })
 export class ChallengesPage {
   challengeStatus = false;
+
   spareChange = false;
   ftWeek = false;
+
+  total = 0;
+  current = 0;
+  challengeLength = 0;
+
+  numbers = []
   
   challenges = [
     {
@@ -27,28 +34,30 @@ export class ChallengesPage {
     }
   ];
 
-
   constructor(public navCtrl: NavController, public navParams: NavParams) {
-   
+    this.numbers = Array(52).fill(0).map((x, i)=> i + 1);
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad ChallengesPage');
-    console.log('s ' + this.spareChange);
-    console.log('f: ' + this.ftWeek);
   }
 
   takeChallenge(challengeID){
     this.challengeStatus = true;
-    console.log(challengeID);
     
     if(challengeID === 'spareChange'){
       this.spareChange = true;
     }
     else if(challengeID === 'ftWeek'){
       this.ftWeek = true;
+      this.total = 6890;
     }
-    
+  }
+
+  deposit(value){
+    this.current += value * 5;
+    this.numbers.splice(0, 1);
+    console.log(value);
   }
 
 }

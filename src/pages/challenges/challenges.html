@@ -27,55 +27,35 @@
   spare is Active
 </ion-content>
 
-<ion-content id="ftWeek" *ngIf="challengeStatus && ftWeek" padding>
-  <ion-card>
-    <div id="icon">
-          <button ion-button class="indicator-done" clear><ion-icon name="checkmark"></ion-icon></button>
-    </div>
-    <div>
-      <ion-card-header>
-        <b>Week 1</b>
-      </ion-card-header>
-      <ion-card-content>
-        <p>
-          Deposit: {{5 | currency: "PHP" :2}} </p>
-        <p>
-          Current Balance: {{5 | currency: "PHP" :2}} </p>
-    </ion-card-content>
+<ion-content id="ftWeek" *ngIf="challengeStatus && ftWeek">
+  <div class="progress-header">
+    <ion-grid class="progressbar">
+      <ion-row justify-content-center align-items-center>
+        <round-progress [background]="'#32CD32'" [current]="current" [radius]="60" [color]="'#fff'" [stroke]="2.5" [max]="total" [rounded]="true">
+        </round-progress>
+      </ion-row>
+    </ion-grid>
+    <h5>{{current}} / {{total}}</h5>
   </div>
-  </ion-card>
 
-  <ion-card>
-      <div id="icon">
-            <button ion-button class="indicator-done" clear><ion-icon name="checkmark"></ion-icon></button>
-      </div>
-      <div>
-        <ion-card-header>
-          <b>Week 2</b>
-        </ion-card-header>
-        <ion-card-content>
-          <p>
-            Deposit: {{10 | currency: "PHP" :2}} </p>
-          <p>
-            Current Balance: {{15 | currency: "PHP" :2}} </p>
-      </ion-card-content>
-    </div>
-    </ion-card>
-
-  <ion-card>
-      <div id="icon">
-            <button ion-button class="indicator-pending" clear><ion-icon name="checkmark"></ion-icon></button>
-      </div>
-      <div>
-        <ion-card-header>
-          <b>Week 3</b>
-        </ion-card-header>
-        <ion-card-content>
-          <p>
-            Deposit: {{15 | currency: "PHP" :2}} </p>
-          <p>
-            Current Balance: {{15 | currency: "PHP" :2}} </p>
-      </ion-card-content>
-    </div>
-    </ion-card>
+  <div class = "cards">
+      <ion-card *ngFor="let number of numbers">
+        <div id="icon">
+          <button ion-button class="indicator-done" clear (click)="deposit(number)">
+            <ion-icon name="checkmark"></ion-icon>
+          </button>
+        </div>
+        <div id="content">
+          <ion-card-header>
+            <b>Week {{number}}</b>
+          </ion-card-header>
+          <ion-card-content>
+            <p>
+              Deposit: {{(number * 5)  | currency: "PHP" :2}} </p>
+            <p>
+              Total: {{current | currency: "PHP" :2}} </p>
+          </ion-card-content>
+        </div>
+      </ion-card>
+  </div>
 </ion-content>
