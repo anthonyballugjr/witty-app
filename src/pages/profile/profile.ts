@@ -1,6 +1,7 @@
 import { Component, ViewChild, ElementRef } from '@angular/core';
 import { IonicPage, NavController, NavParams, PopoverController, AlertController } from 'ionic-angular';
 import * as jsPDF from 'jspdf';
+import { File } from '@ionic-native/file';
 
 import { AuthProvider } from '../../providers/auth/auth';
 import { ReportsProvider } from '../../providers/reports/reports';
@@ -12,7 +13,7 @@ import { PopovermenuComponent } from '../../components/popovermenu/popovermenu';
   templateUrl: 'profile.html',
 })
 export class ProfilePage {
-  @ViewChild('content') content: ElementRef;
+  @ViewChild('profile') profile: ElementRef;
 
   editData = {
     "name": ""
@@ -23,7 +24,7 @@ export class ProfilePage {
   email: any;
   nickname: any;
 
-  constructor(public alertCtrl: AlertController, private popCtrl: PopoverController, public reportProvider: ReportsProvider, public authProvider: AuthProvider, public navCtrl: NavController, public navParams: NavParams) {
+  constructor(public alertCtrl: AlertController, private popCtrl: PopoverController, public reportProvider: ReportsProvider, public authProvider: AuthProvider, public navCtrl: NavController, public navParams: NavParams, private file: File) {
     this.getProfile();
     this.getArchivesOverview();
   }
@@ -63,8 +64,11 @@ export class ProfilePage {
     });
   }
 
-  export() {
-    let doc = new jsPDF();
+  exportProfile() {
+    var doc = new jsPDF();
+    doc.setFontSize(29);
+    doc.setFont('helvetica');
+
 
     let specialElementHandlers = {
       '#editor': function (element, renderer) {
@@ -72,14 +76,28 @@ export class ProfilePage {
       }
     };
 
-    let content = this.content.nativeElement;
+    let content = this.profile.nativeElement;
 
     doc.fromHTML(content.innerHTML, 15, 15, {
       'width': 190,
       'elementHandlers': specialElementHandlers
     });
 
-    doc.save('transcript.pdf');
+    let pdfOutput = doc.output();
+    let buffer = new ArrayBuffer(pdfOutput.length);
+    let array = new Uint8Array(buffer);
+    for (var i = 0; i < pdfOutput.length; i++) {
+      array[i] = pdfOutput.charCodeAt(i);
+    }
+
+    const directory = this.file.externalApplicationStorageDirectory;
+    alert(directory);
+    const fileName = "Witty-Budget-Profile.pdf";
+    this.file.writeFile(directory, fileName, buffer)
+      .then((success) => console.log("File Created successfully " + JSON.stringify(success)))
+      .catch((error) => console.log("Cannot create file " + JSON.stringify(error)))
+
+    // doc.save('transcript.pdf');
   }
 
 }
