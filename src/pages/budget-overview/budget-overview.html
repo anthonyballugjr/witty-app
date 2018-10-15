@@ -12,6 +12,13 @@
 
   <div [ngSwitch]="view">
     <div *ngSwitchCase="'thisMonth'" margin-top>
+      
+      <ion-card no-padding>
+        <ion-card-content>
+          <canvas #doughnutCanvas style="height:100%;"></canvas>
+        </ion-card-content>
+      </ion-card>
+
       <ion-card>
         <ion-card-header>
           {{period}}
@@ -49,12 +56,6 @@
             </ion-item>
           </ion-list>
 
-        </ion-card-content>
-      </ion-card>
-
-      <ion-card no-padding>
-        <ion-card-content>
-          <canvas #doughnutCanvas style="height:100%;"></canvas>
         </ion-card-content>
       </ion-card>
     </div>
