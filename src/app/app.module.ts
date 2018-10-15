@@ -12,6 +12,8 @@ import { LocalNotifications } from '@ionic-native/local-notifications';
 import { NgCalendarModule } from 'ionic2-calendar';
 import { SuperTabsModule } from 'ionic2-super-tabs';
 import { File } from '@ionic-native/file';
+import { TooltipsModule } from 'ionic-tooltips';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 //pages
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
@@ -71,6 +73,8 @@ import { GroupByPipe } from '../pipes/group-by/group-by';
     HttpClientModule,
     NgPipesModule,
     NgCalendarModule,
+    TooltipsModule,
+    BrowserAnimationsModule,
     SuperTabsModule.forRoot(),
     IonicModule.forRoot(MyApp, {
       navExitApp: false
