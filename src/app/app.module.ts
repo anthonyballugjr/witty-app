@@ -11,6 +11,7 @@ import { Calendar } from '@ionic-native/calendar';
 import { LocalNotifications } from '@ionic-native/local-notifications';
 import { NgCalendarModule } from 'ionic2-calendar';
 import { SuperTabsModule } from 'ionic2-super-tabs';
+import { File } from '@ionic-native/file';
 //pages
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
@@ -98,6 +99,7 @@ import { GroupByPipe } from '../pipes/group-by/group-by';
   ],
   providers: [
     StatusBar,
+    File,
     SplashScreen,
     Facebook,
     CategoryProvider,
