@@ -17,7 +17,7 @@
     <ion-item-divider class="strong">Wallet: {{walletName | ucwords}}</ion-item-divider>
     <ion-item *ngFor="let expense of data | reverse" text-wrap no-margin>
       <h5>{{expense.desc | ucwords}}</h5>
-      <ion-note>{{expense.updatedAt | date: 'medium'}}</ion-note>
+      <ion-note>{{expense.createdAt}}</ion-note>
       <ion-note float-right>{{expense.amount | currency: "PHP": 2}}</ion-note>
     </ion-item>
   </ion-list>

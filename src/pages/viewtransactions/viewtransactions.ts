@@ -51,7 +51,7 @@ export class ViewtransactionsPage {
     this.categoryProvider.getTransactions(this.walletId)
       .then(data => {
         this.data = data;
-        console.log(this.data);
+        console.log('Transactions ', this.data);
       }, err => {
         console.log(err);
       });
@@ -153,9 +153,6 @@ export class ViewtransactionsPage {
 
   close() {
     this.viewCtrl.dismiss();
-    this.viewCtrl.onDidDismiss(()=>{
-      this.navCtrl.setRoot(TabsPage);
-    });
   }
 
 }

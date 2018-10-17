@@ -12,7 +12,7 @@
 
   <div [ngSwitch]="view">
     <div *ngSwitchCase="'thisMonth'" margin-top>
-      
+
       <ion-card no-padding>
         <ion-card-content>
           <canvas #doughnutCanvas style="height:100%;"></canvas>
@@ -46,7 +46,7 @@
               <h2 ion-text color="watermelon">
                 <strong>Total Expenses:</strong>
               </h2>
-              <ion-note item-end>{{expenses | pluck:'amount' | sum | currency: "PHP" :2}}</ion-note>
+              <ion-note item-end>{{budgetOverview.totalExpenses | currency: "PHP" :2}}</ion-note>
             </ion-item>
             <ion-item-divider no-lines></ion-item-divider>
             <ion-item>
