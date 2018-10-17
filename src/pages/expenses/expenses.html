@@ -1,10 +1,10 @@
-<ion-toolbar color="main">
+<ion-toolbar color="main" id="toolbar">
   <h6 ion-text color="sky">Expenses</h6>
 </ion-toolbar>
 
 <ion-content>
   <ion-item-group *ngFor="let group of expenses | groupBy: 'date' | reverse">
-    <ion-item-divider color="light">
+    <ion-item-divider color="light" sticky>
       {{group.key}}
     </ion-item-divider>
     <ion-item *ngFor="let expense of group.list">

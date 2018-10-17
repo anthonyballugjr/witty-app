@@ -106,7 +106,7 @@
     <plugin name="cordova-android-support-gradle-release" spec="^1.4.5">
         <variable name="ANDROID_SUPPORT_VERSION" value="27.+" />
     </plugin>
+    <plugin name="cordova-plugin-fullscreen" spec="^1.2.0" />
     <engine name="browser" spec="^5.0.4" />
     <engine name="android" spec="7.0.0" />
-    <plugin name="cordova-plugin-fullscreen" spec="^1.2.0" />
 </widget>
