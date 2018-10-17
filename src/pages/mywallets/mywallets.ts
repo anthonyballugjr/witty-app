@@ -1,10 +1,11 @@
 import { Component, ViewChild } from '@angular/core';
-import { IonicPage, NavController, NavParams, AlertController, Platform } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, AlertController, Platform, ModalController, Slides } from 'ionic-angular';
 import { Chart } from 'chart.js';
 import { CategoryProvider } from '../../providers/category/category';
 import { ReportsProvider } from '../../providers/reports/reports';
 import { LocalNotifications } from '@ionic-native/local-notifications';
 import { BGColor, HoverColor } from '../../data/data';
+import { BillsPage } from '../bills/bills';
 
 @IonicPage()
 @Component({
@@ -13,7 +14,9 @@ import { BGColor, HoverColor } from '../../data/data';
 })
 
 export class MywalletsPage {
-  @ViewChild('doughnutCanvas') doughnutCanvas;
+  // @ViewChild('doughnutCanvas') doughnutCanvas;
+  @ViewChild('categoryInput') categoryInput;
+  @ViewChild('slider') slider: Slides;
 
   transactions: any = [];
   categories: any;
@@ -35,10 +38,12 @@ export class MywalletsPage {
   predictData: any = [];
 
   notifData: any;
+  categoryID: any;
 
-  constructor(public reportsProvider: ReportsProvider, private plt: Platform, private localNotif: LocalNotifications, private alertCtrl: AlertController, public categoryProvider: CategoryProvider, public navCtrl: NavController, public navParams: NavParams) {
+  constructor(public reportsProvider: ReportsProvider, private plt: Platform, private localNotif: LocalNotifications, private alertCtrl: AlertController, public categoryProvider: CategoryProvider, public navCtrl: NavController, public navParams: NavParams, private modalCtrl: ModalController) {
     this.getWallets();
     this.getCurrentBudgetOverview();
+
 
     // this.plt.ready().then((readySource) => {
     //   this.localNotif.getAllScheduled().then(data => {
@@ -60,40 +65,55 @@ export class MywalletsPage {
   }
 
   ionViewDidLoad() {
+    this.slider.lockSwipes(true);
     console.log('Play! Play! Play!');
   }
 
-  selectChange(e) {
-    console.log(e);
+  goToSlide(slideNo) {
+    this.slider.lockSwipes(false);
+    this.slider.slideTo(slideNo, 500);
+    this.slider.lockSwipes(true);
   }
 
-  chart() {
-    Chart.defaults.global.legend.position = 'bottom';
-    this.doughnutChart = new Chart(this.doughnutCanvas.nativeElement, {
+  openCategories() {
+    let modal = this.modalCtrl.create(BillsPage);
+    modal.present();
 
-      type: 'doughnut',
-      data: {
-        labels: this.names,
-        datasets: [{
-          label: 'Wallet name',
-          data: this.amounts,
-          backgroundColor: BGColor,
-          hoverBackgroundColor: HoverColor
-        }]
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        title: {
-          display: true,
-          text: this.period + " Wallets"
-        },
-        animation: {
-          animateScale: true
-        }
+    modal.onDidDismiss(data => {
+      if (data) {
+        this.categoryID = data;
+        this.categoryInput = this.categoryID;
       }
-    });
+    })
   }
+
+  // chart() {
+  //   Chart.defaults.global.legend.position = 'bottom';
+  //   this.doughnutChart = new Chart(this.doughnutCanvas.nativeElement, {
+
+  //     type: 'doughnut',
+  //     data: {
+  //       labels: this.names,
+  //       datasets: [{
+  //         label: 'Wallet name',
+  //         data: this.amounts,
+  //         backgroundColor: BGColor,
+  //         hoverBackgroundColor: HoverColor
+  //       }]
+  //     },
+  //     options: {
+  //       responsive: true,
+  //       maintainAspectRatio: false,
+  //       title: {
+  //         display: true,
+  //         text: this.period + " Wallets"
+  //       },
+  //       animation: {
+  //         animateScale: true
+  //       }
+  //     }
+  //   });
+  // }
 
   getCurrentBudgetOverview() {
     this.reportsProvider.getCurrentBudgetOverview()
@@ -125,7 +145,7 @@ export class MywalletsPage {
           this.def = this.xyz.x;
           for (let abc of this.def) {
             if (abc !== null) {
-              this.predictData.push({ name: abc.wallet, oldAmount: abc.oldAmount, predictedAmount: abc.predictedAmount })
+              this.predictData.push({ name: abc.wallet, oldAmount: abc.oldAmount, predictedAmount: abc.predictedAmount, amountToPredict: abc.amountToPredict, type: abc.type })
             }
           }
         }, err => {
@@ -144,7 +164,7 @@ export class MywalletsPage {
           this.names.push(x.name);
           this.amounts.push(x.amount);
         }
-        this.chart();
+        // this.chart();
         console.log(this.x);
         console.log('names', this.names);
         console.log('amounts', this.amounts);
