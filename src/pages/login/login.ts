@@ -29,7 +29,9 @@ export class LoginPage {
   message: any;
   userData: any;
 
-  constructor(private toastCtrl: ToastController, public authProvider: AuthProvider, private formBldr: FormBuilder, public http: HttpClient, private facebook: Facebook, public navCtrl: NavController, public navParams: NavParams, public alertCtrl: AlertController, public loadingCtrl: LoadingController, private menuCtrl:MenuController) {
+  alert: any;
+
+  constructor(private toastCtrl: ToastController, public authProvider: AuthProvider, private formBldr: FormBuilder, public http: HttpClient, private facebook: Facebook, public navCtrl: NavController, public navParams: NavParams, public alertCtrl: AlertController, public loadingCtrl: LoadingController, private menuCtrl: MenuController) {
     this.loginForm = this.formBldr.group({
       email: ["", Validators.required],
       password: ["", Validators.required]
@@ -40,18 +42,17 @@ export class LoginPage {
     console.log('Welcome to Witty Wallet');
   }
 
-  ionViewWillEnter(){
+  ionViewWillEnter() {
     this.menuCtrl.enable(false);
   }
 
-  ionViewWillLeave(){
+  ionViewWillLeave() {
     this.menuCtrl.enable(true);
   }
 
-
-  showLoader() {
+  showLoader(content) {
     this.loading = this.loadingCtrl.create({
-      content: 'Authenticating...',
+      content: content,
     });
     this.loading.present();
   }
@@ -61,7 +62,8 @@ export class LoginPage {
       message: msg,
       duration: 3000,
       position: 'top',
-      dismissOnPageChange: false
+      dismissOnPageChange: false,
+      showCloseButton: true
     });
     toast.onDidDismiss(() => {
       console.log('Dismissed toast');
@@ -74,7 +76,7 @@ export class LoginPage {
   }
 
   login() {
-    this.showLoader();
+    this.showLoader('Authenticating...');
     this.authProvider.login(this.loginData).then((result) => {
       console.log(result);
       this.loading.dismiss();
@@ -106,7 +108,45 @@ export class LoginPage {
   }
 
   forgotPassword() {
-    console.log('Forgot password');
+    this.alert = this.alertCtrl.create({
+      title: 'Forgot Password',
+      subTitle: '<ion-icon name="baseball"></ion-icon> Please provide your registered email address',
+      enableBackdropDismiss: false,
+      inputs: [
+        {
+          name: 'email',
+          placeholder: 'user@email.com',
+          type: 'text'
+        }
+      ],
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          handler: () => {
+            console.log('Cancelled resetting password');
+          }
+        },
+        {
+          text: 'Submit',
+          handler: (data) => {
+            this.showLoader('Authenticating...');
+            if (!data.email) {
+              this.loading.dismiss();
+              console.log('No email provided')
+              this.presentToast('Please provide a valid Email');
+              return false;
+            }
+            else {
+              console.log(data);
+              this.loading.dismiss();
+              this.presentToast('A new password has been sent to your email')
+            }
+          }
+        }
+      ]
+    });
+    this.alert.present();
   }
 
 }
