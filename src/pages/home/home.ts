@@ -36,7 +36,6 @@ export class HomePage {
     this.getWallets();
   }
 
-
   presentAlert(title, msg) {
     this.alert = this.alertCtrl.create({
       title: title,
@@ -77,11 +76,12 @@ export class HomePage {
 
   viewTransactions(id, name) {
     let modal = this.modalCtrl.create(ViewtransactionsPage, { _id: id, walletName: name });
-    modal.present();
 
     modal.onDidDismiss(() => {
       this.getWallets();
     });
+
+    modal.present();
   }
 
   addWallet() {

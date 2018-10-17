@@ -26,7 +26,7 @@ export class BudgetOverviewPage {
   names: any = [];
   amounts: any = [];
   reportData: any;
-  budgetOverview: any;
+  budgetOverview: any = [];
 
 
   descending: boolean = true;
@@ -66,8 +66,8 @@ export class BudgetOverviewPage {
         responsive: true,
         maintainAspectRatio: false,
         title: {
+          text: this.period + " Wallets",
           display: true,
-          text: this.period + " Wallets"
         },
         animation: {
           animateScale: true
@@ -92,7 +92,7 @@ export class BudgetOverviewPage {
     this.reportsProvider.getCurrentBudgetOverview()
       .then(data => {
         this.budgetOverview = data;
-        console.log(this.budgetOverview);
+        console.log('budgetOverview: ', this.budgetOverview);
       });
   }
 
