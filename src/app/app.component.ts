@@ -20,6 +20,8 @@ export class MyApp {
   rootPage: any;
   loading: any;
 
+  nickname: any;
+
   checkAuthorization(): void {
     if ((localStorage.getItem('token') === null || localStorage.getItem('token') === 'undefined')) {
       this.rootPage = LoginPage;
@@ -36,7 +38,7 @@ export class MyApp {
     this.statusBar.hide();
     this.initializeApp();
     this.checkAuthorization();
-
+    this.nickname = localStorage.nickname === null ? 'Witty User' : localStorage.nickname;
 
     // used for an example of ngFor and navigation
     this.pages = [

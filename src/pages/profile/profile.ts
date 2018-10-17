@@ -49,7 +49,6 @@ export class ProfilePage {
       });
   }
 
-
   showPopover(event) {
     let pop = this.popCtrl.create(PopovermenuComponent, { menu: "profile", name: this.userData.name });
     pop.present({
