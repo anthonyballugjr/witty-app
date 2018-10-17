@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicPage, ViewController, NavController, NavParams, AlertController, LoadingController, ToastController, Platform } from 'ionic-angular';
+import { Categories } from '../../data/data';
 
 @IonicPage()
 @Component({
@@ -7,6 +8,8 @@ import { IonicPage, ViewController, NavController, NavParams, AlertController, L
   templateUrl: 'bills.html',
 })
 export class BillsPage {
+  categories = Categories;
+
   calName = "";
   events = [];
   alert: any;
@@ -22,7 +25,11 @@ export class BillsPage {
   }
 
   ionViewDidLoad() {
-    
+
+  }
+
+  sendCategory(id) {
+    this.viewCtrl.dismiss(id);
   }
 
 

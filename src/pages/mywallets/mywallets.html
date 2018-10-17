@@ -17,6 +17,13 @@
     </ion-card-content>
   </ion-card>
 
+  <ion-list>
+    <ion-item>
+      <ion-label floating>Select Category</ion-label>
+      <ion-input value="" (click)="openCategories()" #categoryInput></ion-input>
+    </ion-item>
+  </ion-list>
+
   <ion-card>
     <ion-card-header text-center>Notifications Data </ion-card-header>
     <ion-card-content>
@@ -39,16 +46,39 @@
     <ion-list *ngIf="predictData">
       <ion-item *ngFor="let m of predictData">
         <p>Wallet name: {{m.name}}</p>
-        <p>Amount to predict: {{m.oldAmount}}</p>
+        <p>Wallet type: {{m.type}}</p>
+        <p>Wallet amount: {{m.oldAmount}}</p>
+        <p>Amount to predict: {{m.amountToPredict}}</p>
         <p>Predicted Amount: {{m.predictedAmount}}</p>
       </ion-item>
     </ion-list>
   </div>
 
-  <ion-slides #nextSlider>
-    <ion-slide>
+  <div>
+    <ion-slides #slider>
+      <ion-slide>
+        <ion-toolbar>
+          <ion-buttons end>
+            <button ion-button>Next</button>
+          </ion-buttons>
+        </ion-toolbar>
+        <ion-label>Input 1</ion-label>
+        <ion-input></ion-input>
+        <button ion-button (click)="goToSlide(1)">Next</button>
+      </ion-slide>
 
-    </ion-slide>
-  </ion-slides>
+      <ion-slide>
+        <ion-label>Input 2</ion-label>
+        <ion-input></ion-input>
+        <button ion-button (click)="goToSlide(0)">Back</button>
+        <button ion-button (click)="goToSlide(2)">Next</button>
+      </ion-slide>
 
+      <ion-slide>
+        <ion-label>Input 3</ion-label>
+        <ion-input></ion-input>
+        <button ion-button (click)="goToSlide(1)">Back</button>
+      </ion-slide>
+    </ion-slides>
+  </div>
 </ion-content>
