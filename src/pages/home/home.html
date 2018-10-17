@@ -20,9 +20,9 @@
 
     <ion-slide>
       <ion-list>
-        <ion-item-divider float-left class="strong">Expenses</ion-item-divider>
+        <ion-item-divider float-left class="strong" sticky>Expenses</ion-item-divider>
         <ion-item ion-item *ngFor="let wallet of wallets | filterBy: ['type']: 'expense'">
-          <ion-icon name="{{wallet.category | pluck: 'icon'}}" item-start></ion-icon>
+          <ion-icon name="{{wallet.icon}}" item-start></ion-icon>
           <div *ngIf="wallet.categoryId!=='bll'" (click)="viewTransactions(wallet._id,wallet.name)">
             <h6>
               <strong>{{wallet.name | ucwords}}</strong>
@@ -48,7 +48,7 @@
 
     <ion-slide>
       <ion-list>
-        <ion-item-divider float-left class="strong">Savings</ion-item-divider>
+        <ion-item-divider float-left class="strong" sticky>Savings</ion-item-divider>
         <ion-item *ngFor="let wallet of wallets | filterBy: ['type']: 'savings'">
           <div>
             <h6>

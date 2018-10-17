@@ -1,8 +1,10 @@
-import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ModalController } from 'ionic-angular';
+import { Component, ViewChild } from '@angular/core';
+import { IonicPage, NavController, NavParams, ModalController, ViewController } from 'ionic-angular';
 import { CategoryProvider } from '../../providers/category/category';
 import { ViewArchivePage } from '../view-archive/view-archive';
 import { ReportsProvider } from '../../providers/reports/reports';
+import { Chart } from 'chart.js';
+import { BGColor, HoverColor } from '../../data/data';
 
 
 @IonicPage()
@@ -11,50 +13,104 @@ import { ReportsProvider } from '../../providers/reports/reports';
   templateUrl: 'budget-overview.html',
 })
 export class BudgetOverviewPage {
-  overview: string = "thisMonth";
+  @ViewChild('doughnutCanvas') doughnutCanvas;
 
-  month = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-  n = new Date();
-  m = this.month[this.n.getMonth()];
-  y = this.n.getFullYear();
-  period = this.m + " " + this.y;
+  view: string = "thisMonth";
+  profile: boolean = false;
+  doughnutChart: any;
+
+  period = localStorage.period;
 
   wallets: any;
   expenses: any = [];
+  names: any = [];
+  amounts: any = [];
   reportData: any;
+  budgetOverview: any = [];
+
 
   descending: boolean = true;
   order: number;
   column: string = 'period';
   by: string = 'Ascending';
 
-  constructor(public reportsProvider: ReportsProvider, public categoryProvider: CategoryProvider, public navCtrl: NavController, public navParams: NavParams, private modalCtrl: ModalController) {
+  constructor(public reportsProvider: ReportsProvider, public categoryProvider: CategoryProvider, public navCtrl: NavController, public navParams: NavParams, private modalCtrl: ModalController, private viewCtrl: ViewController) {
     this.getWallets();
-    this.getOverview();
+    this.getArchivesOverview();
+    this.getCurrentBudgetOverview();
+    this.profile = this.navParams.get('profile');
+    console.log('Profile', this.profile);
   }
 
-  sort(){
+  isChart() {
+    this.names = [];
+    this.amounts = [];
+    this.getWallets();
+  }
+
+  chart() {
+    Chart.defaults.global.legend.position = 'bottom';
+    this.doughnutChart = new Chart(this.doughnutCanvas.nativeElement, {
+
+      type: 'doughnut',
+      data: {
+        labels: this.names,
+        datasets: [{
+          label: 'wallet amount',
+          data: this.amounts,
+          backgroundColor: BGColor,
+          hoverBackgroundColor: HoverColor
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        title: {
+          text: this.period + " Wallets",
+          display: true,
+        },
+        animation: {
+          animateScale: true
+        }
+      }
+    });
+  }
+
+  close() {
+    this.viewCtrl.dismiss();
+    this.profile = false;
+  }
+
+  sort() {
     this.descending = !this.descending;
-    this.order = this.descending ? 1: -1;
-    if(!this.descending) this.by = 'Descending';
+    this.order = this.descending ? 1 : -1;
+    if (!this.descending) this.by = 'Descending';
     else this.by = 'Ascending';
+  }
+
+  getCurrentBudgetOverview() {
+    this.reportsProvider.getCurrentBudgetOverview()
+      .then(data => {
+        this.budgetOverview = data;
+        console.log('budgetOverview: ', this.budgetOverview);
+      });
   }
 
   getWallets() {
     this.categoryProvider.getWallets()
       .then(data => {
         this.wallets = data;
-        for (let i of this.wallets) {
-          for (let x of i.transactions) {
-            this.expenses.push(x);
-          }
+        for (let x of this.wallets) {
+          this.amounts.push(x.amount);
+          this.names.push(x.name)
         }
-        console.log(this.wallets);
-        console.log(this.expenses);
+        this.chart();
+        console.log(this.amounts);
+        console.log(this.names);
       });
   }
 
-  getOverview() {
+  getArchivesOverview() {
     this.reportsProvider.getArchivesOverview()
       .then(data => {
         this.reportData = data;

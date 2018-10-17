@@ -1,11 +1,21 @@
-<ion-menu type="overlay" [content]="content">
-  <ion-header>
+<ion-menu type="overlay" [content]="content" no-padding>
+  <!-- <ion-header>
     <ion-toolbar>
       <ion-title>Menu</ion-title>
     </ion-toolbar>
-  </ion-header>
+  </ion-header> -->
 
-  <ion-content>
+  <ion-content no-padding no-margin>
+    <div id="menuHead" style="background-color: #32CD32" padding-left padding-right padding-top no-margin>
+      <ion-item style="border-color: rgba(0, 0, 0, 0);background-color: rgba(0, 0, 0, 0);color: white;" no-padding no-margin>
+        <ion-avatar item-start>
+          <img src="../assets/imgs/avatar.png">
+        </ion-avatar>
+        <h1>Witty Wallet</h1>
+        <h3 ion-text text-left>{{nickname | ucwords }}</h3>
+      </ion-item>
+    </div>
+
     <ion-list no-lines padding-top>
       <button menuClose ion-item *ngFor="let page of pages" (click)="openPage(page)">
         <ion-icon [name]="page.icon" color="main" item-start></ion-icon>

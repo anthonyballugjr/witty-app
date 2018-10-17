@@ -5,23 +5,27 @@ import { Injectable } from '@angular/core';
 export class CategoryProvider {
   wallets: any;
   categoryData: any;
-  apiUrl = "http://localhost:3000/api"
-  // apiUrl = "http://witty-wallet.herokuapp.com/api"
+  // apiUrl = "http://localhost:3000/api"
+  apiUrl = "http://witty-wallet.herokuapp.com/api"
   authHeader = {
     headers: {
       'Authorization': 'Token ' + localStorage.token
     }
   }
 
-  month = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-  n = new Date();
-  m = this.month[this.n.getMonth()];
-  y = this.n.getFullYear();
-  period = this.m + " " + this.y;
-
-
   constructor(public http: HttpClient) {
     console.log('Hello CategoryProvider Provider');
+  }
+
+  getNext() {
+    return new Promise(resolve => {
+      this.http.get(this.apiUrl + '/wallets/next/' + localStorage.userId)
+        .subscribe(data => {
+          resolve(data);
+        }, err => {
+          console.log(err)
+        });
+    });
   }
 
   getCategories() {
@@ -47,7 +51,7 @@ export class CategoryProvider {
 
   getWallets() {
     return new Promise(resolve => {
-      this.http.get(this.apiUrl + '/wallets/user/' + localStorage.userId + '?period=' + this.period, this.authHeader).subscribe(data => {
+      this.http.get(this.apiUrl + '/wallets/user/' + localStorage.userId + '?period=' + localStorage.period, this.authHeader).subscribe(data => {
         this.categoryData = data;
         resolve(data);
       }, err => {
@@ -112,17 +116,6 @@ export class CategoryProvider {
         reject(err)
       });
     })
-  }
-
-  overview() {
-    return new Promise(resolve => {
-      this.http.get(this.apiUrl + '/wallets/overview/' + localStorage.userId, this.authHeader).subscribe(data => {
-        this.categoryData = data;
-        resolve(data);
-      }, err => {
-        console.log(err);
-      });
-    });
   }
 
 

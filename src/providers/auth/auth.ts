@@ -3,8 +3,8 @@ import { Injectable } from '@angular/core';
 
 @Injectable()
 export class AuthProvider {
-  authURL = "http://localhost:3000/api/users";
-  // authURL = "http://witty-wallet.herokuapp.com/api/users"
+  // authURL = "http://localhost:3000/api/users";
+  authURL = "http://witty-wallet.herokuapp.com/api/users"
 
   isLoggedIn: boolean = false;
   session: any;
@@ -14,6 +14,12 @@ export class AuthProvider {
       'Authorization': 'Token ' + localStorage.token
     }
   }
+
+  month = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+  n = new Date();
+  m = this.month[this.n.getMonth()];
+  y = this.n.getFullYear();
+  period = this.m + " " + this.y;
 
   constructor(public http: HttpClient) {
     console.log('Hello AuthProvider Provider');
@@ -40,6 +46,7 @@ export class AuthProvider {
           localStorage.setItem('userId', this.userData.user._id);
           localStorage.setItem('email', this.userData.user.email);
           localStorage.setItem('nickname', this.userData.user.name);
+          localStorage.setItem('period', this.period);
           console.log(localStorage);
         }, (err) => {
           reject(err);
@@ -83,7 +90,7 @@ export class AuthProvider {
 
   changePassword(passwordData) {
     return new Promise((resolve, reject) => {
-      this.http.put(this.authURL + '/changePassword/', passwordData, this.authHeader)
+      this.http.put(this.authURL + '/changePassword', passwordData, this.authHeader)
         .subscribe(res => {
           resolve(res);
         }, err => {

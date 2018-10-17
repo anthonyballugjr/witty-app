@@ -25,7 +25,7 @@ export class PopovermenuComponent {
   }
 
   showOverview() {
-    let modal = this.modalCtrl.create(BudgetOverviewPage);
+    let modal = this.modalCtrl.create(BudgetOverviewPage, { profile: true });
     modal.present();
     this.viewCtrl.dismiss();
   }
@@ -36,7 +36,8 @@ export class PopovermenuComponent {
       message: msg,
       showCloseButton: true,
       duration: 2000,
-      position: 'middle'
+      position: 'top',
+      closeButtonText: 'Dismiss'
     });
     this.toast.present();
   }
@@ -60,6 +61,7 @@ export class PopovermenuComponent {
   editNickname() {
     let prompt = this.alertCtrl.create({
       subTitle: 'Edit Nickname',
+      enableBackdropDismiss: false,
       inputs: [
         {
           name: 'name',
@@ -78,19 +80,25 @@ export class PopovermenuComponent {
         {
           text: 'Update',
           handler: (data) => {
-            this.presentLoading();
-            this.authProvider.updateNickname(data)
-              .then(res => {
-                this.loading.dismiss();
-                console.log(res);
-                this.presentAlert('Nickname Successfully Updated!')
-                this.viewCtrl.dismiss(data);
-              }, err => {
-                this.loading.dismiss();
-                console.log(err);
-                this.presentAlert(err);
-                this.viewCtrl.dismiss();
-              });
+            if (!data.name) {
+              this.presentToast('Nickname cannot be empty');
+              return false;
+            }
+            else {
+              this.presentLoading();
+              this.authProvider.updateNickname(data)
+                .then(res => {
+                  this.loading.dismiss();
+                  console.log(res);
+                  this.presentAlert('Nickname Successfully Updated!')
+                  this.viewCtrl.dismiss(data);
+                }, err => {
+                  this.loading.dismiss();
+                  console.log(err);
+                  this.presentAlert(err);
+                  this.viewCtrl.dismiss();
+                });
+            }
           }
         }
       ]
