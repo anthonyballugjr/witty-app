@@ -11,8 +11,11 @@ import { Calendar } from '@ionic-native/calendar';
 import { LocalNotifications } from '@ionic-native/local-notifications';
 import { NgCalendarModule } from 'ionic2-calendar';
 import { SuperTabsModule } from 'ionic2-super-tabs';
+import { File } from '@ionic-native/file';
+import { TooltipsModule } from 'ionic-tooltips';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { AndroidFullScreen } from '@ionic-native/android-full-screen';
 //pages
-import { HeaderMenuComponent } from '../components/header-menu/header-menu';
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
 import { SignupPage } from '../pages/signup/signup';
@@ -55,7 +58,6 @@ import { GroupByPipe } from '../pipes/group-by/group-by';
     ViewtransactionsPage,
     ChallengesPage,
     MywalletsPage,
-    HeaderMenuComponent,
     PopovermenuComponent,
     BillsPage,
     EditWalletPage,
@@ -72,10 +74,12 @@ import { GroupByPipe } from '../pipes/group-by/group-by';
     HttpClientModule,
     NgPipesModule,
     NgCalendarModule,
+    TooltipsModule,
+    BrowserAnimationsModule,
     SuperTabsModule.forRoot(),
     IonicModule.forRoot(MyApp, {
       navExitApp: false
-    }),
+    })
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -100,6 +104,8 @@ import { GroupByPipe } from '../pipes/group-by/group-by';
   ],
   providers: [
     StatusBar,
+    File,
+    AndroidFullScreen,
     SplashScreen,
     Facebook,
     CategoryProvider,

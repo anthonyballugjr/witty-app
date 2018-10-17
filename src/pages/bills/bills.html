@@ -1,5 +1,4 @@
 <ion-header>
-
   <ion-navbar>
     <ion-title>Calendar Events</ion-title>
     <ion-buttons right>
@@ -8,36 +7,17 @@
       </button>
     </ion-buttons>
   </ion-navbar>
-
 </ion-header>
 
 
 <ion-content>
+  <ion-list>
+    <ion-item *ngFor="let category of categories" (click)="sendCategory(category._id)">
+      <p>{{category.desc}}</p>
+      <ion-icon item-end name="{{category.icon}}"></ion-icon>
+    </ion-item>
+  </ion-list>
 
-  <ion-card *ngFor="let event of events">
-    <ion-card-header>
-      {{event.title}}
-    </ion-card-header>
-    <ion-card-content>
-      <ion-list no-lines>
-        <ion-item>
-          <ion-icon name="calendar"></ion-icon> Start: {{event.dtstart | date: 'longDate'}}
-        </ion-item>
-        <ion-item>
-          <ion-icon name="calendar"></ion-icon> End: {{event.dtend | date: 'longDate'}}
-        </ion-item>
-      </ion-list>
-      <button ion-button icon-only (click)="openCalendar(event)">
-        <ion-icon name="eye"></ion-icon>
-      </button>
-      <button ion-button icon-only (click)="deleteEvent(calendar)">
-        <ion-icon name="trash"></ion-icon>
-      </button>
-    </ion-card-content>
-  </ion-card>
 
-  <div>
-    <p>{{print}}</p>
-  </div>
 
 </ion-content>

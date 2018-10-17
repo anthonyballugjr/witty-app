@@ -1,7 +1,7 @@
 <ion-content padding>
   <div>
-    <ion-segment [(ngModel)]="overview" color="buttons">
-      <ion-segment-button value="thisMonth">
+    <ion-segment [(ngModel)]="view" color="buttons">
+      <ion-segment-button value="thisMonth" (click)="isChart()">
         This Month
       </ion-segment-button>
       <ion-segment-button value="history">
@@ -10,61 +10,80 @@
     </ion-segment>
   </div>
 
-  <div [ngSwitch]="overview">
-    <ion-card *ngSwitchCase="'thisMonth'" margin-top>
-      <ion-card-header>
-        <h2>{{period}}</h2>
-      </ion-card-header>
-      <ion-card-content>
-        <ion-list>
-          <ion-item>
-            <p ion-text color="summer-sky">Expenses Wallets:</p>
-            <ion-note item-end>{{wallets | filterBy: ['type']: 'expense' | pluck: 'amount' | sum | currency: "PHP":2}}</ion-note>
-          </ion-item>
-          <ion-item>
-            <p ion-text color="summer-sky">Savings Wallets:</p>
-            <ion-note item-end>{{wallets | filterBy: ['type']: 'savings' | pluck: 'amount' | sum | currency: "PHP":2}}</ion-note>
-          </ion-item>
-          <ion-item-divider no-lines></ion-item-divider>
-          <ion-item>
-            <h2 ion-text color="warm-peach">
-              <strong>Total Budget:</strong>
-            </h2>
-            <ion-note item-end>{{wallets | pluck:'amount' | sum | currency: "PHP" :2}}</ion-note>
-          </ion-item>
-          <ion-item>
-            <h2 ion-text color="watermelon">
-              <strong>Total Expenses:</strong>
-            </h2>
-            <ion-note item-end>{{expenses | pluck:'amount' | sum | currency: "PHP" :2}}</ion-note>
-          </ion-item>
-          <ion-item-divider no-lines></ion-item-divider>
-          <ion-item>
-            <h2 ion-text color="oxblood">Potential to save:</h2>
-            <ion-note item-end>{{(wallets | pluck:'amount' | sum) - ((wallets | filterBy:['type']:'savings' | pluck:'amount' | sum) + (expenses
-              | pluck:'amount' | sum)) | currency:"PHP" :2}}</ion-note>
-          </ion-item>
-        </ion-list>
-      </ion-card-content>
-    </ion-card>
+  <div [ngSwitch]="view">
+    <div *ngSwitchCase="'thisMonth'" margin-top>
+
+      <ion-card no-padding>
+        <ion-card-content>
+          <canvas #doughnutCanvas style="height:100%;"></canvas>
+        </ion-card-content>
+      </ion-card>
+
+      <ion-card>
+        <ion-card-header>
+          {{period}}
+        </ion-card-header>
+        <ion-card-content>
+          <ion-list>
+            <ion-item>
+              <h2 ion-text color="warm-peach">
+                <strong>Total Budget:</strong>
+              </h2>
+              <ion-note item-right>{{wallets | pluck:'amount' | sum | currency: "PHP" :2}}</ion-note>
+            </ion-item>
+            <ion-list>
+              <ion-item>
+                <p ion-text color="summer-sky">Expense Wallets:</p>
+                <ion-note item-end>{{wallets | filterBy: ['type']: 'expense' | pluck: 'amount' | sum | currency: "PHP":2}}</ion-note>
+              </ion-item>
+              <ion-item>
+                <p ion-text color="summer-sky">Savings Wallets:</p>
+                <ion-note item-end>{{wallets | filterBy: ['type']: 'savings' | pluck: 'amount' | sum | currency: "PHP":2}}</ion-note>
+              </ion-item>
+            </ion-list>
+            <ion-item-divider no-lines></ion-item-divider>
+            <ion-item>
+              <h2 ion-text color="watermelon">
+                <strong>Total Expenses:</strong>
+              </h2>
+              <ion-note item-end>{{budgetOverview.totalExpenses | currency: "PHP" :2}}</ion-note>
+            </ion-item>
+            <ion-item-divider no-lines></ion-item-divider>
+            <ion-item>
+              <h2 ion-text color="oxblood">Potential to save:</h2>
+              <ion-note item-end>{{(wallets | pluck:'amount' | sum) - ((wallets | filterBy:['type']:'savings' | pluck:'amount' | sum) + (expenses
+                | pluck:'amount' | sum)) | currency:"PHP" :2}}</ion-note>
+            </ion-item>
+          </ion-list>
+
+        </ion-card-content>
+      </ion-card>
+    </div>
 
 
     <div *ngSwitchCase="'history'" margin-top no-padding>
       <ion-searchbar [(ngModel)]="terms" [animated]="true"></ion-searchbar>
 
       <ion-card no-padding>
-        <ion-card-content>
+        <ion-card-content *ngIf="reportData">
           <button ion-button block (click)="sort()" color="buttons">Sort {{by}}</button>
           <ion-list>
-            <button ion-item *ngFor="let report of reportData.x | reverse | search: terms | sort: {property: column, order: order}" small
-              (click)="viewSummary(report)">
+            <button ion-item *ngFor="let report of reportData.x | reverse | search: terms | sort: {property: column, order: order}" (click)="viewSummary(report)">
               <h6>{{report.period}}</h6>
             </button>
           </ion-list>
+        </ion-card-content>
+        <ion-card-content *ngIf="!reportData">
+          <h3>No archived data</h3>
         </ion-card-content>
       </ion-card>
     </div>
 
   </div>
+  <ion-fab bottom left *ngIf="profile">
+    <button ion-fab icon-only mini (click)="close()" color="buttons">
+      <ion-icon name="arrow-round-back"></ion-icon>
+    </button>
+  </ion-fab>
 
 </ion-content>

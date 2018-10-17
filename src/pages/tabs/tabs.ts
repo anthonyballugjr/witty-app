@@ -5,10 +5,10 @@ import { SuperTabs } from 'ionic2-super-tabs';
 
 import { HomePage } from '../home/home';
 import { ChallengesPage } from '../challenges/challenges';
-import { BudgetOverviewPage} from '../budget-overview/budget-overview';
+import { BudgetOverviewPage } from '../budget-overview/budget-overview';
 import { ExpensesPage } from '../expenses/expenses';
 
-import {CategoryProvider} from '../../providers/category/category';
+import { CategoryProvider } from '../../providers/category/category';
 
 @IonicPage()
 @Component({
@@ -48,11 +48,12 @@ export class TabsPage {
         this.wallets = data;
         for (let i of this.wallets) {
           for (let x of i.transactions) {
-            this.expenses.push(x);
+
+            this.expenses.push({ _id: x._id, desc: x.desc, amount: x.amount, date: x.date });
           }
         }
-        console.log(this.wallets);
-        console.log(this.expenses);
+        console.log('Wallets', this.wallets);
+        console.log('Expenses', this.expenses);
       });
   }
 

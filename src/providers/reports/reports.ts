@@ -3,8 +3,8 @@ import { Injectable } from '@angular/core';
 
 @Injectable()
 export class ReportsProvider {
-  // apiURL= "http://witty-wallet.herokuapp.com/api"
-  apiURL = "http://localhost:3000/api"
+  // apiURL = "http://localhost:3000/api"
+  apiURL = "http://witty-wallet.herokuapp.com/api"
 
   authHeader = {
     headers: {
@@ -14,6 +14,17 @@ export class ReportsProvider {
 
   constructor(public http: HttpClient) {
     console.log('Hello ReportsProvider Provider');
+  }
+
+  predict(name) {
+    return new Promise(resolve => {
+      this.http.get(this.apiURL + '/wallets/predict/' + localStorage.userId + '?name=' + name)
+        .subscribe(data => {
+          resolve(data);
+        }, err => {
+          console.log(err);
+        });
+    });
   }
 
   getArchivesOverview() {
@@ -27,20 +38,9 @@ export class ReportsProvider {
     });
   }
 
-  getEntries() {
+  getCurrentBudgetOverview() {
     return new Promise(resolve => {
-      this.http.get(this.apiURL + '/archives?userId=' + localStorage.userId, this.authHeader)
-        .subscribe(data => {
-          resolve(data);
-        }, err => {
-          console.log(err);
-        });
-    });
-  }
-
-  getEntry(id) {
-    return new Promise(resolve => {
-      this.http.get(this.apiURL + '/archives/' + id, this.authHeader)
+      this.http.get(this.apiURL + '/wallets/overview/' + localStorage.userId + '?period=' + localStorage.period, this.authHeader)
         .subscribe(data => {
           resolve(data);
         }, err => {
