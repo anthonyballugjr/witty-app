@@ -18,10 +18,7 @@ import { CategoryProvider } from '../../providers/category/category';
 export class TabsPage {
   expenses: any = [];
   wallets: any;
-
-  month = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-  day = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Satruday"];
-
+  
   pages = [
     {
       pageName: HomePage, title: 'My Wallets', icon: 'home', id: 'homeTab'
@@ -52,11 +49,11 @@ export class TabsPage {
         for (let i of this.wallets) {
           for (let x of i.transactions) {
 
-            this.expenses.push({ _id: x._id, desc: x.desc, amount: x.amount, date: (this.month[new Date(x.createdAt).getMonth()] + ", " + new Date(x.createdAt).getDate() + " " + new Date(x.createdAt).getFullYear()), dayAndTime: this.day[new Date(x.createdAt).getDay()] });
+            this.expenses.push({ _id: x._id, desc: x.desc, amount: x.amount, date: x.date });
           }
         }
-        console.log(this.wallets);
-        console.log(this.expenses);
+        console.log('Wallets', this.wallets);
+        console.log('Expenses', this.expenses);
       });
   }
 
