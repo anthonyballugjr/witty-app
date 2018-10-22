@@ -1,10 +1,14 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Events } from 'ionic-angular';
 
 @Injectable()
 export class AuthProvider {
-  // authURL = "http://localhost:3000/api/users";
-  authURL = "http://witty-wallet.herokuapp.com/api/users"
+  authURL = "http://localhost:3000/api/users";
+  // authURL = "http://witty-wallet.herokuapp.com/api/users"
+
+  menuName: any;
+  in: any;
 
   isLoggedIn: boolean = false;
   session: any;
@@ -21,7 +25,7 @@ export class AuthProvider {
   y = this.n.getFullYear();
   period = this.m + " " + this.y;
 
-  constructor(public http: HttpClient) {
+  constructor(public http: HttpClient, public events: Events) {
     console.log('Hello AuthProvider Provider');
   }
 
@@ -47,6 +51,9 @@ export class AuthProvider {
           localStorage.setItem('email', this.userData.user.email);
           localStorage.setItem('nickname', this.userData.user.name);
           localStorage.setItem('period', this.period);
+
+          this.menuName = this.userData.user.name;
+          this.events.publish('nickname:changed', this.menuName);
           console.log(localStorage);
         }, (err) => {
           reject(err);
@@ -77,9 +84,9 @@ export class AuthProvider {
     });
   }
 
-  updateNickname(nickname) {
+  changePassword(passwordData) {
     return new Promise((resolve, reject) => {
-      this.http.put(this.authURL, nickname, this.authHeader)
+      this.http.put(this.authURL + '/changePassword', passwordData, this.authHeader)
         .subscribe(res => {
           resolve(res);
         }, err => {
@@ -88,11 +95,25 @@ export class AuthProvider {
     });
   }
 
-  changePassword(passwordData) {
+  requestReset(email) {
     return new Promise((resolve, reject) => {
-      this.http.put(this.authURL + '/changePassword', passwordData, this.authHeader)
+      this.http.get(this.authURL + '/forgotPassword/' + email)
         .subscribe(res => {
           resolve(res);
+        }, err => {
+          reject(err);
+        });
+    });
+  }
+
+  updateNickname(nickname) {
+    return new Promise((resolve, reject) => {
+      this.http.put(this.authURL, nickname, this.authHeader)
+        .subscribe(res => {
+          resolve(res);
+
+          this.menuName = nickname.name;
+          this.events.publish('nickname:changed', this.menuName);
         }, err => {
           reject(err);
         });

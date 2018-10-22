@@ -107,7 +107,7 @@ export class LoginPage {
       });
   }
 
-  forgotPassword() {
+  requestReset() {
     this.alert = this.alertCtrl.create({
       title: 'Forgot Password',
       subTitle: '<ion-icon name="baseball"></ion-icon> Please provide your registered email address',
@@ -130,7 +130,7 @@ export class LoginPage {
         {
           text: 'Submit',
           handler: (data) => {
-            this.showLoader('Authenticating...');
+            this.showLoader('Submitting request...');
             if (!data.email) {
               this.loading.dismiss();
               console.log('No email provided')
@@ -139,8 +139,16 @@ export class LoginPage {
             }
             else {
               console.log(data);
-              this.loading.dismiss();
-              this.presentToast('A new password has been sent to your email')
+              this.authProvider.requestReset(data.email)
+                .then(response => {
+                  this.loading.dismiss();
+                  console.log(response);
+                  this.presentToast(response);
+                }, err => {
+                  this.loading.dismiss();
+                  this.presentToast(err.error)
+                  console.log(err);
+                })
             }
           }
         }
