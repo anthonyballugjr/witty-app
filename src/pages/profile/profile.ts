@@ -1,7 +1,8 @@
 import { Component, ViewChild, ElementRef } from '@angular/core';
-import { IonicPage, NavController, NavParams, PopoverController, AlertController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, PopoverController, AlertController, ToastController } from 'ionic-angular';
 import * as jsPDF from 'jspdf';
 import { File } from '@ionic-native/file';
+import { FileOpener } from '@ionic-native/file-opener';
 
 import { AuthProvider } from '../../providers/auth/auth';
 import { ReportsProvider } from '../../providers/reports/reports';
@@ -24,13 +25,25 @@ export class ProfilePage {
   email: any;
   nickname: any;
 
-  constructor(public alertCtrl: AlertController, private popCtrl: PopoverController, public reportProvider: ReportsProvider, public authProvider: AuthProvider, public navCtrl: NavController, public navParams: NavParams, private file: File) {
+  toast: any;
+
+  constructor(public alertCtrl: AlertController, private popCtrl: PopoverController, public reportProvider: ReportsProvider, public authProvider: AuthProvider, public navCtrl: NavController, public navParams: NavParams, private file: File, private fileOpener: FileOpener, private toastCtrl: ToastController) {
     this.getProfile();
     this.getArchivesOverview();
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad ProfilePage');
+  }
+
+  presentToast(msg) {
+    this.toast = this.toastCtrl.create({
+      showCloseButton: true,
+      message: msg,
+      duration: 3000,
+      position: 'top'
+    });
+    this.toast.present();
   }
 
   getArchivesOverview() {
@@ -45,7 +58,7 @@ export class ProfilePage {
     this.authProvider.getProfile()
       .then(data => {
         this.userData = data;
-        console.log(this.userData);
+        console.log('Profile', this.userData);
       });
   }
 
@@ -92,9 +105,14 @@ export class ProfilePage {
     const directory = this.file.externalApplicationStorageDirectory;
     alert(directory);
     const fileName = "Witty-Budget-Profile.pdf";
-    this.file.writeFile(directory, fileName, buffer)
-      .then((success) => console.log("File Created successfully " + JSON.stringify(success)))
-      .catch((error) => console.log("Cannot create file " + JSON.stringify(error)))
+    this.file.writeFile(directory, fileName, buffer, { replace: true })
+      .then((success) => {
+        this.presentToast('File Created!' + success);
+        this.fileOpener.open(directory + fileName, 'application/pdf');
+      })
+      .catch((error) => {
+        this.presentToast('Unable to create file!' + error);
+      });
 
     // doc.save('transcript.pdf');
   }

@@ -7,11 +7,10 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import { HttpClientModule } from '@angular/common/http';
 import { NgPipesModule } from 'ngx-pipes';
 import { Facebook } from '@ionic-native/facebook';
-import { Calendar } from '@ionic-native/calendar';
 import { LocalNotifications } from '@ionic-native/local-notifications';
-import { NgCalendarModule } from 'ionic2-calendar';
 import { SuperTabsModule } from 'ionic2-super-tabs';
 import { File } from '@ionic-native/file';
+import { FileOpener } from '@ionic-native/file-opener';
 import { TooltipsModule } from 'ionic-tooltips';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AndroidFullScreen } from '@ionic-native/android-full-screen';
@@ -38,12 +37,10 @@ import { CategoryProvider } from '../providers/category/category';
 import { AuthProvider } from '../providers/auth/auth';
 import { PopovermenuComponent } from '../components/popovermenu/popovermenu';
 import { ReportsProvider } from '../providers/reports/reports';
+//pipes
 import { SearchPipe } from '../pipes/search/search';
 import { SortPipe } from '../pipes/sort/sort';
 import { GroupByPipe } from '../pipes/group-by/group-by';
-
-
-
 
 @NgModule({
   declarations: [
@@ -73,7 +70,6 @@ import { GroupByPipe } from '../pipes/group-by/group-by';
     BrowserModule,
     HttpClientModule,
     NgPipesModule,
-    NgCalendarModule,
     TooltipsModule,
     BrowserAnimationsModule,
     SuperTabsModule.forRoot(),
@@ -105,6 +101,7 @@ import { GroupByPipe } from '../pipes/group-by/group-by';
   providers: [
     StatusBar,
     File,
+    FileOpener,
     AndroidFullScreen,
     SplashScreen,
     Facebook,
@@ -112,7 +109,6 @@ import { GroupByPipe } from '../pipes/group-by/group-by';
     { provide: ErrorHandler, useClass: IonicErrorHandler },
     AuthProvider,
     LocalNotifications,
-    Calendar,
     ReportsProvider,
   ]
 })
