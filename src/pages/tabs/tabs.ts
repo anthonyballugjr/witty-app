@@ -18,7 +18,7 @@ import { CategoryProvider } from '../../providers/category/category';
 export class TabsPage {
   expenses: any = [];
   wallets: any;
-  
+
   pages = [
     {
       pageName: HomePage, title: 'My Wallets', icon: 'home', id: 'homeTab'
@@ -52,7 +52,6 @@ export class TabsPage {
             this.expenses.push({ _id: x._id, desc: x.desc, amount: x.amount, date: x.date });
           }
         }
-        console.log('Wallets', this.wallets);
         console.log('Expenses', this.expenses);
       });
   }

@@ -5,7 +5,6 @@ import { CategoryProvider } from '../../providers/category/category';
 import { LocalNotifications } from '@ionic-native/local-notifications';
 import { Categories } from '../../data/data';
 
-
 @IonicPage()
 @Component({
   selector: 'page-addwallet',
@@ -20,14 +19,7 @@ export class AddwalletPage {
   isSavings: boolean = false;
   doNotify: boolean = false;
 
-
   categories = Categories;
-
-  month = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-  n = new Date();
-  m = this.month[this.n.getMonth()];
-  y = this.n.getFullYear();
-  period = this.m + " " + this.y;
 
   wallet = {
     'name': '',
@@ -35,7 +27,7 @@ export class AddwalletPage {
     'type': '',
     'amount': '',
     'categoryId': '',
-    'period': this.period
+    'period': localStorage.period
   }
 
   notifData = {
@@ -52,9 +44,6 @@ export class AddwalletPage {
     } else {
       this.wallet.type = 'expense'
     }
-    console.log('type: ', this.wallet.type)
-    console.log('is it savings? ', this.isSavings);
-    console.log(this.period);
   }
 
   private addWalletForm = this.formBldr.group({
@@ -78,13 +67,6 @@ export class AddwalletPage {
 
   showMe() {
     console.log(this.doNotify);
-  }
-
-  saveNotification() {
-    this.localNotifaction.schedule({
-      title: 'oh yeah',
-      text: 'Notification',
-    })
   }
 
   cancel() {
