@@ -3,6 +3,7 @@ import { App, Nav, Platform, MenuController, ToastController, LoadingController 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { AndroidFullScreen } from '@ionic-native/android-full-screen';
+import { Events } from 'ionic-angular';
 
 import { TabsPage } from '../pages/tabs/tabs';;
 import { LoginPage } from '../pages/login/login';
@@ -20,7 +21,7 @@ export class MyApp {
   rootPage: any;
   loading: any;
 
-  nickname: any;
+  nickname: string;
 
   checkAuthorization(): void {
     if ((localStorage.getItem('token') === null || localStorage.getItem('token') === 'undefined')) {
@@ -30,15 +31,21 @@ export class MyApp {
     }
   }
 
-  //rootPage: any = LoginPage;
-
   pages: Array<{ title: string, icon: string, component: any }>;
 
-  constructor(public fullScreen: AndroidFullScreen, public app: App, public menuCtrl: MenuController, private toastCtrl: ToastController, private loadingCtrl: LoadingController, public authProvider: AuthProvider, public platform: Platform, public splashScreen: SplashScreen, public statusBar: StatusBar) {
+  constructor(public fullScreen: AndroidFullScreen, public app: App, public menuCtrl: MenuController, private toastCtrl: ToastController, private loadingCtrl: LoadingController, public authProvider: AuthProvider, public platform: Platform, public splashScreen: SplashScreen, public statusBar: StatusBar, public events: Events) {
     this.statusBar.hide();
     this.initializeApp();
     this.checkAuthorization();
-    this.nickname = localStorage.nickname === null ? 'Witty User' : localStorage.nickname;
+
+    this.nickname = "Witty User";
+    this.events.subscribe('nickname:changed', nickname => {
+      if (nickname !== undefined && nickname !== " ") {
+        this.nickname = nickname;
+        console.log(nickname);
+      }
+    })
+
 
     // used for an example of ngFor and navigation
     this.pages = [
