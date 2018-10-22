@@ -22,7 +22,7 @@
       <ion-list>
         <ion-item-divider float-left class="strong" sticky>Expenses</ion-item-divider>
         <ion-item ion-item *ngFor="let wallet of wallets | filterBy: ['type']: 'expense'">
-          <ion-icon name="{{wallet.icon}}" item-start></ion-icon>
+          <ion-icon name="{{wallet.icon}}" color="watermelon" item-start tooltip="{{wallet.category | ucwords}}" event="click" mobileEvent="click" duration="1000"></ion-icon>
           <div *ngIf="wallet.categoryId!=='bll'" (click)="viewTransactions(wallet._id,wallet.name)">
             <h6>
               <strong>{{wallet.name | ucwords}}</strong>

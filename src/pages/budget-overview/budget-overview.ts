@@ -28,7 +28,6 @@ export class BudgetOverviewPage {
   reportData: any;
   budgetOverview: any = [];
 
-
   descending: boolean = true;
   order: number;
   column: string = 'period';
@@ -105,8 +104,8 @@ export class BudgetOverviewPage {
           this.names.push(x.name)
         }
         this.chart();
-        console.log(this.amounts);
-        console.log(this.names);
+        console.log('Amounts', this.amounts);
+        console.log('Names', this.names);
       });
   }
 
@@ -114,7 +113,7 @@ export class BudgetOverviewPage {
     this.reportsProvider.getArchivesOverview()
       .then(data => {
         this.reportData = data;
-        console.log(this.reportData);
+        console.log('Archives Overview', this.reportData);
       }, err => {
         console.log(err);
       });
