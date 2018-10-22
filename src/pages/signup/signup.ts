@@ -13,6 +13,7 @@ export class SignupPage {
   loading: any;
   errMessage: any;
   sForm: FormGroup;
+  message: any;
 
   registerData = {
     "user": {
@@ -44,14 +45,18 @@ export class SignupPage {
   register() {
     this.showLoader();
     this.authProvider.register(this.registerData).then((result) => {
+      this.message = result
       this.loading.dismiss();
-      this.presentToast('Successfull Registration!')
+      this.presentToast('Successfull Registration! ' + this.message.message);
       this.viewCtrl.dismiss();
       console.log(result);
     }, (err) => {
       this.loading.dismiss();
       if (err.status === 400) {
         this.errMessage = 'The specified email address is already in use'
+      }
+      else{
+        this.errMessage = err.error;
       }
       this.presentToast(this.errMessage);
       console.log(this.registerData);
