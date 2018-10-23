@@ -20,7 +20,7 @@ export class ProfilePage {
     "name": ""
   }
 
-  userData: any = [];
+  userData: any;
   budgetProfile: any = [];
   email: any;
   nickname: any;
@@ -78,7 +78,7 @@ export class ProfilePage {
 
   exportProfile() {
     var doc = new jsPDF();
-    doc.setFontSize(29);
+    doc.setFontSize(35);
     doc.setFont('helvetica');
 
 
@@ -103,7 +103,7 @@ export class ProfilePage {
     }
 
     const directory = this.file.externalApplicationStorageDirectory;
-    alert(directory);
+    alert('File will be saved in ' + directory);
     const fileName = "Witty-Budget-Profile.pdf";
     this.file.writeFile(directory, fileName, buffer, { replace: true })
       .then((success) => {
