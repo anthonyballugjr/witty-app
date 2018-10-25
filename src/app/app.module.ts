@@ -14,6 +14,7 @@ import { FileOpener } from '@ionic-native/file-opener';
 import { TooltipsModule } from 'ionic-tooltips';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AndroidFullScreen } from '@ionic-native/android-full-screen';
+import {RoundProgressModule} from 'angular-svg-round-progressbar';
 //pages
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
@@ -77,7 +78,8 @@ import { GroupByPipe } from '../pipes/group-by/group-by';
     SuperTabsModule.forRoot(),
     IonicModule.forRoot(MyApp, {
       navExitApp: false
-    })
+    }),
+    RoundProgressModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [
