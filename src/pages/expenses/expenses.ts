@@ -13,7 +13,7 @@ export class ExpensesPage {
 
   constructor(public navCtrl: NavController, public navParams: NavParams) {
     this.expenses = this.navParams.get('expenses');
-    console.log(this.expenses);
+    console.log('Expenses',this.expenses);
   }
  
 }

@@ -20,7 +20,7 @@ export class ProfilePage {
     "name": ""
   }
 
-  userData: any;
+  userData: any = [];
   budgetProfile: any = [];
   email: any;
   nickname: any;

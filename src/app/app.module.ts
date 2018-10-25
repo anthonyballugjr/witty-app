@@ -32,6 +32,7 @@ import { BudgetOverviewPage } from '../pages/budget-overview/budget-overview';
 import { ExpensesPage } from '../pages/expenses/expenses';
 import { ChangePasswordPage } from '../pages/change-password/change-password';
 import { ViewArchivePage } from '../pages/view-archive/view-archive';
+import { CreateBudgetPage } from '../pages/create-budget/create-budget';
 //providers
 import { CategoryProvider } from '../providers/category/category';
 import { AuthProvider } from '../providers/auth/auth';
@@ -62,6 +63,7 @@ import { GroupByPipe } from '../pipes/group-by/group-by';
     ExpensesPage,
     ChangePasswordPage,
     ViewArchivePage,
+    CreateBudgetPage,
     SearchPipe,
     SortPipe,
     GroupByPipe
@@ -96,7 +98,8 @@ import { GroupByPipe } from '../pipes/group-by/group-by';
     ExpensesPage,
     PopovermenuComponent,
     ChangePasswordPage,
-    ViewArchivePage
+    ViewArchivePage,
+    CreateBudgetPage
   ],
   providers: [
     StatusBar,

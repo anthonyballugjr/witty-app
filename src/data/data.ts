@@ -27,7 +27,7 @@ export const Categories: any[] = [
     {
         _id: 'ent',
         desc: 'entertainment',
-        icon: 'game-controller-a'
+        icon: 'game-controller-b'
     },
     {
         _id: 'lei',
