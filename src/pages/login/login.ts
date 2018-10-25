@@ -81,7 +81,7 @@ export class LoginPage {
       console.log(result);
       this.loading.dismiss();
       this.navCtrl.setRoot(TabsPage);
-      this.presentToast('Hello, ' + localStorage.nickname);
+      this.presentToast('Hello ' + localStorage.nickname + '!');
     }, (err) => {
       this.loading.dismiss();
       this.presentToast(err.error);

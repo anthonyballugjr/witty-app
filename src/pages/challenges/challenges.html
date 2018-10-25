@@ -11,9 +11,10 @@
             <p *ngIf="challenge.expectedAmount != 0">
               <b>Total Expected Amount:</b> {{ challenge.expectedAmount | pluck:'expectedAmount' | currency: "PHP" :2 }} </p>
           </ion-card-content>
-        </ion-row><br>
+        </ion-row>
+        <ion-item-divider no-lines></ion-item-divider>
         <ion-row padding-right float-right>
-          <button ion-button icon-start clear small padding-bottom (click)="takeChallenge(challenge.challengeID)">
+          <button ion-button icon-start clear small padding-bottom (click)="takeChallenge(challenge.challengeID)" color="buttons">
             <ion-icon name="cash"></ion-icon>
             Take Challenge
           </button>

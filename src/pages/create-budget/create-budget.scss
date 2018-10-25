@@ -1,0 +1,18 @@
+page-create-budget {
+    .swiper-slide{
+        overflow-y: scroll;
+        display: block;
+    }
+    ion-slides{
+        // margin: 0 auto;
+        .swiper-pagination-progress .swiper-pagination-progressbar {
+            background: color($colors, sub);
+          }
+    }
+    .roundButton{
+        margin-top: 30%;
+        // button{
+        //     border-radius: 30%;
+        // }
+    }
+}

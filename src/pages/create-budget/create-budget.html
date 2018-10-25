@@ -1,0 +1,73 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>Create Budget</ion-title>
+    <ion-buttons end>
+      <button ion-button icon-end (click)="exit()">
+        Exit
+        <ion-icon name="exit"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+
+<ion-content padding>
+
+
+  <ion-slides effect="progress" #slider>
+
+    <ion-slide>
+
+      <div *ngIf="names.length > 0">
+        <ion-list>
+          <ion-item-divider>
+            <button (click)="predict()" item-right ion-button round outline color="main">
+              Next
+            </button>
+            Current Wallets
+          </ion-item-divider>
+          <ion-item *ngFor="let wallet of listData">
+            <p>Wallet: {{wallet.name | ucwords}}</p>
+            <small>Type: {{wallet.type}}</small>
+            <button ion-button item-end icon-only clear small (click)="remove(wallet)" color="blackboard" [disabled]="predicted.length > 0">
+              <ion-icon name="close"></ion-icon>
+            </button>
+          </ion-item>
+        </ion-list>
+      </div>
+
+    </ion-slide>
+
+    <ion-slide>
+      <ion-item-divider>
+        <button (click)="goToSlide(0)" item-start ion-button round outline color="main">
+          Back
+        </button>
+        <button (click)="save()" item-right ion-button round outline color="main">
+          Next
+        </button>
+      </ion-item-divider>
+      <ion-card *ngIf="predicted">
+        <ion-card-content>
+          <ion-list>
+            <ion-item *ngFor="let wallet of predicted">
+              <p>{{wallet.name | ucwords}}</p>
+              <p>Amount: {{wallet.amount}}</p>
+              <p>Period: {{wallet.period}}</p>
+            </ion-item>
+          </ion-list>
+        </ion-card-content>
+      </ion-card>
+    </ion-slide>
+
+    <ion-slide>
+      <p>Congratulations! Your budget is set for next month! </p>
+
+      <button ion-button block (click)="finish()">Done</button>
+    </ion-slide>
+
+  </ion-slides>
+
+  <ion-footer></ion-footer>
+
+</ion-content>

@@ -1,11 +1,11 @@
 import { Component, ViewChild } from '@angular/core';
 import { IonicPage, NavController, NavParams, AlertController, Platform, ModalController, Slides } from 'ionic-angular';
-import { Chart } from 'chart.js';
 import { CategoryProvider } from '../../providers/category/category';
 import { ReportsProvider } from '../../providers/reports/reports';
 import { LocalNotifications } from '@ionic-native/local-notifications';
-import { BGColor, HoverColor } from '../../data/data';
 import { BillsPage } from '../bills/bills';
+import moment from 'moment';
+import { CreateBudgetPage } from '../create-budget/create-budget';
 
 @IonicPage()
 @Component({
@@ -40,28 +40,20 @@ export class MywalletsPage {
   notifData: any;
   categoryID: any;
 
+  alert: any;
+
   constructor(public reportsProvider: ReportsProvider, private plt: Platform, private localNotif: LocalNotifications, private alertCtrl: AlertController, public categoryProvider: CategoryProvider, public navCtrl: NavController, public navParams: NavParams, private modalCtrl: ModalController) {
     this.getWallets();
     this.getCurrentBudgetOverview();
 
-
-    // this.plt.ready().then((readySource) => {
-    //   this.localNotif.getAllScheduled().then(data => {
-    //     this.notifData = data;
-    //     this.notifJson = JSON.parse(this.notifData);
-    //     console.log(data);
-    //     console.log(this.notifJson.data);
-    //   });
-    //   this.localNotif.on('click').subscribe(data => {
-    //     let json = JSON.parse(data.data);
-
-    //     let alert = alertCtrl.create({
-    //       title: data.title,
-    //       subTitle: json.notifData
-    //     });
-    //     alert.present();
-    //   })
-    // });
+    let firstDay = moment().startOf('month').format('MM-DD-YYYY');
+    let last = moment().endOf('month').format('DD');
+    let ngayon = moment().format('DD');
+    let diff = moment().endOf('month').fromNow();
+    console.log('First Day: ', firstDay);
+    console.log('last day', last, 'Ngayon', ngayon, 'Days left', diff);
+    if (ngayon === last) this.presentAlert('LAST DAY NA, LETS CREATE A BUDGET!', 'ALRIGHT!!!');
+    this.presentAlert('NOT YET LAST DAY!', 'Witty Wallet will create your next month budget ' + diff + ' =))');
   }
 
   ionViewDidLoad() {
@@ -69,9 +61,57 @@ export class MywalletsPage {
     console.log('Play! Play! Play!');
   }
 
+  presentAlert(title, sub) {
+    this.alert = this.alertCtrl.create({
+      title: title,
+      subTitle: sub,
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          handler: () => {
+            console.log('Cancelled');
+          }
+        },
+        {
+          text: 'Create Now',
+          handler: () => {
+            let modal = this.modalCtrl.create(CreateBudgetPage);
+            modal.present();
+          }
+        }
+      ]
+    });
+    this.alert.present();
+  }
+
+  pop(name) {
+    this.alert = this.alertCtrl.create({
+      title: 'Remove Wallet',
+      subTitle: 'Remove this wallet from the list?',
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          handler: () => {
+            console.log('Cancelled');
+          }
+        },
+        {
+          text: 'Agree',
+          handler: () => {
+            this.names.pop(name);
+            console.log(this.names);
+          }
+        }
+      ]
+    });
+    this.alert.present();
+  }
+
   goToSlide(slideNo) {
     this.slider.lockSwipes(false);
-    this.slider.slideTo(slideNo, 500);
+    this.slider.slideTo(slideNo, 700);
     this.slider.lockSwipes(true);
   }
 
@@ -86,34 +126,6 @@ export class MywalletsPage {
       }
     })
   }
-
-  // chart() {
-  //   Chart.defaults.global.legend.position = 'bottom';
-  //   this.doughnutChart = new Chart(this.doughnutCanvas.nativeElement, {
-
-  //     type: 'doughnut',
-  //     data: {
-  //       labels: this.names,
-  //       datasets: [{
-  //         label: 'Wallet name',
-  //         data: this.amounts,
-  //         backgroundColor: BGColor,
-  //         hoverBackgroundColor: HoverColor
-  //       }]
-  //     },
-  //     options: {
-  //       responsive: true,
-  //       maintainAspectRatio: false,
-  //       title: {
-  //         display: true,
-  //         text: this.period + " Wallets"
-  //       },
-  //       animation: {
-  //         animateScale: true
-  //       }
-  //     }
-  //   });
-  // }
 
   getCurrentBudgetOverview() {
     this.reportsProvider.getCurrentBudgetOverview()
@@ -130,7 +142,7 @@ export class MywalletsPage {
       .then(data => {
         this.nextD = data;
         this.next = this.nextD.next;
-        console.log(this.next);
+        console.log('Next', this.next);
       }, err => {
         console.log(err);
       });
@@ -140,7 +152,6 @@ export class MywalletsPage {
     this.names.forEach(name => {
       this.reportsProvider.predict(name)
         .then(data => {
-          console.log(data);
           this.xyz = data;
           this.def = this.xyz.x;
           for (let abc of this.def) {
@@ -152,7 +163,7 @@ export class MywalletsPage {
           console.log(err);
         });
     })
-    console.log(this.predictData);
+    console.log('Predicted Data', this.predictData);
   }
 
   getWallets() {

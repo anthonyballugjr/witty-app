@@ -114,6 +114,7 @@ export class AuthProvider {
 
           this.menuName = nickname.name;
           this.events.publish('nickname:changed', this.menuName);
+          localStorage.setItem('nickname', nickname.name);
         }, err => {
           reject(err);
         });
