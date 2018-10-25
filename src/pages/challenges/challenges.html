@@ -1,64 +1,64 @@
 <ion-content padding *ngIf="!challengeStatus">
-  <ion-grid>
-    <ion-row *ngFor="let challenge of challenges">
-      <ion-card>
-        <ion-row>
-          <ion-card-header>
-            <b> {{ challenge.title }} </b>
-          </ion-card-header>
-          <ion-card-content>
-            {{ challenge.description }}
-            <p *ngIf="challenge.expectedAmount != 0">
-              <b>Total Expected Amount:</b> {{ challenge.expectedAmount | pluck:'expectedAmount' | currency: "PHP" :2 }} </p>
-          </ion-card-content>
-        </ion-row>
-        <ion-item-divider no-lines></ion-item-divider>
-        <ion-row padding-right float-right>
-          <button ion-button icon-start clear small padding-bottom (click)="takeChallenge(challenge.challengeID)" color="buttons">
-            <ion-icon name="cash"></ion-icon>
-            Take Challenge
-          </button>
-        </ion-row>
-      </ion-card>
-    </ion-row>
-  </ion-grid>
-</ion-content>
-
-<ion-content *ngIf="challengeStatus && spareChange">
-  spare is Active
-</ion-content>
-
-<ion-content id="ftWeek" *ngIf="challengeStatus && ftWeek">
-  <div class="progress-header">
-    <ion-grid class="progressbar">
-      <ion-row justify-content-center align-items-center>
-        <!-- <round-progress [background]="'#32CD32'" [current]="current" [radius]="60" [color]="'#fff'" [stroke]="2.5" [max]="total" [rounded]="true">
-        </round-progress> -->
+    <ion-grid>
+      <ion-row *ngFor="let challenge of challenges">
+        <ion-card>
+          <ion-row>
+            <ion-card-header>
+              <b> {{ challenge.title }} </b>
+            </ion-card-header>
+            <ion-card-content>
+              {{ challenge.description }}
+              <p *ngIf="challenge.expectedAmount != 0">
+                <b>Total Expected Amount:</b> {{ challenge.expectedAmount | pluck:'expectedAmount' | currency: "PHP" :2 }} </p>
+            </ion-card-content>
+          </ion-row>
+          <ion-row padding-right float-right>
+            <button ion-button icon-start clear small padding-bottom (click)="takeChallenge(challenge.title, challenge.expectedAmount, challenge.length, challenge.count, challenge.increment, challenge.type)">
+              <ion-icon name="cash"></ion-icon>
+              Take Challenge
+            </button>
+          </ion-row>
+        </ion-card>
       </ion-row>
     </ion-grid>
-    <h5>{{current}} / {{total}}</h5>
-  </div>
-
-  <div class = "cards">
+  </ion-content>
+  
+  <ion-content id="challengeContent" *ngIf="challengeStatus">
+    <div class="progress-header">
+      <h5> {{currentChallenge}} </h5>
+      <ion-grid class="progressbar">
+        <ion-row justify-content-center align-items-center>
+          <round-progress [background]="'#32CD32'" [current]="current" [radius]="60" [color]="'#fff'" [stroke]="2.5" [max]="total"
+            [rounded]="true">
+          </round-progress>
+        </ion-row>
+      </ion-grid>
+      <p>{{current}} / {{total}}</p>
+    </div>
+  
+    <div class="cards">
       <ion-card *ngFor="let number of numbers">
         <div id="icon">
-          <button ion-button class="indicator-done" clear (click)="deposit(number)">
+          <button ion-button *ngIf="number == numbers[0]" class="indicator" clear (click)="deposit(number)">
             <ion-icon name="checkmark"></ion-icon>
           </button>
+          <button ion-button *ngIf="number != numbers[0]" class="indicator" clear disabled>
+              <ion-icon name="checkmark"></ion-icon>
+            </button>
         </div>
         <div id="content">
           <ion-card-header>
-            <b>Week {{number}}</b>
+            <b>{{text}} {{number}}</b>
           </ion-card-header>
           <ion-card-content>
-            <p>
-              Deposit: {{(number * 5)  | currency: "PHP" :2}} </p>
+            <p *ngIf = "this.type != 'Incremental'">
+              Deposit: {{inc | currency: "PHP" :2}} </p>
+              <p *ngIf = "this.type === 'Incremental'">
+                Deposit: {{number * inc | currency: "PHP" :2}} </p>
             <p>
               Total: {{current | currency: "PHP" :2}} </p>
           </ion-card-content>
         </div>
       </ion-card>
-  </div>
-
-
-</ion-content>
+    </div>
+  </ion-content>
