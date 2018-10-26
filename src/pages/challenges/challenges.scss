@@ -1,5 +1,5 @@
 page-challenges {
-    .indicator-done, .indicator-pending{
+    .indicator{
         border-radius: 100%;
         background-color: mediumseagreen;
         padding: 1.4em .95em ;
@@ -8,26 +8,24 @@ page-challenges {
         text-align: center;
     }
 
-    // div, span{
-    //     border: solid 1pt #000000;
-    // }
-
-    .indicator-pending{
-        background-color: gray;
-    }
-
     .progress-header{
-        height: 14em;
+        height: 16.5em;
         width: 100%;
         background-color: #32CD32;
         color: white;
         text-align: center;
-        padding: 1% 0 3% 0;
+        padding: .5% 0 3% 0;
+
+        h5{
+            padding-bottom: 1%; 
+        }
+
+        p{
+            font-size: 12pt;
+        }
     }
 
     #cards{
-        position: fixed;
-        //top: 30rem;
         width: 100%;
         height: 50px;
         padding: 1%;
@@ -40,7 +38,7 @@ page-challenges {
         left: 1.3em;
     }
 
-    #ftWeek{
+    #challengeContent{
         ion-card-content{
             margin-top: -12px; 
         }
