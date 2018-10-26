@@ -75,6 +75,7 @@ import { GroupByPipe } from '../pipes/group-by/group-by';
     NgPipesModule,
     TooltipsModule,
     BrowserAnimationsModule,
+    RoundProgressModule,
     SuperTabsModule.forRoot(),
     IonicModule.forRoot(MyApp, {
       navExitApp: false

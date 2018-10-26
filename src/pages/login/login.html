@@ -4,7 +4,7 @@
   <form [formGroup]="loginForm" (ngSubmit)="login()">
     <ion-item>
       <ion-label floating>Email</ion-label>
-      <ion-input type="email" [(ngModel)]="loginData.user.email" formControlName="email" name="email" email autofocus></ion-input>
+      <ion-input type="email" [(ngModel)]="loginData.user.email" formControlName="email" name="email" email></ion-input>
     </ion-item>
     <ion-item>
       <ion-label floating>Password</ion-label>
