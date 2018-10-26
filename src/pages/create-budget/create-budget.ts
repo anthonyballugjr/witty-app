@@ -2,6 +2,7 @@ import { Component, ViewChild } from '@angular/core';
 import { IonicPage, NavController, NavParams, AlertController, Slides, LoadingController, ViewController, ToastController } from 'ionic-angular';
 import { CategoryProvider } from '../../providers/category/category';
 import { ReportsProvider } from '../../providers/reports/reports';
+import { TabsPage } from '../tabs/tabs';
 
 @IonicPage()
 @Component({
@@ -55,6 +56,7 @@ export class CreateBudgetPage {
       showCloseButton: true,
       message: msg,
       position: 'bottom',
+      duration: 10000
     });
     this.toast.present();
   }
@@ -77,7 +79,8 @@ export class CreateBudgetPage {
         {
           text: 'Yes, I will do this later',
           handler: () => {
-            this.viewCtrl.dismiss();
+            // this.viewCtrl.dismiss();
+            this.navCtrl.setRoot(TabsPage);
           }
         }
       ]
@@ -85,8 +88,9 @@ export class CreateBudgetPage {
     alert.present();
   }
 
-  finish(){
-    this.viewCtrl.dismiss();
+  done(){
+    // this.viewCtrl.dismiss();
+    this.navCtrl.setRoot(TabsPage);
   }
 
   getWallets() {
