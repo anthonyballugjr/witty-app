@@ -30,6 +30,7 @@ export class LoginPage {
   userData: any;
 
   alert: any;
+  attempt: number = 0;
 
   constructor(private toastCtrl: ToastController, public authProvider: AuthProvider, private formBldr: FormBuilder, public http: HttpClient, private facebook: Facebook, public navCtrl: NavController, public navParams: NavParams, public alertCtrl: AlertController, public loadingCtrl: LoadingController, private menuCtrl: MenuController) {
     this.loginForm = this.formBldr.group({
@@ -85,6 +86,8 @@ export class LoginPage {
     }, (err) => {
       this.loading.dismiss();
       this.presentToast(err.error);
+      this.attempt + 1;
+      console.log(this.attempt);
       console.log(err);
     });
   }
@@ -100,7 +103,7 @@ export class LoginPage {
                 'email': profile['email']
               }
             }
-            console.log(this.userDataFB);
+            console.log(fbData);
 
             // this.navCtrl.setRoot(TabsPage, { userData: this.userDataFB });
           });

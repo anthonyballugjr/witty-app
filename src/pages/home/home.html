@@ -28,7 +28,7 @@
               <strong>{{wallet.name | ucwords}}</strong>
             </h6>
             <p>Budget: {{wallet.amount | currency: "PHP" :2}} </p>
-            <p ion-text [color]="(wallet.transactions | pluck: 'amount' | sum) >= wallet.amount ? 'danger':'greenx'">Expenses: {{wallet.transactions | pluck:'amount' | sum | currency: "PHP" :2}}
+            <p ion-text [color]="(wallet.transactions | pluck: 'amount' | sum) >= wallet.amount ? 'danger':'greenx'" [tooltip]="(wallet.transactions | pluck: 'amount' | sum) >= wallet.amount ? 'You overspent on this wallet':'Spending is safe, dont overspend'" duration="1000">Expenses: {{wallet.transactions | pluck:'amount' | sum | currency: "PHP" :2}}
               <ion-icon [name]="(wallet.transactions | pluck: 'amount' | sum) >= wallet.amount ? 'alert':'thumbs-up'"></ion-icon>
             </p>
             <p ion-text [color]="(wallet.transactions | pluck: 'amount' | sum) >= wallet.amount ? 'danger':'greenx'">Remaining: {{wallet.amount - (wallet.transactions | pluck:'amount' | sum) | currency: "PHP" :2}}
@@ -41,7 +41,7 @@
             </h6>
             <p>Allocated: {{wallet.amount | currency: "PHP" :2}} </p>
           </div>
-          <ion-icon item-end color="main" name="more"></ion-icon>
+          <!-- <ion-icon item-end color="main" name="more"></ion-icon> -->
         </ion-item>
       </ion-list>
     </ion-slide>
@@ -56,7 +56,7 @@
             </h6>
             <p>Allocated: {{wallet.amount | currency: "PHP" :2}}</p>
           </div>
-          <ion-icon item-end name="more" color="main"></ion-icon>
+          <!-- <ion-icon item-end name="more" color="main"></ion-icon> -->
         </ion-item>
       </ion-list>
     </ion-slide>

@@ -1,9 +1,10 @@
 import { Component, ViewChild } from '@angular/core';
-import { App, Nav, Platform, MenuController, ToastController, LoadingController } from 'ionic-angular';
+import { App, Nav, Platform, MenuController, ToastController, LoadingController, AlertController, ModalController } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { AndroidFullScreen } from '@ionic-native/android-full-screen';
 import { Events } from 'ionic-angular';
+import moment from 'moment';
 
 import { TabsPage } from '../pages/tabs/tabs';;
 import { LoginPage } from '../pages/login/login';
@@ -11,7 +12,9 @@ import { ProfilePage } from '../pages/profile/profile';
 import { MywalletsPage } from '../pages/mywallets/mywallets';
 import { CategoriesPage } from '../pages/categories/categories';
 
+
 import { AuthProvider } from '../providers/auth/auth';
+import { CreateBudgetPage } from '../pages/create-budget/create-budget';
 
 @Component({
   templateUrl: 'app.html'
@@ -21,7 +24,9 @@ export class MyApp {
   rootPage: any;
   loading: any;
 
+
   nickname: string;
+  activePage: any;
 
   checkAuthorization(): void {
     if ((localStorage.getItem('token') === null || localStorage.getItem('token') === 'undefined')) {
@@ -33,19 +38,25 @@ export class MyApp {
 
   pages: Array<{ title: string, icon: string, component: any }>;
 
-  constructor(public fullScreen: AndroidFullScreen, public app: App, public menuCtrl: MenuController, private toastCtrl: ToastController, private loadingCtrl: LoadingController, public authProvider: AuthProvider, public platform: Platform, public splashScreen: SplashScreen, public statusBar: StatusBar, public events: Events) {
+  constructor(public fullScreen: AndroidFullScreen, public app: App, public menuCtrl: MenuController, private toastCtrl: ToastController, private loadingCtrl: LoadingController, public authProvider: AuthProvider, public platform: Platform, public splashScreen: SplashScreen, public statusBar: StatusBar, public events: Events, private alertCtrl: AlertController, private modalCtrl: ModalController) {
     this.statusBar.hide();
     this.initializeApp();
     this.checkAuthorization();
 
-    this.nickname = "Witty User";
+    let today = moment().format('DD');
+    let lastDay = moment().endOf('month').format('DD');
+    console.log('Today', today, 'Last day', lastDay);
+    if (today === lastDay) {
+      this.presentAlert();
+    }
+
+    this.nickname = localStorage.nickname;
     this.events.subscribe('nickname:changed', nickname => {
       if (nickname !== undefined && nickname !== " ") {
         this.nickname = nickname;
         console.log(nickname);
       }
-    })
-
+    });
 
     // used for an example of ngFor and navigation
     this.pages = [
@@ -54,6 +65,7 @@ export class MyApp {
       { title: 'Manage Wallets', icon: 'list-box', component: CategoriesPage },
       { title: 'Playground', icon: 'baseball', component: MywalletsPage }
     ];
+    this.activePage = this.pages[0];
   }
 
   initializeApp() {
@@ -72,6 +84,33 @@ export class MyApp {
 
   openPage(page) {
     this.nav.setRoot(page.component);
+    this.activePage = page;
+  }
+
+  checkActive(page) {
+    return page == this.activePage;
+  }
+
+  presentAlert() {
+    let alert = this.alertCtrl.create({
+      title: 'Create Next Budget',
+      subTitle: localStorage.nickname + ', it is the last day of the month, Witty is now ready to create your next month budget!',
+      buttons: [
+        {
+          text: 'Remind me later',
+          role: 'cancel'
+        },
+        {
+          text: "Let's do it!",
+          handler: () => {
+            // let modal = this.modalCtrl.create(CreateBudgetPage);
+            // modal.present();
+            this.nav.setRoot(CreateBudgetPage);
+          }
+        }
+      ]
+    });
+    alert.present();
   }
 
   showLoader() {
