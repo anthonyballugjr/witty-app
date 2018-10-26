@@ -85,10 +85,10 @@
       "cordova-plugin-calendar": {},
       "cordova-plugin-file-opener2": {},
       "cordova-plugin-file": {},
+      "cordova-plugin-fullscreen": {},
       "cordova-android-support-gradle-release": {
-        "ANDROID_SUPPORT_VERSION": "27.+"
-      },
-      "cordova-plugin-fullscreen": {}
+        "ANDROID_SUPPORT_VERSION": "27.1.0"
+      }
     },
     "platforms": [
       "browser",
