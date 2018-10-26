@@ -20,6 +20,10 @@ export class AddwalletPage {
   doNotify: boolean = false;
 
   categories = Categories;
+  selectOptions = {
+    title: 'Select a category',
+    mode: 'iOS'
+  }
 
   wallet = {
     'name': '',
