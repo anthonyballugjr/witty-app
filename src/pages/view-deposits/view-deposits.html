@@ -1,0 +1,32 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>Deposits</ion-title>
+    <ion-buttons right>
+      <button ion-button icon-only (click)="close()">
+        <ion-icon name="close"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+
+<ion-content>
+  <ion-list no-lines>
+    <ion-item-divider class="strong" sticky>Wallet: {{walletName | ucwords}}</ion-item-divider>
+    <ion-item *ngFor="let deposit of deposits | reverse" text-wrap no-margin>
+      <h5>{{deposit.amount | currency:"PHP":2}}</h5>
+      <ion-note>{{deposit.createdAt}}</ion-note>
+    </ion-item>
+  </ion-list>
+
+  <h5 float-right margin-right>
+    <strong>Total: {{deposits | pluck:'amount' | sum | currency:"PHP":2}} </strong>
+  </h5>
+
+  <ion-fab top right>
+    <button ion-fab mini color="buttons" (click)="addDeposit()">
+      <ion-icon name="add"></ion-icon>
+    </button>
+  </ion-fab>
+
+</ion-content>

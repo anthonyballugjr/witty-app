@@ -1,6 +1,7 @@
 import { Component, ViewChild } from '@angular/core';
 import { IonicPage, NavController, NavParams, ModalController, ViewController } from 'ionic-angular';
-import { CategoryProvider } from '../../providers/category/category';
+import { ExpensesProvider } from '../../providers/expenses/expenses';
+import { SavingsProvider } from '../../providers/savings/savings';
 import { ViewArchivePage } from '../view-archive/view-archive';
 import { ReportsProvider } from '../../providers/reports/reports';
 import { Chart } from 'chart.js';
@@ -21,30 +22,38 @@ export class BudgetOverviewPage {
 
   period = localStorage.period;
 
-  wallets: any;
+  eWallets: any;
+  sWallets: any;
   expenses: any = [];
   names: any = [];
   amounts: any = [];
   reportData: any;
   budgetOverview: any = [];
+  periodDeposits: any = [];
+  dep:any;
 
   descending: boolean = true;
   order: number;
   column: string = 'period';
   by: string = 'Ascending';
 
-  constructor(public reportsProvider: ReportsProvider, public categoryProvider: CategoryProvider, public navCtrl: NavController, public navParams: NavParams, private modalCtrl: ModalController, private viewCtrl: ViewController) {
-    this.getWallets();
-    this.getArchivesOverview();
-    this.getCurrentBudgetOverview();
+  constructor(public reportsProvider: ReportsProvider, public navCtrl: NavController, public navParams: NavParams, private modalCtrl: ModalController, private viewCtrl: ViewController, public expensesProvider: ExpensesProvider, public savingsProvider: SavingsProvider) {
+    this.doAll();
     this.profile = this.navParams.get('profile');
     console.log('Profile', this.profile);
+
+  }
+
+  async doAll() {
+    await this.getExpenseWallets();
+    await this.getArchivesOverview();
+    await this.getCurrentBudgetOverview();
   }
 
   isChart() {
     this.names = [];
     this.amounts = [];
-    this.getWallets();
+    this.getExpenseWallets();
   }
 
   chart() {
@@ -65,7 +74,7 @@ export class BudgetOverviewPage {
         responsive: true,
         maintainAspectRatio: false,
         title: {
-          text: this.period + " Wallets",
+          text: `${this.period} Allocated Expense Wallets`,
           display: true,
         },
         animation: {
@@ -88,24 +97,26 @@ export class BudgetOverviewPage {
   }
 
   getCurrentBudgetOverview() {
-    this.reportsProvider.getCurrentBudgetOverview()
+    this.reportsProvider.getBudgetOverview(localStorage.period)
       .then(data => {
         this.budgetOverview = data;
         console.log('budgetOverview: ', this.budgetOverview);
       });
   }
 
-  getWallets() {
-    this.categoryProvider.getWallets()
+  getExpenseWallets() {
+    this.expensesProvider.getWallets(localStorage.period)
       .then(data => {
-        this.wallets = data;
-        for (let x of this.wallets) {
+        this.eWallets = data;
+        for (let x of this.eWallets) {
           this.amounts.push(x.amount);
-          this.names.push(x.name)
+          this.names.push(x.name);
         }
-        this.chart();
         console.log('Amounts', this.amounts);
         console.log('Names', this.names);
+      })
+      .then(() => {
+        this.chart();
       });
   }
 

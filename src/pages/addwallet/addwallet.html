@@ -13,20 +13,20 @@
 </ion-header>
 
 <ion-content padding>
-  <form [formGroup]="addWalletForm" (ngSubmit)="addWallet()">
-    <!-- <form [formGroup]="addWalletForm" (ngSubmit)="check()"> -->
+  <form [formGroup]="addExpenseForm" (ngSubmit)="addExpenseWallet()" *ngIf="!isSavings">
     <ion-item>
       <ion-label floating>Wallet Name</ion-label>
-      <ion-input type="text" [(ngModel)]="wallet.name" formControlName="name" name="name"></ion-input>
+      <ion-input type="text" [(ngModel)]="expenseWallet.name" formControlName="name" name="name"></ion-input>
     </ion-item>
     <ion-item>
       <ion-label floating>Amount</ion-label>
-      <ion-input type="number" [(ngModel)]="wallet.amount" formControlName="budget" name="budget" #amount></ion-input>
+      <ion-input type="number" [(ngModel)]="expenseWallet.amount" formControlName="budget" name="budget" #amount></ion-input>
     </ion-item>
 
-    <ion-item *ngIf="isSavings===false">
+    <ion-item>
       <ion-label floating>Category</ion-label>
-      <ion-select [disabled]="doNotify===true" [(ngModel)]="wallet.categoryId" formControlName="categoryId" name="categoryId" interface="action-sheet" [selectOptions]="selectOptions">
+      <ion-select [disabled]="doNotify===true" [(ngModel)]="expenseWallet.categoryId" formControlName="categoryId" name="categoryId" interface="action-sheet"
+        [selectOptions]="selectOptions">
         <ion-option *ngFor="let category of categories" value={{category._id}}>
           {{category.desc | ucwords}}
         </ion-option>
@@ -34,7 +34,7 @@
     </ion-item>
     <ion-item-divider no-lines></ion-item-divider>
 
-    <ion-item no-lines *ngIf="wallet.categoryId==='bll'">
+    <ion-item no-lines *ngIf="expenseWallet.categoryId==='bll'">
       <ion-label>Set notification for this bill?</ion-label>
       <ion-toggle color="main" [(ngModel)]="doNotify" name="doNotify" formControlName="doNotify" (ionChange)="showMe()"></ion-toggle>
     </ion-item>
@@ -53,7 +53,7 @@
 
           <ion-item>
             <ion-label>Set Time</ion-label>
-            <ion-datetime display format="hh:mm A" pickerFormat="hh mm A" [(ngModel)]="notifData.time" formControlName="time" name="time"></ion-datetime>
+            <ion-datetime displayFormat="hh:mm A" pickerFormat="hh mm A" [(ngModel)]="notifData.time" formControlName="time" name="time"></ion-datetime>
           </ion-item>
 
           <ion-item>
@@ -78,7 +78,25 @@
 
     <ion-item-divider no-lines></ion-item-divider>
 
-    <button ion-button block color="main" [disabled]="!addWalletForm.valid" type="submit">Add Wallet</button>
+    <button ion-button block color="main" round [disabled]="!addExpenseForm.valid" type="submit">Add Wallet</button>
   </form>
+
+  <!--SAVINGS-->
+  <form [formGroup]="addSavingsForm" (ngSubmit)="addSavingsWallet()" *ngIf="isSavings">
+    <ion-item>
+      <ion-label floating>Wallet Name</ion-label>
+      <ion-input type="text" [(ngModel)]="savingsWallet.name" formControlName="name" name="name"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label floating>Goal</ion-label>
+      <ion-input type="number" [(ngModel)]="savingsWallet.goal" formControlName="goal" name="goal"></ion-input>
+    </ion-item>
+
+    
+    <ion-item-divider no-lines></ion-item-divider>
+
+    <button ion-button block color="main" round [disabled]="!addSavingsForm.valid" type="submit">Add Wallet</button>
+  </form>
+
 
 </ion-content>
