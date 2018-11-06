@@ -1,11 +1,12 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Events } from 'ionic-angular';
+import { cPeriod, pPeriod, nPeriod } from '../../data/period';
 
 @Injectable()
 export class AuthProvider {
-  // authURL = "http://localhost:3000/api/users";
-  authURL = "http://witty-wallet.herokuapp.com/api/users"
+  authURL = "http://localhost:3000/api/users";
+  // authURL = "http://witty-wallet.herokuapp.com/api/users"
 
   menuName: any;
   in: any;
@@ -19,11 +20,8 @@ export class AuthProvider {
     }
   }
 
-  month = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-  n = new Date();
-  m = this.month[this.n.getMonth()];
-  y = this.n.getFullYear();
-  period = this.m + " " + this.y;
+  currentPeriod = cPeriod;
+
 
   constructor(public http: HttpClient, public events: Events) {
     console.log('Hello AuthProvider Provider');
@@ -31,7 +29,7 @@ export class AuthProvider {
 
   register(data) {
     return new Promise((resolve, reject) => {
-      this.http.post(this.authURL + '/register', data).subscribe(res => {
+      this.http.post(`${this.authURL}/register`, data).subscribe(res => {
         resolve(res);
       }, (err) => {
         reject(err);
@@ -41,7 +39,7 @@ export class AuthProvider {
 
   login(data) {
     return new Promise((resolve, reject) => {
-      this.http.post(this.authURL + '/login', data)
+      this.http.post(`${this.authURL}/login`, data)
         .subscribe(res => {
           resolve(res);
           console.log(res);
@@ -50,7 +48,7 @@ export class AuthProvider {
           localStorage.setItem('userId', this.userData.user._id);
           localStorage.setItem('email', this.userData.user.email);
           localStorage.setItem('nickname', this.userData.user.name);
-          localStorage.setItem('period', this.period);
+          localStorage.setItem('period', this.currentPeriod);
 
           this.menuName = this.userData.user.name;
           this.events.publish('nickname:changed', this.menuName);
@@ -63,7 +61,7 @@ export class AuthProvider {
 
   logout() {
     return new Promise((resolve, reject) => {
-      this.http.get(this.authURL + '/logout').subscribe(res => {
+      this.http.get(`${this.authURL}/logout`).subscribe(res => {
         localStorage.clear();
         console.log(localStorage);
         resolve(res);
@@ -75,7 +73,7 @@ export class AuthProvider {
 
   getProfile() {
     return new Promise((resolve, reject) => {
-      this.http.get(this.authURL + '/profile', this.authHeader)
+      this.http.get(`${this.authURL}/profile`, this.authHeader)
         .subscribe(res => {
           resolve(res);
         }, err => {
@@ -86,7 +84,7 @@ export class AuthProvider {
 
   changePassword(passwordData) {
     return new Promise((resolve, reject) => {
-      this.http.put(this.authURL + '/changePassword', passwordData, this.authHeader)
+      this.http.put(`${this.authURL}/changePassword`, passwordData, this.authHeader)
         .subscribe(res => {
           resolve(res);
         }, err => {
@@ -97,7 +95,7 @@ export class AuthProvider {
 
   requestReset(email) {
     return new Promise((resolve, reject) => {
-      this.http.get(this.authURL + '/forgotPassword/' + email)
+      this.http.get(`${this.authURL}/forgotPassword/${email}`)
         .subscribe(res => {
           resolve(res);
         }, err => {
@@ -115,6 +113,17 @@ export class AuthProvider {
           this.menuName = nickname.name;
           this.events.publish('nickname:changed', this.menuName);
           localStorage.setItem('nickname', nickname.name);
+        }, err => {
+          reject(err);
+        });
+    });
+  }
+
+  updateStat(status) {
+    return new Promise((resolve, reject) => {
+      this.http.put(this.authURL, status, this.authHeader)
+        .subscribe(res => {
+          resolve(res);
         }, err => {
           reject(err);
         });

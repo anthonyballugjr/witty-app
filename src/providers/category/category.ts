@@ -5,11 +5,11 @@ import { Injectable } from '@angular/core';
 export class CategoryProvider {
   wallets: any;
   categoryData: any;
-  // apiUrl = "http://localhost:3000/api"
-  apiUrl = "http://witty-wallet.herokuapp.com/api"
+  apiUrl = "http://localhost:3000/api"
+  // apiUrl = "http://witty-wallet.herokuapp.com/api"
   authHeader = {
     headers: {
-      'Authorization': 'Token ' + localStorage.token
+      'Authorization': `Token ${localStorage.token}`
     }
   }
 
@@ -97,26 +97,7 @@ export class CategoryProvider {
     });
   }
 
-  getTransactions(id) {
-    return new Promise(resolve => {
-      this.http.get(this.apiUrl + '/transactions?walletId=' + id, this.authHeader).subscribe(data => {
-        resolve(data);
-      }, err => {
-        console.log(err);
-      });
-    });
-  }
-
-  addTransaction(data) {
-    return new Promise((resolve, reject) => {
-      console.log(data);
-      this.http.post(this.apiUrl + '/transactions', data, this.authHeader).subscribe(res => {
-        resolve(res);
-      }, (err) => {
-        reject(err)
-      });
-    })
-  }
+  
 
 
 

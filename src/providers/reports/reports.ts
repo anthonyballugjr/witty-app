@@ -3,12 +3,12 @@ import { Injectable } from '@angular/core';
 
 @Injectable()
 export class ReportsProvider {
-  // apiURL = "http://localhost:3000/api"
-  apiURL = "http://witty-wallet.herokuapp.com/api"
+  apiURL = "http://localhost:3000/api"
+  // apiURL = "http://witty-wallet.herokuapp.com/api"
 
   authHeader = {
     headers: {
-      'Authorization': 'Token ' + localStorage.token
+      'Authorization': `Token ${localStorage.token}`
     }
   }
 
@@ -16,9 +16,9 @@ export class ReportsProvider {
     console.log('Hello ReportsProvider Provider');
   }
 
-  predict(name) {
+  budgetProfile() {
     return new Promise(resolve => {
-      this.http.get(this.apiURL + '/wallets/predict/' + localStorage.userId + '?name=' + name)
+      this.http.get(`${this.apiURL}/reports/budgetProfile/${localStorage.userId}`, this.authHeader)
         .subscribe(data => {
           resolve(data);
         }, err => {
@@ -29,7 +29,7 @@ export class ReportsProvider {
 
   getArchivesOverview() {
     return new Promise(resolve => {
-      this.http.get(this.apiURL + '/archives/overview/' + localStorage.userId, this.authHeader)
+      this.http.get(`${this.apiURL}/archives/overview/${localStorage.userId}`, this.authHeader)
         .subscribe(data => {
           resolve(data);
         }, err => {
@@ -38,13 +38,35 @@ export class ReportsProvider {
     });
   }
 
-  getCurrentBudgetOverview() {
+  saveArchive(data) {
+    return new Promise((resolve, reject) => {
+      this.http.post(`${this.apiURL}/archives`, data, this.authHeader)
+        .subscribe(data => {
+          resolve(data);
+        }, err => {
+          reject(err);
+        });
+    });
+  }
+
+  getBudgetOverview(period) {
     return new Promise(resolve => {
-      this.http.get(this.apiURL + '/wallets/overview/' + localStorage.userId + '?period=' + localStorage.period, this.authHeader)
+      this.http.get(`${this.apiURL}/reports/overview/${localStorage.userId}?period=${period}`, this.authHeader)
         .subscribe(data => {
           resolve(data);
         }, err => {
           console.log(err);
+        });
+    });
+  }
+
+  savingsOverview() {
+    return new Promise(resolve => {
+      this.http.get(`${this.apiURL}/wallets/savings/overview/${localStorage.userId}`, this.authHeader)
+        .subscribe(data => {
+          resolve(data);
+        }, err => {
+          console.log(err)
         });
     });
   }
