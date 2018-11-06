@@ -1,13 +1,12 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, AlertController, LoadingController, ToastController, MenuController } from 'ionic-angular';
 import { Facebook, FacebookLoginResponse } from '@ionic-native/facebook';
-import { TabsPage } from '../tabs/tabs';
-import { SignupPage } from '../signup/signup';
-
 import { HttpClient } from '@angular/common/http';
 import { Validators, FormBuilder, FormGroup } from '@angular/forms';
-
 import { AuthProvider } from '../../providers/auth/auth'
+import { Events } from 'ionic-angular';
+import { TabsPage } from '../tabs/tabs';
+import { SignupPage } from '../signup/signup';
 
 @IonicPage()
 @Component({
@@ -28,15 +27,24 @@ export class LoginPage {
   }
   message: any;
   userData: any;
+  userEmail = localStorage.email;
 
   alert: any;
+  toast: any;
   attempt: number = 0;
 
-  constructor(private toastCtrl: ToastController, public authProvider: AuthProvider, private formBldr: FormBuilder, public http: HttpClient, private facebook: Facebook, public navCtrl: NavController, public navParams: NavParams, public alertCtrl: AlertController, public loadingCtrl: LoadingController, private menuCtrl: MenuController) {
+  constructor(private toastCtrl: ToastController, public authProvider: AuthProvider, private formBldr: FormBuilder, public http: HttpClient, private facebook: Facebook, public navCtrl: NavController, public navParams: NavParams, public alertCtrl: AlertController, public loadingCtrl: LoadingController, private menuCtrl: MenuController, private events: Events) {
     this.loginForm = this.formBldr.group({
       email: ["", Validators.required],
       password: ["", Validators.required]
     });
+
+    this.attempt = 0;
+    this.events.subscribe('attempt:changed', attempt => {
+      if (attempt >= 3) {
+        this.attemptAlert();
+      }
+    })
   }
 
   ionViewDidLoad() {
@@ -58,18 +66,40 @@ export class LoginPage {
     this.loading.present();
   }
 
+  attemptAlert() {
+    let alert = this.alertCtrl.create({
+      title: 'Hey there!',
+      subTitle: 'Are you a new user?, Witty suggets that you register an account to use the application.',
+      enableBackdropDismiss: false,
+      buttons: [
+        {
+          text: 'I already have an account',
+          handler: () => {
+            this.presentToast("If you forgot your password, we can assist you by selecting the 'Forgot Password' option");
+          }
+        },
+        {
+          text: 'Yes, I would like to register',
+          handler: () => {
+            this.navCtrl.push(SignupPage);
+            this.attempt = 0;
+          }
+        }
+      ]
+    });
+    alert.present();
+  }
+
   presentToast(msg) {
-    let toast = this.toastCtrl.create({
+    this.toast = this.toastCtrl.create({
       message: msg,
-      duration: 3000,
+      duration: 5000,
       position: 'top',
       dismissOnPageChange: false,
-      showCloseButton: true
+      showCloseButton: true,
+      closeButtonText: 'Dismiss'
     });
-    toast.onDidDismiss(() => {
-      console.log('Dismissed toast');
-    });
-    toast.present();
+    this.toast.present();
   }
 
   register() {
@@ -86,7 +116,8 @@ export class LoginPage {
     }, (err) => {
       this.loading.dismiss();
       this.presentToast(err.error);
-      this.attempt + 1;
+      this.attempt++;
+      this.events.publish('attempt:changed', this.attempt);
       console.log(this.attempt);
       console.log(err);
     });
@@ -143,13 +174,14 @@ export class LoginPage {
             else {
               console.log(data);
               this.authProvider.requestReset(data.email)
-                .then(response => {
+                .then(
+                  response => {
                   this.loading.dismiss();
                   console.log(response);
                   this.presentToast(response);
                 }, err => {
                   this.loading.dismiss();
-                  this.presentToast(err.error)
+                  this.presentToast(err);
                   console.log(err);
                 })
             }
