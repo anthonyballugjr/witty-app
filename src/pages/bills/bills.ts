@@ -28,8 +28,9 @@ export class BillsPage {
 
   }
 
-  sendCategory(id) {
-    this.viewCtrl.dismiss(id);
+  sendCategory(data) {
+    console.log(data);
+    this.viewCtrl.dismiss(data);
   }
 
 

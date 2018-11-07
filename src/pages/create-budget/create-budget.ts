@@ -1,7 +1,6 @@
 import { Component, ViewChild } from '@angular/core';
 import { IonicPage, NavController, NavParams, AlertController, Slides, LoadingController, ViewController, ToastController } from 'ionic-angular';
-import { CategoryProvider } from '../../providers/category/category';
-import { ReportsProvider } from '../../providers/reports/reports';
+import { ExpensesProvider } from '../../providers/expenses/expenses';
 import { TabsPage } from '../tabs/tabs';
 
 @IonicPage()
@@ -19,14 +18,14 @@ export class CreateBudgetPage {
   names: any = [];
   wallets: any;
   listData: any = [];
-  overview:any;
+  overview: any;
   predicted: any = [];
   x: any;
   y: any = [];
 
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public categoryProvider: CategoryProvider, public reportsProvider: ReportsProvider, private loadingCtrl: LoadingController, private alertCtrl: AlertController, private viewCtrl: ViewController, private toastCtrl: ToastController) {
-    this.getWallets();
+  constructor(public navCtrl: NavController, public navParams: NavParams, public expensesProvider: ExpensesProvider, private loadingCtrl: LoadingController, private alertCtrl: AlertController, private viewCtrl: ViewController, private toastCtrl: ToastController) {
+    this.getExpenseWallets();
   }
 
   ionViewDidLoad() {
@@ -88,14 +87,14 @@ export class CreateBudgetPage {
     alert.present();
   }
 
-  done(){
+  done() {
     // this.viewCtrl.dismiss();
     this.navCtrl.setRoot(TabsPage);
   }
 
-  getWallets() {
+  getExpenseWallets() {
     this.presentLoading('Fetching wallets...');
-    this.categoryProvider.getWallets()
+    this.expensesProvider.getWallets(localStorage.period)
       .then(data => {
         this.wallets = data;
         for (let wallet of this.wallets) {
@@ -141,7 +140,7 @@ export class CreateBudgetPage {
     else {
       this.presentLoading('Predicting Values...');
       this.names.forEach(name => {
-        this.reportsProvider.predict(name)
+        this.expensesProvider.predict(name)
           .then(data => {
             this.x = data;
             this.y = this.x.x;
@@ -150,13 +149,6 @@ export class CreateBudgetPage {
                 this.predicted.push(wallet);
               }
             }
-            this.reportsProvider.getCurrentBudgetOverview()
-              .then(ov => {
-                this.overview = ov;
-                console.log('Ov', ov);
-              })
-          }, err => {
-            console.log(err);
           });
       }, err => {
         this.loading.dismiss();
@@ -172,7 +164,7 @@ export class CreateBudgetPage {
 
   save() {
     this.presentLoading('Adding wallet for next month')
-    this.categoryProvider.addWallet(this.predicted)
+    this.expensesProvider.addWallet(this.predicted)
       .then(result => {
         console.log(result);
         this.loading.dismiss();
