@@ -1,11 +1,15 @@
 import { Component, ViewChild } from '@angular/core';
 import { IonicPage, NavController, NavParams, AlertController, Platform, ModalController, Slides } from 'ionic-angular';
 import { CategoryProvider } from '../../providers/category/category';
+import { ExpensesProvider } from '../../providers/expenses/expenses';
 import { ReportsProvider } from '../../providers/reports/reports';
 import { LocalNotifications } from '@ionic-native/local-notifications';
 import { BillsPage } from '../bills/bills';
+import { Chart } from 'chart.js';
 import moment from 'moment';
-import { CreateBudgetPage } from '../create-budget/create-budget';
+import { BGColor, HoverColor } from '../../data/data';
+import { Events } from 'ionic-angular';
+
 
 @IonicPage()
 @Component({
@@ -15,8 +19,15 @@ import { CreateBudgetPage } from '../create-budget/create-budget';
 
 export class MywalletsPage {
   // @ViewChild('doughnutCanvas') doughnutCanvas;
+  @ViewChild('barCanvas') barCanvas;
+  @ViewChild('lineCanvas') lineCanvas;
   @ViewChild('categoryInput') categoryInput;
   @ViewChild('slider') slider: Slides;
+
+  barChart: any;
+  doughnutChart: any;
+  lineChart: any;
+
 
   transactions: any = [];
   categories: any;
@@ -25,9 +36,20 @@ export class MywalletsPage {
   next: any = [];
   nextD: any;
   budgetOverview: any = [];
+  savingsOverview: any = [];
+  all: any = [];
   period = localStorage.period;
 
-  doughnutChart: any;
+  archives: any;
+  archiveX: any;
+  archivePeriod: any = [];
+  archiveTotalBudget: any = [];
+  archiveTotalExpenses: any = [];
+
+  cat = {
+    id: '',
+    desc: ''
+  }
 
   names: any = [];
   amounts: any[] = [];
@@ -41,78 +63,126 @@ export class MywalletsPage {
   categoryID: any;
 
   alert: any;
+  counter: number;
+  surprise: boolean;
 
-  constructor(public reportsProvider: ReportsProvider, private plt: Platform, private localNotif: LocalNotifications, private alertCtrl: AlertController, public categoryProvider: CategoryProvider, public navCtrl: NavController, public navParams: NavParams, private modalCtrl: ModalController) {
-    this.getWallets();
-    this.getCurrentBudgetOverview();
 
-    let firstDay = moment().startOf('month').format('MM-DD-YYYY');
-    let last = moment().endOf('month').format('DD');
-    let ngayon = moment().format('DD');
-    let diff = moment().endOf('month').fromNow();
-    console.log('First Day: ', firstDay);
-    console.log('last day', last, 'Ngayon', ngayon, 'Days left', diff);
-    if (ngayon === last) this.presentAlert('LAST DAY NA, LETS CREATE A BUDGET!', 'ALRIGHT!!!');
-    this.presentAlert('NOT YET LAST DAY!', 'Witty Wallet will create your next month budget ' + diff + ' =))');
+  constructor(public reportsProvider: ReportsProvider, private plt: Platform, private localNotif: LocalNotifications, private alertCtrl: AlertController, public expensesProvider: ExpensesProvider, public navCtrl: NavController, public navParams: NavParams, private modalCtrl: ModalController, private events: Events) {
+    this.doAll();
+
+    this.counter = 0;
+    this.surprise = false;
+    this.events.subscribe('count:changed', count => {
+      if (count === 10) {
+        this.surprise = true;
+      }
+    })
+  }
+
+  async doAll() {
+    await this.getExpenseWallets();
+    await this.getbarChart();
+    await this.getLineChart();
+    await this.getBudgetOverview();
+    await this.getArchives();
+  }
+
+  saveArchive() {
+    this.reportsProvider.saveArchive(this.budgetOverview)
+      .then(res => {
+        console.log(res);
+      }, err => {
+        console.log(err);
+      });
+  }
+
+  count() {
+    this.counter++;
+    this.events.publish('count:changed', this.counter);
+    console.log(this.counter);
+  }
+
+  getbarChart() {
+    Chart.defaults.global.legend.position = 'top';
+    this.barChart = new Chart(this.barCanvas.nativeElement, {
+
+      type: 'bar',
+      data: {
+        labels: this.names,
+        datasets: [{
+          label: 'Wallet amount',
+          data: this.amounts,
+          backgroundColor: BGColor,
+          borderColr: HoverColor,
+          borderWidth: 1
+        }]
+      },
+      options: {
+        animation: {
+          animateScale: true
+        },
+        // responsive: true,
+        // maintainAspectRatio: false,
+        title: {
+          text: `This months's budget`,
+          display: true
+        },
+        scales: {
+          yAxes: [{
+            ticks: {
+              beginAtZero: true
+            }
+          }]
+        }
+      }
+    });
+  }
+
+  getLineChart() {
+    this.lineChart = new Chart(this.lineCanvas.nativeElement, {
+      type: 'line',
+      data: {
+        labels: this.archivePeriod,
+        datasets: [
+          {
+            label: 'Total Budget',
+            fill: false,
+            lineTension: 0.1,
+            backgroundColor: 'rgba(75,192,192,0.4)',
+            borderCapStyle: 'butt',
+            boderDash: [],
+            borderDashOffset: 0.0,
+            borderJoinStyle: 'miter',
+            pointBorderColor: 'rgba(75,192,192,1)',
+            pointBackgroundColor: '#fff',
+            pointBorderWidth: 1,
+            pointHoverRadius: 5,
+            pointHoverBackgroundColor: 'rgba(75,192,192,1)',
+            pointHoverBorderColor: 'rgba(220,220,220,1)',
+            pointHoverBorderWidth: 2,
+            pointRadius: 1,
+            pointHitRadius: 10,
+            data: this.archiveTotalBudget,
+            spanGaps: false
+          }
+        ]
+      },
+      options: {
+        animation: {
+          animateScale: true
+        },
+        responsive: true,
+        maintainAspectRatio: false,
+        title: {
+          text: `This months's budget`,
+          display: true
+        }
+      }
+    });
   }
 
   ionViewDidLoad() {
-    this.slider.lockSwipes(true);
     console.log('Play! Play! Play!');
-  }
-
-  presentAlert(title, sub) {
-    this.alert = this.alertCtrl.create({
-      title: title,
-      subTitle: sub,
-      buttons: [
-        {
-          text: 'Cancel',
-          role: 'cancel',
-          handler: () => {
-            console.log('Cancelled');
-          }
-        },
-        {
-          text: 'Create Now',
-          handler: () => {
-            let modal = this.modalCtrl.create(CreateBudgetPage);
-            modal.present();
-          }
-        }
-      ]
-    });
-    this.alert.present();
-  }
-
-  pop(name) {
-    this.alert = this.alertCtrl.create({
-      title: 'Remove Wallet',
-      subTitle: 'Remove this wallet from the list?',
-      buttons: [
-        {
-          text: 'Cancel',
-          role: 'cancel',
-          handler: () => {
-            console.log('Cancelled');
-          }
-        },
-        {
-          text: 'Agree',
-          handler: () => {
-            this.names.pop(name);
-            console.log(this.names);
-          }
-        }
-      ]
-    });
-    this.alert.present();
-  }
-
-  goToSlide(slideNo) {
-    this.slider.lockSwipes(false);
-    this.slider.slideTo(slideNo, 700);
-    this.slider.lockSwipes(true);
   }
 
   openCategories() {
@@ -121,53 +191,25 @@ export class MywalletsPage {
 
     modal.onDidDismiss(data => {
       if (data) {
-        this.categoryID = data;
-        this.categoryInput = this.categoryID;
+        console.log(data);
+        this.cat.desc = data.desc;
+        this.cat.id = data._id;
       }
     })
   }
 
-  getCurrentBudgetOverview() {
-    this.reportsProvider.getCurrentBudgetOverview()
+  getBudgetOverview() {
+    this.reportsProvider.getBudgetOverview('October 2018')
       .then(data => {
         this.budgetOverview = data;
-        console.log(this.budgetOverview);
+        console.log('Budget Overview', this.budgetOverview);
       }, err => {
         console.log(err);
       });
   }
 
-  getNext() {
-    this.categoryProvider.getNext()
-      .then(data => {
-        this.nextD = data;
-        this.next = this.nextD.next;
-        console.log('Next', this.next);
-      }, err => {
-        console.log(err);
-      });
-  }
-
-  predict() {
-    this.names.forEach(name => {
-      this.reportsProvider.predict(name)
-        .then(data => {
-          this.xyz = data;
-          this.def = this.xyz.x;
-          for (let abc of this.def) {
-            if (abc !== null) {
-              this.predictData.push({ name: abc.wallet, oldAmount: abc.oldAmount, predictedAmount: abc.predictedAmount, amountToPredict: abc.amountToPredict, type: abc.type })
-            }
-          }
-        }, err => {
-          console.log(err);
-        });
-    })
-    console.log('Predicted Data', this.predictData);
-  }
-
-  getWallets() {
-    this.categoryProvider.getWallets()
+  getExpenseWallets() {
+    this.expensesProvider.getWallets(localStorage.period)
       .then(data => {
         this.wallets = data;
         for (let x of this.wallets) {
@@ -175,11 +217,26 @@ export class MywalletsPage {
           this.names.push(x.name);
           this.amounts.push(x.amount);
         }
-        // this.chart();
         console.log(this.x);
         console.log('names', this.names);
         console.log('amounts', this.amounts);
         console.log(data);
+      });
+  }
+
+  getArchives() {
+    this.reportsProvider.getArchivesOverview()
+      .then(data => {
+        this.archives = data;
+        this.archiveX = this.archives.x;
+        for (let ar of this.archiveX) {
+          this.archivePeriod.push(ar.period);
+          this.archiveTotalBudget.push(ar.totalBudget);
+          this.archiveTotalExpenses.push(ar.totalExpenses);
+        }
+        console.log('periods', this.archivePeriod, 'budgets', this.archiveTotalBudget);
+      }, err => {
+        console.log(err);
       });
   }
 

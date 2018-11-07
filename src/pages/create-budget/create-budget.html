@@ -26,9 +26,9 @@
           <button ion-button (click)="done()" round outline>Ok</button>
         </ion-card-content>
       </ion-card>
-      <div *ngIf="names.length > 0">
-        <ion-list>
-          <ion-item-divider>
+
+        <ion-list *ngIf="names.length > 0">
+          <ion-item-divider sticky>
             <button (click)="predict()" item-right ion-button round outline color="main">
               Next
             </button>
@@ -36,18 +36,18 @@
           </ion-item-divider>
           <ion-item *ngFor="let wallet of listData">
             <p>Wallet: {{wallet.name | ucwords}}</p>
-            <small>Type: {{wallet.type}}</small>
+            <small ion-text color="watermelon"> {{wallet.category | ucwords}}</small>
             <button ion-button item-end icon-only clear small (click)="remove(wallet)" color="blackboard" [disabled]="predicted.length > 0">
               <ion-icon name="close"></ion-icon>
             </button>
           </ion-item>
         </ion-list>
-      </div>
 
     </ion-slide>
 
     <ion-slide>
-      <ion-item-divider>
+      
+      <ion-item-divider sticky>
         <button (click)="goToSlide(0)" item-start ion-button round outline color="main">
           Back
         </button>
