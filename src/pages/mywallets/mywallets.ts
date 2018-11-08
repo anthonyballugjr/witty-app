@@ -45,6 +45,7 @@ export class MywalletsPage {
   archivePeriod: any = [];
   archiveTotalBudget: any = [];
   archiveTotalExpenses: any = [];
+  archiveTotalDeposits: any = [];
 
   cat = {
     id: '',
@@ -145,7 +146,7 @@ export class MywalletsPage {
         labels: this.archivePeriod,
         datasets: [
           {
-            label: 'Total Budget',
+            label: 'Budget',
             fill: false,
             lineTension: 0.1,
             backgroundColor: 'rgba(75,192,192,0.4)',
@@ -164,7 +165,50 @@ export class MywalletsPage {
             pointHitRadius: 10,
             data: this.archiveTotalBudget,
             spanGaps: false
+          },
+          {
+            label: 'Expenses',
+            fill: false,
+            lineTension: 0.1,
+            backgroundColor: 'rgba(75,120,192,0.4)',
+            borderCapStyle: 'butt',
+            boderDash: [],
+            borderDashOffset: 0.0,
+            borderJoinStyle: 'miter',
+            pointBorderColor: 'rgba(75,120,192,1)',
+            pointBackgroundColor: '#fff',
+            pointBorderWidth: 1,
+            pointHoverRadius: 5,
+            pointHoverBackgroundColor: 'rgba(75,120,192,1)',
+            pointHoverBorderColor: 'rgba(220,220,220,1)',
+            pointHoverBorderWidth: 2,
+            pointRadius: 1,
+            pointHitRadius: 10,
+            data: this.archiveTotalExpenses,
+            spanGaps: false
+          },
+          {
+            label: 'Savings',
+            fill: false,
+            lineTension: 0.1,
+            backgroundColor: 'rgba(75,50,50,0.4)',
+            borderCapStyle: 'butt',
+            boderDash: [],
+            borderDashOffset: 0.0,
+            borderJoinStyle: 'miter',
+            pointBorderColor: 'rgba(75,50,50,1)',
+            pointBackgroundColor: '#fff',
+            pointBorderWidth: 1,
+            pointHoverRadius: 5,
+            pointHoverBackgroundColor: 'rgba(75,50,50,1)',
+            pointHoverBorderColor: 'rgba(220,220,220,1)',
+            pointHoverBorderWidth: 2,
+            pointRadius: 1,
+            pointHitRadius: 10,
+            data: this.archiveTotalDeposits,
+            spanGaps: false
           }
+
         ]
       },
       options: {
@@ -174,7 +218,7 @@ export class MywalletsPage {
         responsive: true,
         maintainAspectRatio: false,
         title: {
-          text: `This months's budget`,
+          text: `Budget History`,
           display: true
         }
       }
@@ -233,8 +277,10 @@ export class MywalletsPage {
           this.archivePeriod.push(ar.period);
           this.archiveTotalBudget.push(ar.totalBudget);
           this.archiveTotalExpenses.push(ar.totalExpenses);
+          this.archiveTotalDeposits.push(ar.totalSavings);
         }
         console.log('periods', this.archivePeriod, 'budgets', this.archiveTotalBudget);
+        console.log('archives', this.archives);
       }, err => {
         console.log(err);
       });

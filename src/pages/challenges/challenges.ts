@@ -37,7 +37,7 @@ export class ChallengesPage {
 
     this.currentChallenge = title;
     this.total = expectedAmount;
-    this.inc = increment
+    this.inc = increment;
     this.text = count;
     this.type = type;
 

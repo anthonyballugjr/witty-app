@@ -191,6 +191,63 @@ export class MyApp {
     let day = moment().format('DD');
   }
 
+  async autoCreateNewBudget() {
+    let alert = this.alertCtrl.create({
+    })
+    await this.getExpenseWallets();
+    await this.predict();
+    await this.saveNewWallets();
+  }
+
+  getExpenseWallets() {
+    this.showLoader('Fetching wallets...');
+    this.expensesProvider.getWallets(pPeriod)
+      .then(data => {
+        this.sWallets = data;
+        for (let wallet of this.sWallets) {
+          this.names.push(wallet.name);
+        }
+        this.loading.dismiss();
+      }, err => {
+        this.loading.dismiss();
+        this.presentToast(err);
+      });
+  }
+
+  //Creating new month budget
+  predict() {
+    this.showLoader('Adding wallet amounts...')
+    this.names.forEach(name => {
+      this.expensesProvider.predict(name)
+        .then(data => {
+          this.x = data;
+          this.y = this.x.x;
+          for (let wallet of this.y) {
+            if (wallet !== null) {
+              this.predicted.push(wallet);
+            }
+          }
+          this.loading.dismis();
+        }, err => {
+          this.loading.dismiss();
+          this.presentToast(err);
+        });
+    });
+  }
+
+  saveNewWallets() {
+    this.showLoader('Saving your wallets now...')
+    this.expensesProvider.addWallet(this.predicted)
+      .then(res => {
+        this.loading.dismiss();
+        console.log(res);
+      }, err => {
+        this.loading.dismiss();
+        this.presentToast(err);
+      });
+  }
+//End creating new budget
+
   async autoCreateBudget() {
     this.names = [];
     this.predicted = [];

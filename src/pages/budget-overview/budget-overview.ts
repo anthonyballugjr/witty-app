@@ -30,7 +30,7 @@ export class BudgetOverviewPage {
   reportData: any;
   budgetOverview: any = [];
   periodDeposits: any = [];
-  dep:any;
+  dep: any;
 
   descending: boolean = true;
   order: number;
@@ -63,12 +63,14 @@ export class BudgetOverviewPage {
       type: 'doughnut',
       data: {
         labels: this.names,
-        datasets: [{
-          label: 'wallet amount',
-          data: this.amounts,
-          backgroundColor: BGColor,
-          hoverBackgroundColor: HoverColor
-        }]
+        datasets: [
+          {
+            label: 'wallet amount',
+            data: this.amounts,
+            backgroundColor: BGColor,
+            hoverBackgroundColor: HoverColor
+          }
+        ]
       },
       options: {
         responsive: true,
