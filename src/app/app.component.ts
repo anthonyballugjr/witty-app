@@ -38,7 +38,7 @@ export class MyApp {
 
   pages: Array<{ title: string, icon: string, component: any }>;
 
-  constructor(public fullScreen: AndroidFullScreen, public app: App, public menuCtrl: MenuController, private toastCtrl: ToastController, private loadingCtrl: LoadingController, public authProvider: AuthProvider, public platform: Platform, public splashScreen: SplashScreen, public statusBar: StatusBar, public events: Events, private alertCtrl: AlertController, private modalCtrl: ModalController) {
+  constructor(public fullScreen: AndroidFullScreen, public app: App, public menuCtrl: MenuController, private toastCtrl: ToastController, private loadingCtrl: LoadingController, public authProvider: AuthProvider, public platform: Platform, public splashScreen: SplashScreen, public statusBar: StatusBar, public events: Events, private alertCtrl: AlertController) {
     this.statusBar.hide();
     this.initializeApp();
     this.checkAuthorization();

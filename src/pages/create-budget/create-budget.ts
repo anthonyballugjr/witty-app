@@ -25,7 +25,7 @@ export class CreateBudgetPage {
   y: any = [];
 
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public categoryProvider: CategoryProvider, public reportsProvider: ReportsProvider, private loadingCtrl: LoadingController, private alertCtrl: AlertController, private viewCtrl: ViewController, private toastCtrl: ToastController) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public categoryProvider: CategoryProvider, public reportsProvider: ReportsProvider, private loadingCtrl: LoadingController, private alertCtrl: AlertController, private toastCtrl: ToastController) {
     this.getWallets();
   }
 

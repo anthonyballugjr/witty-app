@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { IonicPage, ViewController, NavController, NavParams, AlertController, LoadingController, ToastController } from 'ionic-angular';
 
 import { CategoryProvider } from '../../providers/category/category';
-import { TabsPage } from '../tabs/tabs';
 
 @IonicPage()
 @Component({
