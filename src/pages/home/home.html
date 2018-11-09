@@ -20,7 +20,6 @@
 
     <ion-slide>
       <ion-list>
-        <ion-item-divider float-left class="strong" sticky>Expenses</ion-item-divider>
         <ion-item ion-item *ngFor="let wallet of eWallets">
           <ion-icon name="{{wallet.icon}}" color="watermelon" item-start tooltip="{{wallet.category | ucwords}}" event="click" mobileEvent="click"
             duration="1000"></ion-icon>
@@ -51,7 +50,6 @@
 
     <ion-slide>
       <ion-list>
-        <ion-item-divider float-left class="strong" sticky>Savings</ion-item-divider>
         <ion-item *ngFor="let wallet of sWallets">
           <div (click)="viewDeposits(wallet._id, wallet.name)">
             <h6>
