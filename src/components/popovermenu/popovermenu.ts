@@ -4,7 +4,6 @@ import { BudgetOverviewPage } from '../../pages/budget-overview/budget-overview'
 
 import { AuthProvider } from '../../providers/auth/auth';
 import { ChangePasswordPage } from '../../pages/change-password/change-password';
-import { ViewArchivePage } from '../../pages/view-archive/view-archive';
 
 @Component({
   selector: 'popovermenu',

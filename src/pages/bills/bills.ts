@@ -20,7 +20,7 @@ export class BillsPage {
   loading: any;
   toast: any;
 
-  constructor(private viewCtrl: ViewController, private toastCtrl: ToastController, private loadingCtrl: LoadingController, private plt: Platform, private alertCtrl: AlertController, public navCtrl: NavController, public navParams: NavParams) {
+  constructor(private viewCtrl: ViewController, private toastCtrl: ToastController, private loadingCtrl: LoadingController, private alertCtrl: AlertController, public navCtrl: NavController, public navParams: NavParams) {
     this.calName = navParams.get('name');
   }
 
