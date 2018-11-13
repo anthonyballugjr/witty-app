@@ -43,6 +43,7 @@ import { ReportsProvider } from '../providers/reports/reports';
 import { SearchPipe } from '../pipes/search/search';
 import { SortPipe } from '../pipes/sort/sort';
 import { GroupByPipe } from '../pipes/group-by/group-by';
+import { BudgetsPage } from '../pages/budgets/budgets';
 
 @NgModule({
   declarations: [
@@ -55,6 +56,7 @@ import { GroupByPipe } from '../pipes/group-by/group-by';
     ProfilePage,
     CategoriesPage,
     ViewtransactionsPage,
+    BudgetsPage,
     ChallengesPage,
     MywalletsPage,
     PopovermenuComponent,
@@ -101,7 +103,8 @@ import { GroupByPipe } from '../pipes/group-by/group-by';
     PopovermenuComponent,
     ChangePasswordPage,
     ViewArchivePage,
-    CreateBudgetPage
+    CreateBudgetPage,
+    BudgetsPage
   ],
   providers: [
     StatusBar,
