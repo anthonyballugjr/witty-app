@@ -11,6 +11,7 @@ import { LoginPage } from '../pages/login/login';
 import { ProfilePage } from '../pages/profile/profile';
 import { MywalletsPage } from '../pages/mywallets/mywallets';
 import { CategoriesPage } from '../pages/categories/categories';
+import {BudgetsPage} from '../pages/budgets/budgets';
 
 
 import { AuthProvider } from '../providers/auth/auth';
@@ -58,12 +59,12 @@ export class MyApp {
       }
     });
 
-    // used for an example of ngFor and navigation
     this.pages = [
       { title: 'Home', icon: 'home', component: TabsPage },
       { title: 'Profile', icon: 'person', component: ProfilePage },
+      { title: 'Budgets', icon: 'cash', component: BudgetsPage },
       { title: 'Manage Wallets', icon: 'list-box', component: CategoriesPage },
-      { title: 'Playground', icon: 'baseball', component: MywalletsPage }
+      { title: 'Playground', icon: 'baseball', component: MywalletsPage },
     ];
     this.activePage = this.pages[0];
   }
