@@ -18,9 +18,8 @@
 
   <ion-slides #slider effect="flip" (ionSlideDidChange)="isChanged($event)" (ionSlideWillChange)="willChange($event)" (ionSlideDrag)="willChange($event)">
 
-    <ion-slide>
+    <ion-slide padding-top>
       <ion-list>
-        <ion-item-divider float-left class="strong" sticky>Expenses</ion-item-divider>
         <ion-item ion-item *ngFor="let wallet of wallets | filterBy: ['type']: 'expense'">
           <ion-icon name="{{wallet.icon}}" color="watermelon" item-start tooltip="{{wallet.category | ucwords}}" event="click" mobileEvent="click" duration="1000"></ion-icon>
           <div *ngIf="wallet.categoryId!=='bll'" (click)="viewTransactions(wallet._id,wallet.name)">
@@ -48,7 +47,6 @@
 
     <ion-slide>
       <ion-list>
-        <ion-item-divider float-left class="strong" sticky>Savings</ion-item-divider>
         <ion-item *ngFor="let wallet of wallets | filterBy: ['type']: 'savings'">
           <div>
             <h6>
@@ -63,7 +61,7 @@
 
   </ion-slides>
 
-  <ion-fab top right>
+  <ion-fab bottom right>
     <button ion-fab icon-only mini (click)="addWallet()" [color]="page==='0' ? 'main':'greenx'">
       <ion-icon name="add"></ion-icon>
     </button>
