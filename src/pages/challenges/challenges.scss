@@ -9,19 +9,26 @@ page-challenges {
     }
 
     .progress-header{
-        height: 16.5em;
+        height: 14em;
         width: 100%;
         background-color: #32CD32;
         color: white;
         text-align: center;
         padding: .5% 0 3% 0;
-
+ 
         h5{
             padding-bottom: 1%; 
         }
 
         p{
             font-size: 12pt;
+        }
+
+        span{
+            position: absolute;
+            top: 4.5em;
+            left: 45%;
+            font-size: 1.5em;
         }
     }
 
