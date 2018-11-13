@@ -44,7 +44,7 @@ export class ChallengesPage {
   ];
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public alertCtrl: AlertController) {
-
+    
   }
 
   ionViewDidLoad() {
@@ -74,7 +74,7 @@ export class ChallengesPage {
     this.numbers.splice(0, 1);
 
     if (this.current >= this.total) {
-      this.showAlert('<h1>Congratulations Witty Saver!</h1> You haved completed the saving challenge.')
+      this.showAlert('<h1>Congratulations Witty Saver!</h1> You haved completed the saving challenge. Take more challenges to earn more titles.')
       this.challengeStatus = false;
       this.current = 0;
       this.total = 0;
