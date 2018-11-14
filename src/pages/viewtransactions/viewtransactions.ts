@@ -20,7 +20,7 @@ export class ViewtransactionsPage {
   prompt: any;
   loading: any;
   result: any;
-  totalTransactions: Number = 0;
+  totalTransactions: number = 0;
 
   constructor(private viewCtrl: ViewController, public toastCtrl: ToastController, public loadingCtrl: LoadingController, public alertCtrl: AlertController, public navCtrl: NavController, public navParams: NavParams, public transactionsProvider: TransactionsProvider) {
     this.wallet = this.navParams.get('wallet');
@@ -53,6 +53,7 @@ export class ViewtransactionsPage {
       title: 'New Transaction',
       enableBackdropDismiss: false,
       subTitle: 'Add new transaction to this wallet',
+      message: 'Remaning Budget: ' + (this.wallet.amount - this.totalTransactions),
       inputs: [
         {
           name: 'desc',
@@ -82,7 +83,7 @@ export class ViewtransactionsPage {
               this.presentToast('Fields must not be empty');
               return false;
             }
-            else if ((data.amount + this.totalTransactions) > this.wallet.amount || data.amount > this.totalTransactions) {
+            else if ((data.amount + this.totalTransactions) > this.wallet.amount || data.amount > this.wallet.amount) {
               let warning = this.alertCtrl.create({
                 title: 'Warning!',
                 subTitle: 'Adding this transaction will lead to overspending on this wallet, are you sure you want to continue?',
