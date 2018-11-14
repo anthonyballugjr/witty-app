@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angular';
-import { Challenges } from '../../data/data';
+import { Challenges } from '../../data/challenges';
 
 @IonicPage()
 @Component({
@@ -55,7 +55,7 @@ export class ChallengesPage {
     this.numbers.splice(0, 1);
 
     if (this.current >= this.total) {
-      this.showAlert('<h1>Congratulations Witty Saver!</h1> You haved completed the saving challenge.')
+      this.showAlert('<h1>Congratulations Witty Saver!</h1> You have completed the saving challenge.')
       this.challengeStatus = false;
       this.current = 0;
       this.total = 0;
