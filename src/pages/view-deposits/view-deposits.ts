@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ViewController, AlertController, LoadingController, ToastController, Toast } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ViewController, AlertController, LoadingController, ToastController } from 'ionic-angular';
 import { DepositsProvider } from '../../providers/deposits/deposits';
 
 

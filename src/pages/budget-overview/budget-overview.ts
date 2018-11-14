@@ -57,7 +57,6 @@ export class BudgetOverviewPage {
   }
 
   chart() {
-    Chart.defaults.global.legend.position = 'bottom';
     this.doughnutChart = new Chart(this.doughnutCanvas.nativeElement, {
 
       type: 'doughnut',
@@ -81,6 +80,11 @@ export class BudgetOverviewPage {
         },
         animation: {
           animateScale: true
+        },
+        legend:{
+          display: true,
+          boxWidth: 20,
+          position: 'bottom', 
         }
       }
     });

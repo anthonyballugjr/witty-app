@@ -90,7 +90,7 @@ export class HomePage {
           }
         }
         this.monthDeposits = total;
-        console.log(`This month's deposits,${this.monthDeposits}`)
+        console.log(`This month's deposits ${this.monthDeposits}`)
         console.log('Savings Wallets', this.sWallets);
       });
   }

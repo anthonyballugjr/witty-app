@@ -51,6 +51,13 @@ export class ViewArchivePage {
         },
         animation: {
           animateScale: true
+        },
+        legend: {
+          labels: {
+            boxWidth: 20,
+          },
+          display: true,
+          position: 'bottom',
         }
       }
     });
