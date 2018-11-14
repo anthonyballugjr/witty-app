@@ -18,7 +18,7 @@
 
     <ion-list no-lines padding-top>
       <button menuClose ion-item *ngFor="let page of pages" [class.active]="checkActive(page)" (click)="openPage(page)">
-        <ion-icon [name]="page.icon" color="main" item-start></ion-icon>
+        <ion-icon [name]="page.icon" item-start></ion-icon>
         {{page.title}}
       </button>
       <ion-item-divider></ion-item-divider>

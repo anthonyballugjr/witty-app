@@ -1,7 +1,9 @@
 import { Component, ViewChild } from '@angular/core';
 import { IonicPage, NavController, NavParams, AlertController, Slides, LoadingController, ViewController, ToastController } from 'ionic-angular';
 import { ExpensesProvider } from '../../providers/expenses/expenses';
+import { ReportsProvider } from '../../providers/reports/reports';
 import { TabsPage } from '../tabs/tabs';
+import { pPeriod } from '../../data/period';
 
 @IonicPage()
 @Component({
@@ -22,10 +24,12 @@ export class CreateBudgetPage {
   predicted: any = [];
   x: any;
   y: any = [];
+  forArchive: any;
 
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public expensesProvider: ExpensesProvider, private loadingCtrl: LoadingController, private alertCtrl: AlertController, private viewCtrl: ViewController, private toastCtrl: ToastController) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public expensesProvider: ExpensesProvider, private loadingCtrl: LoadingController, private alertCtrl: AlertController, private viewCtrl: ViewController, private toastCtrl: ToastController, public reportsProvider: ReportsProvider) {
     this.getExpenseWallets();
+    this.getBudgetOverview();
   }
 
   ionViewDidLoad() {
@@ -94,7 +98,7 @@ export class CreateBudgetPage {
 
   getExpenseWallets() {
     this.presentLoading('Fetching wallets...');
-    this.expensesProvider.getWallets(localStorage.period)
+    this.expensesProvider.getWallets(pPeriod)
       .then(data => {
         this.wallets = data;
         for (let wallet of this.wallets) {
@@ -107,6 +111,16 @@ export class CreateBudgetPage {
         console.log('Names', this.names);
       }, err => {
         this.loading.dismiss();
+        console.log(err);
+      });
+  }
+
+  getBudgetOverview() {
+    this.reportsProvider.getBudgetOverview(pPeriod)
+      .then(data => {
+        this.forArchive = data;
+        console.log('Last month overview',this.forArchive);
+      }, err => {
         console.log(err);
       });
   }
@@ -167,6 +181,12 @@ export class CreateBudgetPage {
     this.expensesProvider.addWallet(this.predicted)
       .then(result => {
         console.log(result);
+        this.reportsProvider.saveArchive(this.forArchive)
+          .then(result => {
+            console.log('Archived', result);
+          }, err => {
+            console.log(err);
+          });
         this.loading.dismiss();
         this.goToSlide(2);
         this.presentAlert('Success!', 'Wallets successfully created');
