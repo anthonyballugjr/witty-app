@@ -9,6 +9,9 @@ import { Chart } from 'chart.js';
 import moment from 'moment';
 import { BGColor, HoverColor } from '../../data/data';
 import { Events } from 'ionic-angular';
+import { ViewtransactionsPage } from '../viewtransactions/viewtransactions';
+import { ViewDepositsPage } from '../view-deposits/view-deposits';
+import { Challenges } from '../../data/reminders';
 
 
 @IonicPage()
@@ -24,20 +27,18 @@ export class MywalletsPage {
   @ViewChild('categoryInput') categoryInput;
   @ViewChild('slider') slider: Slides;
 
+  reminders = Challenges;
+  remind: any;
+  
+
   barChart: any;
   doughnutChart: any;
   lineChart: any;
 
-
-  transactions: any = [];
   categories: any;
   wallets: any;
   x: any[] = [];
-  next: any = [];
-  nextD: any;
   budgetOverview: any = [];
-  savingsOverview: any = [];
-  all: any = [];
   period = localStorage.period;
 
   archives: any;
@@ -55,11 +56,6 @@ export class MywalletsPage {
   names: any = [];
   amounts: any[] = [];
 
-  xyz: any;
-  def: any = [];
-
-  predictData: any = [];
-
   notifData: any;
   categoryID: any;
 
@@ -67,9 +63,14 @@ export class MywalletsPage {
   counter: number;
   surprise: boolean;
 
+  eWallets: any;
+  sWallets: any;
 
-  constructor(public reportsProvider: ReportsProvider, private plt: Platform, private localNotif: LocalNotifications, private alertCtrl: AlertController, public expensesProvider: ExpensesProvider, public navCtrl: NavController, public navParams: NavParams, private modalCtrl: ModalController, private events: Events) {
+
+  constructor(public reportsProvider: ReportsProvider, private plt: Platform, private localNotif: LocalNotifications, private alertCtrl: AlertController, public expensesProvider: ExpensesProvider, public navCtrl: NavController, public navParams: NavParams, private modalCtrl: ModalController, private events: Events, public categoryProvider: CategoryProvider) {
     this.doAll();
+    this.remind = this.reminders[Math.floor(Math.random() * this.reminders.length)];
+    this.presentReminder();
 
     this.counter = 0;
     this.surprise = false;
@@ -77,7 +78,57 @@ export class MywalletsPage {
       if (count === 10) {
         this.surprise = true;
       }
-    })
+    });
+    
+  }
+
+  presentReminder(){
+    let reminder = this.alertCtrl.create({
+      title: 'Witty Reminder',
+      subTitle: this.remind.subTitle,
+      buttons: ['Got it']
+    });
+    reminder.present();
+  }
+
+  add() {
+    let modal = this.modalCtrl.create(BillsPage);
+    modal.present();
+  }
+  getE() {
+    this.categoryProvider.getAllExpenseWallets()
+      .then(data => {
+        this.eWallets = data;
+        console.log('Ewallets', this.eWallets);
+      }, err => {
+        console.log(err);
+      });
+
+  }
+  getS() {
+    this.categoryProvider.getAllSavingsWallet()
+      .then(data => {
+        this.sWallets = data;
+        console.log('Swallets', this.sWallets);
+      }, error => {
+        console.log(error);
+      });
+  }
+  viewTransactions(id, name, wallet) {
+    let modal = this.modalCtrl.create(ViewtransactionsPage, { _id: id, walletName: name, wallet: wallet });
+    modal.onDidDismiss(() => {
+      this.getE();
+      this.getS();
+    });
+    modal.present();
+  }
+  viewDeposits(id, name) {
+    let modal = this.modalCtrl.create(ViewDepositsPage, { _id: id, walletName: name });
+    modal.onDidDismiss(() => {
+      this.getE();
+      this.getS();
+    });
+    modal.present();
   }
 
   async doAll() {
@@ -86,6 +137,8 @@ export class MywalletsPage {
     await this.getLineChart();
     await this.getBudgetOverview();
     await this.getArchives();
+    await this.getE();
+    await this.getS();
   }
 
   saveArchive() {
