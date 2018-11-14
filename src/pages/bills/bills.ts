@@ -1,6 +1,9 @@
 import { Component } from '@angular/core';
-import { IonicPage, ViewController, NavController, NavParams, AlertController, LoadingController, ToastController, Platform } from 'ionic-angular';
+import { IonicPage, ViewController, NavController, NavParams, AlertController, LoadingController, ToastController, ModalController } from 'ionic-angular';
+
 import { Categories } from '../../data/data';
+import { CategoryProvider } from '../../providers/category/category';
+
 
 @IonicPage()
 @Component({
@@ -10,29 +13,47 @@ import { Categories } from '../../data/data';
 export class BillsPage {
   categories = Categories;
 
-  calName = "";
-  events = [];
   alert: any;
-  print: any;
-
-  period: any;
-
   loading: any;
   toast: any;
+  
+  eWallet = {
+    userId: localStorage.userId,
+    name: '',
+    amount: '',
+    categoryId: '',
+    period: ''
+  }
 
-  constructor(private viewCtrl: ViewController, private toastCtrl: ToastController, private loadingCtrl: LoadingController, private plt: Platform, private alertCtrl: AlertController, public navCtrl: NavController, public navParams: NavParams) {
-    this.calName = navParams.get('name');
+  sWallet = {
+    userId: localStorage.userId,
+    name: '',
+    goal: ''
+  }
+
+  constructor(private viewCtrl: ViewController, private toastCtrl: ToastController, private loadingCtrl: LoadingController, private alertCtrl: AlertController, public navCtrl: NavController, public navParams: NavParams, public categoryProvider: CategoryProvider) {
   }
 
   ionViewDidLoad() {
-
+    console.log('Aloha');
   }
 
-  sendCategory(data) {
-    console.log(data);
-    this.viewCtrl.dismiss(data);
+  saveExpenseWallet() {
+    this.categoryProvider.saveExpenseWallet(this.eWallet)
+      .then(data => {
+        console.log(data);
+      }, err => {
+        console.log(err);
+      });
   }
-
+  saveSavingsWallet() {
+    this.categoryProvider.saveSavingsWallet(this.sWallet)
+      .then(data => {
+        console.log(data);
+      }, err => {
+        console.log(err);
+      });
+  }
 
   presentLoading(content) {
     this.loading = this.loadingCtrl.create({

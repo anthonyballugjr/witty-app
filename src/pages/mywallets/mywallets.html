@@ -6,6 +6,11 @@
         <ion-icon name='menu'></ion-icon>
       </button>
     </ion-buttons>
+    <ion-buttons right>
+      <button ion-button icon-only (click)="add()">
+        <ion-icon name='add'></ion-icon>
+      </button>
+    </ion-buttons>
   </ion-navbar>
 </ion-header>
 
@@ -27,12 +32,30 @@
     </ion-card-content>
   </ion-card>
 
-  <ion-list>
+  <!-- <ion-list>
     <ion-item>
       <ion-label floating>Select Category</ion-label>
       <ion-input (click)="openCategories()" #categoryInput></ion-input>
     </ion-item>
-    <!-- <ion-select [(ngModel)]="cat.id" (click)="openCategories()"> </ion-select> -->
+  </ion-list> -->
+
+  <ion-list>
+    <ion-item-divider sticky>Expense Wallets</ion-item-divider>
+    <ion-item *ngFor="let wallet of eWallets">
+      <div *ngIf="wallet.categoryId!=='bll'" (click)="viewTransactions(wallet._id,wallet.name,wallet)">
+        <strong>
+          <h6>Name: {{wallet.name}}</h6>
+        </strong>
+        <h6>Period: {{wallet.period}}</h6>
+        <p>Budget: {{wallet.amount}}</p>
+        <p>Expenses: {{wallet.transactions | pluck:'amount' | sum}}</p>
+
+      </div>
+    </ion-item>
+    <ion-item-divider>Savings Wallets</ion-item-divider>
+    <ion-item *ngFor="let wallet of sWallets" (click)="viewDeposits(wallet._id,wallet.name)">
+      <p>Name: {{wallet.name}}</p>
+    </ion-item>
   </ion-list>
 
   <ion-list>
