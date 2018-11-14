@@ -20,8 +20,8 @@
         <ion-icon item-start name="add-circle"></ion-icon>
       </button>
     </ion-item-divider>
-    <ion-item-sliding *ngFor="let wallet of expenseWallets">
-      <ion-item>
+    <ion-item-sliding *ngFor="let wallet of expenseWallets" (ionSwipe)="onSwipe(expenseItem, wallet._id)" #expenseItem>
+      <ion-item >
         <p>{{wallet.name | ucwords}}</p>
         <small ion-text color="watermelon">{{wallet.category |ucwords }}</small>
       </ion-item>
@@ -42,19 +42,19 @@
         <ion-icon item-start name="add-circle"></ion-icon>
       </button>
     </ion-item-divider>
-    <ion-item-sliding *ngFor="let wallet of savingsWallets">
+    <ion-item-sliding (ionSwipe)="onSwipe(sliding, wallet)" *ngFor="let wallet of savingsWallets" #sliding>
       <ion-item>
         <p>{{wallet.name | ucwords}}</p>
       </ion-item>
-      <ion-item-options side="right">
-        <button ion-button expandable clear color="breeze" (click)="editSavings(wallet)">
+      <ion-item-options side="left">
+        <button ion-button color="breeze" (click)="editSavings(wallet)">
           <ion-icon name="document"></ion-icon>
           Edit
         </button>
-        <button ion-button clear color="danger" (click)="deleteSavings(wallet._id)">
+        <button ion-button expandable color="danger" (click)="deleteSavings(wallet._id)">
           <ion-icon name="trash"></ion-icon>
           Delete
-        </button>
+        </button> 
       </ion-item-options>
     </ion-item-sliding>
 

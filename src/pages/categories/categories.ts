@@ -15,7 +15,7 @@ import { TabsPage } from '../tabs/tabs';
 export class CategoriesPage {
   expenseWallets: any;
   savingsWallets: any;
-  type:any;
+  type: any;
 
   alert: any;
   loading: any;
@@ -23,6 +23,10 @@ export class CategoriesPage {
   constructor(private loadingCtrl: LoadingController, private modalCtrl: ModalController, private alertCtrl: AlertController, public navCtrl: NavController, public navParams: NavParams, public savingsProvider: SavingsProvider, public expensesProvider: ExpensesProvider) {
     this.getExpenseWallets();
     this.getSavingsWallet();
+  }
+
+  ionViewDidLoad() {
+    console.log('ionViewDidLoad CategoriesPage');
   }
 
   showLoader(msg) {
@@ -33,9 +37,30 @@ export class CategoriesPage {
     this.loading.present();
   }
 
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad CategoriesPage');
+  onSwipe(itemSliding, walletId) {
+    this.deleteSavings(walletId);
+    itemSliding.close();
   }
+
+  ondrag(item, id) {
+    let percent = item.getSlidingPercent();
+    console.log('percent', percent);
+    console.log('abs', Math.abs(percent));
+
+    if (percent = 1) {
+      console.log(percent);
+      // positive
+      // this.deleteSavings(id);
+      console.log('right side');
+    } else {
+      // negative
+      console.log('left side');
+    }
+    if (Math.abs(percent) > 60) {
+      console.log('overscroll');
+    }
+  }
+
 
   showAlert(title, subTitle) {
     this.alert = this.alertCtrl.create({
@@ -86,7 +111,7 @@ export class CategoriesPage {
   }
 
   editExpense(wallet) {
-    let modal = this.modalCtrl.create(EditWalletPage, { wallet: wallet, type:'expense' });
+    let modal = this.modalCtrl.create(EditWalletPage, { wallet: wallet, type: 'expense' });
     modal.present();
 
     modal.onDidDismiss(data => {
@@ -108,7 +133,7 @@ export class CategoriesPage {
   }
 
   editSavings(wallet) {
-    let modal = this.modalCtrl.create(EditWalletPage, { wallet: wallet, type:'savings' });
+    let modal = this.modalCtrl.create(EditWalletPage, { wallet: wallet, type: 'savings' });
     modal.present();
 
     modal.onDidDismiss(data => {
@@ -193,10 +218,6 @@ export class CategoriesPage {
       ]
     });
     this.alert.present();
-  }
-
-  backToHome() {
-    this.navCtrl.setRoot(TabsPage);
   }
 
 }
