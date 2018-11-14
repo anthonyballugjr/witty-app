@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, ViewController, NavController, NavParams, AlertController, LoadingController, ToastController } from 'ionic-angular';
-
-import { CategoryProvider } from '../../providers/category/category';
+import { TransactionsProvider } from '../../providers/transactions/transactions';
+import { TabsPage } from '../tabs/tabs';
 
 @IonicPage()
 @Component({
@@ -9,48 +9,39 @@ import { CategoryProvider } from '../../providers/category/category';
   templateUrl: 'viewtransactions.html',
 })
 export class ViewtransactionsPage {
-  data: any;
+  transactions: any;
   transaction = {
     'desc': '',
     'amount': '',
     'walletId': ''
   }
-  walletId: any;
-  walletName: any;
+  wallet: any;
   prompt: any;
   loading: any;
   result: any;
-  transactionData: any;
+  totalTransactions: number = 0;
 
-  constructor(private viewCtrl: ViewController, public categoryProvider: CategoryProvider, public toastCtrl: ToastController, public loadingCtrl: LoadingController, public alertCtrl: AlertController, public navCtrl: NavController, public navParams: NavParams) {
-    this.walletId = this.navParams.get('_id');
-    this.walletName = this.navParams.get('walletName');
-    this.fetch();
+  constructor(private viewCtrl: ViewController, public toastCtrl: ToastController, public loadingCtrl: LoadingController, public alertCtrl: AlertController, public navCtrl: NavController, public navParams: NavParams, public transactionsProvider: TransactionsProvider) {
+    this.wallet = this.navParams.get('wallet');
+    this.getTransactions();
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad ViewtransactionsPage');
-  }
-
-  fetch() {
-    this.screenLoad();
-    this.getTransactions();
-    this.loading.dismiss();
-  }
-
-  screenLoad() {
-    this.loading = this.loadingCtrl.create({
-      spinner: 'bubbles',
-      content: 'Fetching wallet transactions'
-    });
-    this.loading.present();
+    console.log('WalletData', this.wallet);
   }
 
   getTransactions() {
-    this.categoryProvider.getTransactions(this.walletId)
+    this.transactionsProvider.getTransactions(this.wallet._id)
       .then(data => {
-        this.data = data;
-        console.log('Transactions ', this.data);
+        this.transactions = data;
+        var a = 0;
+        for (let x of this.transactions) {
+          a += x.amount;
+        }
+        this.totalTransactions = a;
+        console.log('Total Expenses', this.totalTransactions);
+        console.log('Transactions ', this.transactions);
       }, err => {
         console.log(err);
       });
@@ -60,7 +51,8 @@ export class ViewtransactionsPage {
     this.prompt = this.alertCtrl.create({
       title: 'New Transaction',
       enableBackdropDismiss: false,
-      subTitle: 'Add a new transaction to this wallet',
+      subTitle: 'Add new transaction to this wallet',
+      message: 'Remaning Budget: ' + (this.wallet.amount - this.totalTransactions),
       inputs: [
         {
           name: 'desc',
@@ -90,10 +82,45 @@ export class ViewtransactionsPage {
               this.presentToast('Fields must not be empty');
               return false;
             }
+            else if ((data.amount + this.totalTransactions) > this.wallet.amount || data.amount > this.wallet.amount) {
+              let warning = this.alertCtrl.create({
+                title: 'Warning!',
+                subTitle: 'Adding this transaction will lead to overspending on this wallet, are you sure you want to continue?',
+                buttons: [
+                  {
+                    text: 'Cancel',
+                    role: 'cancel'
+                  },
+                  {
+                    text: 'Yes, I Understand',
+                    handler: () => {
+                      this.transaction.desc = data.desc;
+                      this.transaction.amount = data.amount;
+                      this.transaction.walletId = this.wallet._id;
+
+                      this.presentLoading();
+                      this.transactionsProvider.addTransaction(this.transaction)
+                        .then((result) => {
+                          this.loading.dismiss();
+                          this.presentToast('Transaction added!');
+                          this.prompt.dismiss();
+                          this.getTransactions();
+                        }, err => {
+                          this.loading.dismiss();
+                          console.log(err);
+                          this.presentToast(err.message);
+                        });
+                    }
+                  }
+                ]
+              });
+              warning.present();
+              return true;
+            }
             else {
               this.transaction.desc = data.desc;
               this.transaction.amount = data.amount;
-              this.transaction.walletId = this.walletId;
+              this.transaction.walletId = this.wallet._id;
               let confirm = this.alertCtrl.create({
                 subTitle: 'Add transaction?',
                 buttons: [
@@ -107,12 +134,12 @@ export class ViewtransactionsPage {
                     text: 'Agree',
                     handler: () => {
                       this.presentLoading();
-                      this.categoryProvider.addTransaction(this.transaction)
+                      this.transactionsProvider.addTransaction(this.transaction)
                         .then((result) => {
                           this.loading.dismiss();
                           this.presentToast('Transaction added!');
                           this.prompt.dismiss();
-                          this.fetch();
+                          this.getTransactions();
                         }, err => {
                           this.loading.dismiss();
                           console.log(err);
@@ -135,7 +162,7 @@ export class ViewtransactionsPage {
   presentLoading() {
     this.loading = this.loadingCtrl.create({
       spinner: 'bubbles',
-      content: 'Adding transaction'
+      content: 'Adding transaction...'
     });
     this.loading.present();
   }
@@ -145,7 +172,9 @@ export class ViewtransactionsPage {
       message: msg,
       duration: 2000,
       position: 'top',
-      dismissOnPageChange: false
+      dismissOnPageChange: false,
+      closeButtonText: 'Dismiss',
+      showCloseButton: true
     });
     toast.present();
   }

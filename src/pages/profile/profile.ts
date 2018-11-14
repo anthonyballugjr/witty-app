@@ -19,7 +19,7 @@ export class ProfilePage {
   editData = {
     "name": ""
   }
-
+  x: any;
   userData: any = [];
   budgetProfile: any = [];
   email: any;
@@ -30,6 +30,7 @@ export class ProfilePage {
   constructor(public alertCtrl: AlertController, private popCtrl: PopoverController, public reportProvider: ReportsProvider, public authProvider: AuthProvider, public navCtrl: NavController, public navParams: NavParams, private file: File, private fileOpener: FileOpener, private toastCtrl: ToastController) {
     this.getProfile();
     this.getArchivesOverview();
+    this.getBudgetProfile();
   }
 
   ionViewDidLoad() {
@@ -54,6 +55,14 @@ export class ProfilePage {
       });
   }
 
+  getBudgetProfile() {
+    this.reportProvider.budgetProfile()
+      .then(data => {
+        this.x = data;
+        console.log('X', this.x);
+      });
+  }
+
   getProfile() {
     this.authProvider.getProfile()
       .then(data => {
@@ -62,8 +71,8 @@ export class ProfilePage {
       });
   }
 
-  showPopover(event) {
-    let pop = this.popCtrl.create(PopovermenuComponent, { menu: "profile", name: this.userData.name });
+  showPopover(event, menu) {
+    let pop = this.popCtrl.create(PopovermenuComponent, { menu: menu, name: this.userData.name });
     pop.present({
       ev: event
     });

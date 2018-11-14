@@ -10,7 +10,10 @@
         ion-card-header {
             font-weight: bold;
         }
- 
+        .myCard{
+            background-color: color($colors, main);
+            color: white;
+        }
     }
  
 }

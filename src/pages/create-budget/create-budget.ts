@@ -1,8 +1,9 @@
 import { Component, ViewChild } from '@angular/core';
 import { IonicPage, NavController, NavParams, AlertController, Slides, LoadingController, ViewController, ToastController } from 'ionic-angular';
-import { CategoryProvider } from '../../providers/category/category';
+import { ExpensesProvider } from '../../providers/expenses/expenses';
 import { ReportsProvider } from '../../providers/reports/reports';
 import { TabsPage } from '../tabs/tabs';
+import { pPeriod } from '../../data/period';
 
 @IonicPage()
 @Component({
@@ -19,14 +20,18 @@ export class CreateBudgetPage {
   names: any = [];
   wallets: any;
   listData: any = [];
-  overview:any;
+  overview: any;
   predicted: any = [];
   x: any;
   y: any = [];
+  forArchive: any;
 
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public categoryProvider: CategoryProvider, public reportsProvider: ReportsProvider, private loadingCtrl: LoadingController, private alertCtrl: AlertController, private toastCtrl: ToastController) {
-    this.getWallets();
+
+  constructor(public navCtrl: NavController, public navParams: NavParams, public expensesProvider: ExpensesProvider, private loadingCtrl: LoadingController, private alertCtrl: AlertController, private viewCtrl: ViewController, private toastCtrl: ToastController, public reportsProvider: ReportsProvider) {
+    this.getExpenseWallets();
+    this.getBudgetOverview();
+
   }
 
   ionViewDidLoad() {
@@ -88,14 +93,14 @@ export class CreateBudgetPage {
     alert.present();
   }
 
-  done(){
+  done() {
     // this.viewCtrl.dismiss();
     this.navCtrl.setRoot(TabsPage);
   }
 
-  getWallets() {
+  getExpenseWallets() {
     this.presentLoading('Fetching wallets...');
-    this.categoryProvider.getWallets()
+    this.expensesProvider.getWallets(pPeriod)
       .then(data => {
         this.wallets = data;
         for (let wallet of this.wallets) {
@@ -108,6 +113,16 @@ export class CreateBudgetPage {
         console.log('Names', this.names);
       }, err => {
         this.loading.dismiss();
+        console.log(err);
+      });
+  }
+
+  getBudgetOverview() {
+    this.reportsProvider.getBudgetOverview(pPeriod)
+      .then(data => {
+        this.forArchive = data;
+        console.log('Last month overview',this.forArchive);
+      }, err => {
         console.log(err);
       });
   }
@@ -141,7 +156,7 @@ export class CreateBudgetPage {
     else {
       this.presentLoading('Predicting Values...');
       this.names.forEach(name => {
-        this.reportsProvider.predict(name)
+        this.expensesProvider.predict(name)
           .then(data => {
             this.x = data;
             this.y = this.x.x;
@@ -150,13 +165,6 @@ export class CreateBudgetPage {
                 this.predicted.push(wallet);
               }
             }
-            this.reportsProvider.getCurrentBudgetOverview()
-              .then(ov => {
-                this.overview = ov;
-                console.log('Ov', ov);
-              })
-          }, err => {
-            console.log(err);
           });
       }, err => {
         this.loading.dismiss();
@@ -172,9 +180,15 @@ export class CreateBudgetPage {
 
   save() {
     this.presentLoading('Adding wallet for next month')
-    this.categoryProvider.addWallet(this.predicted)
+    this.expensesProvider.addWallet(this.predicted)
       .then(result => {
         console.log(result);
+        this.reportsProvider.saveArchive(this.forArchive)
+          .then(result => {
+            console.log('Archived', result);
+          }, err => {
+            console.log(err);
+          });
         this.loading.dismiss();
         this.goToSlide(2);
         this.presentAlert('Success!', 'Wallets successfully created');

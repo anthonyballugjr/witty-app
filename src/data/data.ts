@@ -1,59 +1,15 @@
 export const Categories: any[] = [
-    {
-        _id: 'fnb',
-        desc: 'food',
-        icon: 'pizza'
-    },
-    {
-        _id: 'hc',
-        desc: 'health care',
-        icon: 'medkit'
-    },
-    {
-        _id: 'tra',
-        desc: 'transportation',
-        icon: 'bus'
-    },
-    {
-        _id: 'pc',
-        desc: 'personal care',
-        icon: 'person'
-    },
-    {
-        _id: 'edu',
-        desc: 'education',
-        icon: 'school'
-    },
-    {
-        _id: 'ent',
-        desc: 'entertainment',
-        icon: 'game-controller-b'
-    },
-    {
-        _id: 'lei',
-        desc: 'leisure',
-        icon: 'wine'
-    },
-    {
-        _id: 'trv',
-        desc: 'travel',
-        icon: 'plane'
-    },
-    {
-        _id: 'shp',
-        desc: 'shopping',
-        icon: 'pricetags'
-    },
-    {
-        _id: 'bll',
-        desc: 'bills',
-        icon: 'calendar'
-    },
-    {
-        _id: 'oth',
-        desc: 'others',
-        icon: 'clipboard'
-    }
+    { _id: 'fnb', desc: 'food', icon: 'pizza' },
+    { _id: 'hc', desc: 'health care', icon: 'medkit' },
+    { _id: 'tra', desc: 'transportation', icon: 'bus' },
+    { _id: 'pc', desc: 'personal care', icon: 'person' },
+    { _id: 'edu', desc: 'education', icon: 'school' },
+    { _id: 'ent', desc: 'entertainment', icon: 'game-controller-b' },
+    { _id: 'lei', desc: 'leisure', icon: 'wine' },
+    { _id: 'trv', desc: 'travel', icon: 'plane' },
+    { _id: 'shp', desc: 'shopping', icon: 'pricetags' },
+    { _id: 'bll', desc: 'bills', icon: 'calendar' },
+    { _id: 'oth', desc: 'others', icon: 'clipboard' }
 ];
 
 export const BGColor: any[] = [
@@ -71,7 +27,36 @@ export const BGColor: any[] = [
     'rgba(217, 133, 59, 0.8)',
     'rgba(34, 34, 34, 0.8)',
     'rgba(110, 115, 118, 0.8)',
-    'rgba(0, 205, 50), 0.8)'
+    'rgba(0, 205, 50), 0.8)',
+    'rgba(33, 17, 126, 0.8)',
+    'rgba(79, 53, 227, 0.8)',
+    'rgba(255, 204, 0, 0.8)',
+    'rgba(255, 149, 0, 0.8)',
+    'rgba(255, 30, 0, 0.8)',
+    'rgba(255, 0, 0, 0.8)',
+    'rgba(0, 255, 68, 0.8)',
+    'rgba(0, 255, 191, 0.8)',
+    'rgba(127, 0, 255, 0.8)',
+    'rgba(255, 0, 234, 0.8)',
+    'rgba(255, 0, 89, 0.8)',
+    'rgba(255, 0, 8, 0.8)',
+    'rgba(0, 255, 238, 0.8)',
+    'rgba(0, 255, 170, 0.8)',
+    'rgba(0, 255, 128, 0.8)',
+    'rgba(0, 255, 60, 0.8)',
+    'rgba(200, 255, 0, 0.8)',
+    'rgba(255, 166, 0, 0.8)',
+    'rgba(0, 208, 255, 0.8)',
+    'rgba(51, 0, 255, 0.8)',
+    'rgba(255, 0, 191, 0.8)',
+    'rgba(255, 0, 72, 0.8)',
+    'rgba(0, 25, 255, 0.8)',
+    'rgba(47, 255, 0, 0.8)',
+    'rgba(255, 94, 0, 0.8)',
+    'rgba(81, 255, 0, 0.8)',
+    'rgba(0, 255, 140, 0.8)',
+    'rgba(0, 161, 255, 0.8)'
+
 ];
 export const HoverColor: any[] = [
     "#FF6384",
@@ -88,22 +73,36 @@ export const HoverColor: any[] = [
     "#D9853B",
     "#222",
     "#6E7376",
-    "#32CD32"
+    "#32CD32",
+    '#21117E',
+    '#4f35e3',
+    '#ffcc00',
+    '#ff9500',
+    '#ff1e00',
+    '#ff0000',
+    '#00ff44',
+    '#00ffbf',
+    '#7f00ff',
+    '#ff00ea',
+    '#ff0059',
+    '#ff0008',
+    '#00ffee',
+    '#00ffaa',
+    '#00ff80',
+    '#00ff3c',
+    '#c8ff00',
+    '#ffa600',
+    '#00d0ff',
+    '#3300ff',
+    '#ff00bf',
+    '#ff0048',
+    '#0019ff',
+    '#2fff00',
+    '#ff5e00',
+    '#51ff00',
+    '#00ff8c',
+    '#00a1ff'
+
 ];
 
-export const Challenges = [
-    {
-      challengeID: 'spareChange',
-      title: 'The Spare Change Challenge',
-      description: 'The spare change challenge is simply what the name suggests. Throughout the year, the goal is to save all of your spare change.',
-      expectedAmount: 0
-
-    },
-    {
-      challengeID: 'ftWeek',
-      title: '52-Week Challenge',
-      description: 'This challenge involves saving an increasing amount each week until the end of the year. This version of the challenge starts at PHP 5 and has a weekly increment of PHP 5 each week.',
-      expectedAmount: 6890
-    }
-  ];
 

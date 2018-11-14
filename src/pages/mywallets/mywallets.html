@@ -1,9 +1,14 @@
 <ion-header color="main">
   <ion-navbar>
-    <ion-title>My Playground</ion-title>
+    <ion-title (tap)="count()">My Playground</ion-title>
     <ion-buttons left>
       <button ion-button icon-only menuToggle>
         <ion-icon name='menu'></ion-icon>
+      </button>
+    </ion-buttons>
+    <ion-buttons right>
+      <button ion-button icon-only (click)="add()">
+        <ion-icon name='add'></ion-icon>
       </button>
     </ion-buttons>
   </ion-navbar>
@@ -11,20 +16,57 @@
 
 <ion-content padding>
 
-  <ion-list>
+  <div no-padding *ngIf="surprise">
+    <img src="../../assets/imgs/suprise.png">
+  </div>
+
+  <ion-card no-padding class="myCard">
+    <ion-card-content>
+      <canvas #barCanvas></canvas>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card no-padding>
+    <ion-card-content>
+      <canvas #lineCanvas></canvas>
+    </ion-card-content>
+  </ion-card>
+
+  <!-- <ion-list>
     <ion-item>
       <ion-label floating>Select Category</ion-label>
-      <ion-input value="" (click)="openCategories()" #categoryInput></ion-input>
+      <ion-input (click)="openCategories()" #categoryInput></ion-input>
+    </ion-item>
+  </ion-list> -->
+
+  <ion-list>
+    <ion-item-divider sticky>Expense Wallets</ion-item-divider>
+    <ion-item *ngFor="let wallet of eWallets">
+      <div *ngIf="wallet.categoryId!=='bll'" (click)="viewTransactions(wallet._id,wallet.name,wallet)">
+        <strong>
+          <h6>Name: {{wallet.name}}</h6>
+        </strong>
+        <h6>Period: {{wallet.period}}</h6>
+        <p>Budget: {{wallet.amount}}</p>
+        <p>Expenses: {{wallet.transactions | pluck:'amount' | sum}}</p>
+
+      </div>
+    </ion-item>
+    <ion-item-divider>Savings Wallets</ion-item-divider>
+    <ion-item *ngFor="let wallet of sWallets" (click)="viewDeposits(wallet._id,wallet.name)">
+      <p>Name: {{wallet.name}}</p>
     </ion-item>
   </ion-list>
 
   <ion-list>
-    <ion-item *ngFor="let name of names">
-      {{name}}
-      <button ion-button icon-only item-right clear color="danger" (click)="pop(name)">
-        <ion-icon name="trash"></ion-icon>
-      </button>
-    </ion-item>
+    <ion-item>{{budgetOverview.period}}</ion-item>
+    <ion-item>{{budgetOverview.userId}}</ion-item>
+    <ion-item>{{budgetOverview.totalExpenses}}</ion-item>
+    <ion-item>{{budgetOverview.totalDeposits}}</ion-item>
+    <ion-item>{{budgetOverview.totalBudget}}</ion-item>
+    <ion-item>{{budgetOverview.extraSavings}}</ion-item>
+    <ion-item-divider></ion-item-divider>
+    <button ion-button color="main" (click)="saveArchive()">Save archive</button>
   </ion-list>
 
   <ion-card>
@@ -34,54 +76,4 @@
     </ion-card-content>
   </ion-card>
 
-  <div>
-    <button ion-button full color="main" (click)="getNext()">Get Next</button>
-    <ion-list *ngIf="next">
-      <ion-item *ngFor="let n of next">{{n.name}}</ion-item>
-    </ion-list>
-    <ion-list>
-      <ion-item>{{budgetOverview.totalBudget}}</ion-item>
-    </ion-list>
-  </div>
-
-  <div>
-    <button ion-button full color="buttons" (click)="predict()">Predict</button>
-    <ion-list *ngIf="predictData">
-      <ion-item *ngFor="let m of predictData">
-        <p>Wallet name: {{m.name}}</p>
-        <p>Wallet type: {{m.type}}</p>
-        <p>Wallet amount: {{m.oldAmount}}</p>
-        <p>Amount to predict: {{m.amountToPredict}}</p>
-        <p>Predicted Amount: {{m.predictedAmount}}</p>
-      </ion-item>
-    </ion-list>
-  </div>
-
-  <div>
-    <ion-slides effect="progress" #slider>
-      <ion-slide>
-        <ion-toolbar>
-          <ion-buttons end>
-            <button ion-button>Next</button>
-          </ion-buttons>
-        </ion-toolbar>
-        <ion-label>Input 1</ion-label>
-        <ion-input type="text"></ion-input>
-        <button ion-button (click)="goToSlide(1)">Next</button>
-      </ion-slide>
-
-      <ion-slide>
-        <ion-label>Input 2</ion-label>
-        <ion-input type="text"></ion-input>
-        <button ion-button (click)="goToSlide(0)">Back</button>
-        <button ion-button (click)="goToSlide(2)">Next</button>
-      </ion-slide>
-
-      <ion-slide>
-        <ion-label>Input 3</ion-label>
-        <ion-input type="text"></ion-input>
-        <button ion-button (click)="goToSlide(1)">Back</button>
-      </ion-slide>
-    </ion-slides>
-  </div>
 </ion-content>

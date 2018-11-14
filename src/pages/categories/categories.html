@@ -13,24 +13,24 @@
 
 
 <ion-content padding>
-  <ion-note>SWIPE AN ITEM TO THE RIGHT FOR OPTIONS</ion-note>
+  <ion-note>SWIPE AN ITEM TO THE LEFT FOR OPTIONS</ion-note>
   <ion-list>
     <ion-item-divider no-padding class="strong">EXPENSE WALLETS
       <button ion-button item-start icon-only clear color="main" (click)="addWallet(false)">
         <ion-icon item-start name="add-circle"></ion-icon>
       </button>
     </ion-item-divider>
-    <ion-item-sliding *ngFor="let wallet of wallets | filterBy: ['type']: 'expense'">
-      <ion-item tappable>
+    <ion-item-sliding *ngFor="let wallet of expenseWallets" (ionSwipe)="onSwipe(expenseItem, wallet._id)" #expenseItem>
+      <ion-item >
         <p>{{wallet.name | ucwords}}</p>
-        <small>{{wallet.category |ucwords }} category</small>
+        <small ion-text color="watermelon">{{wallet.category |ucwords }}</small>
       </ion-item>
-      <ion-item-options side="left">
-        <button ion-button clear color="primary" (click)="editWallet(wallet)">
+      <ion-item-options side="right">
+        <button ion-button clear color="breeze" (click)="editExpense(wallet,expense)">
           <ion-icon name="document"></ion-icon>
           Edit
         </button>
-        <button ion-button clear color="danger" (click)="deleteWallet(wallet._id)">
+        <button ion-button clear color="danger" (click)="deleteExpense(wallet._id)">
           <ion-icon name="trash"></ion-icon>
           Delete
         </button>
@@ -42,19 +42,19 @@
         <ion-icon item-start name="add-circle"></ion-icon>
       </button>
     </ion-item-divider>
-    <ion-item-sliding *ngFor="let wallet of wallets | filterBy: ['type']: 'savings'">
+    <ion-item-sliding (ionSwipe)="onSwipe(sliding, wallet)" *ngFor="let wallet of savingsWallets" #sliding>
       <ion-item>
-        {{wallet.name | ucwords}}
+        <p>{{wallet.name | ucwords}}</p>
       </ion-item>
       <ion-item-options side="left">
-        <button ion-button expandable clear color="primary" (click)="editWallet(wallet)">
+        <button ion-button color="breeze" (click)="editSavings(wallet)">
           <ion-icon name="document"></ion-icon>
           Edit
         </button>
-        <button ion-button clear color="danger" (click)="deleteWallet(wallet._id)">
+        <button ion-button expandable color="danger" (click)="deleteSavings(wallet._id)">
           <ion-icon name="trash"></ion-icon>
           Delete
-        </button>
+        </button> 
       </ion-item-options>
     </ion-item-sliding>
 

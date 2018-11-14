@@ -1,5 +1,6 @@
-<ion-content padding>
-  <div>
+<ion-content padding-left padding-right padding-bottom>
+  <ion-refresher></ion-refresher>
+  <ion-item-divider sticky no-margin>
     <ion-segment [(ngModel)]="view" color="buttons">
       <ion-segment-button value="thisMonth" (click)="isChart()">
         This Month
@@ -8,7 +9,8 @@
         History
       </ion-segment-button>
     </ion-segment>
-  </div>
+  </ion-item-divider>
+
 
   <div [ngSwitch]="view">
     <div *ngSwitchCase="'thisMonth'" margin-top>
@@ -26,16 +28,17 @@
               <h2 ion-text color="warm-peach">
                 <strong>Total Budget:</strong>
               </h2>
-              <ion-note item-right>{{wallets | pluck:'amount' | sum | currency: "PHP" :2}}</ion-note>
+              <ion-note item-right>{{budgetOverview.totalBudget | currency: "PHP" :2}}</ion-note>
             </ion-item>
+
             <ion-list>
               <ion-item>
                 <p ion-text color="summer-sky">Expense Wallets:</p>
-                <ion-note item-end>{{wallets | filterBy: ['type']: 'expense' | pluck: 'amount' | sum | currency: "PHP":2}}</ion-note>
+                <ion-note item-end>{{(budgetOverview.totalBudget - budgetOverview.totalDeposits) | currency: "PHP":2}}</ion-note>
               </ion-item>
               <ion-item>
-                <p ion-text color="summer-sky">Savings Wallets:</p>
-                <ion-note item-end>{{wallets | filterBy: ['type']: 'savings' | pluck: 'amount' | sum | currency: "PHP":2}}</ion-note>
+                <p ion-text color="summer-sky">Savings Deposits:</p>
+                <ion-note item-end>{{budgetOverview.totalDeposits | currency: "PHP":2}}</ion-note>
               </ion-item>
             </ion-list>
             <ion-item-divider no-lines></ion-item-divider>
@@ -47,9 +50,10 @@
             </ion-item>
             <ion-item-divider no-lines></ion-item-divider>
             <ion-item>
+
               <h2 ion-text color="oxblood">Potential Savings:</h2>
-              <ion-note item-end>{{(wallets | pluck:'amount' | sum) - ((wallets | filterBy:['type']:'savings' | pluck:'amount' | sum) + (expenses
-                | pluck:'amount' | sum)) | currency:"PHP" :2}}</ion-note>
+              <ion-note item-end>{{budgetOverview.extraSavings | currency:"PHP" :2}}</ion-note>
+
             </ion-item>
           </ion-list>
 

@@ -2,6 +2,7 @@ import { Component, ViewChild } from '@angular/core';
 import { IonicPage, NavController, NavParams, LoadingController, AlertController, ViewController } from 'ionic-angular';
 import { Validators, FormBuilder } from '@angular/forms';
 import { CategoryProvider } from '../../providers/category/category';
+import { SavingsProvider } from '../../providers/savings/savings';
 import { LocalNotifications } from '@ionic-native/local-notifications';
 import { Categories } from '../../data/data';
 
@@ -22,16 +23,22 @@ export class AddwalletPage {
   categories = Categories;
   selectOptions = {
     title: 'Select a category',
-    mode: 'iOS'
+    mode: 'ios',
+    buttons: [this.categories]
   }
 
-  wallet = {
+  expenseWallet = {
     'name': '',
     'userId': localStorage.userId,
-    'type': '',
     'amount': '',
     'categoryId': '',
     'period': localStorage.period
+  }
+
+  savingsWallet = {
+    'name': '',
+    'userId': localStorage.userId,
+    'goal': '',
   }
 
   notifData = {
@@ -41,16 +48,12 @@ export class AddwalletPage {
     every: ''
   }
 
-  constructor(public localNotifaction: LocalNotifications, private viewCtrl: ViewController, public loadCtrl: LoadingController, private formBldr: FormBuilder, public alertCtrl: AlertController, public navCtrl: NavController, public categoryProvider: CategoryProvider, public navParams: NavParams) {
+  constructor(public localNotifaction: LocalNotifications, private viewCtrl: ViewController, public loadCtrl: LoadingController, private formBldr: FormBuilder, public alertCtrl: AlertController, public navCtrl: NavController, public categoryProvider: CategoryProvider, public navParams: NavParams, public savingsProvider: SavingsProvider) {
     this.isSavings = this.navParams.get('isSavings');
-    if (this.isSavings === true) {
-      this.wallet.type = 'savings'
-    } else {
-      this.wallet.type = 'expense'
-    }
+    console.log('Is it savings?',this.isSavings);
   }
 
-  private addWalletForm = this.formBldr.group({
+  private addExpenseForm = this.formBldr.group({
     name: ["", Validators.required],
     budget: ["", Validators.required],
     categoryId: [""],
@@ -60,6 +63,11 @@ export class AddwalletPage {
     every: [""],
     description: [""],
   });
+
+  private addSavingsForm = this.formBldr.group({
+    name: ["", Validators.required],
+    goal: ["", Validators.required]
+  })
 
   showAlert(msg) {
     this.alert = this.alertCtrl.create({
@@ -77,12 +85,21 @@ export class AddwalletPage {
     this.viewCtrl.dismiss();
   }
 
-  addWallet() {
-    if (parseInt(this.wallet.amount) < 100) {
+  presentAlert(title, sub) {
+    this.alert = this.alertCtrl.create({
+      title: title,
+      subTitle: sub,
+      buttons: ['Ok']
+    });
+    this.alert.present();
+  }
+
+  addExpenseWallet() {
+    if (parseInt(this.expenseWallet.amount) < 100) {
       this.showAlert('Minimum allowable amount is 100.')
       this.myInput.setFocus();
     }
-    else if (this.isSavings === false && this.wallet.categoryId === '') {
+    else if (this.expenseWallet.categoryId === '') {
       this.showAlert('Select a category')
     }
     else if (this.doNotify === true && (this.notifData.date === '' || this.notifData.time === '')) {
@@ -103,16 +120,16 @@ export class AddwalletPage {
           {
             text: 'Agree',
             handler: () => {
-              if (this.wallet.categoryId === 'bll') {
+              if (this.expenseWallet.categoryId === 'bll') {
                 if (this.doNotify === true) {
 
-                  console.log(this.wallet);
+                  console.log(this.expenseWallet);
                   console.log(this.notifData);
 
                   var date = new Date(this.notifData.date + " " + this.notifData.time);
 
                   this.localNotifaction.schedule({
-                    title: this.wallet.name,
+                    title: this.expenseWallet.name,
                     text: this.notifData.description,
                     led: 'FF0000',
                     trigger: { at: date, firstAt: date },
@@ -121,14 +138,14 @@ export class AddwalletPage {
                     every: this.notifData.every !== '' ? this.notifData.every : 0,
                     data: { notifData: this.notifData }
                   });
-                  this.viewCtrl.dismiss(this.wallet);
+                  this.viewCtrl.dismiss(this.expenseWallet, 'expense');
                 } else {
-                  console.log(this.wallet);
-                  this.viewCtrl.dismiss(this.wallet);
+                  console.log(this.expenseWallet);
+                  this.viewCtrl.dismiss(this.expenseWallet, 'expense');
                 }
               } else {
-                console.log(this.wallet);
-                this.viewCtrl.dismiss(this.wallet);
+                console.log(this.expenseWallet);
+                this.viewCtrl.dismiss(this.expenseWallet, 'expense');
               }
             }
           }
@@ -136,6 +153,39 @@ export class AddwalletPage {
       });
       confirm.present();
     }
+  }
+
+  addSavingsWallet() {
+    let alert = this.alertCtrl.create({
+      title: 'New Savings Wallet',
+      subTitle: 'Add new wallet?',
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel'
+        },
+        {
+          text: 'Agree',
+          handler: () => {
+            let loading = this.loadCtrl.create({
+              content: 'Creating new wallet...'
+            });
+            loading.present();
+            this.savingsProvider.addWallet(this.savingsWallet)
+              .then(result => {
+                console.log(result);
+                loading.dismiss();
+                this.presentAlert('Success!', 'New Savings wallet created');
+                this.viewCtrl.dismiss();
+              }, err => {
+                loading.dismiss();
+                this.presentAlert('Failed', err.error)
+              })
+          }
+        }
+      ]
+    });
+    alert.present();
   }
 
 }
