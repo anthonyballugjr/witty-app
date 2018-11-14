@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { App, MenuController, ToastController, LoadingController } from 'ionic-angular';
-import { LoginPage } from '../../pages/login/login';
 import { ProfilePage } from '../../pages/profile/profile';
 import { MywalletsPage } from '../../pages/mywallets/mywallets';
 
