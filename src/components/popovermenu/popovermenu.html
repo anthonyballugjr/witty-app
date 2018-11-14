@@ -9,10 +9,12 @@
 
 <div *ngIf="menu==='profile'">
   <ion-list no-lines>
-    <ion-item (click)="editNickname()">Edit Nickname</ion-item>
-    <ion-item (click)="changePassword()">Change Password</ion-item>
-    <ion-item (click)="showOverview()">Budget Summary</ion-item>
+    <button ion-item (click)="editNickname()">Edit Nickname</button>
+    <button ion-item (click)="changePassword()">Change Password</button>
+    <button ion-item (click)="showOverview()">Budget Summary</button>
   </ion-list>
 </div>
 
-
+<ion-content padding *ngIf="menu==='budgetProfile'">
+  <h5>The current month budget is not reflected on your Budget profile, all data our based from previous months budgets</h5>
+</ion-content>

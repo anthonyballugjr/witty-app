@@ -1,7 +1,13 @@
 <ion-content padding>
 
+  <ion-card no-padding>
+    <ion-card-content>
+      <canvas #donutCanvas style="height:100%;"></canvas>
+    </ion-card-content>
+  </ion-card>
+
   <ion-card>
-    <ion-card-header>
+    <ion-card-header padding-left>
       <h2>{{summaryData.period}}</h2>
     </ion-card-header>
     <ion-card-content>
@@ -11,24 +17,24 @@
           <h2 ion-text color="warm-peach">
             <strong>Total Budget:</strong>
           </h2>
-          <h2 item-end> {{summaryData.totalBudget | currency: "PHP": 2}}</h2>
+          <p item-end> {{summaryData.totalBudget | currency: "PHP": 2}}</p>
         </ion-item>
         <ion-item>
           <h2 ion-text color="watermelon">
             <strong>Total Expenses:</strong>
           </h2>
-          <h2 item-end>{{summaryData.totalExpenses | currency: "PHP": 2}}</h2>
+          <p item-end>{{summaryData.totalExpenses | currency: "PHP": 2}}</p>
         </ion-item>
         <ion-item>
           <h2 ion-text color="blush">
             <strong>Total Savings:</strong>
           </h2>
-          <h2 item-end>{{summaryData.totalSavings | currency: "PHP": 2}}</h2>
+          <p item-end>{{summaryData.totalSavings | currency: "PHP": 2}}</p>
         </ion-item>
         <ion-item-divider no-lines></ion-item-divider>
         <ion-item>
           <h2 ion-text color="oxblood">Extra Savings:</h2>
-          <h2 item-end>{{summaryData.extraSavings | currency: "PHP": 2}}</h2>
+          <p item-end>{{summaryData.extraSavings | currency: "PHP": 2}}</p>
         </ion-item>
       </ion-list>
     </ion-card-content>

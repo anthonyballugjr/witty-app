@@ -3,9 +3,12 @@ import { NavController, NavParams, ToastController, ModalController, Slides, Loa
 import { HttpClient } from '@angular/common/http';
 
 import { CategoryProvider } from '../../providers/category/category';
+import { SavingsProvider } from '../../providers/savings/savings';
+import { ExpensesProvider } from '../../providers/expenses/expenses';
 import { ViewtransactionsPage } from '../viewtransactions/viewtransactions';
 import { BillsPage } from '../bills/bills';
 import { AddwalletPage } from '../addwallet/addwallet';
+import { ViewDepositsPage } from '../view-deposits/view-deposits';
 
 @Component({
   selector: 'page-home',
@@ -15,25 +18,25 @@ import { AddwalletPage } from '../addwallet/addwallet';
 export class HomePage {
   @ViewChild('slider') slider: Slides;
   page: string = "0";
-
-  wallets: any;
-  totalExp: any = [];
-  userData: any;
-  data: any;
-  x: any;
-
-  calendars = [];
-
   period = localStorage.period;
+
+  sWallets: any;
+  eWallets: any;
+  monthDeposits: any;
 
   isSavings: boolean = false;
 
   loading: any;
   alert: any;
 
-  constructor(private alertCtrl: AlertController, private loadingCtrl: LoadingController, private modalCtrl: ModalController, private toastCtrl: ToastController, public navParams: NavParams, public navCtrl: NavController, public http: HttpClient, public categoryProvider: CategoryProvider) {
+  constructor(private alertCtrl: AlertController, private loadingCtrl: LoadingController, private modalCtrl: ModalController, private toastCtrl: ToastController, public navParams: NavParams, public navCtrl: NavController, public http: HttpClient, public expensesProvider: ExpensesProvider, public savingsProvider: SavingsProvider) {
     this.check();
-    this.getWallets();
+    this.getExpenseWallets();
+    this.getSavingsWallets();
+  }
+
+  addSavings() {
+    console.log('Aloha!!')
   }
 
   presentAlert(title, msg) {
@@ -66,21 +69,49 @@ export class HomePage {
     toast.present();
   }
 
-  getWallets() {
-    this.categoryProvider.getWallets()
+  getExpenseWallets() {
+    this.expensesProvider.getWallets(localStorage.period)
       .then(data => {
-        this.wallets = data;
-        console.log('Wallets', this.wallets);
+        this.eWallets = data;
+        console.log('Expense Wallets', this.eWallets);
       });
   }
 
-  viewTransactions(id, name) {
-    let modal = this.modalCtrl.create(ViewtransactionsPage, { _id: id, walletName: name });
+  getSavingsWallets() {
+    this.savingsProvider.getWallets()
+      .then(data => {
+        this.sWallets = data;
+        var total = 0;
+        for(let s of this.sWallets){
+          for(let x of s.deposits){
+            if(x.period === localStorage.period){
+              total += x.amount;
+            }
+          }
+        }
+        this.monthDeposits = total;
+        console.log(`This month's deposits ${this.monthDeposits}`)
+        console.log('Savings Wallets', this.sWallets);
+      });
+  }
 
+  viewTransactions(id, name, wallet) {
+    let modal = this.modalCtrl.create(ViewtransactionsPage, { _id: id, walletName: name, wallet: wallet });
     modal.onDidDismiss(() => {
-      this.getWallets();
+      this.getExpenseWallets();
+      this.getSavingsWallets();
     });
 
+    modal.present();
+  }
+
+  viewDeposits(id, name) {
+    let modal = this.modalCtrl.create(ViewDepositsPage, { _id: id, walletName: name });
+
+    modal.onDidDismiss(() => {
+      this.getExpenseWallets();
+      this.getSavingsWallets();
+    });
     modal.present();
   }
 
@@ -92,18 +123,20 @@ export class HomePage {
       if (data) {
         console.log(data);
         this.presentLoading('Creating new wallet...');
-        this.categoryProvider.addWallet(data)
+        this.expensesProvider.addWallet(data)
           .then(result => {
             console.log(result);
             this.loading.dismiss();
-            this.presentAlert('Success!', 'New ' + data.type + ' wallet created');
-            this.getWallets();
+            this.presentAlert('Success!', 'New Expense wallet created');
+            this.getExpenseWallets();
           }, err => {
             this.loading.dismiss();
             console.log(err);
             this.presentAlert('Failed', err.error);
           });
       }
+      this.getExpenseWallets();
+      this.getSavingsWallets();
     });
   }
 

@@ -13,17 +13,17 @@
 
 
 <ion-content>
-  <ion-list *ngIf="data" no-lines>
-    <ion-item-divider class="strong">Wallet: {{walletName | ucwords}}</ion-item-divider>
-    <ion-item *ngFor="let expense of data | reverse" text-wrap no-margin>
-      <h5>{{expense.desc | ucwords}}</h5>
-      <ion-note>{{expense.createdAt}}</ion-note>
-      <ion-note float-right>{{expense.amount | currency: "PHP": 2}}</ion-note>
+  <ion-list no-lines>
+    <ion-item-divider class="strong" sticky>Wallet: {{wallet.name | ucwords}}</ion-item-divider>
+    <ion-item *ngFor="let transaction of transactions | reverse" text-wrap no-margin>
+      <h5>{{transaction.desc | ucwords}}</h5>
+      <ion-note>{{transaction.createdAt}}</ion-note>
+      <ion-note float-right>{{transaction.amount | currency: "PHP": 2}}</ion-note>
     </ion-item>
   </ion-list>
 
   <h5 float-right margin-right>
-    <strong>Total: {{data | pluck:'amount' | sum | currency: "PHP": 2}}</strong>
+    <strong>Total: {{totalTransactions | currency: "PHP": 2}}</strong>
   </h5>
 
   <ion-fab bottom right>

@@ -1,7 +1,7 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-title>Edit Walet</ion-title>
+    <ion-title>Edit Wallet</ion-title>
     <ion-buttons end>
       <button ion-button icon-only (click)="cancel()">
         <ion-icon name="close"></ion-icon>
@@ -13,19 +13,40 @@
 
 
 <ion-content padding>
-  <form (ngSubmit)="update()">
+  <form (ngSubmit)="update()" *ngIf="type==='expense'">
     <ion-item>
       <ion-label floating>Wallet Name</ion-label>
-      <ion-input type="text" [(ngModel)]="walletData.name" name="name" autofocus>{{walletData.name | ucwords}}</ion-input>
+      <ion-input type="text" [(ngModel)]="walletData.name" name="name">{{walletData.name | ucwords}}</ion-input>
     </ion-item>
 
     <ion-item>
       <ion-label floating>Amount</ion-label>
-      <ion-input type="number"[(ngModel)]="walletData.amount" name="amount" disabled></ion-input>
+      <ion-input [disabled]="walletData.transactions !==0" type="number" [(ngModel)]="walletData.amount" name="amount"></ion-input>
     </ion-item>
 
-    <ion-item-divider></ion-item-divider>
-      <button ion-button block type="submit">Update</button>
+    <ion-item>
+      <ion-label floating>Category</ion-label>
+      <ion-select [(ngModel)]="walletData.categoryId" name="categoryId" [disabled]="walletData.transactions !==0">
+        <ion-option *ngFor="let category of categories" value={{category._id}}>{{category.desc | ucwords}}</ion-option>
+      </ion-select>
+    </ion-item>
+    <br>
+    <button ion-button block round type="submit" color="main">Update</button>
+  </form>
+
+  <form (ngSubmit)="update()" *ngIf="type==='savings'">
+    <ion-item>
+      <ion-label floating>Wallet Name</ion-label>
+      <ion-input type="text" [(ngModel)]="walletData.name" name="name">{{walletData.name | ucwords}}</ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label floating>Goal</ion-label>
+      <ion-input [disabled]="walletData.deposits !==0" type="number" [(ngModel)]="walletData.goal" name="goal"></ion-input>
+    </ion-item>
+    <br>
+
+    <button ion-button block round type="submit" color="main">Update</button>
   </form>
 
 

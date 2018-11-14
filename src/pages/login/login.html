@@ -6,20 +6,22 @@
       <ion-label floating>Email</ion-label>
       <ion-input type="email" [(ngModel)]="loginData.user.email" formControlName="email" name="email" email></ion-input>
     </ion-item>
+
     <ion-item>
       <ion-label floating>Password</ion-label>
-      <ion-input type="password" [(ngModel)]="loginData.user.password" formControlName="password" name="password"></ion-input>
+      <ion-input type="password" [(ngModel)]="loginData.user.password" formControlName="password" name="password" show-hide-input></ion-input>
     </ion-item>
+
     <ion-item-divider no-lines></ion-item-divider>
 
-    <button type="submit" ion-button block color="main" [disabled]="!loginForm.valid">Sign in</button>
+    <button type="submit" ion-button color="main" block round [disabled]="!loginForm.valid">Sign in</button>
   </form>
 
-  <button ion-button icon-start block (click)="loginWithFB()" color="fb">
+  <button ion-button icon-start block round (click)="loginWithFB()" color="fb">
     <ion-icon name="logo-facebook"></ion-icon>
     Sign in with Facebook
   </button>
   <br>
-  <button ion-button block clear (click)="register()">Create Account</button>
-  <button ion-button block clear (click)="requestReset()">Forgot Password</button>
+  <button ion-button clear block (click)="register()">Create Account</button>
+  <button ion-button clear block (click)="requestReset()">Forgot Password</button>
 </ion-content>

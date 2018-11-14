@@ -5,27 +5,16 @@ import { Injectable } from '@angular/core';
 export class CategoryProvider {
   wallets: any;
   categoryData: any;
-  // apiUrl = "http://localhost:3000/api"
-  apiUrl = "http://witty-wallet.herokuapp.com/api"
+  apiUrl = "http://localhost:3000/api"
+  // apiUrl = "http://witty-wallet.herokuapp.com/api"
   authHeader = {
     headers: {
-      'Authorization': 'Token ' + localStorage.token
+      'Authorization': `Token ${localStorage.token}`
     }
   }
 
   constructor(public http: HttpClient) {
     console.log('Hello CategoryProvider Provider');
-  }
-
-  getNext() {
-    return new Promise(resolve => {
-      this.http.get(this.apiUrl + '/wallets/next/' + localStorage.userId)
-        .subscribe(data => {
-          resolve(data);
-        }, err => {
-          console.log(err)
-        });
-    });
   }
 
   getCategories() {
@@ -49,75 +38,50 @@ export class CategoryProvider {
     });
   }
 
-  getWallets() {
+  //PLAYGROUND
+  getAllExpenseWallets() {
     return new Promise(resolve => {
-      this.http.get(this.apiUrl + '/wallets/user/' + localStorage.userId + '?period=' + localStorage.period, this.authHeader).subscribe(data => {
-        this.categoryData = data;
-        resolve(data);
-      }, err => {
-        console.log(err);
-      });
-    });
-  }
-
-  addWallet(data) {
-    console.log(localStorage.token)
-    return new Promise((resolve, reject) => {
-      this.http.post(this.apiUrl + '/wallets', data, this.authHeader).subscribe(res => {
-        resolve(res);
-      }, (err) => {
-        reject(err);
-      });
-    });
-  }
-
-  updateWallet(data) {
-    console.log(data);
-    console.log(data.id);
-    return new Promise((resolve, reject) => {
-      this.http.put(this.apiUrl + '/wallets/' + data.id, data, this.authHeader)
+      this.http.get(`${this.apiUrl}/wallets/expense/user/${localStorage.userId}`, this.authHeader)
         .subscribe(res => {
           resolve(res);
-        }, (err) => {
-          reject(err)
-          console.log(err);
-        });
-    })
-  }
-
-  deleteWallet(id) {
-    return new Promise((resolve, reject) => {
-      this.http.delete(this.apiUrl + '/wallets/' + id, this.authHeader)
-        .subscribe(res => {
-          resolve(res);
-        }, (err) => {
-          reject(err)
+        }, err => {
           console.log(err);
         });
     });
   }
-
-  getTransactions(id) {
+  getAllSavingsWallet() {
     return new Promise(resolve => {
-      this.http.get(this.apiUrl + '/transactions?walletId=' + id, this.authHeader).subscribe(data => {
-        resolve(data);
-      }, err => {
-        console.log(err);
-      });
+      this.http.get(`${this.apiUrl}/wallets/savings/user/${localStorage.userId}`, this.authHeader)
+        .subscribe(res => {
+          resolve(res);
+        }, err => {
+          console.log(err);
+        });
+    });
+  }
+  //PLAYGROUND
+
+  saveExpenseWallet(wallet) {
+    return new Promise((resolve, reject) => {
+      this.http.post(`${this.apiUrl}/wallets/expense`, wallet, this.authHeader)
+        .subscribe(res => {
+          resolve(res);
+        }, err => {
+          reject(err);
+        });
     });
   }
 
-  addTransaction(data) {
+  saveSavingsWallet(wallet) {
     return new Promise((resolve, reject) => {
-      console.log(data);
-      this.http.post(this.apiUrl + '/transactions', data, this.authHeader).subscribe(res => {
-        resolve(res);
-      }, (err) => {
-        reject(err)
-      });
-    })
+      this.http.post(`${this.apiUrl}/wallets/savings`, wallet, this.authHeader)
+        .subscribe(res => {
+          resolve(res);
+        }, err => {
+          reject(err);
+        });
+    });
   }
-
 
 
 }
