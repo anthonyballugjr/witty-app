@@ -44,10 +44,14 @@ import { ReportsProvider } from '../providers/reports/reports';
 import { SearchPipe } from '../pipes/search/search';
 import { SortPipe } from '../pipes/sort/sort';
 import { GroupByPipe } from '../pipes/group-by/group-by';
+
+import { BudgetsPage } from '../pages/budgets/budgets';
+
 import { SavingsProvider } from '../providers/savings/savings';
 import { ExpensesProvider } from '../providers/expenses/expenses';
 import { TransactionsProvider } from '../providers/transactions/transactions';
 import { DepositsProvider } from '../providers/deposits/deposits';
+
 
 @NgModule({
   declarations: [
@@ -60,6 +64,7 @@ import { DepositsProvider } from '../providers/deposits/deposits';
     ProfilePage,
     CategoriesPage,
     ViewtransactionsPage,
+    BudgetsPage,
     ChallengesPage,
     MywalletsPage,
     PopovermenuComponent,
@@ -108,7 +113,11 @@ import { DepositsProvider } from '../providers/deposits/deposits';
     ChangePasswordPage,
     ViewArchivePage,
     CreateBudgetPage,
+
+    BudgetsPage
+
     ViewDepositsPage
+
   ],
   providers: [
     StatusBar,

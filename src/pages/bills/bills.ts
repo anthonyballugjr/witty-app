@@ -23,6 +23,7 @@ export class BillsPage {
     amount: '',
     categoryId: '',
     period: ''
+
   }
 
   sWallet = {

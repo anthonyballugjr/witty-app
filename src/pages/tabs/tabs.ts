@@ -25,7 +25,7 @@ export class TabsPage {
       pageName: HomePage, title: 'My Wallets', icon: 'home', id: 'homeTab'
     },
     {
-      pageName: ChallengesPage, title: 'Saving Challenges', icon: 'trophy', id: 'challengesTab'
+      pageName: ChallengesPage, title: 'Saving Challenge', icon: 'trophy', id: 'challengesTab'
     },
     {
       pageName: BudgetOverviewPage, title: 'Budget Summary', icon: 'paper', id: 'overviewTab'
@@ -77,7 +77,7 @@ export class TabsPage {
     });
   }
 
-  //budget-overview page
+  //budget-overview page popover
   showPopover(event) {
     let pop = this.popCtrl.create(PopovermenuComponent, { menu: 'overview' });
     pop.present({
