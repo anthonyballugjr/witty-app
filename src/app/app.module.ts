@@ -113,9 +113,7 @@ import { DepositsProvider } from '../providers/deposits/deposits';
     ChangePasswordPage,
     ViewArchivePage,
     CreateBudgetPage,
-
-    BudgetsPage
-
+    BudgetsPage,
     ViewDepositsPage
 
   ],
