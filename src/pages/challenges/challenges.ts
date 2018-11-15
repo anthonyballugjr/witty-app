@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, AlertController, Events } from 'ionic-angular';
 import { Challenges } from '../../data/challenges';
 
 @IonicPage()
@@ -8,7 +8,7 @@ import { Challenges } from '../../data/challenges';
   templateUrl: 'challenges.html',
 })
 export class ChallengesPage {
-  challengeStatus = false;
+  challengeStatus: boolean;
   currentChallenge: any;
   challenges = Challenges;
 
@@ -22,10 +22,14 @@ export class ChallengesPage {
   numbers = []
   alert: any;
 
-  
+  constructor(public navCtrl: NavController, public navParams: NavParams, public alertCtrl: AlertController, private events: Events) {
+    this.challengeStatus = false;
+    this.events.subscribe('status:changed', status => {
+      if (status === true) {
+        this.challengeStatus = true;
+      }
+    });
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public alertCtrl: AlertController) {
-    
   }
 
   ionViewDidLoad() {
@@ -34,6 +38,8 @@ export class ChallengesPage {
 
   takeChallenge(title, expectedAmount, challengelength, count, increment, type) {
     this.challengeStatus = true;
+    this.events.publish('status:changed', this.challengeStatus);
+    console.log(this.challengeStatus);
 
     this.currentChallenge = title;
     this.total = expectedAmount;
