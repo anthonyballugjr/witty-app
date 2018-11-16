@@ -12,13 +12,8 @@ import { LoginPage } from '../pages/login/login';
 import { ProfilePage } from '../pages/profile/profile';
 import { MywalletsPage } from '../pages/mywallets/mywallets';
 import { CategoriesPage } from '../pages/categories/categories';
-
-import {BudgetsPage} from '../pages/budgets/budgets';
-
-
+import { BudgetsPage } from '../pages/budgets/budgets';
 import { CreateBudgetPage } from '../pages/create-budget/create-budget';
-
-
 import { AuthProvider } from '../providers/auth/auth';
 import { ExpensesProvider } from '../providers/expenses/expenses';
 import { ReportsProvider } from '../providers/reports/reports';
@@ -80,7 +75,7 @@ export class MyApp {
       { title: 'Budgets', icon: 'cash', component: BudgetsPage },
       { title: 'Manage Wallets', icon: 'list-box', component: CategoriesPage },
       { title: 'Playground', icon: 'baseball', component: MywalletsPage },
-    ];
+      ]; 
     this.activePage = this.pages[0];
   }
 
@@ -111,7 +106,7 @@ export class MyApp {
     this.authProvider.getProfile()
       .then(data => {
         this.user = data;
-        console.log(this.user);
+        console.log('User',this.user);
       }, err => {
         console.log(err);
       });

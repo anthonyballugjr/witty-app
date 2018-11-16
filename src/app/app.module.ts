@@ -35,22 +35,23 @@ import { ChangePasswordPage } from '../pages/change-password/change-password';
 import { ViewArchivePage } from '../pages/view-archive/view-archive';
 import { CreateBudgetPage } from '../pages/create-budget/create-budget';
 import { ViewDepositsPage } from '../pages/view-deposits/view-deposits';
+import { BudgetsPage } from '../pages/budgets/budgets';
+import { ViewBudgetPage } from '../pages/view-budget/view-budget';
+import { PredictionPage } from '../pages/prediction/prediction';
 //providers
 import { CategoryProvider } from '../providers/category/category';
 import { AuthProvider } from '../providers/auth/auth';
 import { PopovermenuComponent } from '../components/popovermenu/popovermenu';
 import { ReportsProvider } from '../providers/reports/reports';
+import { SavingsProvider } from '../providers/savings/savings';
+import { ExpensesProvider } from '../providers/expenses/expenses';
+import { TransactionsProvider } from '../providers/transactions/transactions';
+import { DepositsProvider } from '../providers/deposits/deposits';
 //pipes
 import { SearchPipe } from '../pipes/search/search';
 import { SortPipe } from '../pipes/sort/sort';
 import { GroupByPipe } from '../pipes/group-by/group-by';
 
-import { BudgetsPage } from '../pages/budgets/budgets';
-
-import { SavingsProvider } from '../providers/savings/savings';
-import { ExpensesProvider } from '../providers/expenses/expenses';
-import { TransactionsProvider } from '../providers/transactions/transactions';
-import { DepositsProvider } from '../providers/deposits/deposits';
 
 
 @NgModule({
@@ -76,6 +77,8 @@ import { DepositsProvider } from '../providers/deposits/deposits';
     ViewArchivePage,
     CreateBudgetPage,
     ViewDepositsPage,
+    ViewBudgetPage,
+    PredictionPage,
     SearchPipe,
     SortPipe,
     GroupByPipe
@@ -115,6 +118,8 @@ import { DepositsProvider } from '../providers/deposits/deposits';
     CreateBudgetPage,
     BudgetsPage,
     ViewDepositsPage,
+    ViewBudgetPage,
+    PredictionPage
   ],
   providers: [
     StatusBar,
