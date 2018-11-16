@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ToastController, LoadingController, ViewController, MenuController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ToastController, LoadingController, ViewController, MenuController, ModalController} from 'ionic-angular';
 import { Validators, FormBuilder, FormGroup } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { AuthProvider } from '../../providers/auth/auth';
@@ -23,7 +23,7 @@ export class SignupPage {
     }
   }
 
-  constructor(private viewCtrl: ViewController, public formBldr: FormBuilder, public http: HttpClient, public navCtrl: NavController, public navParams: NavParams, public authProvider: AuthProvider, private toastCtrl: ToastController, private loadingCtrl: LoadingController, private menuCtrl: MenuController) {
+  constructor(private viewCtrl: ViewController, public formBldr: FormBuilder, public http: HttpClient, public navCtrl: NavController, public navParams: NavParams, public authProvider: AuthProvider, private toastCtrl: ToastController, private loadingCtrl: LoadingController, private menuCtrl: MenuController, public modalCtrl: ModalController) {
   }
 
   private signUpForm = this.formBldr.group({
@@ -82,5 +82,10 @@ export class SignupPage {
       closeButtonText: 'Dismiss'
     });
     toast.present();
+  }
+
+  showDataPolicy(){
+    var dataPolicy = this.modalCtrl.create('DatapolicyPage'); 
+    dataPolicy.present();
   }
 }
