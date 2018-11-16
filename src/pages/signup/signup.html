@@ -33,6 +33,8 @@
     <ion-item-divider no-lines></ion-item-divider>
 
     <button type="submit" ion-button block color="main" [disabled]="!signUpForm.valid">Sign up</button>
+
+    <p>By signng up, you agree to our <a>Terms</a> and <a (click)="showDataPolicy()">Data Policy</a>.</p>
   </form>
 
 </ion-content>
