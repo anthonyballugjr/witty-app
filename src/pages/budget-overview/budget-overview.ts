@@ -41,7 +41,6 @@ export class BudgetOverviewPage {
     this.doAll();
     this.profile = this.navParams.get('profile');
     console.log('Profile', this.profile);
-
   }
 
   async doAll() {

@@ -19,7 +19,7 @@ export class ProfilePage {
   editData = {
     "name": ""
   }
-  x: any;
+
   userData: any = [];
   budgetProfile: any = [];
   email: any;
@@ -29,7 +29,6 @@ export class ProfilePage {
 
   constructor(public alertCtrl: AlertController, private popCtrl: PopoverController, public reportProvider: ReportsProvider, public authProvider: AuthProvider, public navCtrl: NavController, public navParams: NavParams, private file: File, private fileOpener: FileOpener, private toastCtrl: ToastController) {
     this.getProfile();
-    this.getArchivesOverview();
     this.getBudgetProfile();
   }
 
@@ -47,19 +46,11 @@ export class ProfilePage {
     this.toast.present();
   }
 
-  getArchivesOverview() {
-    this.reportProvider.getArchivesOverview()
-      .then(data => {
-        this.budgetProfile = data;
-        console.log('budgetProfile: ', this.budgetProfile);
-      });
-  }
-
   getBudgetProfile() {
     this.reportProvider.budgetProfile()
       .then(data => {
-        this.x = data;
-        console.log('X', this.x);
+        this.budgetProfile = data;
+        console.log('BudgetProfile', this.budgetProfile);
       });
   }
 

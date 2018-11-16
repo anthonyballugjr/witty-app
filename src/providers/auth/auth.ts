@@ -5,8 +5,8 @@ import { cPeriod, pPeriod, nPeriod } from '../../data/period';
 
 @Injectable()
 export class AuthProvider {
-  authURL = "http://localhost:3000/api/users";
-  // authURL = "http://witty-wallet.herokuapp.com/api/users"
+  // authURL = "http://localhost:3000/api/users";
+  authURL = "http://witty-wallet.herokuapp.com/api/users"
 
   menuName: any;
   in: any;

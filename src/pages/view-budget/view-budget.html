@@ -1,0 +1,25 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>{{period}}</ion-title>
+    <ion-buttons right>
+      <button ion-button icon-only (click)="close()">
+        <ion-icon name="close"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+
+<ion-content padding>
+  <ion-card>
+    <ion-card-content>
+      <ion-list>
+        <ion-item *ngFor="let wallet of eWallets">
+          <p>Wallet: {{wallet.name | ucwords}}</p>
+          <ion-note>Budget: {{wallet.amount}}</ion-note>
+        </ion-item>        
+      </ion-list>
+    </ion-card-content>
+  </ion-card>
+
+</ion-content>

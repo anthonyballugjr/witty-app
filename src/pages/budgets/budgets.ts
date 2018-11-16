@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ModalController } from 'ionic-angular';
 import { ReportsProvider } from '../../providers/reports/reports';
+import { ViewBudgetPage } from '../view-budget/view-budget';
 
 @IonicPage()
 @Component({
@@ -11,7 +12,7 @@ export class BudgetsPage {
   overview: any;
   archives: any;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public reportsProvider: ReportsProvider) {
+  constructor(private modalCtrl: ModalController, public navCtrl: NavController, public navParams: NavParams, public reportsProvider: ReportsProvider) {
     this.getArchives();
   }
 
@@ -24,11 +25,16 @@ export class BudgetsPage {
       .then(data => {
         this.overview = data;
         this.archives = this.overview.x;
-        console.log('Overview',this.overview);
-        console.log('Archives',this.archives);
+        console.log('Overview', this.overview);
+        console.log('Archives', this.archives);
       }, err => {
         console.log(err);
       });
+  }
+
+  viewBudget(period) {
+    let modal = this.modalCtrl.create(ViewBudgetPage, { period: period });
+    modal.present();
   }
 
 }

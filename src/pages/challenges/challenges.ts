@@ -23,22 +23,19 @@ export class ChallengesPage {
   alert: any;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public alertCtrl: AlertController, private events: Events) {
+    console.log(this.challengeStatus);
     this.challengeStatus = false;
     this.events.subscribe('status:changed', status => {
       if (status === true) {
         this.challengeStatus = true;
+      } else {
+        this.challengeStatus = false;
       }
     });
-
-  }
-
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad ChallengesPage');
   }
 
   takeChallenge(title, expectedAmount, challengelength, count, increment, type) {
-    this.challengeStatus = true;
-    this.events.publish('status:changed', this.challengeStatus);
+    this.events.publish('status:changed', this.challengeStatus = true);
     console.log(this.challengeStatus);
 
     this.currentChallenge = title;
