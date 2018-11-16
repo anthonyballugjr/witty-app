@@ -10,8 +10,8 @@
       </ion-item>
     </div>
 
-    <ion-list no-lines padding-top>
-      <button menuClose ion-item *ngFor="let page of pages" [class.active]="checkActive(page)" (click)="openPage(page)">
+    <ion-list no-lines padding-top data-icon="false">
+      <button menuClose ion-item detail-none *ngFor="let page of pages" [class.active]="checkActive(page)" (click)="openPage(page)">
         <ion-icon [name]="page.icon" item-start></ion-icon>
         {{page.title}}
       </button>
