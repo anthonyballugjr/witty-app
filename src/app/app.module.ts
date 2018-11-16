@@ -113,11 +113,8 @@ import { DepositsProvider } from '../providers/deposits/deposits';
     ChangePasswordPage,
     ViewArchivePage,
     CreateBudgetPage,
-
-    BudgetsPage
-
-    ViewDepositsPage
-
+    BudgetsPage,
+    ViewDepositsPage,
   ],
   providers: [
     StatusBar,
