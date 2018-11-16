@@ -3,8 +3,8 @@ import { Injectable } from '@angular/core';
 
 @Injectable()
 export class ExpensesProvider {
-  apiURL = "http://localhost:3000/api/wallets/expense/";
-  // apiURL = "http://witty-wallet.herokuapp.com/api/wallets/expense/"
+  // apiURL = "http://localhost:3000/api/wallets/expense/";
+  apiURL = "http://witty-wallet.herokuapp.com/api/wallets/expense/"
 
   authHeader = {
     headers: {

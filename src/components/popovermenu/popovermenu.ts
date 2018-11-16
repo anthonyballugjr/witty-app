@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
 import { NavParams, NavController, ViewController, AlertController, ToastController, LoadingController, ModalController } from 'ionic-angular';
 import { BudgetOverviewPage } from '../../pages/budget-overview/budget-overview';
-
 import { AuthProvider } from '../../providers/auth/auth';
 import { ChangePasswordPage } from '../../pages/change-password/change-password';
+import { PredictionPage } from '../../pages/prediction/prediction';
 
 @Component({
   selector: 'popovermenu',
@@ -110,6 +110,11 @@ export class PopovermenuComponent {
     let modal = this.modalCtrl.create(ChangePasswordPage);
     modal.present();
     this.viewCtrl.dismiss();
+  }
+
+  showPrediction(){
+    let modal = this.modalCtrl.create(PredictionPage);
+    modal.present();
   }
 
 }

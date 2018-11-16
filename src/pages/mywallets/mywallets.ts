@@ -1,17 +1,16 @@
 import { Component, ViewChild } from '@angular/core';
-import { IonicPage, NavController, NavParams, AlertController, Platform, ModalController, Slides } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, AlertController, Platform, ModalController, Slides, LoadingController } from 'ionic-angular';
 import { CategoryProvider } from '../../providers/category/category';
 import { ExpensesProvider } from '../../providers/expenses/expenses';
 import { ReportsProvider } from '../../providers/reports/reports';
-import { LocalNotifications } from '@ionic-native/local-notifications';
 import { BillsPage } from '../bills/bills';
 import { Chart } from 'chart.js';
-import moment from 'moment';
 import { BGColor, HoverColor } from '../../data/data';
 import { Events } from 'ionic-angular';
 import { ViewtransactionsPage } from '../viewtransactions/viewtransactions';
 import { ViewDepositsPage } from '../view-deposits/view-deposits';
 import { Challenges } from '../../data/reminders';
+import { DomSanitizer } from '@angular/platform-browser';
 
 
 @IonicPage()
@@ -21,18 +20,13 @@ import { Challenges } from '../../data/reminders';
 })
 
 export class MywalletsPage {
-  // @ViewChild('doughnutCanvas') doughnutCanvas;
   @ViewChild('barCanvas') barCanvas;
   @ViewChild('lineCanvas') lineCanvas;
-  @ViewChild('categoryInput') categoryInput;
-  @ViewChild('slider') slider: Slides;
 
   reminders = Challenges;
   remind: any;
-  
 
   barChart: any;
-  doughnutChart: any;
   lineChart: any;
 
   categories: any;
@@ -48,11 +42,6 @@ export class MywalletsPage {
   archiveTotalExpenses: any = [];
   archiveTotalDeposits: any = [];
 
-  cat = {
-    id: '',
-    desc: ''
-  }
-
   names: any = [];
   amounts: any[] = [];
 
@@ -66,11 +55,14 @@ export class MywalletsPage {
   eWallets: any;
   sWallets: any;
 
+  safeSvg: any;
 
-  constructor(public reportsProvider: ReportsProvider, private plt: Platform, private localNotif: LocalNotifications, private alertCtrl: AlertController, public expensesProvider: ExpensesProvider, public navCtrl: NavController, public navParams: NavParams, private modalCtrl: ModalController, private events: Events, public categoryProvider: CategoryProvider) {
+
+  constructor(public reportsProvider: ReportsProvider, private plt: Platform, private alertCtrl: AlertController, public expensesProvider: ExpensesProvider, public navCtrl: NavController, public navParams: NavParams, private modalCtrl: ModalController, private events: Events, public categoryProvider: CategoryProvider, private loadCtrl: LoadingController, private sanitizer: DomSanitizer) {
     this.doAll();
+    this.logoLoad();
     this.remind = this.reminders[Math.floor(Math.random() * this.reminders.length)];
-    this.presentReminder();
+    // this.presentReminder();
 
     this.counter = 0;
     this.surprise = false;
@@ -79,10 +71,10 @@ export class MywalletsPage {
         this.surprise = true;
       }
     });
-    
+
   }
 
-  presentReminder(){
+  presentReminder() {
     let reminder = this.alertCtrl.create({
       title: 'Witty Reminder',
       subTitle: this.remind.subTitle,
@@ -131,16 +123,6 @@ export class MywalletsPage {
     modal.present();
   }
 
-  async doAll() {
-    await this.getExpenseWallets();
-    await this.getbarChart();
-    await this.getLineChart();
-    await this.getBudgetOverview();
-    await this.getArchives();
-    await this.getE();
-    await this.getS();
-  }
-
   saveArchive() {
     this.reportsProvider.saveArchive(this.budgetOverview)
       .then(res => {
@@ -162,14 +144,30 @@ export class MywalletsPage {
 
       type: 'bar',
       data: {
-        labels: this.names,
-        datasets: [{
-          label: 'Wallet amount',
-          data: this.amounts,
-          backgroundColor: BGColor,
-          borderColr: HoverColor,
-          borderWidth: 1
-        }]
+        labels: this.archivePeriod,
+        datasets: [
+          {
+            label: 'Budget',
+            data: this.archiveTotalBudget,
+            backgroundColor: BGColor,
+            borderColr: HoverColor,
+            borderWidth: 1
+          },
+          {
+            label: 'Expenses',
+            data: this.archiveTotalExpenses,
+            backgroundColor: BGColor,
+            borderColr: HoverColor,
+            borderWidth: 1
+          },
+          {
+            label: 'Savings',
+            data: this.archiveTotalDeposits,
+            backgroundColor: BGColor,
+            borderColr: HoverColor,
+            borderWidth: 1
+          }
+        ]
       },
       options: {
         animation: {
@@ -218,50 +216,7 @@ export class MywalletsPage {
             pointHitRadius: 10,
             data: this.archiveTotalBudget,
             spanGaps: false
-          },
-          {
-            label: 'Expenses',
-            fill: false,
-            lineTension: 0.1,
-            backgroundColor: 'rgba(75,120,192,0.4)',
-            borderCapStyle: 'butt',
-            boderDash: [],
-            borderDashOffset: 0.0,
-            borderJoinStyle: 'miter',
-            pointBorderColor: 'rgba(75,120,192,1)',
-            pointBackgroundColor: '#fff',
-            pointBorderWidth: 1,
-            pointHoverRadius: 5,
-            pointHoverBackgroundColor: 'rgba(75,120,192,1)',
-            pointHoverBorderColor: 'rgba(220,220,220,1)',
-            pointHoverBorderWidth: 2,
-            pointRadius: 1,
-            pointHitRadius: 10,
-            data: this.archiveTotalExpenses,
-            spanGaps: false
-          },
-          {
-            label: 'Savings',
-            fill: false,
-            lineTension: 0.1,
-            backgroundColor: 'rgba(75,50,50,0.4)',
-            borderCapStyle: 'butt',
-            boderDash: [],
-            borderDashOffset: 0.0,
-            borderJoinStyle: 'miter',
-            pointBorderColor: 'rgba(75,50,50,1)',
-            pointBackgroundColor: '#fff',
-            pointBorderWidth: 1,
-            pointHoverRadius: 5,
-            pointHoverBackgroundColor: 'rgba(75,50,50,1)',
-            pointHoverBorderColor: 'rgba(220,220,220,1)',
-            pointHoverBorderWidth: 2,
-            pointRadius: 1,
-            pointHitRadius: 10,
-            data: this.archiveTotalDeposits,
-            spanGaps: false
           }
-
         ]
       },
       options: {
@@ -276,23 +231,6 @@ export class MywalletsPage {
         }
       }
     });
-  }
-
-  ionViewDidLoad() {
-    console.log('Play! Play! Play!');
-  }
-
-  openCategories() {
-    let modal = this.modalCtrl.create(BillsPage);
-    modal.present();
-
-    modal.onDidDismiss(data => {
-      if (data) {
-        console.log(data);
-        this.cat.desc = data.desc;
-        this.cat.id = data._id;
-      }
-    })
   }
 
   getBudgetOverview() {
@@ -332,11 +270,45 @@ export class MywalletsPage {
           this.archiveTotalExpenses.push(ar.totalExpenses);
           this.archiveTotalDeposits.push(ar.totalSavings);
         }
-        console.log('periods', this.archivePeriod, 'budgets', this.archiveTotalBudget);
+        console.log('periods', this.archivePeriod);
+        console.log('budgets', this.archiveTotalBudget);
+        console.log('deposits', this.archiveTotalDeposits);
         console.log('archives', this.archives);
       }, err => {
         console.log(err);
       });
+  }
+
+  logoLoad() {
+    let svg = `<svg width="100" height="100">
+            <circle cx="50" cy="50" r="40" stroke="green" stroke-width="4" fill="yellow" />
+          </svg>`;
+
+    this.safeSvg = this.sanitizer.bypassSecurityTrustHtml(svg);
+    let logo = this.loadCtrl.create({
+      spinner: 'hide',
+      content: `
+      <div class="custom-spinner-container>
+        <div class="custom-spinner-box">
+          <img src="../../assets/imgs/svgLogo.svg"/>
+        </div>
+      </div>`
+    });
+    logo.present();
+
+    setTimeout(() => {
+      logo.dismiss();
+    }, 5000);
+  }
+
+  async doAll() {
+    await this.getExpenseWallets();
+    await this.getArchives();
+    await this.getBudgetOverview();
+    await this.getbarChart();
+    await this.getLineChart();
+    await this.getE();
+    await this.getS();
   }
 
 }

@@ -28,17 +28,17 @@
         <ion-icon item-end name="more" (click)="showPopover($event,'budgetProfile')"></ion-icon>
       </ion-item-divider>
       <ion-item class="bold">&nbsp;&nbsp;Overall Total Budget:
-        <p item-end>{{budgetProfile.grandTotalBudget | currency:"PHP":2}}</p>
+        <p item-end>{{budgetProfile.overallBudget | currency:"PHP":2}}</p>
       </ion-item>
       <ion-item>- Overall Total Expenses:
-        <p item-end>{{budgetProfile.grandTotalExpenses | currency:"PHP":2}}</p>
+        <p item-end>{{budgetProfile.overallExpenses | currency:"PHP":2}}</p>
       </ion-item>
       <ion-item>- Overall Total Savings:
-        <p item-end>{{budgetProfile.grandTotalSavings | currency:"PHP":2}}</p>
+        <p item-end>{{budgetProfile.overallDeposits | currency:"PHP":2}}</p>
       </ion-item>
       <hr>
       <ion-item>&nbsp;&nbsp;Overall Extra Savings:
-        <p item-end>{{budgetProfile.grandTotalExtraSavings | currency:"PHP":2}}</p>
+        <p item-end>{{budgetProfile.overallExtra | currency:"PHP":2}}</p>
       </ion-item>
       <ion-item-divider no-lines></ion-item-divider>
       <ion-item>Average Monthly Budget:
