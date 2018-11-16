@@ -1,14 +1,17 @@
 export const Categories: any[] = [
     { _id: 'fnb', desc: 'food', icon: 'pizza' },
-    { _id: 'hc', desc: 'health care', icon: 'medkit' },
-    { _id: 'tra', desc: 'transportation', icon: 'bus' },
-    { _id: 'pc', desc: 'personal care', icon: 'person' },
     { _id: 'edu', desc: 'education', icon: 'school' },
+    { _id: 'hse', desc: 'housing', icon: 'home' },
+    { _id: 'bll', desc: 'bills & utilities', icon: 'calendar' },
+    { _id: 'tra', desc: 'transportation', icon: 'bus' },
+    { _id: 'hc', desc: 'health and fitness', icon: 'medkit' },
     { _id: 'ent', desc: 'entertainment', icon: 'game-controller-b' },
     { _id: 'lei', desc: 'leisure', icon: 'wine' },
     { _id: 'trv', desc: 'travel', icon: 'plane' },
     { _id: 'shp', desc: 'shopping', icon: 'pricetags' },
-    { _id: 'bll', desc: 'bills', icon: 'calendar' },
+    { _id: 'dbt', desc: 'debts & loans', icon: 'card' },
+    {_id: 'gft', desc: 'gifts & donations', icon: 'heart' },
+    { _id: 'tax', desc: 'taxes', icon: 'paper' },
     { _id: 'oth', desc: 'others', icon: 'clipboard' }
 ];
 
