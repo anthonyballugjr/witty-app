@@ -32,6 +32,10 @@
 ion-menu{
   #menuHead{
     height: 7.5em;
+
+    h2{
+      font-size: 1.3em!important;
+    }
   }
 
   ion-list{
@@ -41,8 +45,15 @@ ion-menu{
     }
 
     ion-item-divider{
-      margin-top: -50px;
+      margin-top: -16.5px!important;
+      margin-left: 2.5em;
+      width: 80%;
+      background-color: rgba(0, 0, 0, 0);
     }
+
+  .signout{
+    margin-top: .85em!important;
+  }
   }
 
   ion-item{
