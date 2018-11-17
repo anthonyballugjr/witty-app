@@ -18,36 +18,39 @@
 <ion-content>
 
   <ion-slides #slider effect="flip" (ionSlideDidChange)="isChanged($event)" (ionSlideWillChange)="willChange($event)" (ionSlideDrag)="willChange($event)">
-    <ion-slide padding-top>
-      <ion-list>
-        <ion-item ion-item *ngFor="let wallet of eWallets">
-          <ion-icon name="{{wallet.icon}}" color="watermelon" item-start tooltip="{{wallet.category | ucwords}}" event="click" mobileEvent="click"
-            duration="1000"></ion-icon>
-          <div (click)="viewTransactions(wallet._id,wallet.name, wallet)" >
-              <!-- *ngIf="wallet.categoryId!=='bll'" -->
-            <h6>
-              <strong>{{wallet.name | ucwords}}</strong>
-            </h6>
-            <p>Budget: {{wallet.amount | currency: "PHP" :2}} </p>
-            <p ion-text [color]="(wallet.transactions | pluck: 'amount' | sum) >= wallet.amount ? 'danger':'greenx'" [tooltip]="(wallet.transactions | pluck: 'amount' | sum) >= wallet.amount ? 'You overspent on this wallet':'Spending is safe, dont overspend'"
-              event="press" mobileEvent="press" duration="1000">Expenses: {{wallet.transactions | pluck:'amount' | sum | currency: "PHP" :2}}
-              <ion-icon [name]="(wallet.transactions | pluck: 'amount' | sum) >= wallet.amount ? 'alert':'thumbs-up'"></ion-icon>
-            </p>
-            <p ion-text [color]="(wallet.transactions | pluck: 'amount' | sum) >= wallet.amount ? 'danger':'greenx'" [tooltip]="(wallet.transactions | pluck: 'amount' | sum) >= wallet.amount ? 'You overspent on this wallet':'Spending is safe, dont overspend'"
-              event="press" mobileEvent="press" duration="1000">Remaining: {{wallet.amount - (wallet.transactions | pluck:'amount' | sum) | currency: "PHP" :2}}
-              <ion-icon [name]="(wallet.transactions | pluck: 'amount' | sum) >= wallet.amount ? 'alert':'thumbs-up'"></ion-icon>
-            </p>
+    <ion-slide>
+      <ion-list padding-top>
+        <div *ngFor="let wallet of eWallets">
+          <div *ngIf="wallet.categoryId !='bll'">
+            <ion-item>
+              <ion-icon name="{{wallet.icon}}" color="watermelon" item-start tooltip="{{wallet.category | ucwords}}" event="click" mobileEvent="click"
+                duration="1000"></ion-icon>
+              <div (click)="viewTransactions(wallet._id,wallet.name, wallet)">
+                <h6>
+                  <strong>{{wallet.name | ucwords}}</strong>
+                </h6>
+                <p>Budget: {{wallet.amount | currency: "PHP" :2}} </p>
+                <p ion-text [color]="(wallet.transactions | pluck: 'amount' | sum) >= wallet.amount ? 'danger':'greenx'" [tooltip]="(wallet.transactions | pluck: 'amount' | sum) >= wallet.amount ? 'You overspent on this wallet':'Spending is safe, dont overspend'"
+                  event="press" mobileEvent="press" duration="1000">Expenses: {{wallet.transactions | pluck:'amount' | sum | currency: "PHP" :2}}
+                  <ion-icon [name]="(wallet.transactions | pluck: 'amount' | sum) >= wallet.amount ? 'alert':'thumbs-up'"></ion-icon>
+                </p>
+                <p ion-text [color]="(wallet.transactions | pluck: 'amount' | sum) >= wallet.amount ? 'danger':'greenx'" [tooltip]="(wallet.transactions | pluck: 'amount' | sum) >= wallet.amount ? 'You overspent on this wallet':'Spending is safe, dont overspend'"
+                  event="press" mobileEvent="press" duration="1000">Remaining: {{wallet.amount - (wallet.transactions | pluck:'amount' | sum) | currency: "PHP" :2}}
+                  <ion-icon [name]="(wallet.transactions | pluck: 'amount' | sum) >= wallet.amount ? 'alert':'thumbs-up'"></ion-icon>
+                </p>
+              </div>
+            </ion-item>
           </div>
-          <!-- <ion-icon item-end color="main" name="more"></ion-icon> -->
-        </ion-item>
+        </div>
       </ion-list>
     </ion-slide>
 
     <ion-slide>
-      <ion-list>
+      <ion-list padding-top>
         <ion-item *ngFor="let wallet of sWallets">
+          <ion-icon name="trophy" color="watermelon" item-start tooltip="{{wallet.category | ucwords}}" event="click" mobileEvent="click"
+            duration="1000"></ion-icon>
           <div (click)="viewDeposits(wallet._id, wallet.name)">
-
             <h6>
               <strong>{{wallet.name | ucwords}}</strong>
             </h6>
@@ -61,7 +64,7 @@
     </ion-slide>
 
     <ion-slide>
-      <ion-list padding>
+      <ion-list padding-top>
         <ion-item ion-item *ngFor="let wallet of eWallets | filterBy: ['categoryId']: 'bll'">
           <ion-icon name="{{wallet.icon}}" color="watermelon" item-start tooltip="{{wallet.category | ucwords}}" event="click" mobileEvent="click"
             duration="1000"></ion-icon>
@@ -79,7 +82,7 @@
   </ion-slides>
 
   <ion-fab bottom right>
-    <button ion-fab icon-only mini (click)="addWallet()" [color]="page==='0' ? 'main':'greenx'">
+    <button ion-fab icon-only mini (click)="addWallet()" [color]="page==='0' ? 'main':'greenx'" *ngIf="page != 2">
       <ion-icon name="add"></ion-icon>
     </button>
   </ion-fab>
