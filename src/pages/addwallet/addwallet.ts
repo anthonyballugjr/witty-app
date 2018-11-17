@@ -95,15 +95,15 @@ export class AddwalletPage {
   }
 
   addExpenseWallet() {
-    if (parseInt(this.expenseWallet.amount) < 100) {
-      this.showAlert('Minimum allowable amount is 100.')
+    if (parseInt(this.expenseWallet.amount) < 0) {
+      this.showAlert('Allocated budget should be more than zero.')
       this.myInput.setFocus();
     }
     else if (this.expenseWallet.categoryId === '') {
       this.showAlert('Select a category')
     }
     else if (this.doNotify === true && (this.notifData.date === '' || this.notifData.time === '')) {
-      this.showAlert('Notification details not set!')
+      this.showAlert('Notification details not set.')
     }
     else {
       const confirm = this.alertCtrl.create({
@@ -175,7 +175,7 @@ export class AddwalletPage {
               .then(result => {
                 console.log(result);
                 loading.dismiss();
-                this.presentAlert('Success!', 'New Savings wallet created');
+                this.presentAlert('Success!', 'New savings wallet created');
                 this.viewCtrl.dismiss();
               }, err => {
                 loading.dismiss();
