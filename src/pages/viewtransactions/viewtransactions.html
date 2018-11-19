@@ -1,5 +1,4 @@
 <ion-header>
-
   <ion-navbar no-border>
     <ion-title>Transactions</ion-title>
     <ion-buttons right>
@@ -8,24 +7,20 @@
       </button>
     </ion-buttons>
   </ion-navbar>
-
 </ion-header>
-
 
 <ion-content>
   <ion-list no-lines>
-    <ion-item-divider class="strong" sticky>Wallet: {{wallet.name | ucwords}}</ion-item-divider>
+    <ion-item-divider sticky>
+      <p float-start class="strong">{{wallet.name | ucwords}}</p>
+      <p float-end>Total Expenses: {{totalTransactions | currency: "PHP": 2}}</p>
+    </ion-item-divider>
     <ion-item *ngFor="let transaction of transactions | reverse" text-wrap no-margin>
       <h5>{{transaction.desc | ucwords}}</h5>
       <ion-note>{{transaction.createdAt}}</ion-note>
       <ion-note float-right>{{transaction.amount | currency: "PHP": 2}}</ion-note>
     </ion-item>
   </ion-list>
-
-  <h5 float-right margin-right>
-    <strong>Total: {{totalTransactions | currency: "PHP": 2}}</strong>
-  </h5>
-
   <ion-fab bottom right>
     <button ion-fab mini color="buttons" (click)="addTransaction()">
       <ion-icon name="add"></ion-icon>
