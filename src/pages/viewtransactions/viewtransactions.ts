@@ -164,8 +164,11 @@ export class ViewtransactionsPage {
 
   presentLoading() {
     this.loading = this.loadingCtrl.create({
-      spinner: 'bubbles',
-      content: 'Adding transaction...'
+      spinner: 'hide',
+      content: `<div>
+      <div><img src="../../assets/imgs/logo.gif"/ height="100px"></div>
+      <p>Adding transaction...</p>
+      </div>`
     });
     this.loading.present();
   }

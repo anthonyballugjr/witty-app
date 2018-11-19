@@ -23,13 +23,10 @@ export class ChallengesPage {
   alert: any;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public alertCtrl: AlertController, private events: Events) {
-    console.log(this.challengeStatus);
     this.challengeStatus = false;
     this.events.subscribe('status:changed', status => {
-      if (status === true) {
-        this.challengeStatus = true;
-      } else {
-        this.challengeStatus = false;
+      if (this.challengeStatus === false) {
+        this.challengeStatus = status;
       }
     });
   }

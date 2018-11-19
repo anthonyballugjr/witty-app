@@ -44,8 +44,11 @@ export class ChangePasswordPage {
 
   presentLoading() {
     this.loading = this.loadingCtrl.create({
-      spinner: 'bubbles',
-      content: 'Updating Password...'
+      spinner: 'hide',
+      content: `<div>
+      <div><img src="../../assets/imgs/logo.gif"/ height="100px"></div>
+      <p>Updating password...</p>
+      </div>`
     });
     this.loading.present();
   }
