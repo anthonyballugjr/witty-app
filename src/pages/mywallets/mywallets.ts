@@ -287,12 +287,7 @@ export class MywalletsPage {
     this.safeSvg = this.sanitizer.bypassSecurityTrustHtml(svg);
     let logo = this.loadCtrl.create({
       spinner: 'hide',
-      content: `
-      <div class="custom-spinner-container>
-        <div class="custom-spinner-box">
-          <img src="../../assets/imgs/svgLogo.svg"/>
-        </div>
-      </div>`
+      content: `<div><img src="assets/imgs/logo.gif" height="100px"/></div>`
     });
     logo.present();
 

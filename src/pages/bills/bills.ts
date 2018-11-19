@@ -58,8 +58,11 @@ export class BillsPage {
 
   presentLoading(content) {
     this.loading = this.loadingCtrl.create({
-      spinner: 'bubbles',
-      content: content
+      spinner: 'hide',
+      content: `<div>
+      <div><img src="../../assets/imgs/logo.gif"/ height="100px"></div>
+      <p>${content}</p>
+      </div>`
     });
     this.loading.present();
   }
