@@ -3,8 +3,8 @@ import { Injectable } from '@angular/core';
 
 @Injectable()
 export class DepositsProvider {
-  // apiUrl = "http://localhost:3000/api/deposits"
-  apiUrl = "http://witty-wallet.herokuapp.com/api/deposits"
+  apiUrl = "http://localhost:3000/api/deposits"
+  // apiUrl = "http://witty-wallet.herokuapp.com/api/deposits"
   authHeader = {
     headers: {
       'Authorization': `Token ${localStorage.token}`

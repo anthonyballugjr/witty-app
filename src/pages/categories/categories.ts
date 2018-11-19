@@ -31,8 +31,11 @@ export class CategoriesPage {
 
   showLoader(msg) {
     this.loading = this.loadingCtrl.create({
-      spinner: 'bubbles',
-      content: msg
+      spinner: 'hide',
+      content: `<div>
+      <div><img src="../../assets/imgs/logo.gif"/ height="100px"></div>
+      <p>${msg}</p>
+      </div>`
     });
     this.loading.present();
   }
