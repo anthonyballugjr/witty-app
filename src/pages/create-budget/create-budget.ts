@@ -26,12 +26,9 @@ export class CreateBudgetPage {
   y: any = [];
   forArchive: any;
 
-
-
   constructor(public navCtrl: NavController, public navParams: NavParams, public expensesProvider: ExpensesProvider, private loadingCtrl: LoadingController, private alertCtrl: AlertController, private viewCtrl: ViewController, private toastCtrl: ToastController, public reportsProvider: ReportsProvider) {
     this.getExpenseWallets();
     this.getBudgetOverview();
-
   }
 
   ionViewDidLoad() {
@@ -50,7 +47,11 @@ export class CreateBudgetPage {
 
   presentLoading(msg) {
     this.loading = this.loadingCtrl.create({
-      content: msg,
+      spinner: 'hide',
+      content: `<div>
+      <div><img src="../../assets/imgs/logo.gif"/ height="100px"></div>
+      <p>${msg}</p>
+      </div>`
     });
     this.loading.present();
   }

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ToastController, LoadingController, ViewController, MenuController, ModalController} from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ToastController, LoadingController, ViewController, MenuController, ModalController } from 'ionic-angular';
 import { Validators, FormBuilder, FormGroup } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { AuthProvider } from '../../providers/auth/auth';
@@ -23,7 +23,10 @@ export class SignupPage {
     }
   }
 
+  cBox = false;
+
   constructor(private viewCtrl: ViewController, public formBldr: FormBuilder, public http: HttpClient, public navCtrl: NavController, public navParams: NavParams, public authProvider: AuthProvider, private toastCtrl: ToastController, private loadingCtrl: LoadingController, private menuCtrl: MenuController, public modalCtrl: ModalController) {
+    console.log(this.cBox);
   }
 
   private signUpForm = this.formBldr.group({
@@ -33,8 +36,13 @@ export class SignupPage {
       Validators.maxLength(20),
       Validators.minLength(6)
     ])],
-    nickname: ["", Validators.required]
+    nickname: ["", Validators.required],
+    terms: ["", Validators.requiredTrue]
   });
+
+  check() {
+    console.log(this.cBox);
+  }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad SignupPage');
@@ -55,7 +63,7 @@ export class SignupPage {
       if (err.status === 400) {
         this.errMessage = 'The specified email address is already in use'
       }
-      else{
+      else {
         this.errMessage = err.error;
       }
       this.presentToast(this.errMessage);
@@ -67,7 +75,11 @@ export class SignupPage {
 
   showLoader() {
     this.loading = this.loadingCtrl.create({
-      content: 'Creating your account...'
+      spinner: 'hide',
+      content: `<div>
+      <div><img src="../../assets/imgs/logo.gif"/ height="100px"></div>
+      <p>Creating your account...</p>
+      </div>`
     });
     this.loading.present();
   }
@@ -84,8 +96,8 @@ export class SignupPage {
     toast.present();
   }
 
-  showDataPolicy(){
-    var dataPolicy = this.modalCtrl.create('DatapolicyPage'); 
+  showDataPolicy() {
+    var dataPolicy = this.modalCtrl.create('DatapolicyPage');
     dataPolicy.present();
   }
 }

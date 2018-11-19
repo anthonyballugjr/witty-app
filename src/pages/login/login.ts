@@ -61,7 +61,11 @@ export class LoginPage {
 
   showLoader(content) {
     this.loading = this.loadingCtrl.create({
-      content: content,
+      spinner: 'hide',
+      content: `<div>
+      <div><img src="../../assets/imgs/logo.gif"/ height="100px"></div>
+      <p>${content}</p>
+      </div>`,
     });
     this.loading.present();
   }
@@ -112,7 +116,7 @@ export class LoginPage {
       console.log(result);
       this.loading.dismiss();
       this.navCtrl.setRoot(TabsPage);
-      this.presentToast('Hello ' + localStorage.nickname + '!');
+      this.presentToast(`Hello ${localStorage.nickname}!`);
     }, (err) => {
       this.loading.dismiss();
       this.presentToast(err.error);
