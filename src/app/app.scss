@@ -29,24 +29,24 @@
   background-color: color($colors, light);
 }
 
-ion-menu{
-  #menuHead{
-    height: 7.5em;
-  }
+// ion-menu{
+//   #menuHead{
+//     height: 7.5em;
+//   }
 
-  ion-list{
-    ion-icon{
-      font-size: 1.3em!important;
-      padding-top: 0.1em;
-    }
+//   ion-list{
+//     ion-icon{
+//       font-size: 1.3em!important;
+//       padding-top: 0.1em;
+//     }
 
-    ion-item-divider{
-      margin-top: -50px;
-    }
-  }
+//     ion-item-divider{
+//       margin-top: -50px;
+//     }
+//   }
 
-  ion-item{
-    background-color: color($colors, main)!important;
-    color: white!important;
-  }
-}
+//   ion-item{
+//     background-color: color($colors, main)!important;
+//     color: white!important;
+//   }
+// }
