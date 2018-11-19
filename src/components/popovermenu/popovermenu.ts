@@ -16,11 +16,15 @@ export class PopovermenuComponent {
 
   menu: any;
   name: any;
+  names: any = [];
+  amounts: any = [];
 
   constructor(private loadingCtrl: LoadingController, private toastCtrl: ToastController, public authProvider: AuthProvider, private alertCtrl: AlertController, private viewCtrl: ViewController, private navCtrl: NavController, public navParams: NavParams, private modalCtrl: ModalController) {
     this.menu = this.navParams.get('menu');
     this.name = this.navParams.get('name');
-    console.log('menu: ', this.menu, 'name: ', this.name)
+    this.names = this.navParams.get('names');
+    this.amounts = this.navParams.get('amounts');
+    console.log('menu: ', this.menu, 'name: ', this.name, 'names', this.names, 'amounts', this.amounts);
   }
 
   showOverview() {
@@ -43,8 +47,11 @@ export class PopovermenuComponent {
 
   presentLoading() {
     this.loading = this.loadingCtrl.create({
-      spinner: 'bubbles',
-      content: 'Updating Nickname...'
+      spinner: 'hide',
+      content: `<div>
+      <div><img src="../../assets/imgs/logo.gif"/ height="100px"></div>
+      <p>Updating nickname...</p>
+      </div>`
     });
     this.loading.present();
   }
@@ -112,7 +119,7 @@ export class PopovermenuComponent {
     this.viewCtrl.dismiss();
   }
 
-  showPrediction(){
+  showPrediction() {
     let modal = this.modalCtrl.create(PredictionPage);
     modal.present();
   }
