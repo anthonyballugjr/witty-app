@@ -3,8 +3,8 @@ import { Injectable } from '@angular/core';
 
 @Injectable()
 export class ExpensesProvider {
-  // apiURL = "http://localhost:3000/api/wallets/expense/";
-  apiURL = "http://witty-wallet.herokuapp.com/api/wallets/expense/"
+  apiURL = "http://localhost:3000/api/wallets/expense/";
+  // apiURL = "http://witty-wallet.herokuapp.com/api/wallets/expense/"
 
   authHeader = {
     headers: {
@@ -70,6 +70,17 @@ export class ExpensesProvider {
         }, err => {
           console.log(err);
         });
+    });
+  }
+
+  suggest(name){
+    return new Promise(resolve=>{
+      this.http.get(`${this.apiURL}suggest/${localStorage.userId}?name=${name}`, this.authHeader)
+      .subscribe(data=>{
+        resolve(data);
+      },err=>{
+        console.log(err);
+      });
     });
   }
 

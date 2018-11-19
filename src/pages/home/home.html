@@ -3,7 +3,6 @@
     <ion-segment color="light" [(ngModel)]="page" no-padding no-margin>
       <ion-segment-button value="0" (click)="selectedTab(0)">Expenses</ion-segment-button>
       <ion-segment-button value="1" (click)="selectedTab(1)">Savings</ion-segment-button>
-      <ion-segment-button value="2" (click)="selectedTab(2)">Bills</ion-segment-button>
     </ion-segment>
 
     <div ion-text color="light" no-padding no-margin>
@@ -18,6 +17,7 @@
 <ion-content>
 
   <ion-slides #slider effect="flip" (ionSlideDidChange)="isChanged($event)" (ionSlideWillChange)="willChange($event)" (ionSlideDrag)="willChange($event)">
+
     <ion-slide>
       <ion-list padding-top>
         <div *ngFor="let wallet of eWallets">
@@ -42,6 +42,7 @@
             </ion-item>
           </div>
         </div>
+
       </ion-list>
     </ion-slide>
 
@@ -62,6 +63,7 @@
         </ion-item>
       </ion-list>
     </ion-slide>
+
 
     <ion-slide>
       <ion-list padding-top>

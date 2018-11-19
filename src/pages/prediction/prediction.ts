@@ -3,6 +3,7 @@ import { IonicPage, NavController, NavParams, LoadingController } from 'ionic-an
 import { Chart } from 'chart.js';
 import { BGColor, HoverColor } from '../../data/data'
 import { ExpensesProvider } from '../../providers/expenses/expenses';
+import { nPeriod } from '../../data/period';
 
 
 @IonicPage()
@@ -11,7 +12,7 @@ import { ExpensesProvider } from '../../providers/expenses/expenses';
   templateUrl: 'prediction.html',
 })
 export class PredictionPage {
-  @ViewChild('doughnutCanvas') doughnutCanvas
+  @ViewChild('chartCanvas') chartCanvas
   eWallets: any;
   amounts: any = [];
   names: any = [];
@@ -20,6 +21,7 @@ export class PredictionPage {
   predicted: any = [];
   x: any;
   y: any = [];
+  nPeriod = nPeriod;
 
   newNames: any = [];
   newAmounts: any = [];
@@ -28,13 +30,9 @@ export class PredictionPage {
     this.doAll();
   }
 
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad PredictionPage');
-  }
-
-  async doAll(){
+  async doAll() {
     await this.getExpenseWallets();
-    await this.predict();
+    // await this.predict();
   }
 
   getExpenseWallets() {
@@ -49,18 +47,39 @@ export class PredictionPage {
         console.log('Names', this.names);
       })
       .then(() => {
-        this.chart();
+        this.names.forEach(name => {
+          this.expensesProvider.predict(name)
+            .then(data => {
+              this.x = data;
+              this.y = this.x.x;
+              for (let wallet of this.y) {
+                if (wallet !== null) {
+                  this.predicted.push(wallet);
+                }
+              }
+            }, err => {
+              console.log(err);
+            });
+        });
+        console.log('Predicted',this.predicted);
       });
   }
 
-  predict() {
+  async predict() {
     let loading = this.loadCtrl.create({
-      content: 'Predicting values...'
+      spinner: 'hide',
+      content: `<div>
+      <div><img src="../../assets/imgs/logo.gif"/ height="100px"></div>
+      <p>Predicting Values...</p>
+      </div>`
     });
     loading.present();
+    setTimeout(() => {
+      loading.dismiss();
+    }, 3000);
 
-    this.names.forEach(name => {
-      this.expensesProvider.predict(name)
+    await this.names.forEach(name => {
+      this.expensesProvider.suggest(name)
         .then(data => {
           this.x = data;
           this.y = this.x.x;
@@ -69,28 +88,16 @@ export class PredictionPage {
               this.predicted.push(wallet);
             }
           }
-          console.log(this.predicted);
-        })
-        .then(() => {
-          for (let x of this.predicted) {
-            this.newAmounts.push(x.amount);
-            this.newNames.push(x.name);
-          }
-          console.log('newA', this.newAmounts);
-          console.log('newN', this.newNames);
-        })
-        .then(() => {
-          this.chart();
         }, err => {
           console.log(err);
         });
     });
-    loading.dismiss()
+    // loading.dismiss()
     console.log('Predicted Data', this.predicted);
   }
 
   chart() {
-    this.doughnutChart = new Chart(this.doughnutCanvas.nativeElement, {
+    this.doughnutChart = new Chart(this.chartCanvas.nativeElement, {
 
       type: 'doughnut',
       data: {

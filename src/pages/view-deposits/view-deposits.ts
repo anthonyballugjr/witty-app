@@ -36,8 +36,11 @@ export class ViewDepositsPage {
 
   presentLoad(content) {
     this.loading = this.loadCtrl.create({
-      spinner: 'bubbles',
-      content: content
+      spinner: 'hide',
+      content: `<div>
+      <div><img src="../../assets/imgs/logo.gif"/ height="100px"></div>
+      <p>${content}</p>
+      </div>`
     });
     this.loading.present();
   }

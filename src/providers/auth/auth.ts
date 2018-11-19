@@ -5,8 +5,8 @@ import { cPeriod, pPeriod, nPeriod } from '../../data/period';
 
 @Injectable()
 export class AuthProvider {
-  // authURL = "http://localhost:3000/api/users";
-  authURL = "http://witty-wallet.herokuapp.com/api/users"
+  authURL = "http://localhost:3000/api/users";
+  // authURL = "http://witty-wallet.herokuapp.com/api/users"
 
   menuName: any;
   in: any;
@@ -49,6 +49,7 @@ export class AuthProvider {
           localStorage.setItem('email', this.userData.user.email);
           localStorage.setItem('nickname', this.userData.user.name);
           localStorage.setItem('period', this.currentPeriod);
+          localStorage.setItem('bStat', 'undone');
 
           this.menuName = this.userData.user.name;
           this.events.publish('nickname:changed', this.menuName);
