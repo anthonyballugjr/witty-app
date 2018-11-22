@@ -14,14 +14,23 @@
 
   <ion-item-divider sticky no-margin>
     <ion-segment [(ngModel)]="view" no-padding no-margin color="buttons">
-      <ion-segment-button value="charts" (click)="isChart()">Charts</ion-segment-button>
-      <ion-segment-button value="list">List</ion-segment-button>
+      <ion-segment-button value="list" (click)="lockPortrait()">List</ion-segment-button>
+      <ion-segment-button value="trend" (click)="isChart()">Trend</ion-segment-button>
     </ion-segment>
   </ion-item-divider>
 
   <div [ngSwitch]="view">
 
-    <div *ngSwitchCase="'charts'" margin-top>
+    <div *ngSwitchCase="'list'">
+      <ion-list>
+        <ion-item *ngFor="let month of archives | reverse" (click)="viewBudget(month.period)">
+          <p>{{month.period}}</p>
+        </ion-item>
+      </ion-list>
+    </div>
+  </div>
+
+  <div *ngSwitchCase="'trend'" margin-top>
       <ion-card no-padding>
         <ion-card-content>
           <canvas #lineBudgets></canvas>
@@ -38,14 +47,5 @@
         </ion-card-content>
       </ion-card>
     </div>
-
-    <div *ngSwitchCase="'list'">
-      <ion-list>
-        <ion-item *ngFor="let month of archives | reverse" (click)="viewBudget(month.period)">
-          <p>{{month.period}}</p>
-        </ion-item>
-      </ion-list>
-    </div>
-  </div>
 
 </ion-content>

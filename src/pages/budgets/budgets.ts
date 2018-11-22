@@ -3,6 +3,7 @@ import { IonicPage, NavController, NavParams, ModalController } from 'ionic-angu
 import { ReportsProvider } from '../../providers/reports/reports';
 import { ViewBudgetPage } from '../view-budget/view-budget';
 import { Chart } from 'chart.js';
+import { ScreenOrientation } from '@ionic-native/screen-orientation';
 
 @IonicPage()
 @Component({
@@ -11,7 +12,7 @@ import { Chart } from 'chart.js';
 })
 export class BudgetsPage {
 
-  view: string = "charts";
+  view: string = "list";
   overview: any;
   archives: any;
 
@@ -26,11 +27,12 @@ export class BudgetsPage {
   savings: any = [];
   expenses: any = [];
 
-  constructor(private modalCtrl: ModalController, public navCtrl: NavController, public navParams: NavParams, public reportsProvider: ReportsProvider) {
+  constructor(private modalCtrl: ModalController, public navCtrl: NavController, public navParams: NavParams, public reportsProvider: ReportsProvider, private screenOrientation: ScreenOrientation) {
     this.getArchives();
   }
 
   isChart() {
+    this.lockLandscape();
     this.periods = [];
     this.budgets = [];
     this.savings = [];
@@ -38,10 +40,22 @@ export class BudgetsPage {
     this.getArchives();
   }
 
-  async doAll(){
+  async doAll() {
     await this.getArchives();
   }
-  
+
+  lockLandscape() {
+    this.screenOrientation.lock(this.screenOrientation.ORIENTATIONS.LANDSCAPE);
+  }
+
+  lockPortrait(){
+    this.screenOrientation.lock(this.screenOrientation.ORIENTATIONS.PORTRAIT);
+  }
+
+  ionViewWillLeave(){
+    this.lockPortrait();
+  }
+
   getArchives() {
     this.reportsProvider.getArchivesOverview()
       .then(data => {
@@ -56,7 +70,7 @@ export class BudgetsPage {
         console.log('Overview', this.overview);
         console.log('Archives', this.archives);
       })
-      .then(()=>{
+      .then(() => {
         this.getLineBudgets();
         this.getLineExpenses();
         this.getLineSavings();
@@ -76,21 +90,21 @@ export class BudgetsPage {
         datasets: [
           {
             label: 'Budget',
-            fill: false,
+            fill: true,
             lineTension: 0.1,
-            backgroundColor: 'rgba(255, 99, 132, 0.8)',
+            backgroundColor: 'rgba(255, 99, 132, 0.4)',
             borderCapStyle: 'butt',
             boderDash: [],
             borderDashOffset: 0.0,
             borderJoinStyle: 'miter',
-            pointBorderColor: 'rgba(255, 99, 132, 0.8)',
-            pointBackgroundColor: '#fff',
+            pointBorderColor: '#000000',
+            pointBackgroundColor: 'rgba(255, 99, 132, 0.8)',
             pointBorderWidth: 1,
             pointHoverRadius: 5,
-            pointHoverBackgroundColor: 'rgba(255, 99, 132, 0.8),1)',
+            pointHoverBackgroundColor: 'rgba(255, 99, 132, 0.8)',
             pointHoverBorderColor: 'rgba(220,220,220,1)',
             pointHoverBorderWidth: 2,
-            pointRadius: 1,
+            pointRadius: 3,
             pointHitRadius: 10,
             data: this.budgets,
             spanGaps: false
@@ -119,21 +133,21 @@ export class BudgetsPage {
         datasets: [
           {
             label: 'Savings',
-            fill: false,
+            fill: true,
             lineTension: 0.1,
-            backgroundColor: 'rgba(54, 162, 235, 0.8)',
+            backgroundColor: 'rgba(54, 162, 235, 0.4)',
             borderCapStyle: 'butt',
             boderDash: [],
             borderDashOffset: 0.0,
             borderJoinStyle: 'miter',
-            pointBorderColor: 'rgba(54, 162, 235, 0.8)',
-            pointBackgroundColor: '#fff',
+            pointBorderColor: '#000000',
+            pointBackgroundColor: 'rgba(54, 162, 235, 0.8)',
             pointBorderWidth: 1,
             pointHoverRadius: 5,
             pointHoverBackgroundColor: 'rgba(54, 162, 235, 0.8)',
             pointHoverBorderColor: 'rgba(220,220,220,1)',
             pointHoverBorderWidth: 2,
-            pointRadius: 1,
+            pointRadius: 3,
             pointHitRadius: 10,
             data: this.savings,
             spanGaps: false
@@ -162,21 +176,21 @@ export class BudgetsPage {
         datasets: [
           {
             label: 'Expenses',
-            fill: false,
+            fill: true,
             lineTension: 0.1,
-            backgroundColor: 'rgba(255, 206, 86, 0.8)',
+            backgroundColor: 'rgba(255, 206, 86, 0.4)',
             borderCapStyle: 'butt',
             boderDash: [],
             borderDashOffset: 0.0,
             borderJoinStyle: 'miter',
-            pointBorderColor: 'rgba(255, 206, 86, 0.8)',
-            pointBackgroundColor: '#fff',
+            pointBorderColor: '#000000',
+            pointBackgroundColor: 'rgba(255, 206, 86, 0.8)',
             pointBorderWidth: 1,
             pointHoverRadius: 5,
             pointHoverBackgroundColor: 'rgba(255, 206, 86, 0.8)',
             pointHoverBorderColor: 'rgba(220,220,220,1)',
             pointHoverBorderWidth: 2,
-            pointRadius: 1,
+            pointRadius: 3,
             pointHitRadius: 10,
             data: this.expenses,
             spanGaps: false
