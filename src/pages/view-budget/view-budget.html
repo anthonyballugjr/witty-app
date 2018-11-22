@@ -16,7 +16,7 @@
       <ion-list>
         <ion-item *ngFor="let wallet of eWallets">
           <p>Wallet: {{wallet.name | ucwords}}</p>
-          <ion-note>Budget: {{wallet.amount}}</ion-note>
+          <ion-note>Budget: {{wallet.amount | currency:"PHP":2}}</ion-note>
         </ion-item>        
       </ion-list>
     </ion-card-content>
