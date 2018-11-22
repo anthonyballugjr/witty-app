@@ -15,6 +15,7 @@ import { TooltipsModule } from 'ionic-tooltips';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AndroidFullScreen } from '@ionic-native/android-full-screen';
 import { RoundProgressModule } from 'angular-svg-round-progressbar';
+import { ScreenOrientation } from '@ionic-native/screen-orientation';
 //pages
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
@@ -127,6 +128,7 @@ import { GroupByPipe } from '../pipes/group-by/group-by';
     FileOpener,
     AndroidFullScreen,
     SplashScreen,
+    ScreenOrientation,
     Facebook,
     CategoryProvider,
     { provide: ErrorHandler, useClass: IonicErrorHandler },
