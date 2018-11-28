@@ -17,18 +17,13 @@ Make sure you have installed the following:
 ### Installing
 
 Install Ionic CLI:
-
 ```
 npm install -g ionic cordova
 ```
 
 Install dependencies:
-
 ```
 npm install
-```
-or 
-```
 npm i
 ```
 
