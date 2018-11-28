@@ -74,7 +74,7 @@ export class BudgetsPage {
         this.getLineBudgets();
         this.getLineExpenses();
         this.getLineSavings();
-      })
+      });
   }
 
   viewBudget(period) {

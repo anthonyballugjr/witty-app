@@ -5,7 +5,6 @@ import { SavingsProvider } from '../../providers/savings/savings';
 
 import { EditWalletPage } from '../edit-wallet/edit-wallet';
 import { AddwalletPage } from '../addwallet/addwallet';
-import { TabsPage } from '../tabs/tabs';
 
 @IonicPage()
 @Component({
@@ -33,7 +32,7 @@ export class CategoriesPage {
     this.loading = this.loadingCtrl.create({
       spinner: 'hide',
       content: `<div>
-      <div><img src="../../assets/imgs/logo.gif"/ height="100px"></div>
+      <div class="loader"><img src="../../assets/imgs/logo.gif"/ height="100px"></div>
       <p>${msg}</p>
       </div>`
     });
@@ -140,6 +139,7 @@ export class CategoriesPage {
     modal.present();
 
     modal.onDidDismiss(data => {
+      console.log(data);
       if (data) {
         this.showLoader('Updating wallet');
         this.savingsProvider.updateWallet(data)
