@@ -46,9 +46,6 @@ ionic cordova platform add android
 For Browser:
 ```
 Ionic serve
-```
-or
-```
 Ionic serve -lab
 ```
 
