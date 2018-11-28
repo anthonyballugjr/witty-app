@@ -72,7 +72,7 @@ export class HomePage {
   presentLoading(msg) {
     this.loading = this.loadingCtrl.create({
       content: `<div>
-      <div><img src="../../assets/imgs/logo.gif"/ height="100px"></div>
+      <div class="loader"><img src="../../assets/imgs/logo.gif"/ height="100px"></div>
       <p>${msg}</p>
       </div>`,
       spinner: 'hide'
@@ -160,6 +160,8 @@ export class HomePage {
     modal.present();
 
     modal.onDidDismiss(data => {
+      this.getSavingsWallets();
+      this.getExpenseWallets();
       if (data) {
         console.log(data);
         this.presentLoading('Creating new wallet...');
@@ -172,7 +174,6 @@ export class HomePage {
               this.getSavingsWallets();
               this.presentAlert('Success!', 'New Expense wallet created');
             }, err => {
-              this.loading.dismiss();
               console.log(err);
               this.presentAlert('Failed', err.error);
             });
@@ -215,14 +216,14 @@ export class HomePage {
     if (this.isDone === 'undone') {
       let alert = this.alertCtrl.create({
         title: 'Create New Budget',
-        subTitle: `Hello ${this.nickname.charAt(0).toUpperCase() + this.nickname.slice(1)}!, It is the first day of the month! Witty is now ready to create your budget!, Please choose how you want to create your budget this month.`,
+        subTitle: `Hello ${this.nickname.charAt(0).toUpperCase() + this.nickname.slice(1)}, It is the first day of the month, Witty is now ready to create your budget. Please choose how you want to create your budget this month.`,
         enableBackdropDismiss: false,
         buttons: [
           {
             text: 'Automatic',
             handler: () => {
               let prompt = this.alertCtrl.create({
-                subTitle: 'By choosing these option, Witty will automatically create your wallets and set their amounts for this month based on your historical data. Note that all wallet names will be copied from the previous month. (if you want to change what wallets you want to keep, choose "Modified" option).',
+                subTitle: `By choosing these option, Witty will automatically create your wallets and set their amounts for this month based on your historical data. Note that all wallets will be copied from the previous month. (if you want to change what wallets you want to keep, choose "Modified" option).`,
                 buttons: [
                   {
                     text: 'Cancel',
@@ -246,7 +247,7 @@ export class HomePage {
             text: 'Modified',
             handler: () => {
               let prompt = this.alertCtrl.create({
-                subTitle: 'Choosing these option lets you modify what wallets you want to keep from the previous month. Afterwhich, Witty will automatically set their amounts for this month based on your historical data.',
+                subTitle: 'Choosing these option lets you edit what wallets you want to keep from the previous month. Afterwhich, Witty will automatically set their budgets for this month based on your historical data.',
                 buttons: [
                   {
                     text: 'Cancel',
@@ -271,7 +272,7 @@ export class HomePage {
             text: 'Manual',
             handler: () => {
               let prompt = this.alertCtrl.create({
-                subTitle: 'Choosing these option lets you manually create new wallets and set their budget. Note that previous wallets will not be used and you will be starting fresh.',
+                subTitle: 'Choosing these option lets you manually create new wallets and set their budget. Note that previous wallets will not be used and you will be starting anew.',
                 buttons: [
                   {
                     text: 'Cancel',

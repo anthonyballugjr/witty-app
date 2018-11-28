@@ -43,7 +43,6 @@ export class TabsPage {
 
   async doAll() {
     await this.getExpenseWallets();
-    await this.suggest();
   }
 
   ionViewDidLoad() {
@@ -53,8 +52,6 @@ export class TabsPage {
   ionViewWillEnter() {
     this.menuCtrl.enable(true);
   }
-
-
 
   onTabSelect(ev: any) {
     this.superSelectedTab = ev.index;
@@ -94,19 +91,4 @@ export class TabsPage {
         console.log('Names', this.names);
       });
   }
-
-  suggest() {
-    this.names.forEach(name => {
-      this.expensesProvider.suggest(name)
-        .then(result => {
-          this.amounts.push(result);
-        }, err => {
-          console.log(err);
-        });
-    });
-    console.log('Amounts', this.amounts);
-  }
-
-
-
 }

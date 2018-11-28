@@ -3,8 +3,8 @@ import { Injectable } from '@angular/core';
 
 @Injectable()
 export class SavingsProvider {
-  apiUrl = "http://localhost:3000/api/wallets/savings/";
-  // apiUrl = "http://witty-wallet.herokuapp.com/api/wallets/savings/";
+  // apiUrl = "http://localhost:3000/api/wallets/savings/";
+  apiUrl = "http://witty-wallet.herokuapp.com/api/wallets/savings/";
 
   authHeader = {
     headers: {
@@ -37,7 +37,6 @@ export class SavingsProvider {
   }
 
   updateWallet(data) {
-    console.log(data);
     console.log(data.id);
     return new Promise((resolve, reject) => {
       this.http.put(`${this.apiUrl}${data.id}`, data, this.authHeader)
@@ -51,7 +50,7 @@ export class SavingsProvider {
 
   deleteWallet(id) {
     return new Promise((resolve, reject) => {
-      this.http.delete(`${this.apiUrl}${id}`, this.authHeader)
+      this.http.delete(`${ this.apiUrl }${ id }`, this.authHeader)
         .subscribe(res => {
           resolve(res);
         }, err => {

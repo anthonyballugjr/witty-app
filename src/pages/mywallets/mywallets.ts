@@ -1,6 +1,7 @@
 import { Component, ViewChild } from '@angular/core';
-import { IonicPage, NavController, NavParams, AlertController, Platform, ModalController, Slides, LoadingController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, AlertController, Platform, ModalController, LoadingController } from 'ionic-angular';
 import { CategoryProvider } from '../../providers/category/category';
+import { ScreenOrientation } from '@ionic-native/screen-orientation';
 import { ExpensesProvider } from '../../providers/expenses/expenses';
 import { ReportsProvider } from '../../providers/reports/reports';
 import { BillsPage } from '../bills/bills';
@@ -9,7 +10,7 @@ import { BGColor, HoverColor } from '../../data/data';
 import { Events } from 'ionic-angular';
 import { ViewtransactionsPage } from '../viewtransactions/viewtransactions';
 import { ViewDepositsPage } from '../view-deposits/view-deposits';
-import { Challenges } from '../../data/reminders';
+import { Reminders } from '../../data/reminders';
 import { DomSanitizer } from '@angular/platform-browser';
 
 
@@ -20,10 +21,11 @@ import { DomSanitizer } from '@angular/platform-browser';
 })
 
 export class MywalletsPage {
+  screen: ScreenOrientation;
   @ViewChild('barCanvas') barCanvas;
   @ViewChild('lineCanvas') lineCanvas;
 
-  reminders = Challenges;
+  reminders = Reminders;
   remind: any;
 
   barChart: any;
@@ -58,12 +60,12 @@ export class MywalletsPage {
   safeSvg: any;
 
 
-  constructor(public reportsProvider: ReportsProvider, private plt: Platform, private alertCtrl: AlertController, public expensesProvider: ExpensesProvider, public navCtrl: NavController, public navParams: NavParams, private modalCtrl: ModalController, private events: Events, public categoryProvider: CategoryProvider, private loadCtrl: LoadingController, private sanitizer: DomSanitizer) {
+  constructor(public reportsProvider: ReportsProvider, private plt: Platform, private alertCtrl: AlertController, public expensesProvider: ExpensesProvider, public navCtrl: NavController, public navParams: NavParams, private modalCtrl: ModalController, private events: Events, public categoryProvider: CategoryProvider, private loadCtrl: LoadingController, private sanitizer: DomSanitizer, private screenOrientation: ScreenOrientation) {
     this.doAll();
     this.logoLoad();
     this.remind = this.reminders[Math.floor(Math.random() * this.reminders.length)];
-    // this.presentReminder();
-
+    this.presentReminder();
+    console.log('Orientation', this.screenOrientation.type);
     this.counter = 0;
     this.surprise = false;
     this.events.subscribe('count:changed', count => {
@@ -71,7 +73,14 @@ export class MywalletsPage {
         this.surprise = true;
       }
     });
+    console.log(this.screenOrientation);
 
+    this.screen = this.screenOrientation;
+
+  }
+
+  lockLandscape() {
+    this.screenOrientation.lock(this.screenOrientation.ORIENTATIONS.LANDSCAPE);
   }
 
   presentReminder() {
@@ -287,7 +296,7 @@ export class MywalletsPage {
     this.safeSvg = this.sanitizer.bypassSecurityTrustHtml(svg);
     let logo = this.loadCtrl.create({
       spinner: 'hide',
-      content: `<div><img src="assets/imgs/logo.gif" height="100px"/></div>`
+      content: `<div class="loader"><img src="assets/imgs/logo.gif" height="100px"/></div>`
     });
     logo.present();
 

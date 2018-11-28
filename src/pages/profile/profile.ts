@@ -59,6 +59,8 @@ export class ProfilePage {
       .then(data => {
         this.userData = data;
         console.log('Profile', this.userData);
+      }, err => {
+        console.log(err);
       });
   }
 

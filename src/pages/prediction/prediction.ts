@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { IonicPage, NavController, NavParams, LoadingController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, LoadingController, ViewController } from 'ionic-angular';
 import { Chart } from 'chart.js';
 import { BGColor, HoverColor } from '../../data/data'
 import { ExpensesProvider } from '../../providers/expenses/expenses';
@@ -26,13 +26,17 @@ export class PredictionPage {
   newNames: any = [];
   newAmounts: any = [];
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public expensesProvider: ExpensesProvider, private loadCtrl: LoadingController) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public expensesProvider: ExpensesProvider, private loadCtrl: LoadingController, private viewCtrl: ViewController) {
     this.doAll();
   }
 
   async doAll() {
     await this.getExpenseWallets();
     // await this.predict();
+  }
+
+  closeView() {
+    this.viewCtrl.dismiss();
   }
 
   getExpenseWallets() {
@@ -48,7 +52,7 @@ export class PredictionPage {
       })
       .then(() => {
         this.names.forEach(name => {
-          this.expensesProvider.predict(name)
+          this.expensesProvider.suggest(name)
             .then(data => {
               this.x = data;
               this.y = this.x.x;
@@ -61,7 +65,12 @@ export class PredictionPage {
               console.log(err);
             });
         });
-        console.log('Predicted',this.predicted);
+        console.log('Predicted', this.predicted);
+      })
+      .then(() => {
+        this.chart();
+      }, err => {
+        console.log(err);
       });
   }
 
@@ -69,7 +78,7 @@ export class PredictionPage {
     let loading = this.loadCtrl.create({
       spinner: 'hide',
       content: `<div>
-      <div><img src="../../assets/imgs/logo.gif"/ height="100px"></div>
+      <div class="loader"><img src="../../assets/imgs/logo.gif"/ height="100px"></div>
       <p>Predicting Values...</p>
       </div>`
     });
@@ -86,6 +95,10 @@ export class PredictionPage {
           for (let wallet of this.y) {
             if (wallet !== null) {
               this.predicted.push(wallet);
+              for (let x of this.predicted) {
+                this.newNames.push(x.name);
+                this.newAmounts.push(x.amount);
+              }
             }
           }
         }, err => {
@@ -115,7 +128,7 @@ export class PredictionPage {
         responsive: true,
         maintainAspectRatio: false,
         title: {
-          text: `${this.period} Prediction`,
+          text: `${this.nPeriod} Prediction`,
           display: true,
         },
         animation: {

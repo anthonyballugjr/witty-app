@@ -77,7 +77,7 @@ export class SignupPage {
     this.loading = this.loadingCtrl.create({
       spinner: 'hide',
       content: `<div>
-      <div><img src="../../assets/imgs/logo.gif"/ height="100px"></div>
+      <div class="loader"><img src="../../assets/imgs/logo.gif"/ height="100px"></div>
       <p>Creating your account...</p>
       </div>`
     });
