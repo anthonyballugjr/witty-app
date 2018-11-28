@@ -1,9 +1,8 @@
 <div *ngIf="menu==='overview'">
   <ion-list no-lines>
-    <ion-item (click)="showPrediction()">Budget Suggestion</ion-item>
+    <button ion-item (click)="showPrediction()">Budget Prediction</button>
   </ion-list>
 </div>
-
 <div *ngIf="menu==='profile'">
   <ion-list no-lines>
     <button ion-item (click)="editNickname()">Edit Nickname</button>

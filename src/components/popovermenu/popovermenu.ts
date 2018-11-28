@@ -113,15 +113,14 @@ export class PopovermenuComponent {
   }
 
   changePassword() {
-    console.log('User will change password');
     let modal = this.modalCtrl.create(ChangePasswordPage);
     modal.present();
     this.viewCtrl.dismiss();
   }
 
   showPrediction() {
-    let modal = this.modalCtrl.create(PredictionPage);
-    modal.present();
+    this.navCtrl.push(PredictionPage);
+    this.viewCtrl.dismiss();
   }
 
 }

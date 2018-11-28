@@ -50,7 +50,7 @@ export class AddwalletPage {
 
   constructor(public localNotifaction: LocalNotifications, private viewCtrl: ViewController, public loadCtrl: LoadingController, private formBldr: FormBuilder, public alertCtrl: AlertController, public navCtrl: NavController, public categoryProvider: CategoryProvider, public navParams: NavParams, public savingsProvider: SavingsProvider) {
     this.isSavings = this.navParams.get('isSavings');
-    console.log('Is it savings?',this.isSavings);
+    console.log('Is it savings?', this.isSavings);
   }
 
   private addExpenseForm = this.formBldr.group({
@@ -168,7 +168,11 @@ export class AddwalletPage {
           text: 'Agree',
           handler: () => {
             let loading = this.loadCtrl.create({
-              content: 'Creating new wallet...'
+              content: `<div>
+              <div class="loader"><img src="../../assets/imgs/logo.gif"/ height="100px"></div>
+              <p>Creating new wallet...</p>
+              </div>`,
+              spinner: 'hide'
             });
             loading.present();
             this.savingsProvider.addWallet(this.savingsWallet)
