@@ -1,12 +1,18 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-title></ion-title>
+    <ion-title>Budget Prediction</ion-title>
   </ion-navbar>
 
 </ion-header>
 
-<ion-content padding>
+<ion-content>
+  <ion-card>
+    <ion-card-content>
+      <canvas #chartCanvas></canvas>
+    </ion-card-content>
+  </ion-card>
+
   <ion-card no-padding>
     <ion-card-header>{{nPeriod}} Prediction</ion-card-header>
     <ion-card-content>
@@ -18,4 +24,5 @@
       </ion-list>
     </ion-card-content>
   </ion-card>
+
 </ion-content>
