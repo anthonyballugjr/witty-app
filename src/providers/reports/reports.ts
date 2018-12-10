@@ -1,10 +1,12 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { apiUrl } from '../../data/apiURL';
 
 @Injectable()
 export class ReportsProvider {
+  apiURL = `${apiUrl}`;
   // apiURL = "http://localhost:3000/api"
-  apiURL = "http://witty-wallet.herokuapp.com/api"
+  // apiURL = "http://witty-wallet.herokuapp.com/api"
 
   authHeader = {
     headers: {
@@ -18,7 +20,7 @@ export class ReportsProvider {
 
   budgetProfile() {
     return new Promise(resolve => {
-      this.http.get(`${this.apiURL}/reports/budgetProfile/${localStorage.userId}`, this.authHeader)
+      this.http.get(`${this.apiURL}reports/budgetProfile/${localStorage.userId}`, this.authHeader)
         .subscribe(data => {
           resolve(data);
         }, err => {
@@ -29,7 +31,7 @@ export class ReportsProvider {
 
   getArchivesOverview() {
     return new Promise(resolve => {
-      this.http.get(`${this.apiURL}/archives/overview/${localStorage.userId}`, this.authHeader)
+      this.http.get(`${this.apiURL}archives/overview/${localStorage.userId}`, this.authHeader)
         .subscribe(data => {
           resolve(data);
         }, err => {
@@ -40,7 +42,7 @@ export class ReportsProvider {
 
   saveArchive(data) {
     return new Promise((resolve, reject) => {
-      this.http.post(`${this.apiURL}/archives`, data, this.authHeader)
+      this.http.post(`${this.apiURL}archives`, data, this.authHeader)
         .subscribe(data => {
           resolve(data);
         }, err => {
@@ -51,7 +53,7 @@ export class ReportsProvider {
 
   getBudgetOverview(period) {
     return new Promise(resolve => {
-      this.http.get(`${this.apiURL}/reports/overview/${localStorage.userId}?period=${period}`, this.authHeader)
+      this.http.get(`${this.apiURL}reports/overview/${localStorage.userId}?period=${period}`, this.authHeader)
         .subscribe(data => {
           resolve(data);
         }, err => {
@@ -62,7 +64,7 @@ export class ReportsProvider {
 
   savingsOverview() {
     return new Promise(resolve => {
-      this.http.get(`${this.apiURL}/wallets/savings/overview/${localStorage.userId}`, this.authHeader)
+      this.http.get(`${this.apiURL}wallets/savings/overview/${localStorage.userId}`, this.authHeader)
         .subscribe(data => {
           resolve(data);
         }, err => {

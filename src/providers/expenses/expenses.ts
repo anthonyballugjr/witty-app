@@ -1,10 +1,12 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { apiUrl } from '../../data/apiURL';
 
 @Injectable()
 export class ExpensesProvider {
+  apiURL = `${apiUrl}wallets/expense/`;
   // apiURL = "http://localhost:3000/api/wallets/expense/";
-  apiURL = "http://witty-wallet.herokuapp.com/api/wallets/expense/"
+  // apiURL = "http://witty-wallet.herokuapp.com/api/wallets/expense/"
 
   authHeader = {
     headers: {
@@ -73,14 +75,14 @@ export class ExpensesProvider {
     });
   }
 
-  suggest(name){
-    return new Promise(resolve=>{
+  suggest(name) {
+    return new Promise(resolve => {
       this.http.get(`${this.apiURL}suggest/${localStorage.userId}?name=${name}`, this.authHeader)
-      .subscribe(data=>{
-        resolve(data);
-      },err=>{
-        console.log(err);
-      });
+        .subscribe(data => {
+          resolve(data);
+        }, err => {
+          console.log(err);
+        });
     });
   }
 

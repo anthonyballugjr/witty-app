@@ -57,7 +57,7 @@ export class MyApp {
       { title: 'Profile', icon: 'person', component: ProfilePage },
       { title: 'Budgets', icon: 'cash', component: BudgetsPage },
       { title: 'Manage Wallets', icon: 'list-box', component: CategoriesPage }
-      { title: 'Playground', icon: 'baseball', component: MywalletsPage }
+      // { title: 'Playground', icon: 'baseball', component: MywalletsPage }
     ];
     this.activePage = this.pages[0];
   }
@@ -95,7 +95,7 @@ export class MyApp {
     this.loading = this.loadingCtrl.create({
       content: `<div>
       <div class="loader"><img src="../../assets/imgs/logo.gif"/ height="100px"></div>
-      <p>C${msg}</p>
+      <p>${msg}</p>
       </div>`,
       spinner: 'hide'
     });

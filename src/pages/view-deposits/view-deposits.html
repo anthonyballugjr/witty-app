@@ -1,6 +1,6 @@
 <ion-header>
   <ion-navbar>
-    <ion-title>Deposits</ion-title>
+    <ion-title>{{walletName | ucwords}}</ion-title>
     <ion-buttons right>
       <button ion-button icon-only (click)="close()">
         <ion-icon name="close"></ion-icon>
@@ -9,24 +9,41 @@
   </ion-navbar>
 </ion-header>
 
-
 <ion-content>
-  <ion-list no-lines>
-    <ion-item-divider class="strong" sticky>Wallet: {{walletName | ucwords}}</ion-item-divider>
-    <ion-item *ngFor="let deposit of deposits | reverse" text-wrap no-margin>
-      <h5>{{deposit.amount | currency:"PHP":2}}</h5>
-      <ion-note>{{deposit.createdAt}}</ion-note>
-    </ion-item>
-  </ion-list>
+  <!-- <ion-item-divider sticky no-margin>
+    <ion-segment [(ngModel)]="view" color="buttons">
+      <ion-segment-button value="deposits">Deposits</ion-segment-button>
+      <ion-segment-button value="withdrawals">Withdrawals</ion-segment-button>
+    </ion-segment>
+  </ion-item-divider> -->
 
-  <h5 float-right margin-right>
-    <strong>Total: {{deposits | pluck:'amount' | sum | currency:"PHP":2}} </strong>
-  </h5>
+  <!-- <div [ngSwitch]="view"> -->
 
-  <ion-fab top right>
-    <button ion-fab mini color="buttons" (click)="addDeposit()">
-      <ion-icon name="add"></ion-icon>
-    </button>
-  </ion-fab>
+  <!-- <div *ngSwitchCase="'deposits'"> -->
+  <div>
+    <ion-list no-lines>
+      <ion-item-divider sticky>
+        <p float-end>Total: {{deposits | pluck:'amount' | sum | currency:"PHP":2}}</p>
+      </ion-item-divider>
+
+      <ion-item *ngFor="let deposit of deposits | reverse" text-wrap no-margin>
+        <h5>{{deposit.amount | currency:"PHP":2}}</h5>
+        <ion-note>{{deposit.createdAt}}</ion-note>
+      </ion-item>
+    </ion-list>
+
+    <ion-fab bottom right>
+      <button ion-fab mini color="buttons" (click)="addDeposit()">
+        <ion-icon name="add"></ion-icon>
+      </button>
+    </ion-fab>
+  </div>
+
+  <!-- <div *ngSwitchCase="'withdrawals'">
+    Withdrawals
+  </div>
+
+  </div> -->
+
 
 </ion-content>

@@ -2,11 +2,13 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Events } from 'ionic-angular';
 import { cPeriod, pPeriod, nPeriod } from '../../data/period';
+import { apiUrl } from '../../data/apiURL';
 
 @Injectable()
 export class AuthProvider {
+  authURL = `${apiUrl}users`;
   // authURL = "http://localhost:3000/api/users";
-  authURL = "http://witty-wallet.herokuapp.com/api/users"
+  // authURL = "http://witty-wallet.herokuapp.com/api/users"
 
   menuName: any;
   in: any;

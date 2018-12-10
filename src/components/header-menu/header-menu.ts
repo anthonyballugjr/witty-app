@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { App, MenuController, ToastController, LoadingController } from 'ionic-angular';
 import { ProfilePage } from '../../pages/profile/profile';
 import { MywalletsPage } from '../../pages/mywallets/mywallets';
-
 import { AuthProvider } from '../../providers/auth/auth';
 
 @Component({

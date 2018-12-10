@@ -1,10 +1,12 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { apiUrl } from '../../data/apiURL';
 
 @Injectable()
 export class DepositsProvider {
+  apiUrl = `${apiUrl}deposits`;
   // apiUrl = "http://localhost:3000/api/deposits"
-  apiUrl = "http://witty-wallet.herokuapp.com/api/deposits"
+  // apiUrl = "http://witty-wallet.herokuapp.com/api/deposits"
   authHeader = {
     headers: {
       'Authorization': `Token ${localStorage.token}`
@@ -27,6 +29,7 @@ export class DepositsProvider {
   }
 
   addDeposit(data) {
+    console.log(data);
     return new Promise((resolve, reject) => {
       console.log(data);
       this.http.post(this.apiUrl, data, this.authHeader).subscribe(res => {

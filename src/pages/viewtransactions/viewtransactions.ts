@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicPage, ViewController, NavController, NavParams, AlertController, LoadingController, ToastController } from 'ionic-angular';
 import { TransactionsProvider } from '../../providers/transactions/transactions';
-import { TabsPage } from '../tabs/tabs';
 
 @IonicPage()
 @Component({

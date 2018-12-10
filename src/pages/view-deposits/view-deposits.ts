@@ -9,11 +9,19 @@ import { DepositsProvider } from '../../providers/deposits/deposits';
   templateUrl: 'view-deposits.html',
 })
 export class ViewDepositsPage {
+  view: string = "deposits";
+
   deposits: any;
   deposit = {
     amount: '',
     walletId: '',
     period: localStorage.period
+  }
+
+  withdrawal = {
+    desc: 'withdrawal',
+    walletId: '',
+    amount: ''
   }
 
   walletId: any;
