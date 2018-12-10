@@ -17,18 +17,13 @@ Make sure you have installed the following:
 ### Installing
 
 Install Ionic CLI:
-
 ```
 npm install -g ionic cordova
 ```
 
 Install dependencies:
-
 ```
 npm install
-```
-or 
-```
 npm i
 ```
 
@@ -45,11 +40,8 @@ ionic cordova platform add android
 ## Running
 For Browser:
 ```
-Ionic serve
-```
-or
-```
-Ionic serve -lab
+ionic serve
+ionic serve -lab
 ```
 
 For android
