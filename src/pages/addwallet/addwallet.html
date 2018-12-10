@@ -34,8 +34,8 @@
     </ion-item>
     <ion-item-divider no-lines></ion-item-divider>
 
-    <ion-item no-lines *ngIf="expenseWallet.categoryId==='bll'">
-      <ion-label>Set notification for this bill?</ion-label>
+    <ion-item no-lines *ngIf="expenseWallet.categoryId==='bll' || expenseWallet.categoryId==='dbt'">
+      <ion-label>Set notification on due date?</ion-label>
       <ion-toggle color="main" [(ngModel)]="doNotify" name="doNotify" formControlName="doNotify" (ionChange)="showMe()"></ion-toggle>
     </ion-item>
 
