@@ -3,7 +3,6 @@
     <ion-segment color="light" [(ngModel)]="page" no-padding no-margin>
       <ion-segment-button value="0" (click)="selectedTab(0)">Expenses</ion-segment-button>
       <ion-segment-button value="1" (click)="selectedTab(1)">Savings</ion-segment-button>
-      <ion-segment-button value="2" (click)="selectedTab(2)">Bills</ion-segment-button>
     </ion-segment>
 
     <div ion-text color="light" no-padding no-margin>
@@ -22,62 +21,44 @@
     <ion-slide>
       <ion-list padding-top>
         <div *ngFor="let wallet of eWallets">
-          <div *ngIf="wallet.categoryId !='bll'">
-            <ion-item>
-              <ion-icon name="{{wallet.icon}}" color="watermelon" item-start tooltip="{{wallet.category | ucwords}}" event="click" mobileEvent="click"
-                duration="1000"></ion-icon>
-              <div (click)="viewTransactions(wallet._id,wallet.name, wallet)">
-                <h6>
-                  <strong>{{wallet.name | ucwords}}</strong>
-                </h6>
-                <p>Budget: {{wallet.amount | currency: "PHP" :2}} </p>
-                <p ion-text [color]="(wallet.transactions | pluck: 'amount' | sum) >= wallet.amount ? 'danger':'greenx'" [tooltip]="(wallet.transactions | pluck: 'amount' | sum) >= wallet.amount ? 'You overspent on this wallet':'Spending is safe, dont overspend'"
-                  event="press" mobileEvent="press" duration="1000">Expenses: {{wallet.transactions | pluck:'amount' | sum | currency: "PHP" :2}}
-                  <ion-icon [name]="(wallet.transactions | pluck: 'amount' | sum) >= wallet.amount ? 'alert':'thumbs-up'"></ion-icon>
-                </p>
-                <p ion-text [color]="(wallet.transactions | pluck: 'amount' | sum) >= wallet.amount ? 'danger':'greenx'" [tooltip]="(wallet.transactions | pluck: 'amount' | sum) >= wallet.amount ? 'You overspent on this wallet':'Spending is safe, dont overspend'"
-                  event="press" mobileEvent="press" duration="1000">Remaining: {{wallet.amount - (wallet.transactions | pluck:'amount' | sum) | currency: "PHP" :2}}
-                  <ion-icon [name]="(wallet.transactions | pluck: 'amount' | sum) >= wallet.amount ? 'alert':'thumbs-up'"></ion-icon>
-                </p>
-              </div>
-            </ion-item>
-          </div>
+          <ion-item>
+            <ion-icon name="{{wallet.icon}}" color="watermelon" item-start tooltip="{{wallet.category | ucwords}}" event="click" mobileEvent="click"
+              duration="1000"></ion-icon>
+            <div (click)="viewTransactions(wallet._id,wallet.name, wallet)">
+              <h6>
+                <strong>{{wallet.name | ucwords}}</strong>
+              </h6>
+              <p *ngIf="wallet.categoryId!=='bll'">Budget: {{wallet.amount | currency: "PHP" :2}} </p>
+              <p *ngIf="wallet.categoryId==='bll'">Allocated: {{wallet.amount | currency: "PHP" :2}} </p>
+              <p ion-text [color]="(wallet.transactions | pluck: 'amount' | sum) >= wallet.amount ? 'danger':'greenx'" [tooltip]="(wallet.transactions | pluck: 'amount' | sum) >= wallet.amount ? 'You overspent on this wallet':'Spending is safe, dont overspend'"
+                event="press" mobileEvent="press" duration="1000">Expenses: {{wallet.transactions | pluck:'amount' | sum | currency: "PHP" :2}}
+                <ion-icon [name]="(wallet.transactions | pluck: 'amount' | sum) >= wallet.amount ? 'alert':'thumbs-up'"></ion-icon>
+              </p>
+              <p ion-text [color]="(wallet.transactions | pluck: 'amount' | sum) >= wallet.amount ? 'danger':'greenx'" [tooltip]="(wallet.transactions | pluck: 'amount' | sum) >= wallet.amount ? 'You overspent on this wallet':'Spending is safe, dont overspend'"
+                event="press" mobileEvent="press" duration="1000">Remaining: {{wallet.amount - (wallet.transactions | pluck:'amount' | sum) | currency: "PHP" :2}}
+                <ion-icon [name]="(wallet.transactions | pluck: 'amount' | sum) >= wallet.amount ? 'alert':'thumbs-up'"></ion-icon>
+              </p>
+            </div>
+          </ion-item>
         </div>
-
       </ion-list>
     </ion-slide>
 
     <ion-slide>
       <ion-list padding-top>
         <ion-item *ngFor="let wallet of sWallets">
-          <ion-icon name="trophy" color="watermelon" item-start tooltip="Savings" event="click" mobileEvent="click"
-            duration="1000"></ion-icon>
+          <ion-icon [name]="wallet.name!='emergency fund' ? 'trophy' : 'help-buoy'" color="watermelon" item-start tooltip="Savings"
+            event="click" mobileEvent="click" duration="1000"></ion-icon>
           <div (click)="viewDeposits(wallet._id, wallet.name)">
             <h6>
               <strong>{{wallet.name | ucwords}}</strong>
             </h6>
-            <p>Goal: {{wallet.goal | currency: "PHP" :2}}</p>
-            <p>Deposited: {{wallet.totalDeposits | currency:"PHP":2}}</p>
-            <p>Needed to complete: {{(wallet.goal - wallet.totalDeposits ) | currency:"PHP":2}}</p>
+            <p *ngIf="wallet.name!=='emergency fund'">Goal: {{wallet.goal | currency: "PHP" :2}}</p>
+            <p *ngIf="wallet.name==='emergency fund'">Amount: {{(wallet.totalDeposits - wallet.totalWithdrawals) | currency: "PHP" :2}}</p>
+            <p *ngIf="wallet.name!=='emergency fund'">Deposited: {{wallet.totalDeposits | currency:"PHP":2}}</p>
+            <p *ngIf="wallet.name!=='emergency fund'">Needed to complete: {{(wallet.goal - wallet.totalDeposits ) | currency:"PHP":2}}</p>
           </div>
           <!-- <ion-icon item-end name="more" color="main"></ion-icon> -->
-        </ion-item>
-      </ion-list>
-    </ion-slide>
-
-
-    <ion-slide>
-      <ion-list padding-top>
-        <ion-item ion-item *ngFor="let wallet of eWallets | filterBy: ['categoryId']: 'bll'">
-          <ion-icon name="{{wallet.icon}}" color="watermelon" item-start tooltip="{{wallet.category | ucwords}}" event="click" mobileEvent="click"
-            duration="1000"></ion-icon>
-          <div>
-            <h6>
-              <strong>{{wallet.name | ucwords}}</strong>
-            </h6>
-            <p>Allocated: {{wallet.amount | currency: "PHP" :2}} </p>
-          </div>
-          <!-- <ion-icon item-end color="main" name="more"></ion-icon> -->
         </ion-item>
       </ion-list>
     </ion-slide>
@@ -85,7 +66,7 @@
   </ion-slides>
 
   <ion-fab bottom right>
-    <button ion-fab icon-only mini (click)="addWallet()" [color]="page==='0' ? 'main':'greenx'" *ngIf="page != 2">
+    <button ion-fab icon-only mini (click)="addWallet()" [color]="page==='0' ? 'main':'greenx'">
       <ion-icon name="add"></ion-icon>
     </button>
   </ion-fab>

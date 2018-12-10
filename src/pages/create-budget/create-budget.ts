@@ -2,6 +2,8 @@ import { Component, ViewChild } from '@angular/core';
 import { IonicPage, NavController, NavParams, AlertController, Slides, LoadingController, ViewController, ToastController } from 'ionic-angular';
 import { ExpensesProvider } from '../../providers/expenses/expenses';
 import { ReportsProvider } from '../../providers/reports/reports';
+import { SavingsProvider } from '../../providers/savings/savings';
+import { DepositsProvider } from '../../providers/deposits/deposits';
 import { TabsPage } from '../tabs/tabs';
 import { pPeriod } from '../../data/period';
 
@@ -16,6 +18,7 @@ export class CreateBudgetPage {
   loading: any;
   alert: any;
   toast: any;
+  sWallets: any;
 
   names: any = [];
   wallets: any;
@@ -25,10 +28,14 @@ export class CreateBudgetPage {
   x: any;
   y: any = [];
   forArchive: any;
+  emergency: any = [];
+  emWallet: any;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public expensesProvider: ExpensesProvider, private loadingCtrl: LoadingController, private alertCtrl: AlertController, private viewCtrl: ViewController, private toastCtrl: ToastController, public reportsProvider: ReportsProvider) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public expensesProvider: ExpensesProvider, private loadingCtrl: LoadingController, private alertCtrl: AlertController, private viewCtrl: ViewController, private toastCtrl: ToastController, public reportsProvider: ReportsProvider, public savingsProvider: SavingsProvider, public depositsProvider: DepositsProvider) {
     this.getExpenseWallets();
+    this.getSavingsWallets();
     this.getBudgetOverview();
+    this.getEmergency();
   }
 
   ionViewDidLoad() {
@@ -99,6 +106,16 @@ export class CreateBudgetPage {
     this.navCtrl.setRoot(TabsPage);
   }
 
+  getEmergency() {
+    this.savingsProvider.getE()
+      .then(data => {
+        this.emergency = data;
+        this.emWallet = this.emergency[0];
+      }, err => {
+        console.log(err);
+      });
+  }
+
   getExpenseWallets() {
     this.presentLoading('Fetching wallets...');
     this.expensesProvider.getWallets(pPeriod)
@@ -118,11 +135,20 @@ export class CreateBudgetPage {
       });
   }
 
+  getSavingsWallets() {
+    this.savingsProvider.getWallets()
+      .then(data => {
+        this.sWallets = data;
+      }, err => {
+        console.log(err);
+      });
+  }
+
   getBudgetOverview() {
     this.reportsProvider.getBudgetOverview(pPeriod)
       .then(data => {
         this.forArchive = data;
-        console.log('Last month overview',this.forArchive);
+        console.log('Last month overview', this.forArchive);
       }, err => {
         console.log(err);
       });
@@ -176,23 +202,117 @@ export class CreateBudgetPage {
       this.toast.dismiss();
     }
     console.log('Predicted Data', this.predicted);
-    console.log(this.overview);
+    console.log(this.forArchive);
   }
 
   save() {
     this.presentLoading('Adding wallet for next month')
     this.expensesProvider.addWallet(this.predicted)
       .then(result => {
+        this.loading.dismiss();
         console.log(result);
-        this.reportsProvider.saveArchive(this.forArchive)
-          .then(result => {
-            console.log('Archived', result);
-          }, err => {
-            console.log(err);
+        if (this.forArchive.extraSavings > 0) {
+          let alert = this.alertCtrl.create({
+            title: 'Extra Savings',
+            subTitle: `You have ₱${this.forArchive.extraSavingstoFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')} extra savings last month. Select where yo want to deposit your extra savings.`,
+            buttons: [
+              {
+                text: `I don't like to deposit`,
+                handler: () => {
+                  let prompt = this.alertCtrl.create({
+                    subTitle: 'Are you sure you want to skip this step?',
+                    buttons: [
+                      {
+                        text: 'Go back',
+                        role: 'cancel'
+                      },
+                      {
+                        text: 'Yes',
+                        handler: () => {
+                          this.reportsProvider.saveArchive(this.forArchive)
+                            .then(result => {
+                              console.log('Archived', result);
+                            }, err => {
+                              console.log(err);
+                            });
+                          alert.dismiss();
+                        }
+                      }
+                    ]
+                  });
+                  prompt.present();
+                  return false;
+                }
+              },
+              {
+                text: 'Continue',
+                handler: (data) => {
+                  let prompt = this.alertCtrl.create({
+                    subTitle: `Deposit extra savings to ${data.name.toUpperCase()}?`,
+                    buttons: [
+                      {
+                        text: 'Back',
+                        role: 'cancel'
+                      },
+                      {
+                        text: 'Agree',
+                        handler: () => {
+                          var amount = this.forArchive.extraSavings;
+                          this.forArchive.extraSavings = 0;
+                          var deposit = {
+                            walletId: data._id,
+                            amount: amount,
+                            period: localStorage.period
+                          }
+                          this.presentLoading(`Adding extra savings to ${data.name}...`);
+                          this.depositsProvider.addDeposit(deposit)
+                            .then(result => {
+                              console.log(result);
+                              this.loading.dismiss();
+                            }, err => {
+                              this.loading.dismiss();
+                              console.log(err);
+                            });
+
+                          this.reportsProvider.saveArchive(this.forArchive)
+                            .then(result => {
+                              console.log('Archived', result);
+                            }, err => {
+                              console.log(err);
+                            });
+                        }
+                      }
+                    ]
+                  });
+                  prompt.present();
+                  return false;
+                }
+              }
+            ]
           });
+          alert.present();
+          for (let x of this.sWallets) {
+            alert.addInput({
+              type: 'radio',
+              label: x.name.toUpperCase(),
+              value: x,
+              handler: () => {
+                console.log(x);
+              }
+            });
+          }
+        } else {
+          this.reportsProvider.saveArchive(this.forArchive)
+            .then(result => {
+              console.log('Archived', result);
+            }, err => {
+              console.log(err);
+            });
+        }
         this.loading.dismiss();
         this.goToSlide(2);
         this.presentAlert('Success!', 'Wallets successfully created');
+
       }, err => {
         this.loading.dismiss();
         console.log(err);

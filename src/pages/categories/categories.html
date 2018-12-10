@@ -43,7 +43,7 @@
       </button>
     </ion-item-divider>
     <ion-item-sliding (ionSwipe)="onSwipe(sliding, wallet)" *ngFor="let wallet of savingsWallets" #sliding>
-      <ion-item>
+      <ion-item *ngIf="wallet.name !== 'emergency fund'">
         <p>{{wallet.name | ucwords}}</p>
       </ion-item>
       <ion-item-options side="right">

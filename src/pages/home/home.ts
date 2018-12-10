@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { ReportsProvider } from '../../providers/reports/reports';
 import { SavingsProvider } from '../../providers/savings/savings';
 import { ExpensesProvider } from '../../providers/expenses/expenses';
+import { DepositsProvider } from '../../providers/deposits/deposits';
 import { ViewtransactionsPage } from '../viewtransactions/viewtransactions';
 import { BillsPage } from '../bills/bills';
 import { AddwalletPage } from '../addwallet/addwallet';
@@ -38,11 +39,16 @@ export class HomePage {
   x: any;
   y: any = [];
   forArchive: any;
-
+  emergencyFund: any = [];
+  emWallet: any;
+  newGoal: any;
   isDone: any;
 
+  archivedData: any;
+  oldWallets: any = [];
+  newWallets: any = [];
 
-  constructor(private alertCtrl: AlertController, private loadingCtrl: LoadingController, private modalCtrl: ModalController, private toastCtrl: ToastController, public navParams: NavParams, public navCtrl: NavController, public http: HttpClient, public expensesProvider: ExpensesProvider, public savingsProvider: SavingsProvider, public reportsProvider: ReportsProvider, private events: Events) {
+  constructor(private alertCtrl: AlertController, private loadingCtrl: LoadingController, private modalCtrl: ModalController, private toastCtrl: ToastController, public navParams: NavParams, public navCtrl: NavController, public http: HttpClient, public expensesProvider: ExpensesProvider, public savingsProvider: SavingsProvider, public reportsProvider: ReportsProvider, private events: Events, public depositsProvider: DepositsProvider) {
     this.isDone = localStorage.getItem('bStat');
     this.events.subscribe('done:changed', done => {
       if (this.isDone === 'undone' || this.isDone === undefined) {
@@ -57,6 +63,7 @@ export class HomePage {
     await this.getExpenseWallets();
     await this.getPreviousExpenseWallets();
     await this.getSavingsWallets();
+    await this.getEmergency();
     await this.createBudget();
   }
 
@@ -155,6 +162,16 @@ export class HomePage {
     modal.present();
   }
 
+  getEmergency() {
+    this.savingsProvider.getE()
+      .then(data => {
+        this.emergencyFund = data;
+        this.emWallet = this.emergencyFund[0];
+      }, err => {
+        console.log(err);
+      });
+  }
+
   addWallet() {
     let modal = this.modalCtrl.create(AddwalletPage, { isSavings: this.isSavings });
     modal.present();
@@ -216,14 +233,15 @@ export class HomePage {
     if (this.isDone === 'undone') {
       let alert = this.alertCtrl.create({
         title: 'Create New Budget',
-        subTitle: `Hello ${this.nickname.charAt(0).toUpperCase() + this.nickname.slice(1)}, It is the first day of the month, Witty is now ready to create your budget. Please choose how you want to create your budget this month.`,
+        subTitle: `Hello ${this.nickname.charAt(0).toUpperCase() + this.nickname.slice(1)}, It is the first day of the month. Witty is now ready to create your budget. Please choose how you want to create your budget this month. (SELECT AN OPTION FOR MORE DETAILS).`,
         enableBackdropDismiss: false,
         buttons: [
           {
             text: 'Automatic',
             handler: () => {
               let prompt = this.alertCtrl.create({
-                subTitle: `By choosing these option, Witty will automatically create your wallets and set their amounts for this month based on your historical data. Note that all wallets will be copied from the previous month. (if you want to change what wallets you want to keep, choose "Modified" option).`,
+                title: 'Automatic (Recommended)',
+                subTitle: `Choosing this option will create your wallets and set their amounts automatically for this month based on your historical data. Note that all wallets will be copied from the previous month. (if you want to edit what wallets you want to keep, choose "Modified" option).`,
                 buttons: [
                   {
                     text: 'Cancel',
@@ -247,6 +265,7 @@ export class HomePage {
             text: 'Modified',
             handler: () => {
               let prompt = this.alertCtrl.create({
+                title: 'Modified',
                 subTitle: 'Choosing these option lets you edit what wallets you want to keep from the previous month. Afterwhich, Witty will automatically set their budgets for this month based on your historical data.',
                 buttons: [
                   {
@@ -272,6 +291,7 @@ export class HomePage {
             text: 'Manual',
             handler: () => {
               let prompt = this.alertCtrl.create({
+                title: 'Manual',
                 subTitle: 'Choosing these option lets you manually create new wallets and set their budget. Note that previous wallets will not be used and you will be starting anew.',
                 buttons: [
                   {
@@ -282,6 +302,7 @@ export class HomePage {
                     text: 'Continue',
                     handler: () => {
                       console.log('Chosen Manual');
+                      this.manual();
                       alert.dismiss();
                     }
                   }
@@ -309,6 +330,7 @@ export class HomePage {
           for (let wallet of this.y) {
             if (wallet !== null) {
               this.predicted.push(wallet);
+              this.newWallets.push(wallet);
               this.pWallet = wallet;
               this.expensesProvider.addWallet(this.pWallet)
                 .then(res => {
@@ -333,22 +355,220 @@ export class HomePage {
         this.presentToast(err);
         console.log(err);
       });
-    await this.reportsProvider.saveArchive(this.forArchive)
-      .then(data => {
-        console.log(data);
-        this.presentToast('Budget created successfully!');
-      }, err => {
-        this.presentToast(err);
-        console.log(err);
+
+
+    if (this.forArchive.extraSavings > 0) {
+      let alert = this.alertCtrl.create({
+        title: 'Extra Savings',
+        subTitle: `You have ₱${this.forArchive.extraSavingstoFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')} extra savings last month. Select where you like to deposit your extra savings`,
+        buttons: [
+          {
+            text: ` I don't like to deposit`,
+            handler: () => {
+              let prompt = this.alertCtrl.create({
+                subTitle: 'Are you sure you want to skip this step?',
+                buttons: [
+                  {
+                    text: 'Go back',
+                    role: 'cancel'
+                  },
+                  {
+                    text: 'Agree',
+                    handler: () => {
+                      this.reportsProvider.saveArchive(this.forArchive)
+                        .then(result => {
+                          console.log(result);
+                        }, err => {
+                          console.log(err);
+                        })
+                    }
+                  }
+                ]
+              });
+              prompt.present();
+              return false;
+            }
+          },
+          {
+            text: 'Continue',
+            handler: (data) => {
+              let prompt = this.alertCtrl.create({
+                subTitle: `Deposit extra savings to ${data.name.toUpperCase()}?`,
+                buttons: [
+                  {
+                    text: 'Back',
+                    role: 'cancel'
+                  },
+                  {
+                    text: 'Agree',
+                    handler: () => {
+                      var amount = this.forArchive.extraSavings;
+                      this.forArchive.extraSavings = 0;
+                      var deposit = {
+                        walletId: data._id,
+                        amount: amount,
+                        period: localStorage.period
+                      }
+                      this.presentLoading(`Adding extra savings to ${data.name}...`)
+                      this.depositsProvider.addDeposit(deposit)
+                        .then(result => {
+                          console.log(`Deposited to ${data.name}`, result);
+                          this.loading.dismiss();
+                        }, err => {
+                          this.loading.dismiss();
+                          console.log(err);
+                        });
+
+                      this.reportsProvider.saveArchive(this.forArchive)
+                        .then(result => {
+                          console.log('Archived', result);
+                        }, err => {
+                          console.log(err);
+                        });
+                    }
+                  }
+                ]
+              });
+              prompt.present();
+              return false;
+            }
+          }
+        ]
       });
-    this.loading.dismiss();
-    this.getExpenseWallets();
-    this.getSavingsWallets();
+      alert.present();
+      for (let x of this.sWallets) {
+        alert.addInput({
+          type: 'radio',
+          label: x.name.toUpperCase(),
+          value: x
+        });
+      }
+    } else {
+      await this.reportsProvider.saveArchive(this.forArchive)
+        .then(result => {
+          console.log('Archived', result);
+        }, err => {
+          console.log(err);
+        });
+    }
+    await this.getExpenseWallets();
+    await this.getSavingsWallets();
     this.isDone = 'done';
     localStorage.setItem('bStat', this.isDone);
     this.events.publish('done:changed', this.isDone);
+    await this.loading.dismiss();
   }
   //End auto creating new budget
 
+  async manual() {
+    await this.reportsProvider.getBudgetOverview(pPeriod)
+      .then(data => {
+        this.forArchive = data;
+        console.log('forArchive', this.forArchive);
+      }, err => {
+        console.log(err);
+      });
+
+    if (this.forArchive.extraSavings > 0) {
+
+      let alert = this.alertCtrl.create({
+        title: 'Extra Savings',
+        subTitle: `You have ₱${this.forArchive.extraSavings.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')} extra savings last month. Select where you want to deposit your extra savings.`,
+        enableBackdropDismiss: false,
+        buttons: [
+          {
+            text: `I don't like to deposit`,
+            handler: () => {
+              let prompt = this.alertCtrl.create({
+                subTitle: 'Are you sure you want to skip this step?',
+                buttons: [
+                  {
+                    text: 'Go back',
+                    role: 'cancel'
+                  },
+                  {
+                    text: 'Yes',
+                    handler: () => {
+                      this.reportsProvider.saveArchive(this.forArchive)
+                        .then(result => {
+                          console.log('Archived', result);
+                        }, err => {
+                          console.log(err);
+                        })
+                      alert.dismiss();
+                    }
+                  }
+                ]
+              });
+              prompt.present();
+              return false;
+            }
+          },
+          {
+            text: 'Continue',
+            handler: (data) => {
+              let prompt = this.alertCtrl.create({
+                subTitle: `Deposit extra savings to ${data.name.toUpperCase()}?`,
+                buttons: [
+                  {
+                    text: 'Back',
+                    role: 'cancel'
+                  },
+                  {
+                    text: 'Agree',
+                    handler: () => {
+                      var amount = this.forArchive.extraSavings;
+                      this.forArchive.extraSavings = 0;
+                      var deposit = {
+                        walletId: data._id,
+                        amount: amount,
+                        period: localStorage.period
+                      }
+                      this.presentLoading(`Adding extra savings to ${data.name}...`)
+                      this.depositsProvider.addDeposit(deposit)
+                        .then(result => {
+                          this.loading.dismiss();
+                          console.log(result);
+                        }, err => {
+                          console.log(err);
+                          this.loading.dismiss();
+                        });
+
+                      this.reportsProvider.saveArchive(this.forArchive)
+                        .then(res => {
+                          console.log('Archived', res);
+                        }, err => {
+                          console.log(err);
+                        });
+                    }
+                  }
+                ]
+              });
+              prompt.present();
+              return false;
+            }
+          }
+        ]
+      });
+      alert.present();
+      for (let x of this.sWallets) {
+        alert.addInput({
+          type: 'radio',
+          label: x.name.toUpperCase(),
+          value: x,
+          handler: () => {
+            console.log(x);
+          }
+        });
+      }
+    } else {
+      this.reportsProvider.saveArchive(this.forArchive)
+        .then(result => {
+          console.log('Archived', result);
+        }, err => {
+          console.log(err);
+        });
+    }
+  }
 
 }
