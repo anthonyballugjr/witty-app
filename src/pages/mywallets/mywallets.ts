@@ -4,6 +4,7 @@ import { CategoryProvider } from '../../providers/category/category';
 import { ScreenOrientation } from '@ionic-native/screen-orientation';
 import { ExpensesProvider } from '../../providers/expenses/expenses';
 import { ReportsProvider } from '../../providers/reports/reports';
+import { SavingsProvider } from '../../providers/savings/savings';
 import { BillsPage } from '../bills/bills';
 import { Chart } from 'chart.js';
 import { BGColor, HoverColor } from '../../data/data';
@@ -11,8 +12,6 @@ import { Events } from 'ionic-angular';
 import { ViewtransactionsPage } from '../viewtransactions/viewtransactions';
 import { ViewDepositsPage } from '../view-deposits/view-deposits';
 import { Reminders } from '../../data/reminders';
-import { DomSanitizer } from '@angular/platform-browser';
-
 
 @IonicPage()
 @Component({
@@ -21,10 +20,6 @@ import { DomSanitizer } from '@angular/platform-browser';
 })
 
 export class MywalletsPage {
-  screen: ScreenOrientation;
-  @ViewChild('barCanvas') barCanvas;
-  @ViewChild('lineCanvas') lineCanvas;
-
   reminders = Reminders;
   remind: any;
 
@@ -58,13 +53,14 @@ export class MywalletsPage {
   sWallets: any;
 
   safeSvg: any;
+  emergency: any = [];
+  emWallet: any;
 
 
-  constructor(public reportsProvider: ReportsProvider, private plt: Platform, private alertCtrl: AlertController, public expensesProvider: ExpensesProvider, public navCtrl: NavController, public navParams: NavParams, private modalCtrl: ModalController, private events: Events, public categoryProvider: CategoryProvider, private loadCtrl: LoadingController, private sanitizer: DomSanitizer, private screenOrientation: ScreenOrientation) {
+  constructor(public reportsProvider: ReportsProvider, private alertCtrl: AlertController, public expensesProvider: ExpensesProvider, public navCtrl: NavController, public navParams: NavParams, private modalCtrl: ModalController, private events: Events, public categoryProvider: CategoryProvider, private loadCtrl: LoadingController, private screenOrientation: ScreenOrientation, public savingsProvider: SavingsProvider) {
     this.doAll();
-    this.logoLoad();
     this.remind = this.reminders[Math.floor(Math.random() * this.reminders.length)];
-    this.presentReminder();
+    // this.presentReminder();
     console.log('Orientation', this.screenOrientation.type);
     this.counter = 0;
     this.surprise = false;
@@ -73,14 +69,6 @@ export class MywalletsPage {
         this.surprise = true;
       }
     });
-    console.log(this.screenOrientation);
-
-    this.screen = this.screenOrientation;
-
-  }
-
-  lockLandscape() {
-    this.screenOrientation.lock(this.screenOrientation.ORIENTATIONS.LANDSCAPE);
   }
 
   presentReminder() {
@@ -115,6 +103,16 @@ export class MywalletsPage {
         console.log(error);
       });
   }
+
+  getEmergency() {
+    this.savingsProvider.getE()
+      .then(data => {
+        this.emergency = data;
+        this.emWallet = this.emergency[0];
+        console.log('EMWALLET', this.emWallet);
+      });
+  }
+
   viewTransactions(id, name, wallet) {
     let modal = this.modalCtrl.create(ViewtransactionsPage, { _id: id, walletName: name, wallet: wallet });
     modal.onDidDismiss(() => {
@@ -145,101 +143,6 @@ export class MywalletsPage {
     this.counter++;
     this.events.publish('count:changed', this.counter);
     console.log(this.counter);
-  }
-
-  getbarChart() {
-    Chart.defaults.global.legend.position = 'top';
-    this.barChart = new Chart(this.barCanvas.nativeElement, {
-
-      type: 'bar',
-      data: {
-        labels: this.archivePeriod,
-        datasets: [
-          {
-            label: 'Budget',
-            data: this.archiveTotalBudget,
-            backgroundColor: BGColor,
-            borderColr: HoverColor,
-            borderWidth: 1
-          },
-          {
-            label: 'Expenses',
-            data: this.archiveTotalExpenses,
-            backgroundColor: BGColor,
-            borderColr: HoverColor,
-            borderWidth: 1
-          },
-          {
-            label: 'Savings',
-            data: this.archiveTotalDeposits,
-            backgroundColor: BGColor,
-            borderColr: HoverColor,
-            borderWidth: 1
-          }
-        ]
-      },
-      options: {
-        animation: {
-          animateScale: true
-        },
-        // responsive: true,
-        // maintainAspectRatio: false,
-        title: {
-          text: `This months's budget`,
-          display: true
-        },
-        scales: {
-          yAxes: [{
-            ticks: {
-              beginAtZero: true
-            }
-          }]
-        }
-      }
-    });
-  }
-
-  getLineChart() {
-    this.lineChart = new Chart(this.lineCanvas.nativeElement, {
-      type: 'line',
-      data: {
-        labels: this.archivePeriod,
-        datasets: [
-          {
-            label: 'Budget',
-            fill: false,
-            lineTension: 0.1,
-            backgroundColor: 'rgba(75,192,192,0.4)',
-            borderCapStyle: 'butt',
-            boderDash: [],
-            borderDashOffset: 0.0,
-            borderJoinStyle: 'miter',
-            pointBorderColor: 'rgba(75,192,192,1)',
-            pointBackgroundColor: '#fff',
-            pointBorderWidth: 1,
-            pointHoverRadius: 5,
-            pointHoverBackgroundColor: 'rgba(75,192,192,1)',
-            pointHoverBorderColor: 'rgba(220,220,220,1)',
-            pointHoverBorderWidth: 2,
-            pointRadius: 1,
-            pointHitRadius: 10,
-            data: this.archiveTotalBudget,
-            spanGaps: false
-          }
-        ]
-      },
-      options: {
-        animation: {
-          animateScale: true
-        },
-        responsive: true,
-        maintainAspectRatio: false,
-        title: {
-          text: `Budget History`,
-          display: true
-        }
-      }
-    });
   }
 
   getBudgetOverview() {
@@ -288,31 +191,15 @@ export class MywalletsPage {
       });
   }
 
-  logoLoad() {
-    let svg = `<svg width="100" height="100">
-            <circle cx="50" cy="50" r="40" stroke="green" stroke-width="4" fill="yellow" />
-          </svg>`;
-
-    this.safeSvg = this.sanitizer.bypassSecurityTrustHtml(svg);
-    let logo = this.loadCtrl.create({
-      spinner: 'hide',
-      content: `<div class="loader"><img src="assets/imgs/logo.gif" height="100px"/></div>`
-    });
-    logo.present();
-
-    setTimeout(() => {
-      logo.dismiss();
-    }, 5000);
-  }
-
   async doAll() {
     await this.getExpenseWallets();
     await this.getArchives();
     await this.getBudgetOverview();
-    await this.getbarChart();
-    await this.getLineChart();
+    // await this.getbarChart();
+    // await this.getLineChart();
     await this.getE();
     await this.getS();
+    await this.getEmergency();
   }
 
 }

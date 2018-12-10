@@ -39,6 +39,7 @@ import { ViewDepositsPage } from '../pages/view-deposits/view-deposits';
 import { BudgetsPage } from '../pages/budgets/budgets';
 import { ViewBudgetPage } from '../pages/view-budget/view-budget';
 import { PredictionPage } from '../pages/prediction/prediction';
+import { SummaryReportPage } from '../pages/summary-report/summary-report';
 //providers
 import { CategoryProvider } from '../providers/category/category';
 import { AuthProvider } from '../providers/auth/auth';
@@ -80,6 +81,7 @@ import { GroupByPipe } from '../pipes/group-by/group-by';
     ViewDepositsPage,
     ViewBudgetPage,
     PredictionPage,
+    SummaryReportPage,
     SearchPipe,
     SortPipe,
     GroupByPipe
@@ -120,7 +122,8 @@ import { GroupByPipe } from '../pipes/group-by/group-by';
     BudgetsPage,
     ViewDepositsPage,
     ViewBudgetPage,
-    PredictionPage
+    PredictionPage,
+    SummaryReportPage
   ],
   providers: [
     StatusBar,

@@ -16,12 +16,15 @@
 
 <ion-content padding>
 
+  <ion-list>
+    <ion-list-header>EFUND</ion-list-header>
+    <p>{{emWallet.amount}}</p>
+    <!-- <ion-item>{{emWallet.name}}</ion-item> -->
+  </ion-list>
+
   <div no-padding *ngIf="surprise">
     <img src="../../assets/imgs/suprise.png">
   </div>
-
-  <button ion-button (click)="lockLandscape()">Landscape</button>
-  <button ion-button>Portrait</button>
 
   <ion-card no-padding class="myCard">
     <ion-card-content>
