@@ -126,7 +126,7 @@ export class MyApp {
       this.app.getRootNav().setRoot(LoginPage);
     }, (err) => {
       this.loading.dismiss();
-      this.presentToast(err);
+      this.presentToast(err.message);
     });
   }
 

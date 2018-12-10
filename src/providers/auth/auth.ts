@@ -7,8 +7,6 @@ import { apiUrl } from '../../data/apiURL';
 @Injectable()
 export class AuthProvider {
   authURL = `${apiUrl}users`;
-  // authURL = "http://localhost:3000/api/users";
-  // authURL = "http://witty-wallet.herokuapp.com/api/users"
 
   menuName: any;
   in: any;

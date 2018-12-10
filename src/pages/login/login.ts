@@ -4,6 +4,7 @@ import { Facebook, FacebookLoginResponse } from '@ionic-native/facebook';
 import { HttpClient } from '@angular/common/http';
 import { Validators, FormBuilder, FormGroup } from '@angular/forms';
 import { AuthProvider } from '../../providers/auth/auth'
+import { NetworkProvider } from '../../providers/network/network';
 import { Events } from 'ionic-angular';
 import { TabsPage } from '../tabs/tabs';
 import { SignupPage } from '../signup/signup';
@@ -33,7 +34,7 @@ export class LoginPage {
   toast: any;
   attempt: number = 0;
 
-  constructor(private toastCtrl: ToastController, public authProvider: AuthProvider, private formBldr: FormBuilder, public http: HttpClient, private facebook: Facebook, public navCtrl: NavController, public navParams: NavParams, public alertCtrl: AlertController, public loadingCtrl: LoadingController, private menuCtrl: MenuController, private events: Events) {
+  constructor(private toastCtrl: ToastController, public authProvider: AuthProvider, private formBldr: FormBuilder, public http: HttpClient, private facebook: Facebook, public navCtrl: NavController, public navParams: NavParams, public alertCtrl: AlertController, public loadingCtrl: LoadingController, private menuCtrl: MenuController, private events: Events, private network: NetworkProvider) {
     this.loginForm = this.formBldr.group({
       email: ["", Validators.required],
       password: ["", Validators.required]
@@ -111,20 +112,24 @@ export class LoginPage {
   }
 
   login() {
-    this.showLoader('Authenticating...');
-    this.authProvider.login(this.loginData).then((result) => {
-      console.log(result);
-      this.loading.dismiss();
-      this.navCtrl.setRoot(TabsPage);
-      this.presentToast(`Hello ${localStorage.nickname}!`);
-    }, (err) => {
-      this.loading.dismiss();
-      this.presentToast(err.error);
-      this.attempt++;
-      this.events.publish('attempt:changed', this.attempt);
-      console.log(this.attempt);
-      console.log(err);
-    });
+    if (this.network.checkNetwork()) {
+      this.showLoader('Authenticating...');
+      this.authProvider.login(this.loginData).then((result) => {
+        console.log(result);
+        this.loading.dismiss();
+        this.navCtrl.setRoot(TabsPage);
+        this.presentToast(`Hello ${localStorage.nickname}!`);
+      }, (err) => {
+        this.loading.dismiss();
+        this.presentToast(err.error);
+        this.attempt++;
+        this.events.publish('attempt:changed', this.attempt);
+        console.log(this.attempt);
+        console.log(err);
+      });
+    } else {
+      this.presentToast('Network Error, Please check your connection');
+    }
   }
 
   loginWithFB() {
@@ -176,18 +181,22 @@ export class LoginPage {
               return false;
             }
             else {
-              console.log(data);
-              this.authProvider.requestReset(data.email)
-                .then(
-                  response => {
-                  this.loading.dismiss();
-                  console.log(response);
-                  this.presentToast(response);
-                }, err => {
-                  this.loading.dismiss();
-                  this.presentToast(err);
-                  console.log(err);
-                })
+              if (this.network.checkNetwork()) {
+                console.log(data);
+                this.authProvider.requestReset(data.email)
+                  .then(
+                    response => {
+                      this.loading.dismiss();
+                      console.log(response);
+                      this.presentToast(response);
+                    }, err => {
+                      this.loading.dismiss();
+                      this.presentToast(err);
+                      console.log(err);
+                    });
+              } else {
+                this.presentToast('Network Error, Please check your connection');
+              }
             }
           }
         }

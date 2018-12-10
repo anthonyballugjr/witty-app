@@ -5,9 +5,7 @@ import { apiUrl } from '../../data/apiURL';
 @Injectable()
 export class SavingsProvider {
   apiUrl = `${apiUrl}wallets/savings`;
-  // apiUrl = "http://localhost:3000/api/wallets/savings/";
-  // apiUrl = "http://witty-wallet.herokuapp.com/api/wallets/savings/";
-
+  
   authHeader = {
     headers: {
       'Authorization': `Token ${localStorage.token}`

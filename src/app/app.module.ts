@@ -16,6 +16,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AndroidFullScreen } from '@ionic-native/android-full-screen';
 import { RoundProgressModule } from 'angular-svg-round-progressbar';
 import { ScreenOrientation } from '@ionic-native/screen-orientation';
+import { Network } from '@ionic-native/network';
 //pages
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
@@ -53,6 +54,7 @@ import { DepositsProvider } from '../providers/deposits/deposits';
 import { SearchPipe } from '../pipes/search/search';
 import { SortPipe } from '../pipes/sort/sort';
 import { GroupByPipe } from '../pipes/group-by/group-by';
+import { NetworkProvider } from '../providers/network/network';
 
 
 
@@ -126,6 +128,7 @@ import { GroupByPipe } from '../pipes/group-by/group-by';
     SummaryReportPage
   ],
   providers: [
+    Network,
     StatusBar,
     File,
     FileOpener,
@@ -142,6 +145,7 @@ import { GroupByPipe } from '../pipes/group-by/group-by';
     ExpensesProvider,
     TransactionsProvider,
     DepositsProvider,
+    NetworkProvider,
   ]
 })
 export class AppModule { }
