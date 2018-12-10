@@ -1,6 +1,7 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>Data Privacy Policy</ion-title>
+    <ion-title *ngIf="view==='terms'">Terms and Condition</ion-title>
+    <ion-title *ngIf="view==='policy'">Data Privacy Policy</ion-title>
     <ion-buttons end>
       <button ion-button clear icon-only (click)="closeModal()">
         <ion-icon name="close"></ion-icon>
@@ -11,7 +12,60 @@
 
 
 <ion-content>
-  <ion-card no-padding>
+
+  <ion-card *ngIf="view==='terms'" no-padding>
+    <ion-card-content no-padding>
+      <ol type="I">
+        <li>Accounts</li>
+        <ol type="a">
+          <li>Accuracy and Completeness of Information When you create an account with us, you must provide us with information
+            that is accurate, complete, and current at all times. Failure to do so constitutes a breach of the Terms, which
+            may result in immediate termination of your account on our Service.</li>
+          <li> Passwords You are responsible for safeguarding the password that you use to access the Service and for any activities
+            or actions under your password, whether your password is with our Service or a third-party service. You agree
+            not to disclose your password to any third party. You must notify us immediately upon becoming aware of any breach
+            of security or unauthorized use of your account.
+          </li>
+        </ol>
+        <li>Termination</li>
+        <ol type="a">
+          <li>We may terminate or suspend access to our Service immediately, without prior notice or liability, for any reason
+            whatsoever, including without limitation if you breach the Terms.</li>
+          <li>All provisions of the Terms which by their nature should survive termination shall survive termination, including,
+            without limitation, ownership provisions, warranty disclaimers, indemnity and limitations of liability.</li>
+          <li>We may terminate or suspend your account immediately, without prior notice or liability, for any reason whatsoever,
+            including without limitation if you breach the Terms.</li>
+          <li>Upon termination, your right to use the Service will immediately cease. If you wish to terminate your account,
+            you may simply discontinue using the Service.</li>
+        </ol>
+        <li>Governing Law </li>
+        <ol type="a">
+          <li>These Terms shall be governed and construed in accordance with the laws of the Philippines, without regard to its
+            conflict of law provisions.</li>
+          <li> Our failure to enforce any right or provision of these Terms will not be considered a waiver of those rights. If
+            any provision of these Terms is held to be invalid or unenforceable by a court, the remaining provisions of these
+            Terms will remain in effect.</li>
+          <li>These Terms constitute the entire agreement between us regarding our Service, and supersede and replace any prior
+            agreements we might have between us regarding the Service.</li>
+        </ol>
+        <li>Changes</li>
+        <ol type="a">
+          <li>We reserve the right, at our sole discretion, to modify or replace these Terms at any time. If a revision is this
+            material we will try to provide at least 15 days notice prior to any new terms taking effect. What constitutes
+            a material change will be determined at our sole discretion.</li>
+          <li>By continuing to access or use our Service after those revisions become effective, you agree to be bound by the
+            revised terms. If you do not agree to the new terms, you are free to stop using the Service.</li>
+        </ol>
+      </ol>
+
+      <p text-center>Contact us at
+        <a>wittywallet@gmail.com</a>
+      </p>
+      <p text-center class="smaller">Date of Last Revision: December 10, 2018.</p>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card *ngIf="view==='policy'" no-padding>
     <ion-card-content>
       <p text-justify>This policy describes information regarding the collection, use, and disclosure of user's (also "you") personal information
         when you use Witty Wallet's (also "us", "we", or "our") service. These policies are subject to change at any given
@@ -59,10 +113,12 @@
             in order to respond to your queries when you contact us.</p>
         </li>
       </ul>
+
       <p text-center>Contact us at
         <a>wittywallet@gmail.com</a>
       </p>
-      <p text-center class="smaller">Date of Last Revision: November 17, 2018.</p>
+      <p text-center class="smaller">Date of Last Revision: December 10, 2018.</p>
+
     </ion-card-content>
   </ion-card>
 </ion-content>

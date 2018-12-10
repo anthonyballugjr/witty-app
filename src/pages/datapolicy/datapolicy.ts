@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ViewController} from 'ionic-angular';
-
+import { IonicPage, NavController, NavParams, ViewController } from 'ionic-angular';
 
 @IonicPage()
 @Component({
@@ -8,15 +7,14 @@ import { IonicPage, NavController, NavParams, ViewController} from 'ionic-angula
   templateUrl: 'datapolicy.html',
 })
 export class DatapolicyPage {
+  view: any;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public viewCtrl : ViewController) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public viewCtrl: ViewController) {
+    this.view = this.navParams.get('view');
+    console.log('View', this.view);
   }
 
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad DatapolicyPage');
-  }
-
-  closeModal(){
+  closeModal() {
     this.viewCtrl.dismiss();
   }
 

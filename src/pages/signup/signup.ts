@@ -3,6 +3,7 @@ import { IonicPage, NavController, NavParams, ToastController, LoadingController
 import { Validators, FormBuilder, FormGroup } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { AuthProvider } from '../../providers/auth/auth';
+import { DatapolicyPage } from '../datapolicy/datapolicy';
 
 @IonicPage()
 @Component({
@@ -96,8 +97,9 @@ export class SignupPage {
     toast.present();
   }
 
-  showDataPolicy() {
-    var dataPolicy = this.modalCtrl.create('DatapolicyPage');
+  showDataPolicy(view) {
+    console.log('View', view);
+    var dataPolicy = this.modalCtrl.create(DatapolicyPage, { view: view });
     dataPolicy.present();
   }
 }

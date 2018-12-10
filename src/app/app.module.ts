@@ -41,6 +41,7 @@ import { BudgetsPage } from '../pages/budgets/budgets';
 import { ViewBudgetPage } from '../pages/view-budget/view-budget';
 import { PredictionPage } from '../pages/prediction/prediction';
 import { SummaryReportPage } from '../pages/summary-report/summary-report';
+import { DatapolicyPage } from '../pages/datapolicy/datapolicy';
 //providers
 import { CategoryProvider } from '../providers/category/category';
 import { AuthProvider } from '../providers/auth/auth';
@@ -84,6 +85,7 @@ import { NetworkProvider } from '../providers/network/network';
     ViewBudgetPage,
     PredictionPage,
     SummaryReportPage,
+    DatapolicyPage,
     SearchPipe,
     SortPipe,
     GroupByPipe
@@ -125,7 +127,8 @@ import { NetworkProvider } from '../providers/network/network';
     ViewDepositsPage,
     ViewBudgetPage,
     PredictionPage,
-    SummaryReportPage
+    SummaryReportPage,
+    DatapolicyPage
   ],
   providers: [
     Network,
