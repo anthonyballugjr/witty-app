@@ -19,47 +19,86 @@
           <canvas #doughnutCanvas style="height:100%;"></canvas>
         </ion-card-content>
       </ion-card>
-
+      
       <ion-card>
         <ion-card-content>
-          <ion-list>
-            <ion-item>
-              <h2 ion-text color="warm-peach">
-                <strong>Total Budget:</strong>
-              </h2>
-              <ion-note item-right>{{budgetOverview.totalBudget | currency: "PHP" :2}}</ion-note>
-            </ion-item>
 
-            <ion-list>
-              <ion-item>
-                <p ion-text color="summer-sky">Expense Wallets:</p>
-                <ion-note item-end>{{(budgetOverview.totalBudget - budgetOverview.totalDeposits) | currency: "PHP":2}}</ion-note>
-              </ion-item>
-              <ion-item>
-                <p ion-text color="summer-sky">Savings Deposits:</p>
-                <ion-note item-end>{{budgetOverview.totalDeposits | currency: "PHP":2}}</ion-note>
-              </ion-item>
-            </ion-list>
+          <ion-grid>
+
+            <ion-row row-no-padding>
+              <ion-col col-8 ion-text color="warm-peach" class="smaller">Savings Deposits: </ion-col>
+              <ion-col col-4 text-right>
+                <ion-note class="smaller">{{budgetOverview.totalDeposits | currency:"PHP":2}}</ion-note>
+              </ion-col>
+            </ion-row>
+
+            <ion-row row-no-padding>
+              <ion-col col-8 ion-text color="warm-peach" class="smaller">Expense Wallets Budget: </ion-col>
+              <ion-col col-4 text-right>
+                <ion-note class="smaller">{{budgetOverview.totalEWallets | currency:"PHP":2}}</ion-note>
+              </ion-col>
+            </ion-row>
+
+            <ion-row>
+              <ion-col col-8>
+                <h2 ion-text color="warm-peach">
+                  <strong>Total Budget (In):</strong>
+                </h2>
+              </ion-col>
+              <ion-col col-4 text-right>
+                <strong>
+                  <ion-note>{{budgetOverview.totalBudget | currency:"PHP":2}}</ion-note>
+                </strong>
+              </ion-col>
+            </ion-row>
+
             <ion-item-divider no-lines></ion-item-divider>
-            <ion-item>
-              <h2 ion-text color="watermelon">
-                <strong>Total Expenses:</strong>
-              </h2>
-              <ion-note item-end>{{budgetOverview.totalExpenses | currency: "PHP" :2}}</ion-note>
-            </ion-item>
+
+            <ion-row>
+              <ion-col col-8 ion-text color="watermelon" class="smaller">Transactions:</ion-col>
+              <ion-col col-4 text-right>
+                <ion-note class="smaller">{{budgetOverview.totalTransactions | currency:"PHP":2 }}</ion-note>
+              </ion-col>
+            </ion-row>
+
+            <ion-row>
+              <ion-col col-8 ion-text color="watermelon" class="smaller">Withdrawals:</ion-col>
+              <ion-col col-4 text-right>
+                <ion-note class="smaller">{{budgetOverview.totalWithdrawals | currency:"PHP":2 }}</ion-note>
+              </ion-col>
+            </ion-row>
+
+            <ion-row>
+              <ion-col col-8>
+                <h2 ion-text color="watermelon">
+                  <strong>Expenditures (Out):</strong>
+                </h2>
+              </ion-col>
+              <ion-col col-4 text-right>
+                <strong>
+                  <ion-note>{{budgetOverview.totalExpenses | currency:"PHP":2 }}</ion-note>
+                </strong>
+              </ion-col>
+            </ion-row>
+
             <ion-item-divider no-lines></ion-item-divider>
-            <ion-item>
 
-              <h2 ion-text color="oxblood">Potential Savings:</h2>
-              <ion-note item-end>{{budgetOverview.extraSavings | currency:"PHP" :2}}</ion-note>
+            <ion-row>
+              <ion-col col-8>
+                <h2 ion-text color="oxblood">
+                  <strong>Potential Savings:</strong>
+                </h2>
+              </ion-col>
+              <ion-col col-4 text-right>
+                <ion-note>{{budgetOverview.extraSavings | currency:"PHP":2 }}</ion-note>
+              </ion-col>
+            </ion-row>
 
-            </ion-item>
-          </ion-list>
+          </ion-grid>
 
         </ion-card-content>
       </ion-card>
     </div>
-
 
     <div *ngSwitchCase="'history'" margin-top no-padding>
       <ion-searchbar [(ngModel)]="terms" [animated]="true"></ion-searchbar>

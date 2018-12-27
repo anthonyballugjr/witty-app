@@ -44,9 +44,9 @@ export class BudgetOverviewPage {
   }
 
   async doAll() {
+    await this.getCurrentBudgetOverview();
     await this.getExpenseWallets();
     await this.getArchivesOverview();
-    await this.getCurrentBudgetOverview();
   }
 
   isChart() {
@@ -74,16 +74,16 @@ export class BudgetOverviewPage {
         responsive: true,
         maintainAspectRatio: false,
         title: {
-          text: `${this.period} Allocated Expense Wallets`,
+          text: `${this.period} Expense Wallets Budget`,
           display: true,
         },
         animation: {
           animateScale: true
         },
-        legend:{
+        legend: {
           display: true,
           boxWidth: 20,
-          position: 'bottom', 
+          position: 'bottom',
         }
       }
     });
