@@ -11,50 +11,141 @@
 
 </ion-header>
 
-<ion-content padding>
+<ion-content no-padding>
   <div id="profile" #profile>
-    <ion-list no-lines>
-      <ion-item-divider class="strong">ACCOUNT DETAILS
-        <ion-icon item-end name="more" (click)="showPopover($event,'profile')"></ion-icon>
-      </ion-item-divider>
-      <ion-item>Email: {{userData.email}}</ion-item>
-      <ion-item>Nickname: {{userData.name | ucwords}}</ion-item>
-      <ion-item>Title: Witty Saver</ion-item>
-    </ion-list>
+    <ion-card no-padding>
+      <ion-card-content>
+        <ion-item-divider class="strong" no-padding>ACCOUNT DETAILS
+          <ion-icon item-end name="more" (click)="showPopover($event,'profile')"></ion-icon>
+        </ion-item-divider>
+        <ion-grid>
+          <ion-row row-no-padding>
+            <ion-col>Email:</ion-col>
+            <ion-col>{{userData.email}}</ion-col>
+          </ion-row>
+          <ion-row row-no-padding>
+            <ion-col>Nickname:</ion-col>
+            <ion-col>{{userData.name | ucwords}}</ion-col>
+          </ion-row>
+          <ion-row row-no-padding>
+            <ion-col>Title:</ion-col>
+            <ion-col>Witty Saver</ion-col>
+          </ion-row>
+        </ion-grid>
 
-    <ion-list no-lines>
-      <ion-item-divider class="strong">
-        BUDGET PROFILE
-        <ion-icon item-end name="more" (click)="showPopover($event,'budgetProfile')"></ion-icon>
-      </ion-item-divider>
-      <ion-item class="bold">&nbsp;&nbsp;Overall Total Budget:
-        <p item-end>{{budgetProfile.overallBudget | currency:"PHP":2}}</p>
-      </ion-item>
-      <ion-item>- Overall Total Expenses:
-        <p item-end>{{budgetProfile.overallExpenses | currency:"PHP":2}}</p>
-      </ion-item>
-      <ion-item>- Overall Total Savings:
-        <p item-end>{{budgetProfile.overallDeposits | currency:"PHP":2}}</p>
-      </ion-item>
-      <hr>
-      <ion-item>&nbsp;&nbsp;Overall Extra Savings:
-        <p item-end>{{budgetProfile.overallExtra | currency:"PHP":2}}</p>
-      </ion-item>
-      <ion-item-divider no-lines></ion-item-divider>
-      <ion-item>Average Monthly Budget:
-        <p item-end>{{budgetProfile.averageMonthlyBudget | currency:"PHP":2}}</p>
-      </ion-item>
-      <ion-item>Average Monthly Expenses:
-        <p item-end>{{budgetProfile.averageMonthlyExpenses | currency:"PHP":2}}</p>
-      </ion-item>
-      <ion-item>Average Monthly Savings:
-        <p item-end>{{budgetProfile.averageMonthlySavings | currency:"PHP":2}}</p>
-      </ion-item>
-    </ion-list>
+      </ion-card-content>
+    </ion-card>
+
+    <ion-card no-padding>
+      <ion-card-content>
+        <ion-grid>
+          <ion-item-divider class="strong" no-padding>
+            BUDGET PROFILE
+            <ion-icon item-end name="more" (click)="showPopover($event, 'budgetProfile')"></ion-icon>
+          </ion-item-divider>
+          <ion-row row-no-padding>
+            <ion-col col-8 ion-text color="warm-peach" class="smaller">Savings Deposits: </ion-col>
+            <ion-col col-4 text-right>
+              <ion-note class="smaller">₱{{budgetProfile.overallDeposits}}</ion-note>
+            </ion-col>
+          </ion-row>
+          <ion-row row-no-padding>
+            <ion-col col-8 ion-text color="warm-peach" class="smaller">Expense Wallets Budget: </ion-col>
+            <ion-col col-4 text-right>
+              <ion-note class="smaller">₱{{budgetProfile.overallEWallets}}</ion-note>
+            </ion-col>
+          </ion-row>
+          <ion-row row-no-padding>
+            <ion-col col-8>
+              <strong ion-text color="warm-peach">Overall Total Budget (In):</strong>
+            </ion-col>
+            <ion-col col-4 text-right>
+              <strong>
+                <ion-note>₱{{budgetProfile.overallBudget}}</ion-note>
+              </strong>
+            </ion-col>
+          </ion-row>
+
+          <hr>
+
+          <ion-row row-no-padding>
+            <ion-col col-8 ion-text color="watermelon" class="smaller">Transactions:</ion-col>
+            <ion-col col-4 text-right>
+              <ion-note>₱{{budgetProfile.overallTransactions}}</ion-note>
+            </ion-col>
+          </ion-row>
+          <ion-row row-no-padding>
+            <ion-col col-8 ion-text color="watermelon" class="smaller">Withdrawals:</ion-col>
+            <ion-col col-4 text-right>
+              <ion-note>₱{{budgetProfile.overallWithdrawals}}</ion-note>
+            </ion-col>
+          </ion-row>
+          <ion-row row-no-padding>
+            <ion-col col-8>
+              <strong ion-text color="watermelon">Overall Expenditures (Out):</strong>
+            </ion-col>
+            <ion-col col-4 text-right>
+              <strong>
+                <ion-note>₱{{budgetProfile.overallExpenses}}</ion-note>
+              </strong>
+            </ion-col>
+          </ion-row>
+
+          <hr>
+
+          <ion-row row-no-padding>
+            <ion-col col-8>
+              <strong ion-text color="oxblood">Overall Savings:</strong>
+            </ion-col>
+            <ion-col col-4 text-right>
+              <ion-note>₱{{budgetProfile.overallSavings}}</ion-note>
+            </ion-col>
+          </ion-row>
+          <ion-row row-no-padding>
+            <ion-col col-8>
+              <strong ion-text color="oxblood">Overall Extra Savings:</strong>
+            </ion-col>
+            <ion-col col-4 text-right>
+              <ion-note>₱{{budgetProfile.overallExtra}}</ion-note>
+            </ion-col>
+          </ion-row>
+          <hr>
+          <ion-row row-no-padding>
+            <ion-col col-8>
+              <strong ion-text color="denim">Average Monthly Budget:</strong>
+            </ion-col>
+            <ion-col col-4 text-right>
+              <ion-note>₱{{budgetProfile.averageMonthlyBudget}}</ion-note>
+            </ion-col>
+          </ion-row>
+          <ion-row row-no-padding>
+            <ion-col col-8>
+              <strong ion-text color="denim">Average Monthly Expenditures:</strong>
+            </ion-col>
+            <ion-col col-4 text-right>
+              <ion-note>₱{{budgetProfile.averageMonthlyExpenses}}</ion-note>
+            </ion-col>
+          </ion-row>
+          <ion-row row-no-padding>
+            <ion-col col-8>
+              <strong ion-text color="denim">Average Monthly Savings:</strong>
+            </ion-col>
+            <ion-col col-4 text-right>
+              <ion-note>₱{{budgetProfile.averageMonthlySavings}}</ion-note>
+            </ion-col>
+          </ion-row>
+
+        </ion-grid>
+      </ion-card-content>
+    </ion-card>
 
   </div>
-  <button detail-none no-lines ion-item (click)="exportProfile()" color="danger">Download Profile as PDF
-    <ion-icon item-start name="download"></ion-icon>
-  </button>
+  <div padding-left padding-right>
+    <button ion-button block icon-start center (click)="createPdf()" color="danger">
+      <ion-icon name="download"></ion-icon>
+      Download Profile as PDF
+    </button>
+  </div>
+
 
 </ion-content>
