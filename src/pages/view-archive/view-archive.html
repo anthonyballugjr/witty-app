@@ -7,36 +7,93 @@
   </ion-card>
 
   <ion-card>
-    <ion-card-header padding-left>
-      <h2>{{summaryData.period}}</h2>
-    </ion-card-header>
+    <ion-item-divider no-lines padding-left class="strong">
+      {{summaryData.period}}
+    </ion-item-divider>
     <ion-card-content>
-      <ion-list>
+
+      <ion-grid>
+
+        <ion-row row-no-padding>
+          <ion-col col-8 ion-text color="warm-peach" class="smaller">Savings Deposits: </ion-col>
+          <ion-col col-4 text-right>
+            <ion-note class="smaller">{{summaryData.totalDeposits | currency:"PHP":2}}</ion-note>
+          </ion-col>
+        </ion-row>
+
+        <ion-row row-no-padding>
+          <ion-col col-8 ion-text color="warm-peach" class="smaller">Expense Wallets Budget: </ion-col>
+          <ion-col col-4 text-right>
+            <ion-note class="smaller">{{summaryData.totalEWallets | currency:"PHP":2}}</ion-note>
+          </ion-col>
+        </ion-row>
+
+        <ion-row>
+          <ion-col col-8>
+            <h2 ion-text color="warm-peach">
+              <strong>Total Budget (In):</strong>
+            </h2>
+          </ion-col>
+          <ion-col col-4 text-right>
+            <strong>
+              <ion-note>{{summaryData.totalBudget | currency:"PHP":2}}</ion-note>
+            </strong>
+          </ion-col>
+        </ion-row>
+
         <ion-item-divider no-lines></ion-item-divider>
-        <ion-item>
-          <h2 ion-text color="warm-peach">
-            <strong>Total Budget:</strong>
-          </h2>
-          <p item-end> {{summaryData.totalBudget | currency: "PHP": 2}}</p>
-        </ion-item>
-        <ion-item>
-          <h2 ion-text color="watermelon">
-            <strong>Total Expenses:</strong>
-          </h2>
-          <p item-end>{{summaryData.totalExpenses | currency: "PHP": 2}}</p>
-        </ion-item>
-        <ion-item>
-          <h2 ion-text color="blush">
-            <strong>Total Savings:</strong>
-          </h2>
-          <p item-end>{{summaryData.totalSavings | currency: "PHP": 2}}</p>
-        </ion-item>
+
+        <ion-row>
+          <ion-col col-8 ion-text color="watermelon" class="smaller">Transactions:</ion-col>
+          <ion-col col-4 text-right>
+            <ion-note class="smaller">{{summaryData.totalTransactions | currency:"PHP":2 }}</ion-note>
+          </ion-col>
+        </ion-row>
+
+        <ion-row>
+          <ion-col col-8 ion-text color="watermelon" class="smaller">Withdrawals:</ion-col>
+          <ion-col col-4 text-right>
+            <ion-note class="smaller">{{summaryData.totalWithdrawals | currency:"PHP":2 }}</ion-note>
+          </ion-col>
+        </ion-row>
+
+        <ion-row>
+          <ion-col col-8>
+            <h2 ion-text color="watermelon">
+              <strong>Expenditures (Out):</strong>
+            </h2>
+          </ion-col>
+          <ion-col col-4 text-right>
+            <strong>
+              <ion-note>{{summaryData.totalExpenses | currency:"PHP":2 }}</ion-note>
+            </strong>
+          </ion-col>
+        </ion-row>
+
         <ion-item-divider no-lines></ion-item-divider>
-        <ion-item>
-          <h2 ion-text color="oxblood">Extra Savings:</h2>
-          <p item-end>{{summaryData.extraSavings | currency: "PHP": 2}}</p>
-        </ion-item>
-      </ion-list>
+
+        <ion-row>
+          <ion-col col-8>
+            <h2 ion-text color="oxblood">
+              <strong>Total Savings:</strong>
+            </h2>
+          </ion-col>
+          <ion-col col-4 text-right>
+            <ion-note>{{(summaryData.totalDeposits - summaryData.totalWithdrawals) | currency:"PHP":2 }}</ion-note>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col col-8>
+            <h2 ion-text color="oxblood">
+              <strong>Extra Savings:</strong>
+            </h2>
+          </ion-col>
+          <ion-col col-4 text-right>
+            <ion-note>{{summaryData.extraSavings | currency:"PHP":2 }}</ion-note>
+          </ion-col>
+        </ion-row>
+
+      </ion-grid>
     </ion-card-content>
   </ion-card>
 
