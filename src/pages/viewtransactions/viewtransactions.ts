@@ -51,7 +51,7 @@ export class ViewtransactionsPage {
       title: 'New Transaction',
       enableBackdropDismiss: false,
       subTitle: 'Add new transaction to this wallet',
-      message: 'Remaning Budget: ' + (this.wallet.amount - this.totalTransactions),
+      message: `'Remaning Budget: ₱${(this.wallet.amount - this.totalTransactions).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')}`,
       inputs: [
         {
           name: 'desc',
