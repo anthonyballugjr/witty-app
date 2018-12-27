@@ -10,40 +10,54 @@
 </ion-header>
 
 <ion-content>
-  <!-- <ion-item-divider sticky no-margin>
+  <ion-item-divider sticky no-margin>
     <ion-segment [(ngModel)]="view" color="buttons">
       <ion-segment-button value="deposits">Deposits</ion-segment-button>
       <ion-segment-button value="withdrawals">Withdrawals</ion-segment-button>
     </ion-segment>
-  </ion-item-divider> -->
+  </ion-item-divider>
 
-  <!-- <div [ngSwitch]="view"> -->
+  <div [ngSwitch]="view">
 
-  <!-- <div *ngSwitchCase="'deposits'"> -->
-  <div>
-    <ion-list no-lines>
-      <ion-item-divider sticky>
-        <p float-end>Total: {{deposits | pluck:'amount' | sum | currency:"PHP":2}}</p>
-      </ion-item-divider>
+    <div *ngSwitchCase="'deposits'">
+      <ion-list no-lines>
+        <ion-item-divider sticky>
+          <p float-end>Total: {{deposits | pluck:'amount' | sum | currency:"PHP":2}}</p>
+        </ion-item-divider>
 
-      <ion-item *ngFor="let deposit of deposits | reverse" text-wrap no-margin>
-        <h5>{{deposit.amount | currency:"PHP":2}}</h5>
-        <ion-note>{{deposit.createdAt}}</ion-note>
-      </ion-item>
-    </ion-list>
+        <ion-item *ngFor="let deposit of deposits | reverse" text-wrap no-margin>
+          <h5>{{deposit.amount | currency:"PHP":2}}</h5>
+          <ion-note>{{deposit.createdAt}}</ion-note>
+        </ion-item>
+      </ion-list>
 
-    <ion-fab bottom right>
-      <button ion-fab mini color="buttons" (click)="addDeposit()">
-        <ion-icon name="add"></ion-icon>
-      </button>
-    </ion-fab>
+      <ion-fab bottom right>
+        <button ion-fab mini color="buttons" (click)="addDeposit()">
+          <ion-icon name="add"></ion-icon>
+        </button>
+      </ion-fab>
+    </div>
+
+    <div *ngSwitchCase="'withdrawals'">
+      <ion-list no-lines>
+        <ion-item-divider sticky>
+          <p float-end>Total: {{totalWithdrawals | currency:"PHP":2}}</p>
+        </ion-item-divider>
+
+        <ion-item *ngFor="let withdrawal of withdrawals | reverse" text-wrap no-margin>
+          <h5>{{withdrawal.amount | currency:"PHP":2}}</h5>
+          <ion-note>{{withdrawal.createdAt}}</ion-note>
+        </ion-item>
+      </ion-list>
+
+      <ion-fab bottom right>
+        <button ion-fab mini color="buttons" (click)="addTransaction()">
+          <ion-icon name="add"></ion-icon>
+        </button>
+      </ion-fab>
+    </div>
+
   </div>
-
-  <!-- <div *ngSwitchCase="'withdrawals'">
-    Withdrawals
-  </div>
-
-  </div> -->
 
 
 </ion-content>
