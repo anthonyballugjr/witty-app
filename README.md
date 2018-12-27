@@ -27,7 +27,7 @@ npm install
 npm i
 ```
 
-##Adding Platforms
+## Adding Platforms
 For IOS:
 ```
 ionic cordova platform add ios
