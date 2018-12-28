@@ -6,10 +6,16 @@
     </ion-segment>
 
     <div ion-text color="light" no-padding no-margin>
-      <strong>
-        <p float-start margin-left>{{period}}</p>
-      </strong>
-      <p margin-right float-end>Total Budget: {{((eWallets | pluck:'amount' | sum) + monthDeposits) | currency: "PHP" :2}}</p>
+      <ion-grid>
+        <ion-row>
+          <ion-col col-6>
+            <strong>
+              {{period}}
+            </strong>
+          </ion-col>
+          <ion-col col-6> Total Budget: {{overview.totalBudget | currency:"PHP":2}} </ion-col>
+        </ion-row>
+      </ion-grid>
     </div>
   </ion-toolbar>
 </ion-header>
@@ -49,14 +55,15 @@
         <ion-item *ngFor="let wallet of sWallets">
           <ion-icon [name]="wallet.name!='emergency fund' ? 'trophy' : 'help-buoy'" color="watermelon" item-start tooltip="Savings"
             event="click" mobileEvent="click" duration="1000"></ion-icon>
-          <div (click)="viewDeposits(wallet._id, wallet.name)">
+          <div (click)="viewDeposits(wallet._id, wallet.name, wallet)">
             <h6>
               <strong>{{wallet.name | ucwords}}</strong>
             </h6>
             <p *ngIf="wallet.name!=='emergency fund'">Goal: {{wallet.goal | currency: "PHP" :2}}</p>
-            <p *ngIf="wallet.name==='emergency fund'">Amount: {{(wallet.totalDeposits - wallet.totalWithdrawals) | currency: "PHP" :2}}</p>
-            <p *ngIf="wallet.name!=='emergency fund'">Deposited: {{wallet.totalDeposits | currency:"PHP":2}}</p>
-            <p *ngIf="wallet.name!=='emergency fund'">Needed to complete: {{(wallet.goal - wallet.totalDeposits ) | currency:"PHP":2}}</p>
+            <p *ngIf="wallet.name!=='emergency fund'">Needed to complete: {{(wallet.goal - (wallet.totalDeposits - wallet.totalWithdrawals)) | currency:"PHP":2}}</p>
+            <p>Current Amount: {{(wallet.totalDeposits - wallet.totalWithdrawals) | currency: "PHP" :2}}</p>
+            <!-- <p *ngIf="wallet.name!=='emergency fund'">Deposited: {{wallet.totalDeposits | currency:"PHP":2}}</p> -->
+
           </div>
           <!-- <ion-icon item-end name="more" color="main"></ion-icon> -->
         </ion-item>

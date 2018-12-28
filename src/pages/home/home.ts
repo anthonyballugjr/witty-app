@@ -27,6 +27,8 @@ export class HomePage {
   eWallets: any;
   prevWallets: any;
   monthDeposits: any;
+  monthWithdrawals: any;
+  overview: any = [];
 
   isSavings: boolean = false;
 
@@ -39,9 +41,6 @@ export class HomePage {
   x: any;
   y: any = [];
   forArchive: any;
-  emergencyFund: any = [];
-  emWallet: any;
-  newGoal: any;
   isDone: any;
 
   archivedData: any;
@@ -63,7 +62,7 @@ export class HomePage {
     await this.getExpenseWallets();
     await this.getPreviousExpenseWallets();
     await this.getSavingsWallets();
-    await this.getEmergency();
+    await this.getCurrentBudgetOverview();
     await this.createBudget();
   }
 
@@ -100,6 +99,16 @@ export class HomePage {
     toast.present();
   }
 
+  getCurrentBudgetOverview() {
+    this.reportsProvider.getBudgetOverview(localStorage.period)
+      .then(data => {
+        this.overview = data;
+        console.log('xxx',this.overview);
+      }, err => {
+        console.log(err);
+      });
+  }
+
   getPreviousExpenseWallets() {
     this.expensesProvider.getWallets(pPeriod)
       .then(data => {
@@ -129,6 +138,7 @@ export class HomePage {
       .then(data => {
         this.sWallets = data;
         var total = 0;
+        var xxx = 0;
         for (let s of this.sWallets) {
           for (let x of s.deposits) {
             if (x.period === localStorage.period) {
@@ -136,8 +146,23 @@ export class HomePage {
             }
           }
         }
+        for (let s of this.sWallets) {
+          for (let x of s.withdrawals) {
+            var string1 = x.date.split(" ");
+            var string2 = x.date.split(",");
+            var m = string1[0];
+            var yy = string2[1].split(" ");
+            var y = yy[1];
+            var p = `${m} ${y}`;
+            if (p === localStorage.period) {
+              xxx += x.amount;
+            }
+          }
+        }
         this.monthDeposits = total;
+        this.monthWithdrawals = xxx;
         console.log(`This month's deposits ${this.monthDeposits}`)
+        console.log(`This month's withdrawals ${this.monthWithdrawals}`);
         console.log('Savings Wallets', this.sWallets);
       });
   }
@@ -152,24 +177,14 @@ export class HomePage {
     modal.present();
   }
 
-  viewDeposits(id, name) {
-    let modal = this.modalCtrl.create(ViewDepositsPage, { _id: id, walletName: name });
+  viewDeposits(id, name, wallet) {
+    let modal = this.modalCtrl.create(ViewDepositsPage, { _id: id, walletName: name, wallet: wallet });
 
     modal.onDidDismiss(() => {
       this.getExpenseWallets();
       this.getSavingsWallets();
     });
     modal.present();
-  }
-
-  getEmergency() {
-    this.savingsProvider.getE()
-      .then(data => {
-        this.emergencyFund = data;
-        this.emWallet = this.emergencyFund[0];
-      }, err => {
-        console.log(err);
-      });
   }
 
   addWallet() {
@@ -350,7 +365,7 @@ export class HomePage {
     await this.reportsProvider.getBudgetOverview(pPeriod)
       .then(data => {
         this.forArchive = data;
-        console.log('Overview', this.forArchive);
+        console.log('For Archive', this.forArchive);
       }, err => {
         this.presentToast(err);
         console.log(err);
@@ -540,6 +555,7 @@ export class HomePage {
                         }, err => {
                           console.log(err);
                         });
+                      alert.dismiss();
                     }
                   }
                 ]

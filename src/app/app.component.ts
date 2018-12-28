@@ -56,8 +56,8 @@ export class MyApp {
       { title: 'Home', icon: 'home', component: TabsPage },
       { title: 'Profile', icon: 'person', component: ProfilePage },
       { title: 'Budgets', icon: 'cash', component: BudgetsPage },
-      { title: 'Manage Wallets', icon: 'list-box', component: CategoriesPage }
-      // { title: 'Playground', icon: 'baseball', component: MywalletsPage }
+      { title: 'Manage Wallets', icon: 'list-box', component: CategoriesPage },
+      { title: 'Playground', icon: 'baseball', component: MywalletsPage }
     ];
     this.activePage = this.pages[0];
   }
