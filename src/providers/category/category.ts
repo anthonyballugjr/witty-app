@@ -65,7 +65,7 @@ export class CategoryProvider {
 
   saveExpenseWallet(wallet) {
     return new Promise((resolve, reject) => {
-      this.http.post(`${this.apiUrl}/wallets/expense`, wallet, this.authHeader)
+      this.http.post(`${this.apiUrl}wallets/expense`, wallet, this.authHeader)
         .subscribe(res => {
           resolve(res);
         }, err => {
@@ -76,7 +76,7 @@ export class CategoryProvider {
 
   saveSavingsWallet(wallet) {
     return new Promise((resolve, reject) => {
-      this.http.post(`${this.apiUrl}/wallets/savings`, wallet, this.authHeader)
+      this.http.post(`${this.apiUrl}wallets/savings`, wallet, this.authHeader)
         .subscribe(res => {
           resolve(res);
         }, err => {

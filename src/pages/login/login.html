@@ -4,7 +4,7 @@
   <form [formGroup]="loginForm" (ngSubmit)="login()">
     <ion-item>
       <ion-label floating>Email</ion-label>
-      <ion-input type="email" [(ngModel)]="loginData.user.email" formControlName="email" name="email" email></ion-input>
+      <ion-input type="text" [(ngModel)]="loginData.user.email" formControlName="email" name="email" email></ion-input>
     </ion-item>
 
     <ion-item>
@@ -15,6 +15,7 @@
     <ion-item-divider no-lines></ion-item-divider>
 
     <button type="submit" ion-button color="main" block round [disabled]="!loginForm.valid">Sign in</button>
+    <!-- <button type="submit" ion-button color="main" block round>Sign in</button> -->
   </form>
 
   <!-- <button ion-button icon-start block round (click)="loginWithFB()" color="fb">

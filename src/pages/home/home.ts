@@ -103,7 +103,7 @@ export class HomePage {
     this.reportsProvider.getBudgetOverview(localStorage.period)
       .then(data => {
         this.overview = data;
-        console.log('xxx',this.overview);
+        console.log('xxx', this.overview);
       }, err => {
         console.log(err);
       });
@@ -459,6 +459,7 @@ export class HomePage {
         });
       }
     } else {
+      // this.forArchive.extraSavings = 0;
       await this.reportsProvider.saveArchive(this.forArchive)
         .then(result => {
           console.log('Archived', result);
@@ -578,6 +579,7 @@ export class HomePage {
         });
       }
     } else {
+      // this.forArchive.extraSavings = 0;
       this.reportsProvider.saveArchive(this.forArchive)
         .then(result => {
           console.log('Archived', result);

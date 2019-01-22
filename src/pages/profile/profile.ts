@@ -74,6 +74,12 @@ export class ProfilePage {
       });
   }
 
+  append(i){
+    
+    i.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,');
+    
+  }
+
   getProfile() {
     this.authProvider.getProfile()
       .then(data => {
