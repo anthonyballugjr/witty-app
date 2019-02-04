@@ -45,54 +45,54 @@
           </ion-item-divider>
           <ion-row row-no-padding class="one">
             <ion-col col-7 ion-text color="warm-peach">Savings Deposits: </ion-col>
-            <ion-col col-5 text-right ion-text color="carbon">₱{{budgetProfile.overallDeposits}}</ion-col>
+            <ion-col col-5 text-right ion-text color="carbon">{{budgetP.overallDeposits | currency:"PHP":2}}</ion-col>
           </ion-row>
           <ion-row row-no-padding class="one">
             <ion-col col-7 ion-text color="warm-peach">Expense Wallets Budget: </ion-col>
-            <ion-col col-5 text-right ion-text color="carbon">₱{{budgetProfile.overallEWallets}}</ion-col>
+            <ion-col col-5 text-right ion-text color="carbon">{{budgetP.overallEWallets | currency:"PHP":2}}</ion-col>
           </ion-row>
           <ion-row row-no-padding class="two">
             <ion-col col-7 ion-text color="warm-peach"> Overall Total Budget (In): </ion-col>
-            <ion-col col-5 text-right ion-text color="carbon"> ₱{{budgetProfile.overallBudget}} </ion-col>
+            <ion-col col-5 text-right ion-text color="carbon"> {{budgetP.overallBudget | currency:"PHP":2}} </ion-col>
           </ion-row>
 
           <hr>
 
           <ion-row row-no-padding class="one">
             <ion-col col-7 ion-text color="watermelon">Transactions:</ion-col>
-            <ion-col col-5 ion-text text-right color="carbon"> ₱{{budgetProfile.overallTransactions}} </ion-col>
+            <ion-col col-5 ion-text text-right color="carbon"> {{budgetP.overallTransactions | currency:"PHP":2}} </ion-col>
           </ion-row>
           <ion-row row-no-padding class="one">
             <ion-col col-7 ion-text color="watermelon">Withdrawals:</ion-col>
-            <ion-col col-5 text-right ion-text color="carbon"> ₱{{budgetProfile.overallWithdrawals}} </ion-col>
+            <ion-col col-5 text-right ion-text color="carbon"> {{budgetP.overallWithdrawals | currency:"PHP":2}} </ion-col>
           </ion-row>
           <ion-row row-no-padding class="two">
             <ion-col col-7 ion-text color="watermelon">Overall Expenditures (Out): </ion-col>
-            <ion-col col-5 text-right ion-text color="carbon"> ₱{{budgetProfile.overallExpenses}} </ion-col>
+            <ion-col col-5 text-right ion-text color="carbon"> {{budgetP.overallExpenses | currency:"PHP":2}} </ion-col>
           </ion-row>
 
           <hr>
 
           <ion-row row-no-padding class="two">
             <ion-col col-7 ion-text color="oxblood"> Overall Savings: </ion-col>
-            <ion-col col-5 text-right ion-text color="carbon"> ₱{{budgetProfile.overallSavings}} </ion-col>
+            <ion-col col-5 text-right ion-text color="carbon"> {{budgetP.overallSavings | currency:"PHP":2}} </ion-col>
           </ion-row>
           <ion-row row-no-padding class="two">
             <ion-col col-7 ion-text color="oxblood"> Overall Extra Savings: </ion-col>
-            <ion-col col-5 text-right ion-text color="carbon"> ₱{{budgetProfile.overallExtra}} </ion-col>
+            <ion-col col-5 text-right ion-text color="carbon"> {{budgetP.overallExtra | currency:"PHP":2}} </ion-col>
           </ion-row>
           <hr>
           <ion-row row-no-padding class="two">
             <ion-col col-7 ion-text color="denim"> Average Monthly Budget: </ion-col>
-            <ion-col col-5 text-right ion-text color="carbon"> ₱{{budgetProfile.averageMonthlyBudget}} </ion-col>
+            <ion-col col-5 text-right ion-text color="carbon"> {{budgetP.averageMonthlyBudget | currency:"PHP":2}} </ion-col>
           </ion-row>
           <ion-row row-no-padding class="two">
             <ion-col col-7 ion-text color="denim"> Average Monthly Expenditures: </ion-col>
-            <ion-col col-5 text-right ion-text color="carbon"> ₱{{budgetProfile.averageMonthlyExpenses}} </ion-col>
+            <ion-col col-5 text-right ion-text color="carbon"> {{budgetP.averageMonthlyExpenses | currency:"PHP":2}} </ion-col>
           </ion-row>
           <ion-row row-no-padding class="two">
             <ion-col col-7 ion-text color="denim"> Average Monthly Savings: </ion-col>
-            <ion-col col-5 text-right ion-text color="carbon"> ₱{{budgetProfile.averageMonthlySavings}} </ion-col>
+            <ion-col col-5 text-right ion-text color="carbon"> {{budgetP.averageMonthlySavings | currency:"PHP":2}} </ion-col>
           </ion-row>
 
         </ion-grid>

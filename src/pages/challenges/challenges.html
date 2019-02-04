@@ -1,4 +1,4 @@
-<ion-content padding *ngIf="!challengeStatus">
+<!-- <ion-content padding *ngIf="!challengeStatus">
   <ion-grid>
     <ion-row *ngFor="let challenge of challenges">
       <ion-card>
@@ -56,6 +56,88 @@
               Deposit: {{number * inc | currency: "PHP" :2}} </p>
           <p>
             Total: {{current | currency: "PHP" :2}} </p>
+        </ion-card-content>
+      </div>
+    </ion-card>
+  </div>
+</ion-content> -->
+
+<ion-content padding *ngIf="!status">
+  <ion-grid>
+    <ion-row *ngFor="let challenge of dbChallenges">
+      <ion-card>
+        <ion-row>
+          <ion-col col-10>
+            <ion-card-header>
+              <b> {{ challenge.title }} </b>
+              <ion-icon [name]="challenge.completed===true ? 'trophy' : ''" color="main"></ion-icon>
+            </ion-card-header>
+          </ion-col>
+
+
+          <ion-col text-right>
+            <button ion-button icon-only clear (click)="showPopover($event, 'challenges', challenge)">
+              <ion-icon name="more"></ion-icon>
+            </button>
+          </ion-col>
+
+          <ion-card-content>
+            <p *ngIf="challenge.expectedAmount != 0">
+              <b>Total Expected Amount:</b> {{ challenge.expectedAmount | currency: "PHP" :2 }} </p>
+          </ion-card-content>
+        </ion-row>
+        <ion-row>
+          <ion-col text-center>
+            <button *ngIf="challenge.completed!==true" ion-button round outline small (click)="takeChall(challenge)">
+              Take Challenge
+            </button>
+            <button *ngIf="challenge.completed===true" ion-button round outline small (click)="takeChall(challenge)">Retake Challenge </button>
+          </ion-col>
+        </ion-row>
+      </ion-card>
+    </ion-row>
+  </ion-grid>
+  <ion-fab bottom right>
+    <button ion-fab icon-only mini color="buttons" (click)="addChallenge()">
+      <ion-icon name="add"></ion-icon>
+    </button>
+  </ion-fab>
+</ion-content>
+
+<ion-content id="challengeContent" *ngIf="status">
+  <div class="progress-header">
+    <h5> {{activeChallenge.title}} </h5>
+    <span justify-content-center align-items-center>{{activeChallenge.current / activeChallenge.expectedAmount * 100 | ceil}}%</span>
+    <ion-grid class="progressbar">
+      <ion-row justify-content-center align-items-center>
+        <round-progress [background]="'#32CD32'" [current]="activeChallenge.current" [radius]="50" [color]="'#fff'" [stroke]="2.5"
+          [max]="activeChallenge.expectedAmount" [rounded]="true">
+        </round-progress>
+      </ion-row>
+    </ion-grid>
+  </div>
+
+  <div class="cards">
+    <ion-card *ngFor="let n of num">
+      <div id="icon">
+        <button ion-button *ngIf="n === num[0]" class="indicator" clear (click)="dep(n)">
+          <ion-icon name="checkmark"></ion-icon>
+        </button>
+        <button ion-button *ngIf="n !== num[0]" class="indicator" clear disabled>
+          <ion-icon name="checkmark"></ion-icon>
+        </button>
+      </div>
+      <div id="content">
+        <ion-card-header>
+          <b>{{activeChallenge.count}} {{n}}</b>
+        </ion-card-header>
+        <ion-card-content>
+          <p *ngIf="activeChallenge.type != 'incremental'">
+            Deposit: {{activeChallenge.incrementBy | currency: "PHP" :2}} </p>
+          <p *ngIf="activeChallenge.type === 'incremental'">
+            Deposit: {{n * activeChallenge.incrementBy | currency: "PHP" :2}} </p>
+          <p>
+            Total: {{activeChallenge.current | currency: "PHP" :2}} </p>
         </ion-card-content>
       </div>
     </ion-card>

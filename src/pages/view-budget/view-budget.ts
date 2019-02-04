@@ -30,7 +30,7 @@ export class ViewBudgetPage {
     this.expensesProvider.getWallets(this.period)
       .then(data => {
         this.eWallets = data;
-        console.log('Wallets', this.eWallets);
+        console.log('EWallets', this.eWallets);
       }, err => {
         console.log(err);
       });
@@ -50,6 +50,7 @@ export class ViewBudgetPage {
         }
         this.sDeposits = total;
         console.log('Deposits', this.sDeposits);
+        console.log('SWallets', this.sWallets);
       }, err => {
         console.log(err);
       });

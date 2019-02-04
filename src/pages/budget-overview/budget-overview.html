@@ -19,29 +19,29 @@
           <canvas #doughnutCanvas style="height:100%;"></canvas>
         </ion-card-content>
       </ion-card>
-      
+
       <ion-card>
         <ion-card-content>
 
           <ion-grid>
 
             <ion-row row-no-padding>
-              <ion-col col-8 ion-text color="warm-peach" class="smaller">Savings Deposits: </ion-col>
+              <ion-col col-8 ion-text color="greenx" class="smaller">Savings Deposits: </ion-col>
               <ion-col col-4 text-right>
                 <ion-note class="smaller">{{budgetOverview.totalDeposits | currency:"PHP":2}}</ion-note>
               </ion-col>
             </ion-row>
 
             <ion-row row-no-padding>
-              <ion-col col-8 ion-text color="warm-peach" class="smaller">Expense Wallets Budget: </ion-col>
+              <ion-col col-8 ion-text color="greenx" class="smaller">Expense Wallets Budget: </ion-col>
               <ion-col col-4 text-right>
                 <ion-note class="smaller">{{budgetOverview.totalEWallets | currency:"PHP":2}}</ion-note>
               </ion-col>
             </ion-row>
 
-            <ion-row>
+            <ion-row tooltip="Savings Deposits + Expense Wallets Budget" event="click" mobileEvent="click" duration="3000">
               <ion-col col-8>
-                <h2 ion-text color="warm-peach">
+                <h2 ion-text color="greenx">
                   <strong>Total Budget (In):</strong>
                 </h2>
               </ion-col>
@@ -55,42 +55,57 @@
             <ion-item-divider no-lines></ion-item-divider>
 
             <ion-row>
-              <ion-col col-8 ion-text color="watermelon" class="smaller">Transactions:</ion-col>
+              <ion-col col-8 ion-text color="sub" class="smaller">Transactions:</ion-col>
               <ion-col col-4 text-right>
                 <ion-note class="smaller">{{budgetOverview.totalTransactions | currency:"PHP":2 }}</ion-note>
               </ion-col>
             </ion-row>
 
             <ion-row>
-              <ion-col col-8 ion-text color="watermelon" class="smaller">Withdrawals:</ion-col>
+              <ion-col col-8 ion-text color="sub" class="smaller">Withdrawals:</ion-col>
               <ion-col col-4 text-right>
                 <ion-note class="smaller">{{budgetOverview.totalWithdrawals | currency:"PHP":2 }}</ion-note>
               </ion-col>
             </ion-row>
 
-            <ion-row>
+            <ion-row tooltip="Transactions + Withdrawals" event="click" mobileEvent="click" duration="3000">
               <ion-col col-8>
-                <h2 ion-text color="watermelon">
+                <h2 ion-text color="sub">
                   <strong>Expenditures (Out):</strong>
                 </h2>
               </ion-col>
               <ion-col col-4 text-right>
                 <strong>
-                  <ion-note>{{budgetOverview.totalExpenses | currency:"PHP":2 }}</ion-note>
+                  <ion-note ion-text [color]="budgetOverview.totalExpenses > budgetOverview.totalBudget ? 'danger':'carbon'">{{budgetOverview.totalExpenses | currency:"PHP":2 }}</ion-note>
                 </strong>
               </ion-col>
             </ion-row>
 
             <ion-item-divider no-lines></ion-item-divider>
 
-            <ion-row>
+            <ion-row tooltip="Savings Deposits - Withdrawals" event="click" mobileEvent="click" duration="3000">
               <ion-col col-8>
-                <h2 ion-text color="oxblood">
-                  <strong>Potential Savings:</strong>
+                <h2 ion-text color="secondary">
+                  <strong>Savings</strong>
                 </h2>
               </ion-col>
               <ion-col col-4 text-right>
-                <ion-note>{{budgetOverview.extraSavings | currency:"PHP":2 }}</ion-note>
+                <strong>
+                  <ion-note ion-text [color]="budgetOverview.totalWithdrawals > budgetOverview.totalDeposits ? 'danger':'carbon'">{{budgetOverview.totalDeposits - budgetOverview.totalWithdrawals | currency:"PHP":2}}</ion-note>
+                </strong>
+              </ion-col>
+            </ion-row>
+
+            <ion-row tooltip="Total Budget - (Expenditures + Savings)" event="click" mobileEvent="click" duration="3000">
+              <ion-col col-8>
+                <h2 ion-text color="secondary">
+                  <strong>Potential Savings (Extra savings):</strong>
+                </h2>
+              </ion-col>
+              <ion-col col-4 text-right>
+                <strong>
+                  <ion-note>{{budgetOverview.extraSavings | currency:"PHP":2 }}</ion-note>
+                </strong>
               </ion-col>
             </ion-row>
 

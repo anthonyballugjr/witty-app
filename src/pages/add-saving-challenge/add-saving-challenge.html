@@ -1,0 +1,64 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>Add Saving Challenge</ion-title>
+    <ion-buttons end>
+      <button ion-button clear icon-only (click)="cancel()">
+        <ion-icon name="close"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+
+</ion-header>
+
+<ion-content padding>
+  <form [formGroup]="addChallengeForm" (ngSubmit)="addChallenge()">
+
+    <ion-item>
+      <ion-label floating>Challenge Title</ion-label>
+      <ion-input type="text" [(ngModel)]="challenge.title" formControlName="title" name="title"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label floating>Description</ion-label>
+      <ion-textarea [(ngModel)]="challenge.description" name="description" type="text" formControlName="description"></ion-textarea>
+    </ion-item>
+
+    <ion-item>
+      <ion-label floating>Goal</ion-label>
+      <ion-input type="number" [(ngModel)]="challenge.expectedAmount" formControlName="expectedAmount" name="expectedAmount"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label floating>Type</ion-label>
+      <ion-select [(ngModel)]="challenge.type" formControlName="type" name="type" interface="action-sheet">
+        <ion-option value="incremental">Incremental (Increment by deposit)</ion-option>
+        <ion-option value="static">Static (Fixed deposit)</ion-option>
+      </ion-select>
+    </ion-item>
+
+    <ion-item>
+      <ion-label floating>Per Deposit</ion-label>
+      <ion-input type="number" [(ngModel)]="challenge.incrementBy" formControlName="incrementBy" name="incrementBy"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label floating>Deposit Interval</ion-label>
+      <ion-select [(ngModel)]="challenge.count" formControlName="count" name="count">
+        <ion-option *ngFor="let ct of count" value={{ct.id}}>
+          {{ct.by | ucwords}}
+        </ion-option>
+      </ion-select>
+    </ion-item>
+
+    <ion-item>
+      <ion-label floating>Challenge Length ({{challenge.count | ucwords}}/s)</ion-label>
+      <ion-input type="number" [(ngModel)]="challenge.length" formControlName="length" name="length"></ion-input>
+    </ion-item>
+
+    <ion-item-divider no-lines></ion-item-divider>
+
+    <button ion-button block color="main" round [disabled]="!addChallengeForm.valid" type="submit">Add Challenge</button>
+  </form>
+
+</ion-content>

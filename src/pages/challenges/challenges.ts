@@ -1,6 +1,10 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, AlertController, Events } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, AlertController, ModalController, Events, PopoverController } from 'ionic-angular';
 import { Challenges } from '../../data/challenges';
+import { ChallengesProvider } from '../../providers/challenges/challenges';
+import { AddSavingChallengePage } from '../add-saving-challenge/add-saving-challenge';
+import { PopovermenuComponent } from '../../components/popovermenu/popovermenu';
+
 
 @IonicPage()
 @Component({
@@ -22,51 +26,160 @@ export class ChallengesPage {
   numbers = []
   alert: any;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public alertCtrl: AlertController, private events: Events) {
+  //challengesDB
+  active: any;
+  dbChallenges: any;
+  status = false;
+  activeChallenge: any;
+  num = [];
+  depo: any;
+
+  constructor(public navCtrl: NavController, public navParams: NavParams, public alertCtrl: AlertController, private events: Events, public challengesProvider: ChallengesProvider, private modalCtrl: ModalController, private popCtrl: PopoverController) {
     this.challengeStatus = false;
-    this.events.subscribe('status:changed', status => {
-      if (this.challengeStatus === false) {
-        this.challengeStatus = status;
-      }
+    this.doAll();
+  }
+
+  async doAll() {
+    // await this.getActive();
+    await this.getChallenges();
+  }
+
+  showPopover(event, menu, challenge) {
+    let pop = this.popCtrl.create(PopovermenuComponent, { menu: menu, challenge: challenge });
+    pop.present({
+      ev: event
+    });
+    pop.onDidDismiss(() => {
+      this.getChallenges();
     });
   }
 
-  takeChallenge(title, expectedAmount, challengelength, count, increment, type) {
-    this.events.publish('status:changed', this.challengeStatus = true);
-    console.log(this.challengeStatus);
+  addChallenge() {
+    let modal = this.modalCtrl.create(AddSavingChallengePage);
+    modal.present();
 
-    this.currentChallenge = title;
-    this.total = expectedAmount;
-    this.inc = increment;
-    this.text = count;
-    this.type = type;
-
-    this.numbers = Array(challengelength).fill(0).map((x, i) => i + 1);
+    modal.onDidDismiss(() => {
+      this.getChallenges();
+    });
   }
 
-  deposit(value) {
-    if (this.type === "Static") {
-      this.current += this.inc;
-    }
-    else {
-      this.current += value * this.inc;
-    }
-
-    this.numbers.splice(0, 1);
-
-    if (this.current >= this.total) {
-
-      this.showAlert('<h1>Congratulations Witty Saver!</h1> You haved completed the saving challenge. Take more challenges to earn more titles.')
-
-      this.challengeStatus = false;
-      this.current = 0;
-      this.total = 0;
-      this.numbers = [];
-    }
+  showDescription(challenge){
+    let desc = this.alertCtrl.create({
+      title: challenge.title,
+      subTitle: challenge.description,
+      buttons: ['Ok']
+    });
+    desc.present();
   }
 
-  showAlert(msg) {
+  getChallenges() {
+    this.challengesProvider.getChallenges()
+      .then(data => {
+        this.dbChallenges = data;
+        var count = 0;
+        for (let c of this.dbChallenges) {
+          if (c.active === true) {
+            this.activeChallenge = c;
+            count += 1;
+          }
+        }
+        if (count === 0) {
+          this.status = false;
+        } else {
+          this.status = true
+          var x = this.activeChallenge.length;
+          console.log(x);
+          this.num = Array(this.activeChallenge.length).fill(0).map((x, i) => i + 1);
+
+          this.num.splice(0, this.activeChallenge.progress);
+        }
+        console.log('Active challenge', this.activeChallenge);
+        console.log('Count', count);
+        console.log('Challenges', this.dbChallenges);
+      });
+  }
+
+  takeChall(challenge) {
+    console.log(challenge);
+    let alert = this.alertCtrl.create({
+      title: challenge.title,
+      subTitle: challenge.description,
+      message: 'Take Challenge?',
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel'
+        },
+        {
+          text: 'Agree',
+          handler: () => {
+            var activate = {
+              id: challenge._id,
+              active: true
+            }
+            this.challengesProvider.update(activate)
+              .then(data => {
+                console.log(data);
+                this.getChallenges();
+
+              }, err => {
+                console.log(err);
+              });
+          }
+        }
+      ]
+    });
+    alert.present();
+
+  }
+
+  dep(value) {
+    console.log('Value', value);
+    if (this.activeChallenge.type === 'static') {
+      var update = {
+        id: this.activeChallenge._id,
+        current: this.activeChallenge.current + this.activeChallenge.incrementBy,
+        progress: this.activeChallenge.progress + 1
+      }
+    } else {
+      update = {
+        id: this.activeChallenge._id,
+        current: this.activeChallenge.current + (value * this.activeChallenge.incrementBy),
+        progress: this.activeChallenge.progress + 1
+      }
+    }
+
+    this.challengesProvider.update(update)
+      .then(data => {
+        this.depo = data;
+        if (this.depo.current >= this.depo.expectedAmount) {
+          this.showAlert('Congratulations!', `You have completed ${this.depo.title} challenge!`);
+          var done = {
+            id: this.depo._id,
+            active: false,
+            completed: true,
+            current: 0,
+            progress: 0
+          }
+          this.challengesProvider.update(done)
+            .then(data => {
+              console.log(data);
+            }, err => {
+              console.log(err);
+            });
+          this.getChallenges();
+        } else {
+          // this.showAlert('Added deposit!');
+          this.getChallenges();
+        }
+      }, err => {
+        console.log(err);
+      });
+  }
+
+  showAlert(title, msg) {
     this.alert = this.alertCtrl.create({
+      title: title,
       subTitle: msg,
       buttons: ['OK']
     });

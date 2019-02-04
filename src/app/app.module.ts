@@ -42,6 +42,8 @@ import { ViewBudgetPage } from '../pages/view-budget/view-budget';
 import { PredictionPage } from '../pages/prediction/prediction';
 import { SummaryReportPage } from '../pages/summary-report/summary-report';
 import { DatapolicyPage } from '../pages/datapolicy/datapolicy';
+import { AddSavingChallengePage } from '../pages/add-saving-challenge/add-saving-challenge';
+import { EditSavingChallengePage } from '../pages/edit-saving-challenge/edit-saving-challenge';
 //providers
 import { CategoryProvider } from '../providers/category/category';
 import { AuthProvider } from '../providers/auth/auth';
@@ -56,6 +58,7 @@ import { SearchPipe } from '../pipes/search/search';
 import { SortPipe } from '../pipes/sort/sort';
 import { GroupByPipe } from '../pipes/group-by/group-by';
 import { NetworkProvider } from '../providers/network/network';
+import { ChallengesProvider } from '../providers/challenges/challenges';
 
 
 
@@ -86,6 +89,8 @@ import { NetworkProvider } from '../providers/network/network';
     PredictionPage,
     SummaryReportPage,
     DatapolicyPage,
+    AddSavingChallengePage,
+    EditSavingChallengePage,
     SearchPipe,
     SortPipe,
     GroupByPipe
@@ -128,7 +133,9 @@ import { NetworkProvider } from '../providers/network/network';
     ViewBudgetPage,
     PredictionPage,
     SummaryReportPage,
-    DatapolicyPage
+    DatapolicyPage,
+    AddSavingChallengePage,
+    EditSavingChallengePage
   ],
   providers: [
     Network,
@@ -149,6 +156,7 @@ import { NetworkProvider } from '../providers/network/network';
     TransactionsProvider,
     DepositsProvider,
     NetworkProvider,
+    ChallengesProvider,
   ]
 })
 export class AppModule { }

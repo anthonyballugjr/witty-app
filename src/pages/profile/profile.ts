@@ -1,7 +1,6 @@
 import { Component, ViewChild, ElementRef } from '@angular/core';
 import { IonicPage, NavController, NavParams, PopoverController, AlertController, ToastController, Platform } from 'ionic-angular';
 import moment from 'moment';
-import * as jsPDF from 'jspdf';
 import { File } from '@ionic-native/file';
 import { FileOpener } from '@ionic-native/file-opener';
 
@@ -29,6 +28,7 @@ export class ProfilePage {
 
   userData: any = [];
   budgetProfile: any = [];
+  budgetP: any = [];
   email: any;
   nickname: any;
 
@@ -57,6 +57,7 @@ export class ProfilePage {
     this.reportProvider.budgetProfile()
       .then(data => {
         this.budgetProfile = data;
+        this.budgetP = data;
 
         this.budgetProfile.overallBudget = this.budgetProfile.overallBudget.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,');
         this.budgetProfile.overallExpenses = this.budgetProfile.overallExpenses.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,');
@@ -72,12 +73,6 @@ export class ProfilePage {
         console.log('BudgetProfile', this.budgetProfile);
 
       });
-  }
-
-  append(i){
-    
-    i.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,');
-    
   }
 
   getProfile() {
@@ -240,45 +235,5 @@ export class ProfilePage {
     }
   }
 
-  exportProfile() {
-    var doc = new jsPDF();
-    doc.setFontSize(35);
-    doc.setFont('helvetica');
-
-
-    let specialElementHandlers = {
-      '#editor': function (element, renderer) {
-        return true;
-      }
-    };
-
-    let content = this.profile.nativeElement;
-
-    doc.fromHTML(content.innerHTML, 15, 15, {
-      'width': 190,
-      'elementHandlers': specialElementHandlers
-    });
-
-    let pdfOutput = doc.output();
-    let buffer = new ArrayBuffer(pdfOutput.length);
-    let array = new Uint8Array(buffer);
-    for (var i = 0; i < pdfOutput.length; i++) {
-      array[i] = pdfOutput.charCodeAt(i);
-    }
-
-    const directory = this.file.dataDirectory;
-    alert('File will be saved in ' + directory);
-    const fileName = "Witty-Budget-Profile.pdf";
-    this.file.writeFile(directory, fileName, buffer, { replace: true })
-      .then((success) => {
-        this.presentToast('File Created!' + success);
-        this.fileOpener.open(directory + fileName, 'application/pdf');
-      })
-      .catch((error) => {
-        this.presentToast('Unable to create file!' + error);
-      });
-
-    // doc.save('transcript.pdf');
-  }
 
 }

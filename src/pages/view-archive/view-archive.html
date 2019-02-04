@@ -15,45 +15,45 @@
       <ion-grid>
 
         <ion-row row-no-padding class="one">
-          <ion-col col-7 ion-text color="warm-peach">Savings Deposits: </ion-col>
+          <ion-col col-7 ion-text color="greenx">Savings Deposits: </ion-col>
           <ion-col col-5 text-right ion-text color="carbon"> {{summaryData.totalDeposits | currency:"PHP":2}} </ion-col>
         </ion-row>
 
         <ion-row row-no-padding class="one">
-          <ion-col col-7 ion-text color="warm-peach">Expense Wallets Budget: </ion-col>
+          <ion-col col-7 ion-text color="greenx">Expense Wallets Budget: </ion-col>
           <ion-col col-5 text-right ion-text color="carbon"> {{summaryData.totalEWallets | currency:"PHP":2}} </ion-col>
         </ion-row>
 
-        <ion-row row-no-padding class="two">
-          <ion-col col-7 ion-text color="warm-peach"> Total Budget (In): </ion-col>
+        <ion-row row-no-padding class="two" tooltip="Savings Deposits + Expense Wallets Budget" event="click" mobileEvent="click" duration="3000">
+          <ion-col col-7 ion-text color="greenx"> Total Budget (In): </ion-col>
           <ion-col col-5 text-right ion-text color="carbon"> {{summaryData.totalBudget | currency:"PHP":2}} </ion-col>
         </ion-row>
 
         <ion-item-divider no-lines></ion-item-divider>
 
         <ion-row row-no-padding class="one">
-          <ion-col col-7 ion-text color="watermelon">Transactions:</ion-col>
+          <ion-col col-7 ion-text color="sub">Transactions:</ion-col>
           <ion-col col-5 text-right ion-text color="carbon"> {{summaryData.totalTransactions | currency:"PHP":2 }} </ion-col>
         </ion-row>
 
         <ion-row row-no-padding class="one">
-          <ion-col col-7 ion-text color="watermelon">Withdrawals:</ion-col>
+          <ion-col col-7 ion-text color="sub">Withdrawals:</ion-col>
           <ion-col col-5 text-right ion-text color="carbon"> {{summaryData.totalWithdrawals | currency:"PHP":2 }} </ion-col>
         </ion-row>
 
-        <ion-row row-no-padding class="two">
-          <ion-col col-7 ion-text color="watermelon">Expenditures (Out):</ion-col>
-          <ion-col col-5 text-right ion-text color="carbon"> {{summaryData.totalExpenses | currency:"PHP":2 }} </ion-col>
+        <ion-row row-no-padding class="two" tooltip="Transactions + Withdrawals" event="click" mobileEvent="click" duration="3000">
+          <ion-col col-7 ion-text color="sub">Expenditures (Out):</ion-col>
+          <ion-col col-5 text-right ion-text [color]="summaryData.TotalExpenses > summaryData.totalBudget ? 'danger':'carbon'"> {{summaryData.totalExpenses | currency:"PHP":2 }} </ion-col>
         </ion-row>
 
         <ion-item-divider no-lines></ion-item-divider>
 
-        <ion-row row-no-padding class="two">
-          <ion-col col-7 ion-text color="oxblood"> Total Savings: </ion-col>
-          <ion-col col-5 text-right ion-text color="carbon"> {{(summaryData.totalDeposits - summaryData.totalWithdrawals) | currency:"PHP":2 }} </ion-col>
+        <ion-row row-no-padding class="two" tooltip="Savings Deposits - Withdrawals" event="click" mobileEvent="click" duration="3000">
+          <ion-col col-7 ion-text color="secondary"> Total Savings: </ion-col>
+          <ion-col col-5 text-right ion-text [color]="summaryData.totalWithdrawals > summaryData.totalDeposits ? 'danger':'carbon'"> {{(summaryData.totalDeposits - summaryData.totalWithdrawals) | currency:"PHP":2 }} </ion-col>
         </ion-row>
-        <ion-row row-no-padding class="two">
-          <ion-col col-7 ion-text color="oxblood"> Extra Savings: </ion-col>
+        <ion-row row-no-padding class="two" tooltip="Total Budget- (Expenditures + Total Savings)">
+          <ion-col col-7 ion-text color="secondary"> Extra Savings: </ion-col>
           <ion-col col-5 text-right ion-text color="carbon"> {{summaryData.extraSavings | currency:"PHP":2 }} </ion-col>
         </ion-row>
 

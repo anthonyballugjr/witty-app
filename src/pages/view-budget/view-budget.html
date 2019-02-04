@@ -10,15 +10,32 @@
 </ion-header>
 
 
-<ion-content padding>
-  <ion-card>
+<ion-content padding-left padding-right>
+  <ion-card no-padding>
     <ion-card-content>
-      <ion-list>
-        <ion-item *ngFor="let wallet of eWallets">
-          <p>Wallet: {{wallet.name | ucwords}}</p>
-          <ion-note>Budget: {{wallet.amount | currency:"PHP":2}}</ion-note>
-        </ion-item>        
-      </ion-list>
+      <ion-card no-padding *ngFor="let wallet of eWallets">
+        <ion-card-content>
+          <ion-grid>
+            <ion-row row-no-padding class="grid-row">
+              <ion-col class="bold" col-sm>Wallet:</ion-col>
+              <ion-col class="bold" text-right col-sm>{{wallet.name | ucwords}}</ion-col>
+            </ion-row>
+            <ion-row row-no-padding ion-text color="greenx" class="grid-row">
+              <ion-col>Budget: </ion-col>
+              <ion-col text-right>{{wallet.amount | currency:"PHP":2}}</ion-col>
+            </ion-row>
+            <ion-row row-no-padding ion-text color="watermelon" class="grid-row">
+              <ion-col>Expenses: </ion-col>
+              <ion-col text-right>{{wallet.transactions | pluck:'amount' | sum | currency:"PHP":2}}</ion-col>
+            </ion-row>
+            <ion-row row-no-padding ion-text color="oxblood" class="grid-row">
+              <ion-col>Saved: </ion-col>
+              <ion-col text-right>{{wallet.amount - (wallet.transactions | pluck:'amount' | sum) | currency:"PHP":2}}</ion-col>
+            </ion-row>
+
+          </ion-grid>
+        </ion-card-content>
+      </ion-card>
     </ion-card-content>
   </ion-card>
 

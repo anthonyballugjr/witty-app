@@ -55,6 +55,7 @@ export class TabsPage {
 
   onTabSelect(ev: any) {
     this.superSelectedTab = ev.index;
+    console.log(this.superSelectedTab);
   }
 
   //home page popover

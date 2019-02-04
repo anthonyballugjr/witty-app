@@ -1,5 +1,5 @@
-import { Component, ViewChild } from '@angular/core';
-import { IonicPage, NavController, NavParams, AlertController, Platform, ModalController, LoadingController } from 'ionic-angular';
+import { Component } from '@angular/core';
+import { IonicPage, NavController, NavParams, AlertController, ModalController, LoadingController } from 'ionic-angular';
 import { CategoryProvider } from '../../providers/category/category';
 import { ScreenOrientation } from '@ionic-native/screen-orientation';
 import { ExpensesProvider } from '../../providers/expenses/expenses';
@@ -60,7 +60,7 @@ export class MywalletsPage {
   constructor(public reportsProvider: ReportsProvider, private alertCtrl: AlertController, public expensesProvider: ExpensesProvider, public navCtrl: NavController, public navParams: NavParams, private modalCtrl: ModalController, private events: Events, public categoryProvider: CategoryProvider, private loadCtrl: LoadingController, private screenOrientation: ScreenOrientation, public savingsProvider: SavingsProvider) {
     this.doAll();
     this.remind = this.reminders[Math.floor(Math.random() * this.reminders.length)];
-    // this.presentReminder();
+    this.presentReminder();
     console.log('Orientation', this.screenOrientation.type);
     this.counter = 0;
     this.surprise = false;

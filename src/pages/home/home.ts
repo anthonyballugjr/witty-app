@@ -11,6 +11,7 @@ import { AddwalletPage } from '../addwallet/addwallet';
 import { ViewDepositsPage } from '../view-deposits/view-deposits';
 import { CreateBudgetPage } from '../create-budget/create-budget';
 import { pPeriod } from '../../data/period';
+import { Reminders } from '../../data/reminders'
 
 @Component({
   selector: 'page-home',
@@ -47,6 +48,9 @@ export class HomePage {
   oldWallets: any = [];
   newWallets: any = [];
 
+  reminders = Reminders;
+  remind: any;
+
   constructor(private alertCtrl: AlertController, private loadingCtrl: LoadingController, private modalCtrl: ModalController, private toastCtrl: ToastController, public navParams: NavParams, public navCtrl: NavController, public http: HttpClient, public expensesProvider: ExpensesProvider, public savingsProvider: SavingsProvider, public reportsProvider: ReportsProvider, private events: Events, public depositsProvider: DepositsProvider) {
     this.isDone = localStorage.getItem('bStat');
     this.events.subscribe('done:changed', done => {
@@ -54,6 +58,7 @@ export class HomePage {
         this.isDone = done;
       }
     });
+    this.remind = this.reminders[Math.floor(Math.random() * this.reminders.length)];
     this.doAll();
   }
 
@@ -64,13 +69,22 @@ export class HomePage {
     await this.getSavingsWallets();
     await this.getCurrentBudgetOverview();
     await this.createBudget();
+    await this.presentReminder();
   }
 
-  presentAlert(title, msg) {
+  async presentReminder() {
+    if (localStorage.reminder === 'false') {
+      await this.presentAlert('Witty Reminder', this.remind.subTitle, 'Got it!');
+      await localStorage.setItem('reminder', 'true');
+    }
+
+  }
+
+  presentAlert(title, msg, button) {
     this.alert = this.alertCtrl.create({
       title: title,
       subTitle: msg,
-      buttons: ['Ok']
+      buttons: [button]
     });
     this.alert.present();
   }
@@ -137,30 +151,24 @@ export class HomePage {
     this.savingsProvider.getWallets()
       .then(data => {
         this.sWallets = data;
-        var total = 0;
-        var xxx = 0;
+        var totalDep = 0;
+        var totalWith = 0;
         for (let s of this.sWallets) {
           for (let x of s.deposits) {
             if (x.period === localStorage.period) {
-              total += x.amount;
+              totalDep += x.amount;
             }
           }
         }
         for (let s of this.sWallets) {
           for (let x of s.withdrawals) {
-            var string1 = x.date.split(" ");
-            var string2 = x.date.split(",");
-            var m = string1[0];
-            var yy = string2[1].split(" ");
-            var y = yy[1];
-            var p = `${m} ${y}`;
-            if (p === localStorage.period) {
-              xxx += x.amount;
+            if (x.created === localStorage.period) {
+              totalWith += x.amount;
             }
           }
         }
-        this.monthDeposits = total;
-        this.monthWithdrawals = xxx;
+        this.monthDeposits = totalDep;
+        this.monthWithdrawals = totalWith;
         console.log(`This month's deposits ${this.monthDeposits}`)
         console.log(`This month's withdrawals ${this.monthWithdrawals}`);
         console.log('Savings Wallets', this.sWallets);
@@ -204,10 +212,10 @@ export class HomePage {
               // this.loading.dismiss();
               this.getExpenseWallets();
               this.getSavingsWallets();
-              this.presentAlert('Success!', 'New Expense wallet created');
+              this.presentAlert('Success!', 'New Expense wallet created', 'Ok');
             }, err => {
               console.log(err);
-              this.presentAlert('Failed', err.error);
+              this.presentAlert('Failed', err.error, 'Ok');
             });
           this.loading.dismiss();
         }, 2000);

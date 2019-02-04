@@ -1,7 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
 import { IonicPage, NavController, NavParams, LoadingController, ViewController } from 'ionic-angular';
-import { Chart } from 'chart.js';
-import { BGColor, HoverColor } from '../../data/data'
 import { ExpensesProvider } from '../../providers/expenses/expenses';
 import { nPeriod } from '../../data/period';
 
@@ -66,11 +64,6 @@ export class PredictionPage {
             });
         });
         console.log('Predicted', this.predicted);
-      })
-      .then(() => {
-        this.chart();
-      }, err => {
-        console.log(err);
       });
   }
 
@@ -108,39 +101,6 @@ export class PredictionPage {
     // loading.dismiss()
     console.log('Predicted Data', this.predicted);
   }
-
-  chart() {
-    this.doughnutChart = new Chart(this.chartCanvas.nativeElement, {
-
-      type: 'doughnut',
-      data: {
-        labels: this.newNames,
-        datasets: [
-          {
-            label: 'wallet amount',
-            data: this.newAmounts,
-            backgroundColor: BGColor,
-            hoverBackgroundColor: HoverColor
-          }
-        ]
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        title: {
-          text: `${this.nPeriod} Prediction`,
-          display: true,
-        },
-        animation: {
-          animateScale: true
-        },
-        legend: {
-          display: true,
-          boxWidth: 20,
-          position: 'bottom',
-        }
-      }
-    });
-  }
+  
 }
 

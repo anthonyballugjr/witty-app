@@ -14,3 +14,15 @@
 <ion-content padding *ngIf="menu==='budgetProfile'">
   <h5>The current month budget is not reflected on your Budget profile, all data our based from previous months budgets</h5>
 </ion-content>
+
+<div *ngIf="menu==='challenges'">
+  <ion-list no-lines>
+    <button ion-item (click)="editChallenge()" detail-none>
+      <ion-icon item-start name="create"></ion-icon>
+      Edit Challenge
+    </button>
+    <button ion-item (click)="deleteChallenge()" detail-none>
+      <ion-icon item-start name="trash"></ion-icon>Delete Challenge
+    </button>
+  </ion-list>
+</div>

@@ -40,8 +40,6 @@ export class ChangePasswordPage {
     })
   }
 
-
-
   presentLoading() {
     this.loading = this.loadingCtrl.create({
       spinner: 'hide',

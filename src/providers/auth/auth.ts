@@ -50,6 +50,7 @@ export class AuthProvider {
           localStorage.setItem('nickname', this.userData.user.name);
           localStorage.setItem('period', this.currentPeriod);
           localStorage.setItem('bStat', 'undone');
+          localStorage.setItem('reminder', 'false')
 
           this.menuName = this.userData.user.name;
           this.events.publish('nickname:changed', this.menuName);

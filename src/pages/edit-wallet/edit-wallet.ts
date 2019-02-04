@@ -22,10 +22,6 @@ export class EditWalletPage {
     console.log(this.walletData);
   }
 
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad EditWalletPage');
-  }
-
   cancel() {
     this.viewCtrl.dismiss();
   }
