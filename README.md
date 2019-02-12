@@ -68,5 +68,5 @@ See also the list of [contributors](https://github.com/anthonyballugjr/witty-app
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
+This project is licensed under the MIT License - see the [https://github.com/anthonyballugjr/witty-app/blob/master/LICENSE](LICENSE.md) file for details
 
