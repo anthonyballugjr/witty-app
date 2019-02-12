@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, AlertController, ModalController, Events, PopoverController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, AlertController, ModalController, Events, PopoverController, ToastController } from 'ionic-angular';
 import { Challenges } from '../../data/challenges';
 import { ChallengesProvider } from '../../providers/challenges/challenges';
 import { AddSavingChallengePage } from '../add-saving-challenge/add-saving-challenge';
@@ -34,7 +34,7 @@ export class ChallengesPage {
   num = [];
   depo: any;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public alertCtrl: AlertController, private events: Events, public challengesProvider: ChallengesProvider, private modalCtrl: ModalController, private popCtrl: PopoverController) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public alertCtrl: AlertController, private events: Events, public challengesProvider: ChallengesProvider, private modalCtrl: ModalController, private popCtrl: PopoverController, private toastCtrl: ToastController) {
     this.challengeStatus = false;
     this.doAll();
   }
@@ -63,7 +63,7 @@ export class ChallengesPage {
     });
   }
 
-  showDescription(challenge){
+  showDescription(challenge) {
     let desc = this.alertCtrl.create({
       title: challenge.title,
       subTitle: challenge.description,
@@ -153,26 +153,39 @@ export class ChallengesPage {
       .then(data => {
         this.depo = data;
         if (this.depo.current >= this.depo.expectedAmount) {
-          this.showAlert('Congratulations!', `You have completed ${this.depo.title} challenge!`);
-          var done = {
-            id: this.depo._id,
-            active: false,
-            completed: true,
-            current: 0,
-            progress: 0
-          }
-          this.challengesProvider.update(done)
-            .then(data => {
-              console.log(data);
-            }, err => {
-              console.log(err);
-            });
-          this.getChallenges();
+          let successAlert = this.alertCtrl.create({
+            title: 'Congratulations',
+            subTitle: `You have completed ${this.depo.title} challenge!`,
+            buttons: [
+              {
+                text: 'Ok',
+                handler: () => {
+                  var done = {
+                    id: this.depo._id,
+                    active: false,
+                    completed: true,
+                    current: 0,
+                    progress: 0
+                  }
+                  this.challengesProvider.update(done)
+                    .then(data => {
+                      this.getChallenges();
+                      console.log(data);
+                    }, err => {
+                      this.presentToast(err);
+                      console.log(err);
+                    });
+                }
+              }
+            ]
+          });
+          successAlert.present();
         } else {
           // this.showAlert('Added deposit!');
           this.getChallenges();
         }
       }, err => {
+        this.presentToast(err);
         console.log(err);
       });
   }
@@ -184,6 +197,16 @@ export class ChallengesPage {
       buttons: ['OK']
     });
     this.alert.present();
+  }
+
+  presentToast(msg){
+    let toast = this.toastCtrl.create({
+      duration: 2000,
+      closeButtonText: 'Dismiss',
+      message: msg,
+      dismissOnPageChange: true
+    });
+    toast.present();
   }
 
 }

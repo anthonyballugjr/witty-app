@@ -10,9 +10,10 @@ import { ChallengesProvider } from '../../providers/challenges/challenges';
 })
 export class AddSavingChallengePage {
   alert: any;
-  loading:any;
+  loading: any;
+  challengeLength: any;
 
-  challenge = {
+  challenge: any = {
     userId: localStorage.userId,
     title: "",
     description: "",
@@ -30,7 +31,7 @@ export class AddSavingChallengePage {
     { id: "year", by: "Yearly" }
   ];
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private formBldr: FormBuilder, public challengesProvider: ChallengesProvider, private alertCtrl: AlertController, private viewCtrl: ViewController, private loadCtrl:LoadingController) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private formBldr: FormBuilder, public challengesProvider: ChallengesProvider, private alertCtrl: AlertController, private viewCtrl: ViewController, private loadCtrl: LoadingController) {
   }
 
   private addChallengeForm = this.formBldr.group({
@@ -38,28 +39,54 @@ export class AddSavingChallengePage {
     description: ["", Validators.required],
     expectedAmount: ["", Validators.required],
     incrementBy: ["", Validators.required],
-    length: ["", Validators.required],
     count: ["", Validators.required],
     type: ["", Validators.required],
   });
 
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad AddSavingChallengePage');
-  }
-
   addChallenge() {
-    this.presentLoading('Adding new challenge...');
-    this.challengesProvider.addChallenge(this.challenge)
-      .then(data => {
-        this.loading.dismiss();
-        this.showAlert('Success', 'Added new saving challenge!');
-        console.log(data);
-        this.viewCtrl.dismiss();
-      }, err => {
-        this.loading.dismiss();
-        this.showAlert('Failed', 'Ooops! Something went wrong! Please try again.');
-        console.log(err);
-      });
+    console.log('Initial', this.challenge);
+    if (this.challenge.type === 'static') {
+      this.challenge.length = Math.ceil(this.challenge.expectedAmount / this.challenge.incrementBy);
+      console.log(this.challenge.length);
+    } else {
+      var i = 0;
+      var lengthToBe = 0;
+      while (i < this.challenge.expectedAmount) {
+        lengthToBe++;
+        i = i + this.challenge.incrementBy * lengthToBe;
+      }
+      this.challenge.length = lengthToBe;
+      this.challenge.expectedAmount = i;
+    }
+    console.log('Final', this.challenge, 'I', i);
+    let prompt = this.alertCtrl.create({
+      title: 'New Saving Challenge',
+      subTitle: 'Add new saving challenge?',
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel'
+        },
+        {
+          text: 'Agree',
+          handler: () => {
+            this.presentLoading('Adding new challenge...');
+            this.challengesProvider.addChallenge(this.challenge)
+              .then(data => {
+                this.loading.dismiss();
+                this.showAlert('Success', 'Added new saving challenge!');
+                console.log(data);
+                this.viewCtrl.dismiss();
+              }, err => {
+                this.loading.dismiss();
+                this.showAlert('Failed', 'Ooops! Something went wrong! Please try again.');
+                console.log(err);
+              });
+          }
+        }
+      ]
+    });
+    prompt.present();
   }
 
   showAlert(title, subTitle) {
@@ -71,11 +98,11 @@ export class AddSavingChallengePage {
     this.alert.present();
   }
 
-  cancel(){
+  cancel() {
     this.viewCtrl.dismiss();
   }
 
-  presentLoading(msg){
+  presentLoading(msg) {
     this.loading = this.loadCtrl.create({
       content: `<div>
       <div class="loader"><center><img src="../../assets/imgs/logo.gif"/ height="100px"></center></div>

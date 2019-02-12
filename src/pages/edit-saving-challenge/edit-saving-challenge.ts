@@ -77,7 +77,7 @@ export class EditSavingChallengePage {
               title: this.challenge.title,
               description: this.challenge.description,
               expectedAmount: this.challenge.expectedAmount,
-              incrementBy: this.challenge.expectedAmount,
+              incrementBy: this.challenge.incrementBy,
               length: this.challenge.length,
               count: this.challenge.count,
               type: this.challenge.type,

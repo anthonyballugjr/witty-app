@@ -32,8 +32,8 @@
     <ion-item>
       <ion-label floating>Type</ion-label>
       <ion-select [(ngModel)]="challenge.type" formControlName="type" name="type" interface="action-sheet">
+        <ion-option selected value="static">Static (Fixed deposit)</ion-option>
         <ion-option value="incremental">Incremental (Increment by deposit)</ion-option>
-        <ion-option value="static">Static (Fixed deposit)</ion-option>
       </ion-select>
     </ion-item>
 
@@ -51,10 +51,10 @@
       </ion-select>
     </ion-item>
 
-    <ion-item>
+    <!-- <ion-item>
       <ion-label floating>Challenge Length ({{challenge.count | ucwords}}/s)</ion-label>
-      <ion-input type="number" [(ngModel)]="challenge.length" formControlName="length" name="length"></ion-input>
-    </ion-item>
+      <ion-input type="number" [(ngModel)]="challenge.length" formControlName="length" name="length" disabled></ion-input>
+    </ion-item> -->
 
     <ion-item-divider no-lines></ion-item-divider>
 

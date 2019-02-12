@@ -129,7 +129,7 @@
       </div>
       <div id="content">
         <ion-card-header>
-          <b>{{activeChallenge.count}} {{n}}</b>
+          <b>{{activeChallenge.count | ucwords}} {{n}}</b>
         </ion-card-header>
         <ion-card-content>
           <p *ngIf="activeChallenge.type != 'incremental'">
