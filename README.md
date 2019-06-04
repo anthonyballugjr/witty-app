@@ -58,7 +58,7 @@ ionic cordova run ios
 
 ## Built With
 
-* [Ionic Framework](https://ionicframework.com/) 
+* [Ionic Framework 3](https://ionicframework.com/docs/v3/) 
 
 ## Authors
 
