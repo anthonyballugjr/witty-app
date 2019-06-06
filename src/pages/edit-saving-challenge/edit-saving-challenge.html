@@ -52,11 +52,6 @@
       </ion-select>
     </ion-item>
 
-    <ion-item>
-      <ion-label floating>Challenge Length ({{challenge.count | ucwords}}/s)</ion-label>
-      <ion-input type="number" [(ngModel)]="challenge.length" formControlName="length" name="length"></ion-input>
-    </ion-item>
-
     <ion-item-divider no-lines></ion-item-divider>
 
     <button ion-button block color="main" round [disabled]="!updateChallengeForm.valid" type="submit">Update Challenge</button>

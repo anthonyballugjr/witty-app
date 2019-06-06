@@ -56,23 +56,31 @@ export class ProfilePage {
   getBudgetProfile() {
     this.reportProvider.budgetProfile()
       .then(data => {
-        this.budgetProfile = data;
         this.budgetP = data;
 
-        this.budgetProfile.overallBudget = this.budgetProfile.overallBudget.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,');
-        this.budgetProfile.overallExpenses = this.budgetProfile.overallExpenses.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,');
-        this.budgetProfile.overallDeposits = this.budgetProfile.overallDeposits.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,');
-        this.budgetProfile.overallEWallets = this.budgetProfile.overallEWallets.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,');
-        this.budgetProfile.overallWithdrawals = this.budgetProfile.overallWithdrawals.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,');
-        this.budgetProfile.overallTransactions = this.budgetProfile.overallTransactions.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,');
-        this.budgetProfile.overallSavings = this.budgetProfile.overallSavings.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,');
-        this.budgetProfile.overallExtra = this.budgetProfile.overallExtra.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,');
-        this.budgetProfile.averageMonthlyBudget = this.budgetProfile.averageMonthlyBudget.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,');
-        this.budgetProfile.averageMonthlyExpenses = this.budgetProfile.averageMonthlyExpenses.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,');
-        this.budgetProfile.averageMonthlySavings = this.budgetProfile.averageMonthlySavings.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,');
-        console.log('BudgetProfile', this.budgetProfile);
+        this.budgetP.forEach(p => {
+          
+        })
 
+        this.budgetProfile.push({
+          overallBudget: this.budgetP.overallBudget.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,'),
+          overallExpenses: this.budgetP.overallExpenses.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,'),
+          overallDeposits: this.budgetP.overallDeposits.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,'),
+          overallEWallets: this.budgetP.overallEWallets.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,'),
+          overallWithDrawals: this.budgetP.overallWithdrawals.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,'),
+          overallTransactions: this.budgetP.overallTransactions.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,'),
+          overallSavings: this.budgetP.overallSavings.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,'),
+          overallExra: this.budgetP.overallExtra.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,'),
+          avarageMonthlyBudget: this.budgetP.averageMonthlyBudget.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,'),
+          averageMonthlyExpenses: this.budgetP.averageMonthlyExpenses.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,'),
+          averageMonthlySavings: this.budgetP.averageMonthlySavings.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')
+        });
+        console.log('BudgetProfile', this.budgetProfile);
       });
+  }
+
+  convert(item) {
+
   }
 
   getProfile() {
@@ -222,7 +230,7 @@ export class ProfilePage {
         var blob = new Blob([buffer], { type: 'application/pdf' });
         this.file.writeFile(fileDirectory, title, blob, { replace: true })
           .then(fileEntry => {
-            this.presentToast(`File Created! ${fileEntry}`)
+            // this.presentToast(`File Created! ${fileEntry}`)
             this.fileOpener.open(fileDirectory + title, 'appliction/pdf');
           })
           .catch((error) => {

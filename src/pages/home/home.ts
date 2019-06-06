@@ -12,6 +12,7 @@ import { ViewDepositsPage } from '../view-deposits/view-deposits';
 import { CreateBudgetPage } from '../create-budget/create-budget';
 import { pPeriod } from '../../data/period';
 import { Reminders } from '../../data/reminders'
+import moment from 'moment';
 
 @Component({
   selector: 'page-home',
@@ -117,7 +118,6 @@ export class HomePage {
     this.reportsProvider.getBudgetOverview(localStorage.period)
       .then(data => {
         this.overview = data;
-        console.log('xxx', this.overview);
       }, err => {
         console.log(err);
       });
@@ -130,8 +130,6 @@ export class HomePage {
         for (let wallet of this.prevWallets) {
           this.names.push(wallet.name);
         }
-        console.log('Expense Wallets', this.eWallets);
-        console.log('Names', this.names);
       }, err => {
         console.log(err);
       });
@@ -151,6 +149,7 @@ export class HomePage {
     this.savingsProvider.getWallets()
       .then(data => {
         this.sWallets = data;
+        console.log(this.sWallets);
         var totalDep = 0;
         var totalWith = 0;
         for (let s of this.sWallets) {
@@ -249,11 +248,11 @@ export class HomePage {
   }
 
   createBudget() {
-    // let today = moment().format('DD');
-    // let firstDay = moment().startOf('month').format('DD');
-    // console.log('Today', today);
-    // if (today === firstDay && this.isLoggedIn && this.user.isNext === false) {
-    if (this.isDone === 'undone') {
+    let today = moment().format('DD');
+    let firstDay = moment().startOf('month').format('DD');
+    console.log('Today', today);
+    if (today === firstDay && this.isDone === false) {
+      // if (this.isDone === 'undone') {
       let alert = this.alertCtrl.create({
         title: 'Create New Budget',
         subTitle: `Hello ${this.nickname.charAt(0).toUpperCase() + this.nickname.slice(1)}, It is the first day of the month. Witty is now ready to create your budget. Please choose how you want to create your budget this month. (SELECT AN OPTION FOR MORE DETAILS).`,

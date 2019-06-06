@@ -47,11 +47,11 @@
         <p>{{wallet.name | ucwords}}</p>
       </ion-item>
       <ion-item-options side="right">
-        <button ion-button color="breeze" (click)="editSavings(wallet)">
+        <button ion-button clear color="breeze" (click)="editSavings(wallet)">
           <ion-icon name="document"></ion-icon>
           Edit
         </button>
-        <button ion-button expandable color="danger" (click)="deleteSavings(wallet._id)">
+        <button ion-button clear color="danger" (click)="deleteSavings(wallet._id)">
           <ion-icon name="trash"></ion-icon>
           Delete
         </button> 

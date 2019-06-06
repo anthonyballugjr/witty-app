@@ -5,7 +5,6 @@ import { ChallengesProvider } from '../../providers/challenges/challenges';
 import { AddSavingChallengePage } from '../add-saving-challenge/add-saving-challenge';
 import { PopovermenuComponent } from '../../components/popovermenu/popovermenu';
 
-
 @IonicPage()
 @Component({
   selector: 'page-challenges',
@@ -34,13 +33,12 @@ export class ChallengesPage {
   num = [];
   depo: any;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public alertCtrl: AlertController, private events: Events, public challengesProvider: ChallengesProvider, private modalCtrl: ModalController, private popCtrl: PopoverController, private toastCtrl: ToastController) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public alertCtrl: AlertController, public challengesProvider: ChallengesProvider, private modalCtrl: ModalController, private popCtrl: PopoverController, private toastCtrl: ToastController) {
     this.challengeStatus = false;
     this.doAll();
   }
 
   async doAll() {
-    // await this.getActive();
     await this.getChallenges();
   }
 

@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Events } from 'ionic-angular';
-import { cPeriod, pPeriod, nPeriod } from '../../data/period';
+import { cPeriod} from '../../data/period';
 import { apiUrl } from '../../data/apiURL';
 
 @Injectable()

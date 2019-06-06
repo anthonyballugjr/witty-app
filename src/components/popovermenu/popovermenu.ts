@@ -28,7 +28,6 @@ export class PopovermenuComponent {
     this.names = this.navParams.get('names');
     this.amounts = this.navParams.get('amounts');
     this.challenge = this.navParams.get('challenge');
-    console.log('menu: ', this.menu, 'name: ', this.name, 'names', this.names, 'amounts', this.amounts, 'Challenge ID', this.challenge._id);
   }
 
   showOverview() {

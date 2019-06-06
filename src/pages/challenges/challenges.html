@@ -83,7 +83,16 @@
 
           <ion-card-content>
             <p *ngIf="challenge.expectedAmount != 0">
-              <b>Total Expected Amount:</b> {{ challenge.expectedAmount | currency: "PHP" :2 }} </p>
+              <b>Goal:</b> {{ challenge.expectedAmount | currency: "PHP" :2 }} </p>
+              <p>
+                <b>Challenge Length:</b> {{challenge.length}}  {{challenge.count}}s
+              </p>
+              <p>
+                <b>Deposit:</b> {{challenge.incrementBy}}
+              </p>
+              <p>
+                <b>Type: </b> {{challenge.type | ucfirst}}
+              </p>
           </ion-card-content>
         </ion-row>
         <ion-row>

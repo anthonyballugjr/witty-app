@@ -17,7 +17,7 @@
     </ion-item-divider>
     <ion-item *ngFor="let transaction of transactions | reverse" text-wrap no-margin>
       <h5>{{transaction.desc | ucwords}}</h5>
-      <ion-note>{{transaction.createdAt}}</ion-note>
+      <ion-note>{{transaction.created}}</ion-note>
       <ion-note float-right>{{transaction.amount | currency: "PHP": 2}}</ion-note>
     </ion-item>
   </ion-list>

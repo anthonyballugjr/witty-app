@@ -5,7 +5,7 @@ import { apiUrl } from '../../data/apiURL';
 @Injectable()
 export class ExpensesProvider {
   apiURL = `${apiUrl}wallets/expense/`;
-  
+
   authHeader = {
     headers: {
       'Authorization': `Token ${localStorage.token}`
@@ -87,6 +87,17 @@ export class ExpensesProvider {
   auto(name) {
     return new Promise(resolve => {
       this.http.get(`${this.apiURL}auto/${localStorage.userId}?name=${name}`, this.authHeader)
+        .subscribe(data => {
+          resolve(data);
+        }, err => {
+          console.log(err);
+        });
+    });
+  }
+
+  tOverview(period, categoryId, userId) {
+    return new Promise(resolve => {
+      this.http.get(`${this.apiURL}toverview/${userId}?period=${period}&categoryId=${categoryId}`)
         .subscribe(data => {
           resolve(data);
         }, err => {

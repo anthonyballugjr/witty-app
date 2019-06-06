@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, AlertController, ModalController, LoadingController } from 'ionic-angular';
+import { Component, ViewChild } from '@angular/core';
+import { IonicPage, NavController, NavParams, AlertController, ModalController } from 'ionic-angular';
 import { CategoryProvider } from '../../providers/category/category';
 import { ScreenOrientation } from '@ionic-native/screen-orientation';
 import { ExpensesProvider } from '../../providers/expenses/expenses';
@@ -12,6 +12,7 @@ import { Events } from 'ionic-angular';
 import { ViewtransactionsPage } from '../viewtransactions/viewtransactions';
 import { ViewDepositsPage } from '../view-deposits/view-deposits';
 import { Reminders } from '../../data/reminders';
+import { Categories } from '../../data/data';
 
 @IonicPage()
 @Component({
@@ -20,10 +21,17 @@ import { Reminders } from '../../data/reminders';
 })
 
 export class MywalletsPage {
+  @ViewChild('pieCanvas') pieCanvas
+  pieChart: any;
+  c = Categories;
+  y: any;
+  categoryNames: any = [];
+  categoryTransactions: any = [];
+
+
   reminders = Reminders;
   remind: any;
 
-  barChart: any;
   lineChart: any;
 
   categories: any;
@@ -40,7 +48,7 @@ export class MywalletsPage {
   archiveTotalDeposits: any = [];
 
   names: any = [];
-  amounts: any[] = [];
+  // amounts: any[] = [];
 
   notifData: any;
   categoryID: any;
@@ -57,7 +65,7 @@ export class MywalletsPage {
   emWallet: any;
 
 
-  constructor(public reportsProvider: ReportsProvider, private alertCtrl: AlertController, public expensesProvider: ExpensesProvider, public navCtrl: NavController, public navParams: NavParams, private modalCtrl: ModalController, private events: Events, public categoryProvider: CategoryProvider, private loadCtrl: LoadingController, private screenOrientation: ScreenOrientation, public savingsProvider: SavingsProvider) {
+  constructor(public reportsProvider: ReportsProvider, private alertCtrl: AlertController, public expensesProvider: ExpensesProvider, public navCtrl: NavController, public navParams: NavParams, private modalCtrl: ModalController, private events: Events, public categoryProvider: CategoryProvider, private screenOrientation: ScreenOrientation, public savingsProvider: SavingsProvider) {
     this.doAll();
     this.remind = this.reminders[Math.floor(Math.random() * this.reminders.length)];
     this.presentReminder();
@@ -70,6 +78,54 @@ export class MywalletsPage {
       }
     });
   }
+
+  ionViewDidLoad() {
+
+  }
+
+  getPieChart() {
+    this.pieChart = new Chart(this.pieCanvas.nativeElement, {
+      type: 'pie',
+      data: {
+        labels: this.categoryNames,
+        datasets: [
+          {
+            label: 'transactions',
+            data: this.categoryTransactions,
+            backgroundColor: BGColor,
+            HoverBackgroundColor: HoverColor
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        title: {
+          text: `${localStorage.period} Expenses by Category`,
+          display: true
+        },
+        animation: {
+          animateScale: true,
+          duration: 2000
+        }
+      }
+    });
+  }
+
+  getTransactionsOverview() {
+    this.c.forEach(x => {
+      this.expensesProvider.tOverview(localStorage.period, x._id, localStorage.userId)
+        .then(data => {
+          this.y = data;
+          if (this.y.category !== "") {
+            this.categoryNames.push(this.y.category);
+            this.categoryTransactions.push(this.y.totalTransactions);
+          }
+        });
+    });
+    console.log(this.categoryNames, this.categoryTransactions);
+  }
+
 
   presentReminder() {
     let reminder = this.alertCtrl.create({
@@ -155,22 +211,6 @@ export class MywalletsPage {
       });
   }
 
-  getExpenseWallets() {
-    this.expensesProvider.getWallets(localStorage.period)
-      .then(data => {
-        this.wallets = data;
-        for (let x of this.wallets) {
-          this.x.push({ name: x.name, amount: x.amount });
-          this.names.push(x.name);
-          this.amounts.push(x.amount);
-        }
-        console.log(this.x);
-        console.log('names', this.names);
-        console.log('amounts', this.amounts);
-        console.log(data);
-      });
-  }
-
   getArchives() {
     this.reportsProvider.getArchivesOverview()
       .then(data => {
@@ -192,7 +232,6 @@ export class MywalletsPage {
   }
 
   async doAll() {
-    await this.getExpenseWallets();
     await this.getArchives();
     await this.getBudgetOverview();
     // await this.getbarChart();
@@ -200,6 +239,8 @@ export class MywalletsPage {
     await this.getE();
     await this.getS();
     await this.getEmergency();
+    await this.getTransactionsOverview();
+    await this.getPieChart();
   }
 
 }

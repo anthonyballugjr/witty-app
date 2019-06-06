@@ -23,15 +23,9 @@ export class TabsPage {
   amounts: any = [];
 
   pages = [
-    {
-      pageName: HomePage, title: 'My Wallets', icon: 'home', id: 'homeTab'
-    },
-    {
-      pageName: ChallengesPage, title: 'Saving Challenge', icon: 'trophy', id: 'challengesTab'
-    },
-    {
-      pageName: BudgetOverviewPage, title: 'Budget Summary', icon: 'paper', id: 'overviewTab'
-    }
+    { pageName: HomePage, title: 'My Wallets', icon: 'home', id: 'homeTab' },
+    { pageName: ChallengesPage, title: 'Saving Challenge', icon: 'trophy', id: 'challengesTab' },
+    { pageName: BudgetOverviewPage, title: 'Budget Summary', icon: 'paper', id: 'overviewTab' }
   ];
 
   superSelectedTab = 0;
@@ -55,7 +49,6 @@ export class TabsPage {
 
   onTabSelect(ev: any) {
     this.superSelectedTab = ev.index;
-    console.log(this.superSelectedTab);
   }
 
   //home page popover
@@ -78,18 +71,11 @@ export class TabsPage {
     this.expensesProvider.getWallets(localStorage.period)
       .then(data => {
         this.wallets = data;
-        var today = moment().format('MMMM DD, YYYY - dddd');
-        for (let i of this.wallets) {
-          this.names.push(i.name);
-          for (let x of i.transactions) {
-            this.expenses.push
-              ({
-                _id: x._id, desc: x.desc, amount: x.amount, date: today === x.date ? 'Today' : x.date
-              });
+        this.wallets.forEach(wallet => {
+          for (let i of wallet['transactions']) {
+            this.expenses.push(i);
           }
-        }
-        console.log('Expenses', this.expenses);
-        console.log('Names', this.names);
+        })
       });
   }
 }

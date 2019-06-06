@@ -27,7 +27,7 @@
 
         <ion-item *ngFor="let deposit of deposits | reverse" text-wrap no-margin>
           <h5>{{deposit.amount | currency:"PHP":2}}</h5>
-          <ion-note>{{deposit.createdAt}}</ion-note>
+          <ion-note>{{deposit.created}}</ion-note>
         </ion-item>
       </ion-list>
 
@@ -46,7 +46,7 @@
 
         <ion-item *ngFor="let withdrawal of withdrawals | reverse" text-wrap no-margin>
           <h5>{{withdrawal.amount | currency:"PHP":2}}</h5>
-          <ion-note>{{withdrawal.createdAt}}</ion-note>
+          <ion-note>{{withdrawal.created}}</ion-note>
         </ion-item>
       </ion-list>
 

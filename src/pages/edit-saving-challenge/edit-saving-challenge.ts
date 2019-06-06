@@ -30,7 +30,6 @@ export class EditSavingChallengePage {
     description: ["", Validators.required],
     expectedAmount: ["", Validators.required],
     incrementBy: ["", Validators.required],
-    length: ["", Validators.required],
     count: ["", Validators.required],
     type: ["", Validators.required],
   });
@@ -60,6 +59,21 @@ export class EditSavingChallengePage {
   }
 
   updateChallenge() {
+    console.log('Initial', this.challenge);
+    if (this.challenge.type === 'static') {
+      this.challenge.length = Math.ceil(this.challenge.expectedAmount / this.challenge.incrementBy);
+      console.log(this.challenge.length);
+    } else {
+      var i = 0;
+      var lengthToBe = 0;
+      while (i < this.challenge.expectedAmount) {
+        lengthToBe++;
+        i = i + this.challenge.incrementBy * lengthToBe;
+      }
+      this.challenge.length = lengthToBe;
+      this.challenge.expectedAmount = i;
+    }
+    console.log('Final', this.challenge, 'I', i);
     let prompt = this.alertCtrl.create({
       title: 'Update Saving Challenge',
       subTitle: 'Update this Challenge?',
