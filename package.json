@@ -36,7 +36,7 @@
     "chart.js": "^2.9.4",
     "cordova-android": "7.0.0",
     "cordova-android-support-gradle-release": "^1.4.5",
-    "cordova-browser": "^5.0.4",
+    "cordova-browser": "^6.0.0",
     "cordova-plugin-advanced-http": "^1.11.1",
     "cordova-plugin-badge": "^0.8.7",
     "cordova-plugin-calendar": "^5.1.2",
